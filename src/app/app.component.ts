@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AlertpopupService } from './shared/components/alertPopup/alertpopup.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +8,7 @@ import { AlertpopupService } from './shared/components/alertPopup/alertpopup.ser
   })
 export class AppComponent {
   title = 'elog-web';
-  constructor(private alertPopup:AlertpopupService){
+  constructor(){
     
   }
 }
