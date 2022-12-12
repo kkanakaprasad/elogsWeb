@@ -1,0 +1,16 @@
+<div>
+    <mat-icon  class="close" mat-dialog-close="true" align='end'>close</mat-icon>
+    <div *ngIf="data.header">
+        <h1 mat-dialog-title  [innerHTML]='data.header'></h1>
+        <hr class="popupHr" />
+    </div>
+    <span mat-dialog-content [innerHTML]='data.message'></span>
+
+    <mat-dialog-actions align='end'>
+        <ng-container *ngFor="let item of dialogActions; let i = index">
+            <button mat-raised-button class="popupButton" [innerHTML]="item.value" mat-dialog-close="true"
+                [color]="item.color" [mat-dialog-close]="item.id"></button>
+        </ng-container>
+    </mat-dialog-actions>
+
+</div>
