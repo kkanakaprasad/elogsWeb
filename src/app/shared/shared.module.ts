@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from './Modules/material/material.module';
 import { ConfirmationDialogModule } from './confirmation-dialog/confirmation-dialog.module';
+import { CustomModelModule } from './custom-model/custom-model.module';
 
 
 
@@ -12,11 +13,13 @@ import { ConfirmationDialogModule } from './confirmation-dialog/confirmation-dia
     CommonModule,
     FormsModule,
     MaterialModule,
-    ConfirmationDialogModule
+    ConfirmationDialogModule,
+    CustomModelModule
   ],
   exports: [
     MaterialModule,
-    ConfirmationDialogModule
+    ConfirmationDialogModule,
+    CustomModelModule
   ]
 })
 export class SharedModule { }
