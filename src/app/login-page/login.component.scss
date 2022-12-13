@@ -1,0 +1,18 @@
+mat-card {
+    width: 300px
+}
+mat-card img {
+  object-fit: cover;
+  width: 250px;
+  height: 80px;
+  padding: 12px;
+}
+mat-card {
+  width: fit-content;
+}
+mat-card p {
+    margin-bottom: 0px;
+  }
+.example-card{
+  float: right;
+}

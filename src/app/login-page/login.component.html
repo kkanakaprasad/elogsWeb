@@ -1,0 +1,68 @@
+<div class="container">
+  <mat-card class="example-card" layout-align="center">
+    <img
+      mat-card-image
+      src="../../assets/images/login-pageCardHeader.png"
+      alt="Gati Shakti"/>
+
+    <mat-card-content>
+      <h3>Login to your E-LogS Account</h3>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="w-100-per" appearance="outline">
+          <mat-label>Email ID</mat-label>
+          <input
+            matInput
+            placeholder="Email ID"
+            input
+            type="email"
+            formControlName="email"
+          />
+          <mat-icon matSuffix>email</mat-icon>
+
+          <mat-error
+            *ngIf="
+              loginForm.get('email')?.hasError('pattern') &&
+              !loginForm.get('email')?.hasError('required')
+            "
+          >
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <div class="Password">
+          <mat-form-field class="w-100-per" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              [type]="hide ? 'password' : 'text'"
+              formControlName="password"
+              maxlength="10"
+            />
+            <mat-icon
+              matSuffix
+              class="icon-cursor"
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+              >{{ hide ? "visibility_off" : "visibility" }}</mat-icon
+            >
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="loginForm.invalid"
+        >
+          Login
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
