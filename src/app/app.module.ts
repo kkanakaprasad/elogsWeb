@@ -11,15 +11,20 @@ import { SharedModule } from './shared/shared.module';
 import { LoginComponent } from './login-page/login.component';
 import { HeaderComponent } from './header/header.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { OrganizationModule } from './organization/organization.module';
+import { AddNewUserComponent } from './user/add-new-user/add-new-user.component';
+
 
 @NgModule({
-  declarations: [
+  declarations: [ 
     AppComponent,
     HomeComponent,
     MainComponent,
     LoginComponent,
     HeaderComponent,
-    SideNavComponent
+    SideNavComponent,
+    AddNewUserComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,8 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     AppRoutingModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    OrganizationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
