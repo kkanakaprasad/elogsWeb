@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { ConfirmationDialogModule } from "./confirmation-dialog/confirmation-dialog.module";
 import { CustomModelModule } from "./custom-model/custom-model.module";
 import { MaterialModule } from "./Modules/material/material.module";
-import { RichTextEditorModule } from "./richTextEditor/rich-text-editor/rich-text-editor.module";
+import { RichTextEditorModule } from "./rich-text-editor/rich-text-editor.module";
 
 
 @NgModule({
