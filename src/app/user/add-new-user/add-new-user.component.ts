@@ -16,11 +16,11 @@ export class AddNewUserComponent implements OnInit {
 
    addNewUserFormValues(){
     this.addNewUserForm =this.formBuilder.group({
-      name: ['', Validators.required],
-      password: ['', Validators.required],
-      email: ['', Validators.required],
-      organization: ['', Validators.required],
-      departmentName: ['', Validators.required],
+      name: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      organization: ['', [Validators.required]],
+      departmentName: ['', [Validators.required]],
     })
 
     

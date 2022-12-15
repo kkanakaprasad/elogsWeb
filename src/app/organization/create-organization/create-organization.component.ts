@@ -14,9 +14,9 @@ export class CreateOrganizationComponent implements OnInit {
   organizationType:any=['Department','Association']
   OrganizationFormValues() {
     this.createOrganizationForm = this.formBuilder.group({
-      organizationType: ['', Validators.required],
-      organizationName: ['', Validators.required],
-      shortName: ['', Validators.required],
+      organizationType: ['', [Validators.required]],
+      organizationName: ['', [Validators.required]],
+      shortName: ['',[ Validators.required]],
     })
   }
   
