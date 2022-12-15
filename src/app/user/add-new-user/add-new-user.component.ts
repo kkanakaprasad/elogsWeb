@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-new-user.component.scss']
 })
 export class AddNewUserComponent implements OnInit {
-
+  OrganizationName:any =['association of container','department1','assoacham','ministry','village tech']
   constructor(private formBuilder: FormBuilder) {
     
    }
@@ -19,7 +19,7 @@ export class AddNewUserComponent implements OnInit {
       name: ['', Validators.required],
       password: ['', Validators.required],
       email: ['', Validators.required],
-      organizationNameToBeAssigned: ['', Validators.required],
+      organization: ['', Validators.required],
       departmentName: ['', Validators.required],
     })
 
@@ -27,13 +27,13 @@ export class AddNewUserComponent implements OnInit {
   }
   onSubmit(){
     console.log(this.addNewUserForm.value)
-
+   
   }
- 
-
   ngOnInit(): void {
-    this.addNewUserFormValues()
+    this.addNewUserFormValues();
+    this.addNewUserForm.controls['organization'].valueChanges.subscribe((res)=>{
+      console.log(res,"@#@#");
+    })
+  
   }
-
-
 }
