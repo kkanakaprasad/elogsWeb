@@ -1,69 +1,109 @@
-<div class="container">
-  <mat-card class="example-card" layout-align="center">
-    <img
-      mat-card-image
-      src="../../assets/images/login-pageCardHeader.png"
-      alt="Gati Shakti"/>
+<div class="login-12 tab-box">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-7 col-md-12 bg-img">
+        <div class="informeson">
 
-    <mat-card-content>
-      <h3>Login to your E-LogS Account</h3>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field class="w-100-per" appearance="outline">
-          <mat-label>Email ID</mat-label>
-          <input
-            matInput
-            placeholder="Email ID"
-            input
-            type="email"
-            formControlName="email"
-            pattern="(^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$)"
-          />
-          <mat-icon matSuffix>email</mat-icon>
-
-          <mat-error
-            *ngIf="
-              loginForm.get('email')?.hasError('pattern') &&
-              !loginForm.get('email')?.hasError('required')
-            "
-          >
-            Please enter a valid email address
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-            Email is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-
-        <div class="Password">
-          <mat-form-field class="w-100-per" appearance="outline">
-            <mat-label>Password</mat-label>
-            <input
-              matInput
-              [type]="hide ? 'password' : 'text'"
-              formControlName="password"
-              maxlength="10"
-            />
-            <mat-icon
-              matSuffix
-              class="icon-cursor"
-              (click)="hide = !hide"
-              [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hide"
-              >{{ hide ? "visibility_off" : "visibility" }}</mat-icon
-            >
-            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-              Password is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
+          <div class="animated-text">
+            <h2>E-LogS: Ease of Logistics Services</h2>
+          </div>
+          <p>
+            is a digital system for registering, coordinating, and monitoring
+            the resolution of user issues/suggestions. The dashboard has been
+            developed by the Logistics Division, DPIIT to facilitate timebound
+            resolution of issues.
+          </p>
         </div>
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="loginForm.invalid"
-        >
-          Login
-        </button>
-      </form>
-    </mat-card-content>
-  </mat-card>
+
+
+        <div class="login-footer">
+            <div class="footer-left">
+            <a href="https://elogs.cxipl.com/">
+            <img src="https://elogs.cxipl.com/img/images/emblem.png?v=1">
+            </a>
+            </div>
+            <div class="footer-right">
+                    <p>All material, information, data, images or content on this website is subject to copyright or other applicable intellectual property laws and no part of it can be reproduced in any form without prior written consent and approval from India Logistics. Infringements are subject to prosecution under the applicable laws.</p>
+                    <p>An initiative of the <a href="https://commerce.gov.in/" target="_blank"><span>Ministry of Commerce &amp; Industry</span></a>. Government of India</p>
+                    <p>Copyright 2021, Ministry of Commerce and Industry</p>
+            </div>
+        </div>
+
+
+
+      </div>
+      <div class="col-lg-5 col-md-12 form-section">
+        <div class="login-inner-form">
+          <div class="details">
+            <div class="main-logo">
+                <a href="#"><img src="https://elogs.cxipl.com/img/images/login-logo.png"/></a>
+            </div>
+
+            <h1>Welcome!</h1>
+            <h3>Sign Into Your Account</h3>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <mat-form-field appearance="outline">
+                <mat-label>Email ID</mat-label>
+                <input
+                  matInput
+                  placeholder="Email ID"
+                  input
+                  type="email"
+                  formControlName="email"
+                />
+                <mat-icon matSuffix>email</mat-icon>
+      
+                <mat-error
+                  *ngIf="
+                    loginForm.get('email')?.hasError('pattern') &&
+                    !loginForm.get('email')?.hasError('required')
+                  "
+                >
+                  Please enter a valid email address
+                </mat-error>
+              </mat-form-field>
+      
+              <div class="Password">
+                <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input
+                    matInput
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="password"
+                    maxlength="10"
+                  />
+                  <mat-icon
+                    matSuffix
+                    class="icon-cursor"
+                    (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
+                    >{{ hide ? "visibility_off" : "visibility" }}</mat-icon
+                  >
+                </mat-form-field>
+              </div>
+              <div class="checkbox form-group clearfix">
+                <div class="form-check float-start"></div>
+                <a
+                  href="forgot-password-12.html"
+                  class="float-end forgot-password"
+                  >Forgot your password?</a
+                >
+              </div>
+              <div class="form-group clearfix">
+                <button type="submit" class="btn btn-lg btn-primary btn-theme" [disabled]="loginForm.invalid">
+                  <span>Sign In</span>
+                </button>
+              </div>
+              <div class="logo-2">
+                <img
+                  src="https://elogs.cxipl.com/img/gatishakti-logo-login-h.png"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -12,11 +12,7 @@ export class LoginService {
     email: string,
     password: string
   }): Observable<any> {
-    return this.httpDataService.post(``,loginDetails);
-  }
-
-  loginWitGoogle(loginDetails : any): Observable<any>{
-    return this.httpDataService.post(``,loginDetails);
+    return this.httpDataService.post(`auth/login`,loginDetails);
   }
 
 }
