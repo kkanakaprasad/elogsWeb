@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
     this.organizationService.openCreateOrganizatioPopup()
   }
   openAddUser() {
-    this.addNewUserService.openAddUser
+    this.addNewUserService.openAddUser()
   }
 
 }

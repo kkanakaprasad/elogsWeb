@@ -13,6 +13,7 @@ import { HeaderComponent } from './header/header.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { OrganizationModule } from './organization/organization.module';
 import { AddNewUserComponent } from './user/add-new-user/add-new-user.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { AddNewUserComponent } from './user/add-new-user/add-new-user.component'
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    OrganizationModule
+    OrganizationModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

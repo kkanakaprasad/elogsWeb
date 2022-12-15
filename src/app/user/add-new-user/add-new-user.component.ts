@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { Roles } from 'src/app/shared/enums/roles.enums';
+import { UserService } from '../user.service';
+
+
 
 @Component({
   selector: 'app-add-new-user',
@@ -8,32 +13,61 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddNewUserComponent implements OnInit {
   OrganizationName:any =['association of container','department1','assoacham','ministry','village tech']
-  constructor(private formBuilder: FormBuilder) {
+  Users: any;
+  addNewUserForm!: FormGroup;
+  suchResult: any;
+  details: any;
+
+  constructor(private formBuilder: FormBuilder, private userService:UserService, private alertpopupService:AlertpopupService) {
     
    }
-   addNewUserForm!: FormGroup;
-
+   ngOnInit(): void {
+    this.addNewUserFormValues();
+    this.addNewUserForm.controls['organization'].valueChanges.subscribe((res)=>{
+      console.log( this.suchResult=res);
+      this.getAllOrganizationsBySearch(res);
+    })
+    
+  }
 
    addNewUserFormValues(){
     this.addNewUserForm =this.formBuilder.group({
-      name: ['', [Validators.required]],
+      Name: ['', [Validators.required]],
       password: ['', [Validators.required]],
       email: ['', [Validators.required]],
       organization: ['', [Validators.required]],
-      departmentName: ['', [Validators.required]],
+      department: ['', [Validators.required]],
     })
-
-    
   }
   onSubmit(){
-    console.log(this.addNewUserForm.value)
+     const payload ={
+      ...this.addNewUserForm.value,
+      organization : [this.details._id],
+      roles : [Roles.User]
+
+    }
+    console.log(payload)
+    this.userService.addUser(payload).subscribe((res) => {
+      this.alertpopupService.open({
+        message:"transaction successful",
+        action:"ok"
+      })
+    },(error)=>{
+      this.alertpopupService.open({
+        message:"something went wrong!",
+        action:"ok"
+
+      });
+    }); 
    
+    
   }
-  ngOnInit(): void {
-    this.addNewUserFormValues();
-    this.addNewUserForm.controls['organization'].valueChanges.subscribe((res)=>{
-      console.log(res,"@#@#");
-    })
   
-  }
+  getAllOrganizationsBySearch(searchString : string){
+    this.userService.getOrganization(searchString).subscribe((res)=>{
+      this.Users = res;
+      this.details=this.Users.organizations
+    })
+}
+
 }

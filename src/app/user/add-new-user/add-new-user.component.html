@@ -8,7 +8,7 @@
         placeholder="name"
         input
         type="text"
-        formControlName="name"
+        formControlName="Name"
       />
     </mat-form-field>
     <div>
@@ -66,10 +66,10 @@
           formControlName="organization"
         /><mat-autocomplete #auto="matAutocomplete">
           <mat-option
-            *ngFor="let Organization of OrganizationName"
-            [value]="Organization"
+            *ngFor="let Organization of details"
+            [value]="Organization.organization"
           >
-            {{ Organization }}
+            {{ Organization.organization }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -82,7 +82,7 @@
           placeholder="Department Name"
           input
           type="text"
-          formControlName="departmentName"
+          formControlName="department"
         />
       </mat-form-field>
     </div>
