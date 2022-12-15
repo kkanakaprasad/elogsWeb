@@ -22,8 +22,8 @@ const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    // canActivate: [LoginGuard],
-    // canActivateChild:[RoleAuthenticationGuard],
+    canActivate: [LoginGuard],
+    canActivateChild:[RoleAuthenticationGuard],
     children: [
       {
         path: RouteConstants.DASHBOARD,

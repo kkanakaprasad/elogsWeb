@@ -60,9 +60,10 @@ export class AddNewUserComponent implements OnInit {
   }
 
   onSubmit() {
+    const selectedOrganization = this.organizationsData.findIndex((value:  any) => value.organization == this.addNewUserForm.controls['organization'].value );
     const payload = {
       ...this.addNewUserForm.value,
-      organization: [this.addNewUserForm.controls['organization'].value],
+      organization: [this.organizationsData[selectedOrganization]._id],
       roles: [Roles.User]
     }
     this.userService.addUser(payload).subscribe((res) => {
