@@ -1,8 +1,6 @@
-  <h1 mat-dialog-title>Add New User</h1>
+<h1 mat-dialog-title>Add New User</h1>
 <div mat-dialog-content>
   <form [formGroup]="addNewUserForm" (ngSubmit)="onSubmit()">
-    
-     
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input
@@ -10,7 +8,7 @@
         placeholder="name"
         input
         type="text"
-        formControlName="name"
+        formControlName="Name"
       />
     </mat-form-field>
     <div>
@@ -24,9 +22,14 @@
           formControlName="password"
           pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}"
         />
-        <mat-error *ngIf="addNewUserForm.get('password')?.hasError('required') || addNewUserForm.get('password')?.hasError('pattern')">
-            Strong password <strong>required</strong>
-          </mat-error>
+        <mat-error
+          *ngIf="
+            addNewUserForm.get('password')?.hasError('required') &&
+            addNewUserForm.get('password')?.hasError('pattern')
+          "
+        >
+          Strong password <strong>required</strong>
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
@@ -38,51 +41,52 @@
           input
           type="text"
           formControlName="email"
-          pattern="(^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$)"
         />
         <mat-error
-        *ngIf="
-        addNewUserForm.get('email')?.hasError('pattern') ||
-          addNewUserForm.get('email')?.hasError('required')
-        "
-      >
-        Please enter a valid email address
-      </mat-error>
-      <mat-error *ngIf="addNewUserForm.get('email')?.hasError('required')">
-        Email is <strong>required</strong>
-      </mat-error>
-    
+          *ngIf="
+            addNewUserForm.get('email')?.hasError('pattern') &&
+            addNewUserForm.get('email')?.hasError('required')
+          "
+        >
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="addNewUserForm.get('email')?.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Organization
-            to be assigned</mat-label>
+        <mat-label>Organization to be assigned</mat-label>
         <input
           matInput
           placeholder="organization Name"
           input
           type="text"
-          formControlName="organizationNameToBeAssigned"
-        />
+          [matAutocomplete]="auto"
+          formControlName="organization"
+        /><mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let Organization of organizationList"
+            [value]="Organization._id"
+          >
+            {{ Organization.organization }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field appearance="outline">
-        <mat-label>Department
-            Name</mat-label>
+        <mat-label>Department Name</mat-label>
         <input
           matInput
-          placeholder="Department
-          Name"
+          placeholder="Department Name"
           input
           type="text"
-          formControlName="departmentName"
+          formControlName="department"
         />
       </mat-form-field>
     </div>
     <div class="d-flex btn justify-content-end">
-      <button mat-raised-button  mat-dialog-close="true">
-        Cancel
-      </button>
+      <button mat-raised-button mat-dialog-close="true">Cancel</button>
       <button
         type="submit"
         mat-raised-button
