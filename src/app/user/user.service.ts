@@ -16,4 +16,8 @@ export class UserService {
     return this.httpdataService.post(`user`, payload);
   }
 
+  getUserById(userId:string): Observable<any>{
+    return this.httpdataService.get(`user/${userId}`);
+  }
+
 }
