@@ -3,14 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
 import { RouteConstants } from './shared/constants/routes.constants';
+import { LoginGuard } from './shared/guards/login.guard';
 
 const routes: Routes = [
   {
     path : '',
     pathMatch : 'full',
-    redirectTo : 'home'
+    redirectTo : RouteConstants.HOME
   },{
-    path : '',
+    path : RouteConstants.HOME,
     component : HomeComponent,
     children : [
 
@@ -19,6 +20,7 @@ const routes: Routes = [
   {
     path : '',
     component : MainComponent,
+    canActivate: [LoginGuard],
     children: [
       {
         path : RouteConstants.DASHBOARD,

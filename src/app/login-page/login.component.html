@@ -1,73 +1,3 @@
-<!-- <div class="container">
-  <mat-card class="example-card" layout-align="center">
-    <img
-      mat-card-image
-      src="../../assets/images/login-pageCardHeader.png"
-      alt="Gati Shakti"/>
-
-    <mat-card-content>
-      <h3>Login to your E-LogS Account</h3>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field class="w-100-per" appearance="outline">
-          <mat-label>Email ID</mat-label>
-          <input
-            matInput
-            placeholder="Email ID"
-            input
-            type="email"
-            formControlName="email"
-          />
-          <mat-icon matSuffix>email</mat-icon>
-
-          <mat-error
-            *ngIf="
-              loginForm.get('email')?.hasError('pattern') &&
-              !loginForm.get('email')?.hasError('required')
-            "
-          >
-            Please enter a valid email address
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-            Email is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-
-        <div class="Password">
-          <mat-form-field class="w-100-per" appearance="outline">
-            <mat-label>Password</mat-label>
-            <input
-              matInput
-              [type]="hide ? 'password' : 'text'"
-              formControlName="password"
-              maxlength="10"
-            />
-            <mat-icon
-              matSuffix
-              class="icon-cursor"
-              (click)="hide = !hide"
-              [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hide"
-              >{{ hide ? "visibility_off" : "visibility" }}</mat-icon
-            >
-            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-              Password is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="loginForm.invalid"
-        >
-          Login
-        </button>
-      </form>
-    </mat-card-content>
-  </mat-card>
-</div> -->
-
-
 <div class="login-12 tab-box">
   <div class="container-fluid">
     <div class="row">
@@ -111,33 +41,46 @@
 
             <h1>Welcome!</h1>
             <h3>Sign Into Your Account</h3>
-            <form action="#" method="GET">
-              <div class="form-group">
-                <label for="first_field" class="form-label float-start"
-                  >Email address</label
-                >
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <mat-form-field appearance="outline">
+                <mat-label>Email ID</mat-label>
                 <input
-                  name="email"
+                  matInput
+                  placeholder="Email ID"
+                  input
                   type="email"
-                  class="form-control"
-                  id="first_field"
-                  placeholder="Email Address"
-                  aria-label="Email Address"
+                  formControlName="email"
                 />
-              </div>
-              <div class="form-group clearfix">
-                <label for="second_field" class="form-label float-start"
-                  >Password</label
+                <mat-icon matSuffix>email</mat-icon>
+      
+                <mat-error
+                  *ngIf="
+                    loginForm.get('email')?.hasError('pattern') &&
+                    !loginForm.get('email')?.hasError('required')
+                  "
                 >
-                <input
-                  name="password"
-                  type="password"
-                  class="form-control"
-                  autocomplete="off"
-                  id="second_field"
-                  placeholder="Password"
-                  aria-label="Password"
-                />
+                  Please enter a valid email address
+                </mat-error>
+              </mat-form-field>
+      
+              <div class="Password">
+                <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input
+                    matInput
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="password"
+                    maxlength="10"
+                  />
+                  <mat-icon
+                    matSuffix
+                    class="icon-cursor"
+                    (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
+                    >{{ hide ? "visibility_off" : "visibility" }}</mat-icon
+                  >
+                </mat-form-field>
               </div>
               <div class="checkbox form-group clearfix">
                 <div class="form-check float-start"></div>
@@ -148,7 +91,7 @@
                 >
               </div>
               <div class="form-group clearfix">
-                <button type="button" class="btn btn-lg btn-primary btn-theme">
+                <button type="submit" class="btn btn-lg btn-primary btn-theme" [disabled]="loginForm.invalid">
                   <span>Sign In</span>
                 </button>
               </div>

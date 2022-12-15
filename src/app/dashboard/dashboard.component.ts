@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateOrganizationComponent } from '../organization/create-organization/create-organization.component';
+import { OrganizationService } from '../organization/organization.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private matDialog: MatDialog, private organizationService:OrganizationService) { }
 
   ngOnInit(): void {
+  }
+
+  createOrganization(){
+    this.organizationService.openCreateOrganizatioPopup();
   }
 
 }

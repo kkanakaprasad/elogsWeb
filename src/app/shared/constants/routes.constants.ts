@@ -1,3 +1,4 @@
 export const RouteConstants = {
-    DASHBOARD : 'dashboard'
+    DASHBOARD : 'dashboard',
+    HOME : 'home'
 }
