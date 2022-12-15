@@ -16,7 +16,7 @@ export class ConfirmationDialogService {
    * @returns it will return the Boolean value after subscribeing to the .afterclosed. 
    */
   open(data:ConfirmationDialogdata){
-    const ref=this.confirmationDialog.open(ConfirmationDialogComponent,{disableClose:true,width :data.dialogWidth?data.dialogWidth:'auto' ,data})
+    const ref=this.confirmationDialog.open(ConfirmationDialogComponent,{disableClose:true,width :data.dialogWidth?data.dialogWidth:'auto' ,data, minWidth : '300px'})
     return ref;
   }
 }

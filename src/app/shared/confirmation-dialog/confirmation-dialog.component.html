@@ -1,9 +1,9 @@
 <div>
     <div *ngIf="data.header">
-        <h1 mat-dialog-title [innerHTML]='data.header'></h1>
+        <h3 mat-dialog-title [innerHTML]='data.header'></h3>
         <hr class="popupHr" />
     </div>
-    <span mat-dialog-content [innerHTML]='data.message'></span>
+    <span mat-dialog-content [innerHTML]='data.message' class="message"></span>
     <mat-dialog-actions align='end'>
         <button mat-button mat-dialog-close="true" [mat-dialog-close]="false">Cancel</button>
         <button mat-raised-button color="primary" mat-dialog-close="true"
