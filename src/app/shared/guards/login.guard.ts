@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { StorageService } from '../services/storage.service';
 import { STORAGE_KEYS } from '../enums/storage.enum';
+import { StorageService } from '../services/storage-service/storage.service';
 
 @Injectable({
   providedIn : 'root'
@@ -18,6 +18,7 @@ export class LoginGuard implements CanActivate {
     if (token) {
       return true
     }
+    this.router.navigate(["home"])
     return true;
   }
   
