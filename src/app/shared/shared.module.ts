@@ -1,26 +1,28 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from './Modules/material/material.module';
-import { ConfirmationDialogModule } from './confirmation-dialog/confirmation-dialog.module';
-import { CustomModelModule } from './custom-model/custom-model.module';
-
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { ConfirmationDialogModule } from "./confirmation-dialog/confirmation-dialog.module";
+import { CustomModelModule } from "./custom-model/custom-model.module";
+import { MaterialModule } from "./Modules/material/material.module";
+import { RichTextEditorModule } from "./rich-text-editor/rich-text-editor.module";
 
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    ConfirmationDialogModule,
-    CustomModelModule
-  ],
-  exports: [
-    MaterialModule,
-    ConfirmationDialogModule,
-    CustomModelModule
-  ]
-})
+    declarations: [
+    ],
+    imports: [
+      CommonModule,
+      FormsModule,
+      MaterialModule,
+      CustomModelModule,
+      ConfirmationDialogModule,
+      RichTextEditorModule
+    ],
+    exports : [
+        MaterialModule,
+      CustomModelModule,
+      ConfirmationDialogModule,
+      RichTextEditorModule
+    ]
+  })
 export class SharedModule { }
