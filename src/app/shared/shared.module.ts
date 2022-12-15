@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './Modules/material/material.module';
 import { ConfirmationDialogModule } from './confirmation-dialog/confirmation-dialog.module';
 import { CustomModelModule } from './custom-model/custom-model.module';
@@ -12,6 +12,7 @@ import { CustomModelModule } from './custom-model/custom-model.module';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     ConfirmationDialogModule,
     CustomModelModule
