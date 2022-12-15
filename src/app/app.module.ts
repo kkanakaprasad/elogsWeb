@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -8,6 +8,7 @@ import { MainComponent } from './main/main.component';
 import { MaterialModule } from './shared/Modules/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
+import { LoginComponent } from './login-page/login.component';
 import { HeaderComponent } from './header/header.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 
@@ -16,6 +17,7 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     AppComponent,
     HomeComponent,
     MainComponent,
+    LoginComponent,
     HeaderComponent,
     SideNavComponent
   ],
@@ -23,7 +25,9 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
