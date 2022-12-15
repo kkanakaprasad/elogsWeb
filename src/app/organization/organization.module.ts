@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { CreateOrganizationComponent } from './create-organization/create-organization.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import { OrganizationListComponent } from './organization-list/organization-list.component';
+import { OrganizationRoutingModule } from './organization-routing.module';
 
 
 
 @NgModule({
-  declarations: [CreateOrganizationComponent],
+  declarations: [CreateOrganizationComponent, OrganizationListComponent],
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    OrganizationRoutingModule
   ]
 })
 export class OrganizationModule { }
