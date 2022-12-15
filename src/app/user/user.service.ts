@@ -9,8 +9,8 @@ export class UserService {
 
   constructor(private httpdataService: HttpDataService) { }
 
-  getOrganization(suchResult: string): Observable<any> {
-    return this.httpdataService.get(`organizations/search?searchString=${suchResult}`);
+  getOrganization(surchResult: string): Observable<any> {
+    return this.httpdataService.get(`organizations/search?searchString=${surchResult}`);
   }
   addUser(payload: any): Observable<any> {
     return this.httpdataService.post(`user`, payload);

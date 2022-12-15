@@ -19,4 +19,8 @@ export class OrganizationService {
   createOrganization(payload : CreateOrganization):Observable<any>{
     return this.httpDataService.post(`organizations`,payload)
   }
+  getAllOrganizations(): Observable<any>{
+    return this.httpDataService.get(`organizations`)
+  }
+  
 }

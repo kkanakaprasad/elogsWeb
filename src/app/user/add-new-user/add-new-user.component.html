@@ -41,7 +41,6 @@
           input
           type="text"
           formControlName="email"
-          pattern="(^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$)"
         />
         <mat-error
           *ngIf="
@@ -66,8 +65,8 @@
           formControlName="organization"
         /><mat-autocomplete #auto="matAutocomplete">
           <mat-option
-            *ngFor="let Organization of details"
-            [value]="Organization.organization"
+            *ngFor="let Organization of organizationList"
+            [value]="Organization._id"
           >
             {{ Organization.organization }}
           </mat-option>
