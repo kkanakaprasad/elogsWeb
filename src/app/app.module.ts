@@ -24,7 +24,6 @@ import { AddNewUserComponent } from './user/add-new-user/add-new-user.component'
     HeaderComponent,
     SideNavComponent,
     AddNewUserComponent,
-    
   ],
   imports: [
     BrowserModule,
