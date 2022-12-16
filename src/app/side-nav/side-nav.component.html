@@ -18,49 +18,49 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a class="nav-link active" (click)="naviagteToDashboard()">
                 <i class="material-icons">dashboard</i>
                 <span>Dashboard</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link " href="#">
+        <li class="nav-item" >
+            <a class="nav-link " (click)="navigateToOrganizationList()">
                 <i class="material-icons">corporate_fare</i>
                 <span>Organization</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link " href="#">
+            <a class="nav-link ">
                 <i class="material-icons">hourglass_empty</i>
                 <span>Activies</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link " href="#">
+            <a class="nav-link " >
                 <i class="material-icons">description</i>
                 <span>Documents</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link " href="#">
+        <li class="nav-item" *ngIf="isSuperAdmin">
+            <a class="nav-link ">
                 <i class="material-icons">description</i>
                 <span>Users</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link " href="#">
+        <li class="nav-item" *ngIf="isSuperAdmin">
+            <a class="nav-link " >
                 <i class="material-icons">description</i>
                 <span>Company Settings</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link " href="#">
+        <li class="nav-item" *ngIf="isSuperAdmin">
+            <a class="nav-link " >
                 <i class="material-icons">description</i>
                 <span>Archive</span>
             </a>
