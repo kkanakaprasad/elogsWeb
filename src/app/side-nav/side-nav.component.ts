@@ -44,4 +44,8 @@ export class SideNavComponent implements OnInit {
     this.router.navigate([RouteConstants.DASHBOARD]);
   }
 
+  naviagteToUserList(){
+    this.router.navigate([RouteConstants.USER_LIST]);
+  }
+
 }

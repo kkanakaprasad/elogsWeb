@@ -12,7 +12,6 @@ import { LoginComponent } from './login-page/login.component';
 import { HeaderComponent } from './header/header.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { OrganizationModule } from './organization/organization.module';
-import { AddNewUserComponent } from './user/add-new-user/add-new-user.component';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -24,7 +23,6 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     HeaderComponent,
     SideNavComponent,
-    AddNewUserComponent,
   ],
   imports: [
     BrowserModule,
