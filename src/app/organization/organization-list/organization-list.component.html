@@ -1,25 +1,24 @@
-<div class="page-wrapper">
-  <div fxLayout="row wrap" fxLayoutGap="16px" class="align main">
-    <mat-card class="plus" (click)="addOrganizationList()" >
-    <mat-card-content >
-      <div class="add-icon">
-            <font>+</font>
-       </div>
-       <h4>create organization</h4>
-    </mat-card-content>
-   </mat-card>
-    <mat-card
-      fxFlex.lg="calc(33% - 16px)"
-      fxFlex.lt-lg="calc(50% - 16px)"
-      fxFlex.xs="calc(100% - 16px)"
-      
-      *ngFor="let organization of organizationList"
-    >        
+<h2>Hi, Welcome to Dashboard</h2>
+
+<section class="section">
+
+  <div class="page-wrapper">
+    <div fxLayout="row wrap" fxLayoutGap="16px" class="align main">
+      <mat-card class="plus" (click)="addOrganizationList()">
         <mat-card-content>
-          <p><span class="organization-title">{{ organization.organization | titlecase}}</span> <span>  (  {{
-            organization.shortName | uppercase
-          }} )</span>
-        </p>
+          <div class="add-icon">
+            <font>+</font>
+          </div>
+          <h4 class="mt-2">Create Organization</h4>
+        </mat-card-content>
+      </mat-card>
+      <mat-card fxFlex.lg="calc(33% - 16px)" fxFlex.lt-lg="calc(50% - 16px)" fxFlex.xs="calc(100% - 16px)"
+        *ngFor="let organization of organizationList">
+        <mat-card-content>
+          <p><span class="organization-title">{{ organization.organization | titlecase}}</span> <span> ( {{
+              organization.shortName | uppercase
+              }} )</span>
+          </p>
           <p>
             <span>{{ organization.users.length }}</span> User(s)
           </p>
@@ -28,7 +27,7 @@
           <p>0 Mb Storage</p>
           <button class="addButton" mat-button color="primary" (click)="addUser()">Add User</button>
         </mat-card-content>
-    </mat-card>
+      </mat-card>
+    </div>
   </div>
-</div>
-
+</section>

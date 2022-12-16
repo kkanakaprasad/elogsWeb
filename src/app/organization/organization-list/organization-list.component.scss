@@ -1,13 +1,13 @@
 mat-card{
-    width: 350px;
-    height: 220px;
+    min-width: 380px;
+    min-height: 220px;
     border-bottom: 5px;
     text-align: center;
 }
 .main{
 display: flex;
 flex-wrap: wrap;
-justify-content: space-evenly;
+justify-content: space-between;
 row-gap: 10px;
 }
 .mat-card-content   {
@@ -28,7 +28,7 @@ row-gap: 10px;
     place-items: center;
 }
 font{
-     font-size: 80px;
+    font-size: 80px;
     color:  #5927b1;
 }
 .plus{

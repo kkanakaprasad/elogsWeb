@@ -14,6 +14,7 @@ import { UserDetailsService } from '../shared/services/user-details-service/user
 })
 export class SideNavComponent implements OnInit {
 
+  page = 'dashboard';
   logedinUserDetails : UserDetails = {
     Name: '',
     email: '',
@@ -46,6 +47,10 @@ export class SideNavComponent implements OnInit {
 
   naviagteToUserList(){
     this.router.navigate([RouteConstants.USER_LIST]);
+  }
+
+  change(name: any) {
+    this.page = name;
   }
 
 }
