@@ -11,6 +11,6 @@ export class AlertpopupService {
     const ref=this.sankbar.open(data.message,data.action, {
       horizontalPosition:'end',
       verticalPosition:'top',
-      duration:3*1000})
+      duration:2*1000})
   }
 }

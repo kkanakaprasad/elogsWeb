@@ -43,7 +43,11 @@ export class OrganizationListComponent implements OnInit {
     })
   }
   addUser(){
-    this.addNewUserService.openAddUser()
+    this.addNewUserService.openAddUser().afterClosed().subscribe((res)=>{
+      if(res){
+        this.getAllOrganizationsSearchCriteria()
+      }
+    })
   }
 
 }

@@ -38,11 +38,11 @@
                     <span class="badge bg-success badge-number">3</span>
                 </a>
             </li> -->
-            <li>
-                <button mat-button [matMenuTriggerFor]="menu" class="primary">Add New Organization</button>
+            <li *ngIf="isSuperAdmin">
+                <button mat-button [matMenuTriggerFor]="menu" class="primary">Add</button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="openCreateOrganizationPopup()">Create Organization</button>
-                    <button mat-menu-item (click)="openCreateUserPopup()">Create User</button>
+                    <button mat-menu-item (click)="openCreateOrganizationPopup()">Organization</button>
+                    <button mat-menu-item (click)="openCreateUserPopup()">User</button>
                 </mat-menu>
             </li>
             <li class="nav-item dropdown pe-3">
