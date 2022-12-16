@@ -15,6 +15,7 @@ import { UserDetailsService } from '../shared/services/user-details-service/user
 export class SideNavComponent implements OnInit {
 
   page = 'dashboard';
+  logedInRole = ''
   logedinUserDetails : UserDetails = {
     Name: '',
     email: '',
@@ -28,7 +29,8 @@ export class SideNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLogedInUserDeatils()
-    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
+    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
+    this.logedInRole = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE);
   }
 
   getLogedInUserDeatils(){
