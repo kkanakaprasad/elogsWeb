@@ -5,7 +5,7 @@
       <div class="add-icon">
             <font>+</font>
        </div>
-   
+       <h4>create organization</h4>
     </mat-card-content>
    </mat-card>
     <mat-card
@@ -16,9 +16,9 @@
       *ngFor="let organization of organizationList"
     >        
         <mat-card-content>
-          <p><strong>{{ organization.organization }} -<span>{{
-            organization.shortName 
-          }}</span></strong>
+          <p><span class="organization-title">{{ organization.organization | titlecase}}</span> <span>  (  {{
+            organization.shortName | uppercase
+          }} )</span>
         </p>
           <p>
             <span>{{ organization.users.length }}</span> User(s)
