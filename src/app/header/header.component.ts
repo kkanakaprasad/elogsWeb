@@ -5,6 +5,8 @@ import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirm
 import { RouteConstants } from '../shared/constants/routes.constants';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { StorageService } from '../shared/services/storage-service/storage.service';
+import { UserDetails } from '../shared/services/user-details-service/user-details.interface';
+import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
 import { AddNewUserService } from '../user/add-new-user/add-new-user.service';
 import { UserService } from '../user/user.service';
 
@@ -15,13 +17,19 @@ import { UserService } from '../user/user.service';
 })
 export class HeaderComponent implements OnInit {
 
-  logedinUserDetails : any;
+  logedinUserDetails : UserDetails ={
+    Name: '',
+    email: '',
+    roles: ['']
+  }
+
   constructor(private organizationService:OrganizationService,
     private storageService: StorageService,
     private confirmationDialogService :ConfirmationDialogService,
     private router : Router,
     private addNewUserService :AddNewUserService,
-    private userService:UserService) { }
+    private userService:UserService,
+    private userDetailsService : UserDetailsService) { }
 
   ngOnInit(): void {
     this.userDetails();
@@ -30,6 +38,7 @@ export class HeaderComponent implements OnInit {
   userDetails(){
     this.userService.getUserById(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res:any)=>{
       this.logedinUserDetails = res.existingUser;
+      this.userDetailsService.setUserDetails(res.existingUser);
     })
   }
 

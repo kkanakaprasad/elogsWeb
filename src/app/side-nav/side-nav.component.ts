@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserDetails } from '../shared/services/user-details-service/user-details.interface';
+import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideNavComponent implements OnInit {
 
-  constructor() { }
+  logedinUserDetails : UserDetails = {
+    Name: '',
+    email: '',
+    roles: ['']
+  }
+  constructor(private userDetailsService:UserDetailsService) { }
 
   ngOnInit(): void {
+    this.getLogedInUserDeatils()
+  }
+
+  getLogedInUserDeatils(){
+    this.userDetailsService.getUserDetails().subscribe((res)=>{
+      this.logedinUserDetails = res;
+    })
   }
 
 }

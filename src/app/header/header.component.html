@@ -48,7 +48,7 @@
             <li class="nav-item dropdown pe-3">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown" [matMenuTriggerFor]="profileMenu">
                     <img src="../../assets/images/profile2.jpg" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{logedinUserDetails.Name  | titlecase }}</span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <mat-menu #profileMenu="matMenu">
