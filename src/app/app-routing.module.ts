@@ -38,6 +38,13 @@ const routes: Routes = [
           roles : [Roles.SuperAdmin,Roles.User]
         },
         loadChildren: () => import('./organization/organization.module').then((m)=> m.OrganizationModule)
+      },
+      {
+        path : RouteConstants.USER_LIST,
+        data : {
+          roles : [Roles.SuperAdmin]
+        },
+        loadChildren: () => import('./user/user.module').then((m)=> m.UserModule)
       }
     ]
   }
