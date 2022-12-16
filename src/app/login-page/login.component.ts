@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
       this.storageService.clearLocalStorage();
       this.storageService.setDataToLocalStorage(STORAGE_KEYS.ACCESS_TOKEN,res?.result?.accessToken);
       this.storageService.setDataToLocalStorage(STORAGE_KEYS.ROLE,res?.result?.role[0]);
+      this.storageService.setDataToLocalStorage(STORAGE_KEYS.USER_ID,res?.result?.userId);
       this.alertpopupService.open({
         message :res.message,
         action : 'ok'

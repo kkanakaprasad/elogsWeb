@@ -39,17 +39,21 @@
                 </a>
             </li> -->
             <li>
-                <button mat-button [matMenuTriggerFor]="menu">Add New Organization</button>
+                <button mat-button [matMenuTriggerFor]="menu" class="primary">Add New Organization</button>
                 <mat-menu #menu="matMenu">
                     <button mat-menu-item (click)="openCreateOrganizationPopup()">Create Organization</button>
                     <button mat-menu-item (click)="openCreateUserPopup()">Create User</button>
                 </mat-menu>
             </li>
             <li class="nav-item dropdown pe-3">
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown">
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown" [matMenuTriggerFor]="profileMenu">
                     <img src="../../assets/images/profile2.jpg" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{logedinUserDetails.Name  | titlecase }}</span>
                 </a><!-- End Profile Iamge Icon -->
+
+                <mat-menu #profileMenu="matMenu">
+                    <button mat-menu-item (click)="logout()">Logout</button>
+                </mat-menu>
             </li><!-- End Profile Nav -->
         </ul>
     </nav><!-- End Icons Navigation -->
