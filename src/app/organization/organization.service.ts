@@ -13,7 +13,7 @@ export class OrganizationService {
   constructor(private httpDataService:HttpDataService, private matDialog:MatDialog) { }
 
   openCreateOrganizatioPopup(){
-    this.matDialog.open(CreateOrganizationComponent,{disableClose:true,width :'500px'})
+    return this.matDialog.open(CreateOrganizationComponent,{disableClose:true,width :'500px'})
   }
 
   createOrganization(payload : CreateOrganization):Observable<any>{
@@ -21,6 +21,10 @@ export class OrganizationService {
   }
   getAllOrganizations(): Observable<any>{
     return this.httpDataService.get(`organizations`)
+  }
+  
+  getOrganizationsSearchCriteria(payload:any): Observable<any>{
+    return this.httpDataService.post(`organizations/searchCriteria`,payload)
   }
   
 }
