@@ -1,0 +1,36 @@
+mat-card{
+    width: 350px;
+    height: 220px;
+    border-bottom: 5px;
+    text-align: center;
+}
+.main{
+display: flex;
+flex-wrap: wrap;
+justify-content: space-evenly;
+row-gap: 10px;
+}
+.mat-card-content   {
+    text-align: left;
+    margin: 30px 20px
+}
+.addButton{
+    float: right;
+}
+
+.add-icon{
+height: 150px;
+width: 150px;
+margin: auto;
+border: 1px solid black;
+border-radius: 50%;
+display: grid;
+place-items: center;
+}
+font{
+    font-size: 100px;
+}
+.plus{
+display: grid;
+place-items: center;
+}

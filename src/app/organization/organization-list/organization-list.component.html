@@ -1,1 +1,34 @@
-<p>organization-list works!</p>
+<div class="page-wrapper">
+  <div fxLayout="row wrap" fxLayoutGap="16px" class="align main">
+    <mat-card class="plus" (click)="addOrganizationList()" >
+    <mat-card-content >
+      <div class="add-icon">
+            <font>+</font>
+       </div>
+   
+    </mat-card-content>
+   </mat-card>
+    <mat-card
+      fxFlex.lg="calc(33% - 16px)"
+      fxFlex.lt-lg="calc(50% - 16px)"
+      fxFlex.xs="calc(100% - 16px)"
+      
+      *ngFor="let organization of organizationList"
+    >        
+        <mat-card-content>
+          <p><strong>{{ organization.organization }} -<span>{{
+            organization.shortName 
+          }}</span></strong>
+        </p>
+          <p>
+            <span>{{ organization.users.length }}</span> User(s)
+          </p>
+          <p>0 Activity(s)</p>
+          <p>0 Hour(s) Spent</p>
+          <p>0 Mb Storage</p>
+          <button class="addButton" mat-button color="primary" (click)="addUser()">Add User</button>
+        </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
