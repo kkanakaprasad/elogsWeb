@@ -35,7 +35,7 @@ const routes: Routes = [
       {
         path : RouteConstants.ORAGANIZATION_LIST,
         data : {
-          roles : [Roles.SuperAdmin]
+          roles : [Roles.SuperAdmin,Roles.User]
         },
         loadChildren: () => import('./organization/organization.module').then((m)=> m.OrganizationModule)
       }
