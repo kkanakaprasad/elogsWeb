@@ -1,34 +1,53 @@
-<div class="page-wrapper">
-  <div fxLayout="row wrap" fxLayoutGap="16px" class="align main">
-    <mat-card class="plus" (click)="addOrganizationList()" >
-    <mat-card-content >
-      <div class="add-icon">
-            <font>+</font>
-       </div>
-       <h4>create organization</h4>
-    </mat-card-content>
-   </mat-card>
-    <mat-card
-      fxFlex.lg="calc(33% - 16px)"
-      fxFlex.lt-lg="calc(50% - 16px)"
-      fxFlex.xs="calc(100% - 16px)"
-      
-      *ngFor="let organization of organizationList"
-    >        
+<div class="container">
+ 
+
+  <div class="page-wrapper">
+    <div class="button-toggle">
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+        <mat-button-toggle class="togle-button" (click)="applyOrganizationFilters(filters.IS_ACTIVE)" >Active</mat-button-toggle>
+        <mat-button-toggle class="togle-button" (click)="applyOrganizationFilters(filters.MINISTRIES)" value="Ministries">Ministries</mat-button-toggle>
+        <mat-button-toggle class="togle-button" (click)="applyOrganizationFilters(filters.ASSOCIATION)" value="Association">Association</mat-button-toggle>
+        <mat-button-toggle class="togle-button" (click)="applyOrganizationFilters(filters.INACTIVE)" value="Inactive">Inactive</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div fxLayout="row wrap" fxLayoutGap="16px" class="align main">
+      <mat-card class="plus" (click)="addOrganizationList()">
         <mat-card-content>
-          <p><span class="organization-title">{{ organization.organization | titlecase}}</span> <span>  (  {{
-            organization.shortName | uppercase
-          }} )</span>
-        </p>
+          <div class="add-icon">
+            <font>+</font>
+          </div>
+          <h4>create organization</h4>
+        </mat-card-content>
+      </mat-card>
+      <mat-card
+        fxFlex.lg="calc(33% - 16px)"
+        fxFlex.lt-lg="calc(50% - 16px)"
+        fxFlex.xs="calc(100% - 16px)"
+        *ngFor="let organization of organizationList"
+      >
+        <mat-card-content>
+          <p>
+            <span class="organization-title">{{
+              organization.organization | titlecase
+            }}</span>
+            <span> ( {{ organization.shortName | uppercase }} )</span>
+          </p>
           <p>
             <span>{{ organization.users.length }}</span> User(s)
           </p>
           <p>0 Activity(s)</p>
           <p>0 Hour(s) Spent</p>
           <p>0 Mb Storage</p>
-          <button class="addButton" mat-button color="primary" (click)="addUser()">Add User</button>
+          <button
+            class="addButton"
+            mat-button
+            color="primary"
+            (click)="addUser()"
+          >
+            Add User
+          </button>
         </mat-card-content>
-    </mat-card>
+      </mat-card>
+    </div>
   </div>
 </div>
-

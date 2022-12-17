@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpDataService } from 'src/app/shared/services/http-service/http-service.service';
+import { FILTER_CONSTANT } from 'src/app/shared/constants/filter.constants';
+import { MasterDataService } from 'src/app/shared/services/master-data/master-data.service';
 import { AddNewUserService } from 'src/app/user/add-new-user/add-new-user.service';
+import { OrganizationSearchCriteria } from '../organization.interface';
 import { OrganizationService } from '../organization.service';
 
 @Component({
@@ -10,39 +12,80 @@ import { OrganizationService } from '../organization.service';
 })
 export class OrganizationListComponent implements OnInit {
   organizationList: any;
+  filters = FILTER_CONSTANT;
+  organizationListPayload :OrganizationSearchCriteria  = {
+    pageNumber: 0,
+    pageSize: 50,
+    sortField: "",
+    sortOrder: 0,
+    type: "",
+    organization: "",
+    isActive: true
+  }
+  organizationTypes :any;
 
-  constructor(private organizationService:OrganizationService,
-    private addNewUserService:AddNewUserService) { }
+  constructor(private organizationService: OrganizationService,
+    private masterDataService: MasterDataService,
+    private addNewUserService: AddNewUserService,) { }
 
 
   ngOnInit(): void {
-    this.getAllOrganizationsSearchCriteria()
+    this.getAllOrganizationsSearchCriteria(this.organizationListPayload)
+    this.getOrganizationTypes()
   }
 
-  getAllOrganizationsSearchCriteria(){
-    const payload={
-      pageNumber: 0,
-      pageSize: 50,
-      sortField: "",
-      sortOrder: 0,
-      type: "",
-      organization: ""
-    }
-    this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res)=>{
-      this.organizationList=res.organizations[0].organizations.reverse();
-      console.log(this.organizationList)
+  getOrganizationTypes() {
+    this.masterDataService.getOrganizationTypes().subscribe((res) => {
+      this.organizationTypes = res.data;
+      console.log(this.organizationTypes);
+      
     })
-    
   }
 
-  addOrganizationList(){
-    this.organizationService.openCreateOrganizatioPopup().afterClosed().subscribe((res)=>{
-      if(res){
-        this.getAllOrganizationsSearchCriteria()
+  getAllOrganizationsSearchCriteria(payload : OrganizationSearchCriteria) {
+    this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
+      this.organizationList = res.organizations[0].organizations.reverse();
+    })
+
+  }
+
+  applyOrganizationFilters(type:number){
+    let updatedPayload = this.organizationListPayload;
+    if(FILTER_CONSTANT.MINISTRIES === type){
+      updatedPayload = {
+        ...updatedPayload,
+        type : this.organizationTypes[FILTER_CONSTANT.MINISTRIES]._id
+      }
+    }else if(FILTER_CONSTANT.IS_ACTIVE === type){
+      updatedPayload = {
+        ...updatedPayload,
+        isActive : true
+      }
+    }else if(FILTER_CONSTANT.ASSOCIATION === type){
+      updatedPayload = {
+        ...updatedPayload,
+        type : this.organizationTypes[FILTER_CONSTANT.ASSOCIATION]._id
+      }
+    }else if(FILTER_CONSTANT.INACTIVE === type){
+      updatedPayload = {
+        ...updatedPayload,
+        isActive : false
+      }
+    }
+
+    this.getAllOrganizationsSearchCriteria(updatedPayload);
+  }
+
+
+  addOrganizationList() {
+    this.organizationService.openCreateOrganizatioPopup().afterClosed().subscribe((res) => {
+      if (res) {
+        this.getAllOrganizationsSearchCriteria(this.organizationListPayload)
       }
     })
   }
-  addUser(){
+
+  addUser() {
     this.addNewUserService.openAddUser()
   }
 
