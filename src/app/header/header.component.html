@@ -1,7 +1,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="#" class="logo d-flex align-items-center">
+        <a  class="logo d-flex align-items-center">
             <img src="https://elogs.cxipl.com/img/gatishakti-logo-login-h.png" alt="">
         </a>
         <span (click)="sidebarShow()" class="hamburger"><i class="material-icons toggle-sidebar-btn">dehaze</i></span>
@@ -38,16 +38,17 @@
                     <span class="badge bg-success badge-number">3</span>
                 </a>
             </li> -->
-            <li>
-                <button mat-button [matMenuTriggerFor]="menu" class="primary">Add New Organization</button>
+            <li *ngIf="isSuperAdmin">
+                <button mat-button [matMenuTriggerFor]="menu" class="primary">Add</button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="openCreateOrganizationPopup()">Create Organization</button>
-                    <button mat-menu-item (click)="openCreateUserPopup()">Create User</button>
+                    <button mat-menu-item (click)="openCreateOrganizationPopup()">Organization</button>
+                    <button mat-menu-item (click)="openCreateUserPopup()">User</button>
                 </mat-menu>
             </li>
             <li class="nav-item dropdown pe-3">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown" [matMenuTriggerFor]="profileMenu">
-                    <img src="../../assets/images/profile2.jpg" alt="Profile" class="rounded-circle">
+                    <!-- <img src="../../assets/images/profile2.jpg" alt="Profile" class="rounded-circle"> -->
+                    <mat-icon>account_circle</mat-icon>
                     <span class="d-none d-md-block dropdown-toggle ps-2">{{logedinUserDetails.Name  | titlecase }}</span>
                 </a><!-- End Profile Iamge Icon -->
 

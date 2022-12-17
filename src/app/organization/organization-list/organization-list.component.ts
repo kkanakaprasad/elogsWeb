@@ -84,9 +84,12 @@ export class OrganizationListComponent implements OnInit {
       }
     })
   }
-
-  addUser() {
-    this.addNewUserService.openAddUser()
+  addUser(){
+    this.addNewUserService.openAddUser().afterClosed().subscribe((res)=>{
+      if(res){
+        this.getAllOrganizationsSearchCriteria(this.organizationListPayload)
+      }
+    })
   }
 
 }

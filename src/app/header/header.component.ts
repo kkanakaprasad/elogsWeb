@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { OrganizationService } from '../organization/organization.service';
 import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 import { RouteConstants } from '../shared/constants/routes.constants';
+import { Roles } from '../shared/enums/roles.enums';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { StorageService } from '../shared/services/storage-service/storage.service';
 import { UserDetails } from '../shared/services/user-details-service/user-details.interface';
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
     email: '',
     roles: ['']
   }
+  isSuperAdmin : boolean = false;
 
   constructor(private organizationService:OrganizationService,
     private storageService: StorageService,
@@ -33,6 +35,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.userDetails();
+    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
   }
 
   userDetails(){

@@ -20,4 +20,8 @@ export class UserService {
     return this.httpdataService.get(`user/${userId}`);
   }
 
+  getAllUsers():Observable<any>{
+      return this.httpdataService.get('user');
+  }
+
 }

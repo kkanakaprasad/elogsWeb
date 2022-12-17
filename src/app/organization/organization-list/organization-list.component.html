@@ -1,6 +1,4 @@
 <div class="container">
- 
-
   <div class="page-wrapper">
     <div class="button-toggle">
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
@@ -10,27 +8,26 @@
         <mat-button-toggle class="togle-button" (click)="applyOrganizationFilters(filters.INACTIVE)" value="Inactive">Inactive</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
+<h2>Organizations</h2>
+
+<section class="section">
+
+  <div class="page-wrapper">
     <div fxLayout="row wrap" fxLayoutGap="16px" class="align main">
       <mat-card class="plus" (click)="addOrganizationList()">
         <mat-card-content>
           <div class="add-icon">
             <font>+</font>
           </div>
-          <h4>create organization</h4>
+          <h4 class="mt-2">Create Organization</h4>
         </mat-card-content>
       </mat-card>
-      <mat-card
-        fxFlex.lg="calc(33% - 16px)"
-        fxFlex.lt-lg="calc(50% - 16px)"
-        fxFlex.xs="calc(100% - 16px)"
-        *ngFor="let organization of organizationList"
-      >
+      <mat-card fxFlex.lg="calc(33% - 16px)" fxFlex.lt-lg="calc(50% - 16px)" fxFlex.xs="calc(100% - 16px)"
+        *ngFor="let organization of organizationList">
         <mat-card-content>
-          <p>
-            <span class="organization-title">{{
-              organization.organization | titlecase
-            }}</span>
-            <span> ( {{ organization.shortName | uppercase }} )</span>
+          <p><span class="organization-title">{{ organization.organization | titlecase}}</span> <span> ( {{
+              organization.shortName | uppercase
+              }} )</span>
           </p>
           <p>
             <span>{{ organization.users.length }}</span> User(s)
@@ -50,4 +47,4 @@
       </mat-card>
     </div>
   </div>
-</div>
+</section>

@@ -2,65 +2,67 @@
 
     <div class="sidebar-user-settings">
         <div class="app-sidebar__user">
+            <mat-icon  class="side_icon">account_circle</mat-icon>
+
             <div class="user-pic">
                 <span class="avatar">
-                    <img src="../../assets/images/profile2.jpg">
-                    <span class="avatar-border"></span>
+                    <!-- <mat-icon>account_circle</mat-icon> -->
+                    <!-- <span class="avatar-border"></span> -->
                 </span>
             </div>
             <div class="user-info">
                 <h5 class=" mb-1 font-weight-bold text-dark">{{logedinUserDetails.Name  | titlecase}}</h5>
-                <span class="text-muted app-sidebar__user-name text-sm">{{logedinUserDetails.roles[0]  | titlecase}}</span>
+                <span class="text-muted app-sidebar__user-name text-sm">{{logedInRole | titlecase}}</span>
             </div>
 
         </div>
     </div>
     <ul class="sidebar-nav" id="sidebar-nav">
 
-        <li class="nav-item">
-            <a class="nav-link active" (click)="naviagteToDashboard()">
+        <li class="nav-item" >
+            <a class="nav-link " [class.active]="page === 'dashboard'" (click)="naviagteToDashboard();change('dashboard')">
                 <i class="material-icons">dashboard</i>
                 <span>Dashboard</span>
             </a>
         </li>
 
         <li class="nav-item" >
-            <a class="nav-link " (click)="navigateToOrganizationList()">
+            <a class="nav-link " [class.active]="page === 'Organization'" (click)="navigateToOrganizationList();change('Organization')">
                 <i class="material-icons">corporate_fare</i>
                 <span>Organization</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link ">
+            <a class="nav-link "  [class.active]="page === 'Activies'" (click)="change('Activies')">
                 <i class="material-icons">hourglass_empty</i>
                 <span>Activies</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link " >
+            <a class="nav-link " [class.active]="page === 'Documents'" (click)="change('Documents')">
                 <i class="material-icons">description</i>
                 <span>Documents</span>
             </a>
         </li>
 
         <li class="nav-item" *ngIf="isSuperAdmin">
-            <a class="nav-link ">
+            <a class="nav-link " [class.active]="page === 'Users'" (click)="naviagteToUserList();change('Users')">
                 <i class="material-icons">description</i>
                 <span>Users</span>
             </a>
         </li>
 
         <li class="nav-item" *ngIf="isSuperAdmin">
-            <a class="nav-link " >
+            <a class="nav-link " [class.active]="page === 'Company'" (click)="change('Company')">
                 <i class="material-icons">description</i>
                 <span>Company Settings</span>
             </a>
         </li>
 
         <li class="nav-item" *ngIf="isSuperAdmin">
-            <a class="nav-link " >
+            <a class="nav-link " [class.active]="page === 'Archive'" (click)="change('Archive')">
                 <i class="material-icons">description</i>
                 <span>Archive</span>
             </a>
