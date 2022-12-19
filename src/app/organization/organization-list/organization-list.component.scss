@@ -1,5 +1,5 @@
 mat-card{
-    min-width: 380px;
+    width: 350px;
     min-height: 220px;
     border-bottom: 5px;
     text-align: center;
@@ -22,7 +22,7 @@ row-gap: 10px;
     height: 100px;
     width: 100px;
     margin: auto;
-    border: .25px  solid #5927b1;
+    border: .25px  solid #556ee7;
     border-radius: 50%;
     display: grid;
     place-items: center;
@@ -40,4 +40,12 @@ cursor: pointer;
 .organization-title{
     font-weight: 900;
     font-size: 16px;
+}
+.togle-button{
+    width: 200px!important;
+    min-width: unset!important;
+}
+.mat-button-toggle-checked {
+    background-color: #556ee7;
+    color: white !important
 }
