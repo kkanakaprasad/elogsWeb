@@ -16,8 +16,18 @@ export class OrganizationService {
     return this.matDialog.open(CreateOrganizationComponent,{disableClose:true,width :'500px'})
   }
 
+  updateOrganizatioPopup(organizationId:any){
+    return this.matDialog.open(CreateOrganizationComponent,{disableClose:true,width :'500px',data : organizationId})
+  }
+
+
   createOrganization(payload : CreateOrganization):Observable<any>{
     return this.httpDataService.post(`organizations`,payload)
+  }
+
+  updateOrganization(payload: CreateOrganization):Observable<any>{
+    return this.httpDataService.put(`organizations`,payload)
+
   }
   getAllOrganizations(): Observable<any>{
     return this.httpDataService.get(`organizations`)
@@ -26,5 +36,8 @@ export class OrganizationService {
   getOrganizationsSearchCriteria(payload:any): Observable<any>{
     return this.httpDataService.post(`organizations/searchCriteria`,payload)
   }
-  
+
+  getorganizationById(id:any): Observable<any>{
+    return this.httpDataService.get(`organizations/${id}`)
+  }
 }

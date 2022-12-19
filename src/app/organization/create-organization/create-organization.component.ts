@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
 import { MasterDataService } from 'src/app/shared/services/master-data/master-data.service';
 import { CreateOrganization } from '../organization.interface';
@@ -15,21 +15,40 @@ export class CreateOrganizationComponent implements OnInit {
 
   createOrganizationForm!: FormGroup;
   organizationTypes: any;
+  oraginsationData: any;
 
-  constructor(private formBuilder: FormBuilder, 
-    private masterDataService : MasterDataService, 
-    private organizationService :OrganizationService,
-    private alertpopupService : AlertpopupService) { }
+  constructor(private formBuilder: FormBuilder,
+    private masterDataService: MasterDataService,
+    private organizationService: OrganizationService,
+    private alertpopupService: AlertpopupService,
+    public dialogref: MatDialogRef<CreateOrganizationComponent>,
+    @Inject(MAT_DIALOG_DATA) public dataId: CreateOrganizationComponent
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.OrganizationFormValues()
     this.getOrganizationTypes();
+    this.getOrganizationsData()
+  }
+  getOrganizationsData() {
+    this.organizationService.getorganizationById(this.dataId).subscribe((res) => {
+      this.oraginsationData = res.organization
+      console.log(this.oraginsationData)
+      this.createOrganizationForm.controls['type'].setValue(this.oraginsationData.type);
+      this.createOrganizationForm.controls['organization'].setValue(res.organization.organization);
+      this.createOrganizationForm.controls['shortName'].setValue(res.organization.shortName)
+    
+    })
   }
 
-  getOrganizationTypes(){
-    this.masterDataService.getOrganizationTypes().subscribe((res)=>{
+
+  getOrganizationTypes() {
+    this.masterDataService.getOrganizationTypes().subscribe((res) => {
       this.organizationTypes = res.data
     })
+
   }
 
 
@@ -42,20 +61,21 @@ export class CreateOrganizationComponent implements OnInit {
   }
 
   onSubmit() {
-    const payload :CreateOrganization = {
+  
+    const payload: CreateOrganization = {
       ...this.createOrganizationForm.value,
-      "isActive" : true
+      "isActive": true
     }
-    this.organizationService.createOrganization(payload).subscribe((res)=>{
+    this.organizationService.createOrganization(payload).subscribe((res) => {
       console.log(res);
       this.alertpopupService.open({
-        message : res.message,
-        action : 'ok'
+        message: res.message,
+        action: 'ok'
       })
-    },(error)=>{
+    }, (error) => {
       this.alertpopupService.open({
-        message : "Faild to create Organization! Please try again ",
-        action : 'ok'
+        message: "Faild to create Organization! Please try again ",
+        action: 'ok'
       })
     })
   }
