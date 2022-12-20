@@ -33,7 +33,7 @@ export class OrganizationListComponent implements OnInit {
     this.getAllOrganizationsSearchCriteria(this.organizationListPayload)
     this.getOrganizationTypes()
   }
-
+  
   getOrganizationTypes() {
     this.masterDataService.getOrganizationTypes().subscribe((res) => {
       this.organizationTypes = res.data;
@@ -45,8 +45,9 @@ export class OrganizationListComponent implements OnInit {
   getAllOrganizationsSearchCriteria(payload : OrganizationSearchCriteria) {
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
       this.organizationList = res.organizations[0].organizations.reverse();
+      // console.log(this.organizationList.id)
     })
-
+   
   }
 
   applyOrganizationFilters(type:number){
@@ -76,11 +77,17 @@ export class OrganizationListComponent implements OnInit {
     this.getAllOrganizationsSearchCriteria(updatedPayload);
   }
 
+  updateOrganizationList(organizationId:string){
+    this.organizationService.updateOrganizatioPopup(organizationId)
+    // console.log(organizationId)
+  }
 
   addOrganizationList() {
+
     this.organizationService.openCreateOrganizatioPopup().afterClosed().subscribe((res) => {
       if (res) {
         this.getAllOrganizationsSearchCriteria(this.organizationListPayload)
+       
       }
     })
   }
@@ -91,5 +98,6 @@ export class OrganizationListComponent implements OnInit {
       }
     })
   }
+  
 
 }
