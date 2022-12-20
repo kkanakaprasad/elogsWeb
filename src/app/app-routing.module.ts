@@ -45,6 +45,13 @@ const routes: Routes = [
           roles : [Roles.SuperAdmin]
         },
         loadChildren: () => import('./user/user.module').then((m)=> m.UserModule)
+      },
+      {
+        path:RouteConstants.PROFILE,
+        data:{
+          roles:[Roles.SuperAdmin,Roles.User]
+        },
+        loadChildren:() => import('./profile/profile.module').then(m=>m.ProfileModule)
       }
     ]
   }
