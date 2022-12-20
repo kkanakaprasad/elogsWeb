@@ -16,6 +16,7 @@ export class CreateOrganizationComponent implements OnInit {
   createOrganizationForm!: FormGroup;
   organizationTypes: any;
   oraginsationData: any;
+  isSelected: boolean=false;
 
   constructor(private formBuilder: FormBuilder,
     private masterDataService: MasterDataService,
@@ -34,6 +35,7 @@ export class CreateOrganizationComponent implements OnInit {
   }
   getOrganizationsData() {
     this.organizationService.getorganizationById(this.dataId).subscribe((res) => {
+      this.isSelected=true
       this.oraginsationData = res.organization
       console.log(this.oraginsationData)
       this.createOrganizationForm.controls['type'].setValue(this.oraginsationData.type);
@@ -61,11 +63,26 @@ export class CreateOrganizationComponent implements OnInit {
   }
 
   onSubmit() {
+    
   
     const payload: CreateOrganization = {
       ...this.createOrganizationForm.value,
       "isActive": true
     }
+    if(this.dataId){
+      this.organizationService.updateOrganization(payload).subscribe((res) => {
+        console.log(res);
+        this.alertpopupService.open({
+          message: res.message,
+          action: 'ok'
+        })
+      }, (error) => {
+        this.alertpopupService.open({
+          message: "Faild to create Organization! Please try again ",
+          action: 'ok'
+        })
+      })
+    }else{
     this.organizationService.createOrganization(payload).subscribe((res) => {
       console.log(res);
       this.alertpopupService.open({
@@ -79,5 +96,6 @@ export class CreateOrganizationComponent implements OnInit {
       })
     })
   }
+  } 
 
 }

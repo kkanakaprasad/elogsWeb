@@ -12,6 +12,7 @@ export interface OrganizationSearchCriteria {
     sortOrder: number,
     type: string,
     organization: string,
-    isActive: boolean
+    isActive: boolean,
+    userId:string
 }
 

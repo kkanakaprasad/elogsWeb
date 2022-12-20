@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FILTER_CONSTANT } from 'src/app/shared/constants/filter.constants';
 import { MasterDataService } from 'src/app/shared/services/master-data/master-data.service';
 import { AddNewUserService } from 'src/app/user/add-new-user/add-new-user.service';
-import { OrganizationSearchCriteria } from '../organization.interface';
+import { CreateOrganization, OrganizationSearchCriteria } from '../organization.interface';
 import { OrganizationService } from '../organization.service';
 
 @Component({
@@ -20,7 +20,8 @@ export class OrganizationListComponent implements OnInit {
     sortOrder: 0,
     type: "",
     organization: "",
-    isActive: true
+    isActive: true,
+    userId:""
   }
   organizationTypes :any;
 
@@ -98,6 +99,7 @@ export class OrganizationListComponent implements OnInit {
       }
     })
   }
+ 
   
 
 }

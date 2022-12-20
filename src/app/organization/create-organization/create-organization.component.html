@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Create Organization</h1>
+<h1 mat-dialog-title>{{isSelected==false?'Create Organization':'Update Organization' }}</h1>
 <div mat-dialog-content>
   <form [formGroup]="createOrganizationForm" (ngSubmit)="onSubmit()">
     <div class="select">
@@ -30,7 +30,7 @@
       </button>
       <button type="submit" mat-raised-button color="primary" [disabled]="createOrganizationForm.invalid"
         mat-dialog-close="true">
-        create
+        {{isSelected==false?'creat':'update'}}
       </button>
     </div>
   </form>
