@@ -13,6 +13,8 @@ import { HeaderComponent } from './header/header.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { OrganizationModule } from './organization/organization.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ProfileModule } from './profile/profile.module';
+
 
 
 @NgModule({
@@ -23,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     HeaderComponent,
     SideNavComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     OrganizationModule,
-    HttpClientModule
+    HttpClientModule,
+   
   ],
   providers: [],
   bootstrap: [AppComponent]
