@@ -34,7 +34,6 @@ import { ProfileModule } from './profile/profile.module';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    OrganizationModule,
     HttpClientModule,
    
   ],

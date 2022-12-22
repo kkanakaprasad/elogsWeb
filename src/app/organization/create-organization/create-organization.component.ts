@@ -52,6 +52,7 @@ export class CreateOrganizationComponent implements OnInit {
     })
 
   }
+  
 
 
   OrganizationFormValues() {
@@ -70,7 +71,7 @@ export class CreateOrganizationComponent implements OnInit {
       "isActive": true
     }
     if(this.dataId){
-      this.organizationService.updateOrganization(payload).subscribe((res) => {
+      this.organizationService.updateOrganization(this.dataId,payload).subscribe((res) => {
         console.log(res);
         this.alertpopupService.open({
           message: res.message,
@@ -84,7 +85,6 @@ export class CreateOrganizationComponent implements OnInit {
       })
     }else{
     this.organizationService.createOrganization(payload).subscribe((res) => {
-      console.log(res);
       this.alertpopupService.open({
         message: res.message,
         action: 'ok'

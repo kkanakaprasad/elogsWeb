@@ -5,11 +5,12 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrganizationListComponent } from './organization-list/organization-list.component';
 import { OrganizationRoutingModule } from './organization-routing.module';
+import { AddUserPopUpComponent } from './add-user-pop-up/add-user-pop-up.component';
 
 
 
 @NgModule({
-  declarations: [CreateOrganizationComponent, OrganizationListComponent],
+  declarations: [CreateOrganizationComponent, OrganizationListComponent, AddUserPopUpComponent],
   imports: [
     CommonModule,
     SharedModule,

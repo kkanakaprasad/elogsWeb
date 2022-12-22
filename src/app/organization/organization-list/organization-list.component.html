@@ -1,58 +1,137 @@
+<!-- <app-add-user-pop-up></app-add-user-pop-up>  -->
 <div class="container">
   <div class="page-wrapper">
     <div class="button-toggle">
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-        <mat-button-toggle class="togle-button" (click)="applyOrganizationFilters(filters.IS_ACTIVE)" >Active</mat-button-toggle>
-        <mat-button-toggle class="togle-button" (click)="applyOrganizationFilters(filters.MINISTRIES)" value="Ministries">Ministries</mat-button-toggle>
-        <mat-button-toggle class="togle-button" (click)="applyOrganizationFilters(filters.ASSOCIATION)" value="Association">Association</mat-button-toggle>
-        <mat-button-toggle class="togle-button" (click)="applyOrganizationFilters(filters.INACTIVE)" value="Inactive">Inactive</mat-button-toggle>
+        <mat-button-toggle
+          class="togle-button"
+          (click)="applyOrganizationFilters(filters.IS_ACTIVE)"
+          >Active</mat-button-toggle
+        >
+        <mat-button-toggle
+          class="togle-button"
+          (click)="applyOrganizationFilters(filters.MINISTRIES)"
+          value="Ministries"
+          >Ministries</mat-button-toggle
+        >
+        <mat-button-toggle
+          class="togle-button"
+          (click)="applyOrganizationFilters(filters.ASSOCIATION)"
+          value="Association"
+          >Association</mat-button-toggle
+        >
+        <mat-button-toggle
+          class="togle-button"
+          (click)="applyOrganizationFilters(filters.INACTIVE)"
+          value="Inactive"
+          >Inactive</mat-button-toggle
+        >
       </mat-button-toggle-group>
     </div>
-<h2>Organizations</h2>
+    <h2>Organizations</h2>
 
-<section class="section">
+    <section class="section">
+      <div class="page-wrapper">
+        <div fxLayout="row wrap" fxLayoutGap="16px" class="align main">
+          <mat-card class="plus" (click)="addOrganizationList()">
+            <mat-card-content>
+              <div class="add-icon">
+                <font>+</font>
+              </div>
+              <h4 class="mt-2">Create Organization</h4>
+            </mat-card-content>
+          </mat-card>
+          <mat-card
+            fxFlex.lg="calc(33% - 16px)"
+            fxFlex.lt-lg="calc(50% - 16px)"
+            fxFlex.xs="calc(100% - 16px)"
+            *ngFor="let organization of organizationList"
+          >
+            <mat-card-content>
+              <p>
+                <span class="organization-title">{{
+                  organization.organization | titlecase
+                }}</span>
+                <span> ( {{ organization.shortName | uppercase }} )</span>
+              </p>
+              <p>
+                <span>{{ organization.users.length }}</span> User(s)
+              </p>
+              <p>0 Activity(s)</p>
+              <p>0 Hour(s) Spent</p>
+              <p>0 Mb Storage</p>
 
-  <div class="page-wrapper">
-    <div fxLayout="row wrap" fxLayoutGap="16px" class="align main">
-      <mat-card class="plus" (click)="addOrganizationList()">
-        <mat-card-content>
-          <div class="add-icon">
-            <font>+</font>
-          </div>
-          <h4 class="mt-2">Create Organization</h4>
-        </mat-card-content>
-      </mat-card>
-      <mat-card fxFlex.lg="calc(33% - 16px)" fxFlex.lt-lg="calc(50% - 16px)" fxFlex.xs="calc(100% - 16px)"
-        *ngFor="let organization of organizationList">
-        <mat-card-content>
-          <p><span class="organization-title">{{ organization.organization | titlecase}}</span> <span> ( {{
-              organization.shortName | uppercase
-              }} )</span>
-          </p>
-          <p>
-            <span>{{ organization.users.length }}</span> User(s)
-          </p>
-          <p>0 Activity(s)</p>
-          <p>0 Hour(s) Spent</p>
-          <p>0 Mb Storage</p>
-          <button
-            class="addButton"
-            mat-button
-            color="primary"
-            (click)="addUser()"
-          >
-            Add User
-          </button>
-          <button
-            class="addButton"
-            mat-button
-            color="primary"
-            (click)="updateOrganizationList(organization._id)"
-          >
-            Edit User
-          </button>
-        </mat-card-content>
-      </mat-card>
-    </div>
+              <ng-container *ngIf="organizationList[0].isActive == true">
+                <div class="button">
+                  <button
+                    class="addButton"
+                    mat-button
+                    color="primary"
+                    (click)="openAddUserPopup(organization._id)"
+                  >
+                    Add User
+                  </button>
+
+                  <button
+                    class="addButton"
+                    mat-button
+                    color="primary"
+                    (click)="updateOrganizationList(organization._id)"
+                  >
+                    Edit User
+                  </button>
+
+                  <button class="addButton" mat-button color="primary">
+                    Remove User
+                  </button>
+
+                  <ng-container *ngIf="organization.users?.length >=1">
+                  <button
+                    class="addButton"
+                    mat-button
+                    color="primary"
+                    (click)="disableAssociation(this.organization._id)"
+                  >
+                    Disable
+                  </button>
+                </ng-container>
+
+                <ng-container *ngIf="organization.users?.length  == 0">
+                  <button
+                  class="addButton"
+                  mat-button
+                  color="primary"
+                  (click)="removeUser(organization._id)"
+                >
+                  Delete
+                </button>
+                </ng-container>
+
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="organizationList.isActive == false">
+                <button
+                  class="addButton"
+                  mat-button
+                  color="primary"
+                  (click)="removeUser(organization._id)"
+                >
+                  Delete User
+                </button>
+                <button
+                  class="addButton"
+                  mat-button
+                  color="primary"
+                  (click)="enableAssociation(this.organization._id)"
+                >
+                  Enable
+                </button>
+              </ng-container>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </section>
   </div>
-</section>
+</div>
