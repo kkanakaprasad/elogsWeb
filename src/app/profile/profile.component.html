@@ -3,11 +3,11 @@
         <mat-tab label="My Profile">
             <div>
                 <div class="select">
-                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]='profileForm' (ngSubmit)="onSubmit()">
                         <div>
                             <mat-form-field appearance="outline">
                                 <mat-label>Name</mat-label>
-                                <input matInput placeholder="Name" input type="text" formControlName="name" />
+                                <input matInput placeholder="Name" input type="text" formControlName="Name" />
                             </mat-form-field>
                         </div>
                         <div>
@@ -39,13 +39,16 @@
                             Keep me upto date with new features
                         </label>
                         <div class="d-flex btn justify-content-start">
-                            <button mat-raised-button mat-dialog-close="true" [mat-dialog-close]="false">
-                                UPDATE
+
+                            <span> </span>
+                            <button mat-raised-button color="primary" type="submit">
+                                Save
                             </button>
-                            <span>Or</span>
-                            <button type="submit" mat-raised-button color="primary" mat-dialog-close="true">
-                                CANCEL
+                            <span></span>
+                            <button mat-raised-button mat-dialog-close="true">
+                                Cancel
                             </button>
+
                         </div>
                     </form>
                 </div>
@@ -54,25 +57,21 @@
         </mat-tab>
         <mat-tab label="ChangePassword">
             <div>
-                <app-changepassword></app-changepassword>
+                <app-changepassword [logedinUserEmail]="loggedInUserDetails"></app-changepassword>
             </div>
         </mat-tab>
-        <mat-tab label="Notifications"> 
+        <mat-tab label="Notifications">
             <div>
                 <app-notifications></app-notifications>
             </div>
         </mat-tab>
 
-        <mat-tab label="Email Reports"> 
+        <mat-tab label="Email Reports">
             <div>
-                <app-email-reports></app-email-reports>
+                <app-email-reports ></app-email-reports>
             </div>
         </mat-tab>
-
-
     </mat-tab-group>
-
-
 
 
 </div>

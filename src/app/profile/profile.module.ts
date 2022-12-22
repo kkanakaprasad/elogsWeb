@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ChangepasswordComponent,
     NotificationsComponent,
     EmailReportsComponent
-  ],
+  ],  
   imports: [
     CommonModule,
     ProfileRoutingModule,

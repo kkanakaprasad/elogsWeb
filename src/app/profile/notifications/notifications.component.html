@@ -1,16 +1,23 @@
 <h1>Send me Email Notifications</h1>
 <mat-radio-group aria-label="Select an option">
+    <form [formGroup]='notificationRepotsForm' (ngSubmit)="onSubmit()">
+        <mat-radio-group aria-label formControlName="allnewactivity" layout="row">
     <mat-label>All New Activity:</mat-label>
-    <mat-radio-button value="Yes">Yes</mat-radio-button>
-    <mat-radio-button value="No">No</mat-radio-button>
+    <mat-radio-button value="Yes" >Yes</mat-radio-button>
+    <mat-radio-button value="No" >No</mat-radio-button>
+    </mat-radio-group>
     <br>
+    <mat-radio-group aria-label formControlName="allnewactivityreply" layout="row">
     <mat-label>All Activity Reply & Comment:</mat-label>
-    <mat-radio-button value="Yes">Yes</mat-radio-button>
-    <mat-radio-button value="No">No</mat-radio-button>
+    <mat-radio-button value="Yes" >Yes</mat-radio-button>
+    <mat-radio-button value="No" >No</mat-radio-button>
+    </mat-radio-group>
     <br>
-    <mat-label>All Activity Status Change::</mat-label>
-    <mat-radio-button value="Yes">Yes</mat-radio-button>
-    <mat-radio-button value="No">No</mat-radio-button>
+    <mat-radio-group aria-label formControlName="allactivitystatus" layout="row">
+    <mat-label>All Activity Status Change:</mat-label>
+    <mat-radio-button value="Yes" >Yes</mat-radio-button>
+    <mat-radio-button value="No" >No</mat-radio-button>
+    </mat-radio-group>
     <div class="d-flex btn justify-content-start">
         <button mat-raised-button mat-dialog-close="true" [mat-dialog-close]="false">
             Update
@@ -20,5 +27,6 @@
             CANCEL
         </button>
     </div>
+</form>
   </mat-radio-group>
   
