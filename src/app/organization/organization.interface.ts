@@ -14,6 +14,7 @@ export interface OrganizationSearchCriteria {
     organization: string,
     organizationId: string,
     isActive?: boolean,
-    userId:string
+    userId:string,
+    userSearch?: string,
 }
 

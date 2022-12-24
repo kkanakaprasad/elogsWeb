@@ -7,6 +7,7 @@ import { filter, map } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrganizationService } from '../organization.service';
 import { OrganizationSearchCriteria } from '../organization.interface';
+import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
 
 @Component({
   selector: 'app-add-user-pop-up',
@@ -22,11 +23,13 @@ export class AddUserPopUpComponent implements OnInit {
   selection: any = new SelectionModel(true, []);
   organizationUsersData: []=[];
   displayedColumnsUsers: string[] = ['User'];
+  usersToSelectedOrganization:string[]=[];
   dataSourceUsers = new MatTableDataSource(this.organizationUsersData);
 
 
   constructor(private addNewUserService: AddNewUserService,
     private userService: UserService,
+    private alertpopupService:AlertpopupService,
     private organizationService: OrganizationService,
     public dialogref: MatDialogRef<AddUserPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string
@@ -89,7 +92,8 @@ export class AddUserPopUpComponent implements OnInit {
       type: '',
       organization: '',
       organizationId: this.selectedOrganizationId,
-      userId: ''
+      userId: '',
+      userSearch: ""
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res:any)=>{
       console.log(res.organizations[0].organizations[0]);
@@ -99,8 +103,30 @@ export class AddUserPopUpComponent implements OnInit {
     })
   }
 
-  asdf(){
+  selectedUsers(){
     console.log(this.selection.selected);
+    this.selection.selected.map((res:any)=>{
+     console.log(res._id)
+     this.usersToSelectedOrganization.push(res._id)
+    })
+    const payload={
+      userIds: this.usersToSelectedOrganization ,
+      organizationId: this.selectedOrganizationId
+    }
+    this.organizationService.addUsersToOrganization(payload).subscribe(res=>{
+      res
+      this.alertpopupService.open({
+        message: res.message,
+        action: 'ok'
+      })
+      this.getUsersOrgnationById()
+    }
+      , (error) => {
+        this.alertpopupService.open({
+          message: "Faild to remove users from Organization! Please try again ",
+          action: 'ok'
+        })
+    })
   }
 }
 

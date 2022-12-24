@@ -1,4 +1,5 @@
 <!-- <app-add-user-pop-up></app-add-user-pop-up>  -->
+<!-- <app-remove-user-pop-up></app-remove-user-pop-up> -->
 <div class="container">
   <div class="page-wrapper">
     <div class="button-toggle">
@@ -81,7 +82,7 @@
                     Edit User
                   </button>
 
-                  <button class="addButton" mat-button color="primary">
+                  <button class="addButton" mat-button color="primary" (click)="removeUserPopup(organization._id)">
                     Remove User
                   </button>
 
@@ -110,7 +111,7 @@
                 </div>
               </ng-container>
 
-              <ng-container *ngIf="organizationList.isActive == false">
+              <ng-container *ngIf="organizationList[0].isActive == false">
                 <button
                   class="addButton"
                   mat-button

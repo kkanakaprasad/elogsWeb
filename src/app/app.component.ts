@@ -9,7 +9,13 @@ import { HttpDataService } from './shared/services/http-service/http-service.ser
   })
 export class AppComponent {
   title = 'elog-web';
+  loadingCount :number = this.httpDataService.loadingCount;
 
   constructor(public httpDataService:HttpDataService){
   }
+
+  ngAfterContentChecked() {
+    this.httpDataService.loadingCount = this.loadingCount
+  }
+    
 }

@@ -6,11 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrganizationListComponent } from './organization-list/organization-list.component';
 import { OrganizationRoutingModule } from './organization-routing.module';
 import { AddUserPopUpComponent } from './add-user-pop-up/add-user-pop-up.component';
+import { RemoveUserPopUpComponent } from './remove-user-pop-up/remove-user-pop-up.component';
 
 
 
 @NgModule({
-  declarations: [CreateOrganizationComponent, OrganizationListComponent, AddUserPopUpComponent],
+  declarations: [CreateOrganizationComponent, OrganizationListComponent, AddUserPopUpComponent, RemoveUserPopUpComponent],
   imports: [
     CommonModule,
     SharedModule,

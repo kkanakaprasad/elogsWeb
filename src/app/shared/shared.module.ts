@@ -16,10 +16,11 @@ import { RichTextEditorModule } from "./rich-text-editor/rich-text-editor.module
       MaterialModule,
       CustomModelModule,
       ConfirmationDialogModule,
-      RichTextEditorModule
+      RichTextEditorModule,
+    
     ],
     exports : [
-        MaterialModule,
+      MaterialModule,
       CustomModelModule,
       ConfirmationDialogModule,
       RichTextEditorModule

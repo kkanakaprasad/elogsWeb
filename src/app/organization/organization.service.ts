@@ -50,4 +50,18 @@ export class OrganizationService {
   getUserOrgnationById(organizationId:any): Observable<any>{
     return this.httpDataService.get(`user/organization/${organizationId}`)
   }
+
+  removeUsersfromOrganization(payload:any):Observable<any>{
+    return this.httpDataService.put(`user/organization/removeUsersfromOrganization`,payload)
+
+  }
+
+
+  addUsersToOrganization(payload:any):Observable<any>{
+    return this.httpDataService.put(`user/organzation/addUsersToOrganization`,payload)
+
+  }
+
+  
+  
 }
