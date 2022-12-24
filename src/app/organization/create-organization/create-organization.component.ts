@@ -61,8 +61,6 @@ export class CreateOrganizationComponent implements OnInit {
       }
       )
 
-      
-
     })
   }
 
@@ -78,23 +76,21 @@ export class CreateOrganizationComponent implements OnInit {
 
   OrganizationFormValues() {
     this.createOrganizationForm = this.formBuilder.group({
-      type: ['', Validators.required],
+      type: ['', Validators.nullValidator],
       organization: ['', Validators.required],
       shortName: ['', Validators.required],
-      defaultAssign: ['',Validators.required],
+      defaultAssign: ['',Validators.nullValidator],
     })
   }
 
   onSubmit() {
-
 
     const payload: CreateOrganization = {
       ...this.createOrganizationForm.value,
       "isActive": true
     }
     if (this.dataId) {
-      // this.createOrganizationForm.controls['type'].clearValidators()
-      this.organizationService.updateOrganization(this.dataId, payload).subscribe((res) => {
+          this.organizationService.updateOrganization(this.dataId, payload).subscribe((res) => {
         console.log(res);
         this.alertpopupService.open({
           message: res.message,
