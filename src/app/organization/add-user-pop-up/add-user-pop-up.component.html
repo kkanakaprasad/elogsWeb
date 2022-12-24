@@ -1,16 +1,25 @@
 <mat-card-title class="d-flex justify-content-between">
-  <h1 class="user">Add User</h1>
+  <h1 class="user">Add User > {{ organizationName }}</h1>
   <button class="addButton" mat-button color="primary" (click)="addUser()">
     Add User
   </button>
 </mat-card-title>
-<div class="d-flex justify-content-end"><input type="text" placeholder="Enter User Name" /></div>
+<div mat-dialog-content>
+<div class="d-flex justify-content-end">
+  <mat-form-field appearance="outline">
+    <input matInput placeholder="Enter User Name" input type="text" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>
+
 <mat-card-content>
   <div class="row">
     <!-- unassigned users table -->
     <div class="col-8">
       <mat-chip-list>
-        <mat-chip *ngFor="let user of selection.selected">{{user.Name}}</mat-chip>
+        <mat-chip *ngFor="let user of selection.selected">{{
+          user.Name
+        }}</mat-chip>
       </mat-chip-list>
       <table
         mat-table
@@ -91,3 +100,4 @@
     </button>
   </div>
 </mat-card-actions>
+</div>

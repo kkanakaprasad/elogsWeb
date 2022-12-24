@@ -7,9 +7,13 @@
     x
   </button>
 </mat-card-title>
-
+<div mat-dialog-content>
 <mat-card-content>
-  <div class="d-flex justify-content-end"><input type="text" placeholder="Enter User Name" />
+  <div class="d-flex justify-content-end">
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="Enter User Name" input type="text" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
   </div>
   <div class="row">
     <div class="col-12">
@@ -78,3 +82,4 @@
   </div>
   </mat-card-content
 >
+</div>

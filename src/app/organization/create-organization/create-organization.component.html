@@ -1,6 +1,7 @@
-<h1 mat-dialog-title>{{isSelected==false?'Create Organization':'Update Organization' }}</h1>
+<h1 mat-dialog-title>{{isSelected==false?'Create Organization':this.oraginsationData.organization }}</h1>
 <div mat-dialog-content>
   <form [formGroup]="createOrganizationForm" (ngSubmit)="onSubmit()">
+    <ng-container *ngIf="isSelected==false">
     <div class="select">
       <mat-form-field appearance="outline" class="w-100-per">
         <mat-label>Organization Type</mat-label>
@@ -14,17 +15,19 @@
           ">Select atleast one technology</mat-error>
       </mat-form-field>
     </div>
+  </ng-container>
+  
     <mat-form-field appearance="outline">
-      <mat-label>Organization</mat-label>
+      <mat-label>{{isSelected==false?'Organization':'Organization Name'}}</mat-label>
       <input matInput placeholder="My Organization" input type="text" formControlName="organization" />
     </mat-form-field>
     <div>
-      <ng-container *ngIf="isSelected==false">
+    
       <mat-form-field appearance="outline">
         <mat-label>Short Name</mat-label>
         <input matInput placeholder="Short Name" input type="text" formControlName="shortName" />
       </mat-form-field>
-    </ng-container>
+    
     <ng-container *ngIf="isSelected==true">
       <div class="select">
         <mat-form-field appearance="outline" class="w-100-per">
@@ -42,7 +45,7 @@
       <button mat-raised-button mat-dialog-close="true" [mat-dialog-close]="false">
         Cancel
       </button>
-      <button type="submit" mat-raised-button color="primary" 
+      <button type="submit" mat-raised-button color="primary"[disabled]="createOrganizationForm.invalid" 
         mat-dialog-close="true">
         {{isSelected==false?'create':'update'}}
       </button>

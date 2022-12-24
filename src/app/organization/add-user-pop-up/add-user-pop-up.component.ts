@@ -25,6 +25,7 @@ export class AddUserPopUpComponent implements OnInit {
   displayedColumnsUsers: string[] = ['User'];
   usersToSelectedOrganization:string[]=[];
   dataSourceUsers = new MatTableDataSource(this.organizationUsersData);
+  organizationName: any;
 
 
   constructor(private addNewUserService: AddNewUserService,
@@ -97,7 +98,8 @@ export class AddUserPopUpComponent implements OnInit {
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res:any)=>{
       console.log(res.organizations[0].organizations[0]);
-      console.log(res.organizations[0]);
+      console.log(res.organizations[0].organizations[0].organization);
+      this.organizationName=res.organizations[0].organizations[0].organization
       this.organizationUsersData=res.organizations[0].organizations[0].users
       this.dataSourceUsers = new MatTableDataSource( this.organizationUsersData);
     })

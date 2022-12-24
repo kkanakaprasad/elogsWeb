@@ -38,7 +38,7 @@ export class CreateOrganizationComponent implements OnInit {
     this.organizationService.getorganizationById(this.dataId).subscribe((res) => {
       this.isSelected = true
       this.oraginsationData = res.organization
-      console.log(this.oraginsationData._id)
+      console.log(this.oraginsationData)
       const payload: OrganizationSearchCriteria = {
         pageNumber: 1000,
         pageSize: 0,
@@ -54,9 +54,9 @@ export class CreateOrganizationComponent implements OnInit {
 
         // console.log(res.organizations[0].organizations[0].users) 
         this.organizationUsersData = res.organizations[0].organizations[0].users
-        // console.log(this.organizationUsersData[0].Name)
-        this.createOrganizationForm.controls['type'].setValue(this.oraginsationData.type);
+       
         this.createOrganizationForm.controls['organization'].setValue(this.oraginsationData.organization);
+        this.createOrganizationForm.controls['shortName'].setValue(this.oraginsationData.shortName);
       this.createOrganizationForm.controls['defaultAssign'].setValue('')
       }
       )
@@ -81,7 +81,7 @@ export class CreateOrganizationComponent implements OnInit {
       type: ['', Validators.required],
       organization: ['', Validators.required],
       shortName: ['', Validators.required],
-      defaultAssign: ['', Validators.required],
+      defaultAssign: ['',Validators.required],
     })
   }
 
@@ -93,6 +93,7 @@ export class CreateOrganizationComponent implements OnInit {
       "isActive": true
     }
     if (this.dataId) {
+      // this.createOrganizationForm.controls['type'].clearValidators()
       this.organizationService.updateOrganization(this.dataId, payload).subscribe((res) => {
         console.log(res);
         this.alertpopupService.open({
@@ -106,6 +107,7 @@ export class CreateOrganizationComponent implements OnInit {
         })
       })
     } else {
+      // this.createOrganizationForm.controls['defaultAssign'].clearValidators()
       this.organizationService.createOrganization(payload).subscribe((res) => {
         this.alertpopupService.open({
           message: res.message,
