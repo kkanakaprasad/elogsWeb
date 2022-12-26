@@ -14,6 +14,10 @@ export class ProfileService {
     return this.httpDataService.get(`user/${userID}`)
   }
 
+  getUser(): Observable<any> {
+    return this.httpDataService.get(`user`)
+  }
+
   createProfile(payload: any): Observable<any> {
     return this.httpDataService.post(`profile`, payload);
   }
@@ -35,5 +39,9 @@ export class ProfileService {
   updateEmailReport(userId: string, payload: any): Observable<any> {
     return this.httpDataService.put(`profile/emailReports/${userId}`, payload);
   }
+  getUsersBySearchCriteria(payload:any): Observable<any>{
+    return this.httpDataService.post(`user/searchCriteria`, payload)
+  }
+ 
 
 }

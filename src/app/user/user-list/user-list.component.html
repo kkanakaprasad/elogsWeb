@@ -1,31 +1,72 @@
-<table mat-table [dataSource]="usersList" class="mat-elevation-z8 userTable" >
+<div class="text-end">
+  <button mat-raised-button color="primary" (click)=" openAddUser()">Add Users</button>
+</div>
+<mat-tab-group (selectedTabChange)="applyUserFilters($event)">
+  <mat-tab label={{filters.IS_ACTIVE}}>
+    <ng-template mat-tab-label>
+      <mat-icon>person_pin</mat-icon>
+      Active
+    </ng-template>
 
-    <ng-container matColumnDef="Name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
-    </ng-container>
-  
-    <!-- Name Column -->
-    <ng-container matColumnDef="Email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-    </ng-container>
-  
-    Weight Column
-    <ng-container matColumnDef="Organization">
-      <th mat-header-cell *matHeaderCellDef> Organizations </th>
-      <td mat-cell *matCellDef="let element"> </td>
-    </ng-container>
-  
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="Actions">
-      <th mat-header-cell *matHeaderCellDef> Actions </th>
-      <td mat-cell *matCellDef="let element"> </td>
-    </ng-container>
+  </mat-tab>
+  <mat-tab label={{filters.MY_PROFILE}}>
+    <ng-template mat-tab-label>
+      <mat-icon>person_outline</mat-icon>
+      Admin
+    </ng-template>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </mat-tab>
+  <mat-tab label={{filters.MINISTRIES}}>
+    <ng-template mat-tab-label>
+      <mat-icon>people</mat-icon>
+      Ministry/Department
+    </ng-template>
 
-  </table>
-  
-  
+  </mat-tab>
+
+  <mat-tab label={{filters.ASSOCIATION}}>
+    <ng-template mat-tab-label>
+      <mat-icon>group_add</mat-icon>
+      Association
+    </ng-template>
+  </mat-tab>
+  <mat-tab label={{filters.INACTIVE}}>
+    <ng-template mat-tab-label>
+      <mat-icon>not_interested</mat-icon>
+      Disabled
+    </ng-template>
+
+  </mat-tab>
+
+
+</mat-tab-group>
+
+<table mat-table [dataSource]="usersList" class="mat-elevation-z8 userTable">
+
+  <ng-container matColumnDef="Name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="Email">
+    <th mat-header-cell *matHeaderCellDef> Email </th>
+    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+  </ng-container>
+
+  Weight Column
+  <ng-container matColumnDef="Organization">
+    <th mat-header-cell *matHeaderCellDef> Organizations </th>
+    <td mat-cell *matCellDef="let element"> </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="Actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let element"> </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>

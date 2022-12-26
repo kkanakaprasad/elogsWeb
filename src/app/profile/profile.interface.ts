@@ -13,3 +13,16 @@ export interface CreateProfile{
     timeZone: string,
     profileImage: string
 }
+
+export interface UpdateProfileSearchCriteria{
+    pageNumber: number,
+    pageSize: number,
+    sortField: string,
+    sortOrder: number,
+    type: string,
+    isActive: boolean,
+    role: string,
+    userId: string,
+    user:string
+
+}
