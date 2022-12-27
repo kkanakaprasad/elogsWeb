@@ -36,7 +36,6 @@ import { ActivityComponent } from './activity/activity.component';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    OrganizationModule,
     HttpClientModule,
    
   ],

@@ -10,7 +10,7 @@ export class AddNewUserService {
   constructor(private matDialog: MatDialog) { }
   openAddUser() {
     return this.matDialog.open(AddNewUserComponent, { disableClose : true,
-      width: '500px'
+      width: '1000px'
     })
   }
 }

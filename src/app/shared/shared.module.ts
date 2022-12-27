@@ -4,7 +4,6 @@ import { FormsModule } from "@angular/forms";
 import { ActivityModule } from "../activity/activity.module";
 import { ConfirmationDialogModule } from "./confirmation-dialog/confirmation-dialog.module";
 import { CustomModelModule } from "./custom-model/custom-model.module";
-import { FileuploaderModule } from "./fileuploader/fileuploader.module";
 import { MaterialModule } from "./Modules/material/material.module";
 import { RichTextEditorModule } from "./rich-text-editor/rich-text-editor.module";
 
@@ -19,15 +18,15 @@ import { RichTextEditorModule } from "./rich-text-editor/rich-text-editor.module
       CustomModelModule,
       ConfirmationDialogModule,
       RichTextEditorModule,
-      FileuploaderModule
+
       
     ],
     exports : [
-        MaterialModule,
+      MaterialModule,
       CustomModelModule,
       ConfirmationDialogModule,
       RichTextEditorModule,
-      FileuploaderModule
+  
       
     ]
   })
