@@ -54,5 +54,11 @@ export class SideNavComponent implements OnInit {
   change(name: any) {
     this.page = name;
   }
+  navigateToAcitivities(){
+    this.router.navigate([RouteConstants.ACTIVITY])
+  }
+  navigateToActivity(){
+    this.router.navigate([RouteConstants.CREATEACTIVITY])
+  }
 
 }

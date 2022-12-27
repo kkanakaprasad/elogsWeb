@@ -1,1 +1,59 @@
-<p>activity works!</p>
+<div></div>
+<div class="text-end">
+    <span>
+        <div class="btn btn-secondary  mx-1" (click)="downloadFile()">
+
+            <i class="icon-taskdownl"></i>
+            <mat-icon>file_download</mat-icon>
+        </div>
+    </span>
+    <mat-form-field appearance="outline">
+        <mat-select placeholder="Filters">
+            <mat-option *ngFor="let option of filters" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <span class="mx-2">
+        <mat-form-field appearance="outline">
+            <mat-select placeholder="Group By">
+                <mat-option *ngFor="let option of groupby" [value]="option">
+                    {{option}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </span>
+    <span>
+        <mat-form-field appearance="outline">
+            <mat-select placeholder="Sort By">
+                <mat-option *ngFor="let option of sortby" [value]="option">
+                    {{option}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </span>
+</div>
+
+
+<mat-tab-group>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>assignment</mat-icon>
+            All Tasks
+        </ng-template>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>assignment_ind</mat-icon>
+            My Tasks
+        </ng-template>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>date_range</mat-icon>
+            Overdue
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>
+
+<!-- <router-outlet></router-outlet> -->

@@ -1,0 +1,93 @@
+<form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="documentation
+      ">Documentation
+        </mat-option>
+        <mat-option value="policy">Policy</mat-option>
+        <mat-option value="procedure">Procedure</mat-option>
+        <mat-option value="scheme">Scheme</mat-option>
+        <mat-option value="others">Others</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class=" d-flex">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Related To</mat-label>
+        <mat-select formControlName="relatedTo">
+          <mat-option value="Single Ministry/Department
+      ">Single Ministry/Department
+          </mat-option>
+          <mat-option value="Multiple Ministries/Departments">Multiple Ministries/Departments</mat-option>
+          <mat-option value="others">Others</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="mx-5">
+      <mat-form-field appearance="outline" class="w-100-per">
+        <mat-label>Ministry/Department</mat-label>
+        <mat-select formControlName="Ministry">
+          <mat-option *ngFor="let item of organizationsData" [value]="item._id">{{
+            item.organization
+            }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Entry Type</mat-label>
+      <mat-select formControlName="etype">
+        <mat-option value="Issue
+  ">Issue
+        </mat-option>
+        <mat-option value="Suggestion">Suggestion</mat-option>
+        <mat-option value="others">Others</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="d-flex">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Sector</mat-label>
+        <mat-select formControlName="Sector">
+          <mat-option value="EXIM
+  ">EXIM
+          </mat-option>
+          <mat-option value="Domestic">Domestic</mat-option>
+          <mat-option value="others">Others</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="mx-5">
+      <mat-form-field appearance="outline">
+        <mat-label>Scope</mat-label>
+        <mat-select formControlName="Scope">
+          <mat-option value="National">National</mat-option>
+          <mat-option value="Interstate">Interstate</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <div class="col-12">
+        <input matInput placeholder="Add an activity here & hit enter..." input type="text" formControlName="Title" />
+      </div>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">
+      Submit
+    </button>
+
+  </div>
+
+  <app-rich-text-editor></app-rich-text-editor>
+
+ 
