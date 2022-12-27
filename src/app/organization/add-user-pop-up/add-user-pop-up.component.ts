@@ -26,6 +26,7 @@ export class AddUserPopUpComponent implements OnInit {
   usersToSelectedOrganization:string[]=[];
   dataSourceUsers = new MatTableDataSource(this.organizationUsersData);
   organizationName: any;
+  organizationList: any;
 
 
   constructor(private addNewUserService: AddNewUserService,
@@ -84,6 +85,12 @@ export class AddUserPopUpComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
+  getAllOrganizationsSearchCriteria(payload: OrganizationSearchCriteria) {
+    this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
+      this.organizationList = res.organizations[0].organizations.reverse();
+    })
+  }
+
   getUsersOrgnationById() {
     const payload : OrganizationSearchCriteria = {
       pageNumber: 10000,
@@ -106,7 +113,6 @@ export class AddUserPopUpComponent implements OnInit {
   }
 
   selectedUsers(){
-    console.log(this.selection.selected);
     this.selection.selected.map((res:any)=>{
      console.log(res._id)
      this.usersToSelectedOrganization.push(res._id)
@@ -121,7 +127,7 @@ export class AddUserPopUpComponent implements OnInit {
         message: res.message,
         action: 'ok'
       })
-      this.getUsersOrgnationById()
+    
     }
       , (error) => {
         this.alertpopupService.open({

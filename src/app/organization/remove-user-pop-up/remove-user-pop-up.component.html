@@ -6,8 +6,16 @@
   <mat-card-content>
     <div class="d-flex justify-content-end">
       <mat-form-field appearance="outline">
-        <input matInput placeholder="Enter User Name" input type="text" />
+        <input matInput placeholder="Enter User Name" input type="text" [matAutocomplete]="auto" />
         <mat-icon matSuffix>search</mat-icon>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let Organization of organizationUsersData"
+            [value]="Organization.Name"
+          >
+            {{ Organization.Name }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
     <div class="row">

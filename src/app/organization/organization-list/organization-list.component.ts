@@ -55,7 +55,6 @@ export class OrganizationListComponent implements OnInit {
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
       this.organizationList = res.organizations[0].organizations.reverse();
 
-      console.log(this.organizationList)
     })
 
   }
