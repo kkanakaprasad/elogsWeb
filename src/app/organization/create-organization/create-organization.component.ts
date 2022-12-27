@@ -84,7 +84,6 @@ export class CreateOrganizationComponent implements OnInit {
   }
 
   onSubmit() {
-
     const payload: CreateOrganization = {
       ...this.createOrganizationForm.value,
       "isActive": true
