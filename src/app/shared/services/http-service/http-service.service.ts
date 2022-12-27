@@ -55,7 +55,7 @@ export class HttpDataService {
   delete(url : string){
     this.loadingCount = this.loadingCount+1;
     if (url) {
-      return this.httpClient.delete(`${environment.BASE_URL}${url}`).pipe(
+      return this.httpClient.delete(`${environment?.BASE_URL}${url}`).pipe(
         finalize(()=>{
           this.loadingCount = this.loadingCount -1;
         })

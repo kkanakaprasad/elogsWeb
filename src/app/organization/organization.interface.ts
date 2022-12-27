@@ -2,7 +2,7 @@ export interface CreateOrganization {
     type: string,
     shortName: string,
     organization: string,
-    isActive: true
+    isActive: boolean
 }
 
 export interface OrganizationSearchCriteria {
@@ -12,7 +12,9 @@ export interface OrganizationSearchCriteria {
     sortOrder: number,
     type: string,
     organization: string,
-    isActive: boolean,
-    userId:string
+    organizationId: string,
+    isActive?: boolean,
+    userId:string,
+    userSearch?: string,
 }
 
