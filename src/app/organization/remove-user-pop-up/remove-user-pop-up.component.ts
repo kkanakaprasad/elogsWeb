@@ -1,5 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, Inject } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
@@ -14,12 +15,15 @@ import { OrganizationService } from '../organization.service';
 export class RemoveUserPopUpComponent implements OnInit {
   selectedOrganizationId: string = '';
   organizationUsersData: any=[];
-  displayedColumns: string[] = ['select', 'Name', 'Email'];
+  displayedColumns: string[] = ['select', 'Name', 'Email','Email Notification'];
   dataSource = new MatTableDataSource(this.organizationUsersData);
   selection: any = new SelectionModel(true, []);
   userIds:any;
   userIdsArray:string[]=[]
   organizationName: any;
+  color: ThemePalette = 'accent';
+  checked = false;
+  disabled = false;
 
   constructor(private alertpopupService:AlertpopupService,
     private organizationService: OrganizationService,
