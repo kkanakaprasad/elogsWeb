@@ -19,6 +19,7 @@ export class RemoveUserPopUpComponent implements OnInit {
   selection: any = new SelectionModel(true, []);
   userIds:any;
   userIdsArray:string[]=[]
+  organizationName: any;
 
   constructor(private alertpopupService:AlertpopupService,
     private organizationService: OrganizationService,
@@ -47,7 +48,7 @@ export class RemoveUserPopUpComponent implements OnInit {
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
 
-      console.log(res.organizations[0].organizations[0].users) 
+      this.organizationName= res.organizations[0].organizations[0].organization
       this.organizationUsersData = res.organizations[0].organizations[0].users
       console.log(this.organizationUsersData);
       this.dataSource = new MatTableDataSource(this.organizationUsersData);

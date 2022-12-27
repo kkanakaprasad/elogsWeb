@@ -89,7 +89,7 @@
                     class="addButton"
                     mat-button
                     color="primary"
-                    (click)="disableAssociation(this.organization._id)"
+                    (click)="disableAssociation(this.organization._id,organization.organization)"
                   >
                     Disable
                   </button>
@@ -100,7 +100,7 @@
                   class="addButton"
                   mat-button
                   color="primary"
-                  (click)="removeUser(organization._id)"
+                  (click)="removeUser(organization._id,organization.organization)"
                 >
                   Delete
                 </button>
@@ -114,7 +114,7 @@
                   class="addButton"
                   mat-button
                   color="primary"
-                  (click)="removeUser(organization._id)"
+                  (click)="removeUser(organization._id,organization.organization)"
                 >
                   Delete User
                 </button>
