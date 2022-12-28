@@ -29,9 +29,11 @@ export class ProfileService {
   getProfileByUserId(userId: string): Observable<any> {
     return this.httpDataService.get(`profile/userId/${userId}`);
   }
+
   profileNotifications(userId: string, payload: any): Observable<any> {
     return this.httpDataService.post(`profile/notifications/${userId}`, payload);
   }
+
   updateNotifications(userId: string, payload: any): Observable<any> {
     return this.httpDataService.put(`profile/notifications/${userId}`, payload);
   }
@@ -39,9 +41,13 @@ export class ProfileService {
   updateEmailReport(userId: string, payload: any): Observable<any> {
     return this.httpDataService.put(`profile/emailReports/${userId}`, payload);
   }
-  getUsersBySearchCriteria(payload:any): Observable<any>{
+
+  getUsersBySearchCriteria(payload: any): Observable<any> {
     return this.httpDataService.post(`user/searchCriteria`, payload)
   }
- 
+
+  inActiveUser(userID: string, payload: any): Observable<any> {
+    return this.httpDataService.put(`user/${userID}`, payload)
+  }
 
 }

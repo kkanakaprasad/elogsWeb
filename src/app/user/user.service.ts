@@ -30,8 +30,12 @@ export class UserService {
   applyUserFilters(): Observable<any> {
     return this.httpdataService.get('organization-type');
   }
-  
+
   userSearchCriteria(payload: any): Observable<any> {
     return this.httpdataService.post('user/searchCriteria', payload);
+  }
+
+  removeOrganizationsfromUser(payload: any): Observable<any> {
+    return this.httpdataService.put('user/remove/OrganizationsfromUser', payload);
   }
 }

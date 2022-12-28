@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileSearchCriteria, UpdateProfileSearchCriteria } from 'src/app/profile/profile.interface';
 import { ProfileService } from 'src/app/profile/profile.service';
+import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog/confirmation-dialog.service';
 import { FILTER_CONSTANT } from 'src/app/shared/constants/filter.constants';
 import { organizationType } from 'src/app/shared/constants/organizationType';
 import { RouteConstants } from 'src/app/shared/constants/routes.constants';
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { AddNewUserService } from '../add-new-user/add-new-user.service';
 import { UserService } from '../user.service';
+import { RemoveOrgPopUpService } from './remove-org-pop-up/remove-org-pop-up.service';
 import { UserSearchCriteria } from './user-Interface';
 
 @Component({
@@ -19,7 +22,7 @@ export class UserListComponent implements OnInit {
   public usersList: any;
   filters = FILTER_CONSTANT
   userTypes: any;
-  userPayload : UserSearchCriteria = {
+  userPayload: UserSearchCriteria = {
     pageNumber: 0,
     pageSize: 50,
     sortField: "",
@@ -37,7 +40,9 @@ export class UserListComponent implements OnInit {
     private profileService: ProfileService,
     private storageService: StorageService,
     private router: Router,
-
+    private confirmationDialogService: ConfirmationDialogService,
+    private removeOrgPopUpService: RemoveOrgPopUpService,
+    private alertpopupService: AlertpopupService
   ) { }
 
   ngOnInit(): void {
@@ -46,7 +51,6 @@ export class UserListComponent implements OnInit {
 
   userSearchCriteria(payload: UserSearchCriteria) {
     this.userService.userSearchCriteria(payload).subscribe((res) => {
-      console.log(res);
       this.usersList = res.users[0].users;
     })
   }
@@ -57,12 +61,30 @@ export class UserListComponent implements OnInit {
     })
   }
 
-  removeOrganisation() {
-
+  removeOrganisation(userId: any) {
+    this.removeOrgPopUpService.removeOrgPopUp(userId).afterClosed().subscribe((res) => {
+      if (res)
+        this.userSearchCriteria(this.userPayload);
+    });
   }
 
-  disable() {
-
+  disableUser(userID: string) {
+    var obj = {
+      isActive: false
+    }
+    this.confirmationDialogService.open({
+      message: 'Are you sure want to disable!!'
+    }).afterClosed().subscribe((res) => {
+      if (res) {
+        this.profileService.inActiveUser(userID, obj).subscribe((res) => {
+          this.alertpopupService.open({
+            message: res.message,
+            action: 'ok'
+          })
+          this.userSearchCriteria(this.userPayload);
+        })
+      }
+    })
   }
 
   AddUser() {
@@ -72,9 +94,9 @@ export class UserListComponent implements OnInit {
   updateUserDetails(payload: UpdateProfileSearchCriteria) {
     this.profileService.getUsersBySearchCriteria(payload).subscribe((res) => {
       this.usersList = res.users[0].users
-      console.log(this.usersList)
     })
   }
+
   applyUserFilters(user: any) {
     if (Number(user.tab.textLabel) === FILTER_CONSTANT.IS_ACTIVE) {
       this.userPayload.isActive = true;
@@ -90,7 +112,6 @@ export class UserListComponent implements OnInit {
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
       this.userPayload.type = organizationType.MINISTRY
-      console.log(this.userPayload);
       this.updateUserDetails(this.userPayload);
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.ASSOCIATION) {
