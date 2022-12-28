@@ -31,6 +31,7 @@ export class OrganizationListComponent implements OnInit {
   }
   organizationTypes: any;
 
+
   constructor(private organizationService: OrganizationService,
     private masterDataService: MasterDataService,
     private addUserPopUpService: AddUserPopUpService,
@@ -55,7 +56,9 @@ export class OrganizationListComponent implements OnInit {
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
       this.organizationList = res.organizations[0].organizations.reverse();
 
+
     })
+
 
   }
 
@@ -110,12 +113,12 @@ export class OrganizationListComponent implements OnInit {
     this.removeUserPopUpService.removeUserPopUp(selectedOrganizationId);
   }
 
-  disableAssociation(organizationListId: string) {
+  disableAssociation(organizationListId: string, organizationName:string) {
 
     this.confirmationDialogService.open({
-      message: 'Are you Sure to Disable organization!!'
-    }).afterClosed().subscribe((res)=>{
-      if(res){
+      message: `Are you Sure to Disable ${organizationName}`
+    }).afterClosed().subscribe((res) => {
+      if (res) {
         this.organizationService.getorganizationById(organizationListId).subscribe(res => {
           console.log(res)
           const payload = {
@@ -140,14 +143,14 @@ export class OrganizationListComponent implements OnInit {
     })
 
 
-    
+
   }
 
   enableAssociation(organizationListId: string) {
     this.confirmationDialogService.open({
       message: 'Are you Sure to Enable User!!'
-    }).afterClosed().subscribe((res)=>{
-      if(res){
+    }).afterClosed().subscribe((res) => {
+      if (res) {
         this.organizationService.getorganizationById(organizationListId).subscribe(res => {
           console.log(res)
           const payload = {
@@ -169,38 +172,45 @@ export class OrganizationListComponent implements OnInit {
               })
             })
         })
-    
+
       }
     })
-    
+
   }
 
-  removeUser(organizationId: string) {
+  removeUser(organizationId: string, organizationName: string) {
 
     this.confirmationDialogService.open({
-      message: 'Are you Sure to Delete User'
+      message: `Are you Sure to Delete ${organizationName}`
     }).afterClosed().subscribe((res) => {
       if (res) {
-        this.organizationService.deleteUser(organizationId).subscribe(res => {
-          res
-          this.alertpopupService.open({
-            message: res.message,
-            action: 'ok'
-          })
-          this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
-        }, (error) => {
-          this.alertpopupService.open({
-            message: "Faild to create Organization! Please try again ",
-            action: 'ok'
-          })
-        }
-        )
+        this.confirmationDialogService.open({
+          message: `All the Activities, Files associated with ${organizationName} will be deleted permanently. `
+        }).afterClosed().subscribe((res) => {
+          if (res) {
+            this.organizationService.deleteUser(organizationId).subscribe(res => {
+              res
+              this.alertpopupService.open({
+                message: res.message,
+                action: 'ok'
+              })
+              this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+            }, (error) => {
+              this.alertpopupService.open({
+                message: "Faild to create Organization! Please try again ",
+                action: 'ok'
+              })
+            }
+            )
+          }
+
+        })
+
       }
-    })
-    
-  }
 
 
+    }
+  )}
 }
 
 
