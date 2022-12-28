@@ -18,56 +18,71 @@ import { UserService } from '../user/user.service';
 })
 export class HeaderComponent implements OnInit {
 
-  logedinUserDetails : UserDetails ={
+  logedinUserDetails: UserDetails = {
     Name: '',
     email: '',
     roles: ['']
   }
-  isSuperAdmin : boolean = false;
+  isSuperAdmin: boolean = false;
 
-  constructor(private organizationService:OrganizationService,
+  constructor(private organizationService: OrganizationService,
     private storageService: StorageService,
-    private confirmationDialogService :ConfirmationDialogService,
-    private router : Router,
-    private addNewUserService :AddNewUserService,
-    private userService:UserService,
-    private userDetailsService : UserDetailsService) { }
+    private confirmationDialogService: ConfirmationDialogService,
+    private router: Router,
+    private addNewUserService: AddNewUserService,
+    private userService: UserService,
+    private userDetailsService: UserDetailsService) { }
 
   ngOnInit(): void {
     this.userDetails();
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
   }
 
-  userDetails(){
-    this.userService.getUserById(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res:any)=>{
+  userDetails() {
+    this.userService.getUserById(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res: any) => {
       this.logedinUserDetails = res.existingUser;
       this.userDetailsService.setUserDetails(res.existingUser);
     })
   }
 
-  sidebarShow(){
+  sidebarShow() {
     const bodyElement = document.body;
     bodyElement.classList.toggle("toggle_sidebar");
 
   }
 
-  openCreateOrganizationPopup(){
+  openCreateOrganizationPopup() {
     this.organizationService.openCreateOrganizatioPopup();
   }
 
-  openCreateUserPopup(){
+  openCreateUserPopup() {
     this.addNewUserService.openAddUser();
   }
 
-  logout(){
+  logout() {
     this.confirmationDialogService.open({
       message: 'Are you Sure to Logout!!'
-    }).afterClosed().subscribe((res)=>{
-      if(res){
+    }).afterClosed().subscribe((res) => {
+      if (res) {
         this.storageService.clearLocalStorage();
         this.router.navigate([RouteConstants.HOME])
       }
     })
   }
+  profile() {
 
+    this.router.navigate([RouteConstants.PROFILE])
+  }
+
+  notifications() {
+    this.router.navigate([RouteConstants.PROFILE])
+  }
+  emailReports() {
+    this.router.navigate([RouteConstants.PROFILE])
+  }
+  changetab() {
+    this.router.navigate([RouteConstants.PROFILE])
+  }
 }
+
+

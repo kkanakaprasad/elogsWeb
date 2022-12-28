@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
 import { OrganizationService } from 'src/app/organization/organization.service';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
 import { REG_EXP_PATTERNS } from 'src/app/shared/enums/regex-pattern.enum';
 import { Roles } from 'src/app/shared/enums/roles.enums';
+import { UserSearchCriteria } from '../user-list/user-Interface';
 import { UserService } from '../user.service';
 
 
@@ -19,23 +21,60 @@ export class AddNewUserComponent implements OnInit {
   addNewUserForm!: FormGroup;
   organizationList: any;
   organizationsData: any;
+  isUserEdit : boolean = false;
+  userDetails:any;
 
   constructor(private formBuilder: FormBuilder,
     private organizationService: OrganizationService,
     private userService: UserService,
-    private alertpopupService: AlertpopupService) {
+    private alertpopupService: AlertpopupService,
+    public dialogref: MatDialogRef<AddNewUserComponent>,
+    @Inject(MAT_DIALOG_DATA) public userId : string
+    ) {
   }
 
   ngOnInit(): void {
+    if(this.userId){
+      this.isUserEdit = true;
+      this.userDetailsById();
+    }else{
+      this.isUserEdit = false;
+    }
     this.generateAddNewUserForm();
     this.getAllOrganization()
 
     this.addNewUserForm.controls['organization'].valueChanges.subscribe((res:any)=>{
       this.filterData(res);
-      console.log(res);
     })
 
   }
+
+  userDetailsById(){
+    const userPayload : UserSearchCriteria = {
+      pageNumber: 0,
+      pageSize: 50,
+      sortField: "",
+      sortOrder: 0,
+      type: "",
+      isActive: true,
+      role: "",
+      userId: this.userId,
+      user: ""
+    }
+    this.userService.userSearchCriteria(userPayload).subscribe((res)=>{
+      console.log(res);
+      this.userDetails = res.users[0].users;
+      this.addNewUserForm.controls['Name'].setValue(this.userDetails[0].Name),   
+      this.addNewUserForm.controls['password'].setValue(this.userDetails[0].password),
+      this.addNewUserForm.controls['email'].setValue(this.userDetails[0].email),
+      this.addNewUserForm.controls['organization'].setValue(this.userDetails[0].organization),
+      this.addNewUserForm.controls['departmentname'].setValue(this.userDetails[0].departmentname)
+      console.log(this.userDetails, "user list");
+    }, (error) => {
+      console.log(error);
+    })
+  }
+  
 
   filterData(searchString: string) {
     let resultArray :any = [];

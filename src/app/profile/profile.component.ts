@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
+import { FILTER_CONSTANT } from '../shared/constants/filter.constants';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { StorageService } from '../shared/services/storage-service/storage.service';
-import { CreateProfile } from './profile.interface';
+import { CreateProfile, UpdateProfileSearchCriteria } from './profile.interface';
 import { ProfileService } from './profile.service';
 
 @Component({
@@ -21,18 +22,24 @@ export class ProfileComponent implements OnInit {
   userId: any;
   notifications: any
 
+
+
+  userTypes: any;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private profileService: ProfileService,
     private storageService: StorageService,
-    private alertpopupService: AlertpopupService
+    private alertpopupService: AlertpopupService,
+
+
   ) { }
 
   ngOnInit(): void {
     this.getProfileByUserId();
     this.profileFormValues();
     this.getUserByUserID();
+
   }
 
 
@@ -53,6 +60,7 @@ export class ProfileComponent implements OnInit {
       this.profileForm.controls['email'].setValue(this.loggedInUserDetails.email);
     })
   }
+
 
   getProfileByUserId() {
     this.profileService.getProfileByUserId(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res: any) => {
@@ -107,13 +115,22 @@ export class ProfileComponent implements OnInit {
     console.log(payload);
   }
 
+
+  getAllUsers() {
+    this.profileService.getUser().subscribe(res => {
+      this.userTypes = res
+    })
+  }
+
   onSubmit() {
     console.log(this.profileForm.value);
     this.createProfile();
   }
 
-
 }
+
+
+
 
 
 

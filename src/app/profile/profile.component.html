@@ -1,6 +1,11 @@
 <div class="page-wrapper">
     <mat-tab-group>
-        <mat-tab label="My Profile">
+        <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>notifications_active</mat-icon>
+              Active
+             </ng-template>
+        <!-- <mat-tab label="My Profile"> -->
             <div>
                 <div class="select">
                     <form [formGroup]='profileForm' (ngSubmit)="onSubmit()">
@@ -55,21 +60,47 @@
 
             </div>
         </mat-tab>
-        <mat-tab label="ChangePassword">
+        <mat-tab>
+            <ng-template mat-tab-label (click)=(filters.ChangePassword)>
+              <mat-icon>lock_open</mat-icon>
+              ChangePassword
+             </ng-template>
             <div>
                 <app-changepassword [logedinUserEmail]="loggedInUserDetails"></app-changepassword>
             </div>
-        </mat-tab>
-        <mat-tab  label="Notifications">
+          </mat-tab>
+        <!-- <mat-tab label="ChangePassword">
+            <div>
+                <app-changepassword [logedinUserEmail]="loggedInUserDetails"></app-changepassword>
+            </div>
+        </mat-tab> -->
+        <mat-tab>
+            <ng-template mat-tab-label (click)="applyUserFilters(filters.Notifications)">
+              <mat-icon>wb_incandescent</mat-icon>
+              Notifications
+             </ng-template>
+             <div>
+                <app-notifications [notifications]="notifications" [loggedInUserDetails]="loggedInUserDetails"></app-notifications>
+            </div>
+          </mat-tab>
+        <!-- <mat-tab  label="Notifications">
             <div>
                 <app-notifications [notifications]="notifications" [loggedInUserDetails]="loggedInUserDetails"></app-notifications>
             </div>
-        </mat-tab>
-
-        <mat-tab label="Email Reports">
+        </mat-tab> -->
+        <mat-tab>
+            <ng-template mat-tab-label (click)="applyUserFilters(filters.EmailReports)">
+              <mat-icon>email</mat-icon>
+              Email Reports
+             </ng-template>
+             <div>
+                <app-notifications [notifications]="notifications" [loggedInUserDetails]="loggedInUserDetails"></app-notifications>
+            </div>
+          </mat-tab>
+        <!-- <mat-tab label="Email Reports">
             <div>
                 <app-email-reports [emailReportsData]="emailReports" [loggedInUserDetails]="loggedInUserDetails"></app-email-reports>
             </div>
-        </mat-tab>
+        </mat-tab> -->
     </mat-tab-group>
 </div>
