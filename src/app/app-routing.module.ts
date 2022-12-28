@@ -52,7 +52,16 @@ const routes: Routes = [
           roles:[Roles.SuperAdmin,Roles.User]
         },
         loadChildren:() => import('./profile/profile.module').then(m=>m.ProfileModule)
+      },
+      {
+        path:RouteConstants.ACTIVITY,
+        data:{
+          roles:[Roles.Organisation,Roles.User]
+        },
+        loadChildren:() => import('./activity/activity.module').then(m=>m.ActivityModule)
       }
+      
+      
     ]
   }
 ];

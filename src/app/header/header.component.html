@@ -5,15 +5,14 @@
             <img src="https://elogs.cxipl.com/img/gatishakti-logo-login-h.png" alt="">
         </a>
         <span (click)="sidebarShow()" class="hamburger"><i class="material-icons toggle-sidebar-btn">dehaze</i></span>
-    </div><!-- End Logo -->
-
+    </div>
     <div class="search-bar">
         <form class="search-form d-flex align-items-center" method="POST" action="#">
             <input type="text" name="query" placeholder="Search" title="Enter search keyword">
             <button type="submit" title="Search">
                 <i class="material-icons">search</i></button>
         </form>
-    </div><!-- End Search Bar -->
+    </div>
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
@@ -22,40 +21,28 @@
                 <a class="nav-link nav-icon search-bar-toggle " href="#">
                     <i class="material-icons">search </i>
                 </a>
-            </li><!-- End Search Icon-->
-
-           <!-- <li class="nav-item dropdown">
-
-                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                    <i class="material-icons">notifications</i>
-                    <span class="badge bg-primary badge-number">4</span>
-                </a>
             </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                    <i class="material-icons">chat</i>
-                    <span class="badge bg-success badge-number">3</span>
-                </a>
-            </li> -->
             <li *ngIf="isSuperAdmin">
-                <button mat-button [matMenuTriggerFor]="menu" class="primary">Add</button>
-                <mat-menu #menu="matMenu">
+                <button mat-button [matMenuTriggerFor]="profilemenu" class="primary">Add</button>
+                <mat-menu #profilemenu="matMenu">
                     <button mat-menu-item (click)="openCreateOrganizationPopup()">Organization</button>
                     <button mat-menu-item (click)="openCreateUserPopup()">User</button>
                 </mat-menu>
             </li>
             <li class="nav-item dropdown pe-3">
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown" [matMenuTriggerFor]="profileMenu">
-                    <!-- <img src="../../assets/images/profile2.jpg" alt="Profile" class="rounded-circle"> -->
-                    <mat-icon>account_circle</mat-icon>
-                    <span class="d-none d-md-block dropdown-toggle ps-2">{{logedinUserDetails.Name  | titlecase }}</span>
-                </a><!-- End Profile Iamge Icon -->
-
-                <mat-menu #profileMenu="matMenu">
-                    <button mat-menu-item (click)="logout()">Logout</button>
-                </mat-menu>
-            </li><!-- End Profile Nav -->
+                
+                <li *ngIf="isSuperAdmin">
+                    
+                    <button mat-button [matMenuTriggerFor]="profilemenu" class="primary"><mat-icon >account_circle</mat-icon></button>
+                    <mat-menu #profilemenu="matMenu">
+                        <h3>Personal Settings</h3>
+                        <button mat-menu-item (click)="profile()">Profile</button>
+                        <button mat-menu-item (click)="notifications()">Notifications</button>
+                        <button mat-menu-item (click)="emailReports()">EmailReports</button>
+                        <button mat-menu-item (click)="logout()">LogOut</button>
+                    </mat-menu>
+                </li>
+          
         </ul>
-    </nav><!-- End Icons Navigation -->
-</header><!-- End Header -->
+    </nav>
+</header>

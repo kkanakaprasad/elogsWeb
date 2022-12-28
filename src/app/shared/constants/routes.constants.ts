@@ -3,5 +3,7 @@ export const RouteConstants = {
     HOME : 'home',
     ORAGANIZATION_LIST : 'organization-list',
     USER_LIST : 'user-list',
-    PROFILE:'profile'
+    PROFILE:'profile',
+    ACTIVITY:'activity',
+    CREATEACTIVITY:'activity/create'
 }

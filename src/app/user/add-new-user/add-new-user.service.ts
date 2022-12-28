@@ -8,9 +8,14 @@ import { AddNewUserComponent } from './add-new-user.component';
 export class AddNewUserService {
 
   constructor(private matDialog: MatDialog) { }
+
   openAddUser() {
     return this.matDialog.open(AddNewUserComponent, { disableClose : true,
-      width: '1000px'
+      width: '800px'
     })
+  }
+
+  openUpdateUserPopup(userId : string){
+    return this.matDialog.open(AddNewUserComponent,{disableClose : true, width : '800px', data : userId})
   }
 }
