@@ -13,4 +13,7 @@ constructor(private httpDataService:HttpDataService) { }
 getAllActivities(): Observable<any>{
  return this.httpDataService.get('activity-type')
 }
+createActivity(payload:any): Observable<any>{
+  return this.httpDataService.post('activity-type',payload);
+}
 }

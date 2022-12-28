@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { UpdateProfileSearchCriteria } from 'src/app/profile/profile.interface';
+import { Router } from '@angular/router';
+import { ProfileSearchCriteria, UpdateProfileSearchCriteria } from 'src/app/profile/profile.interface';
 import { ProfileService } from 'src/app/profile/profile.service';
 import { FILTER_CONSTANT } from 'src/app/shared/constants/filter.constants';
+import { organizationType } from 'src/app/shared/constants/organizationType';
+import { RouteConstants } from 'src/app/shared/constants/routes.constants';
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { AddNewUserService } from '../add-new-user/add-new-user.service';
 import { UserService } from '../user.service';
+import { UserSearchCriteria } from './user-Interface';
 
 @Component({
   selector: 'app-user-list',
@@ -13,10 +17,9 @@ import { UserService } from '../user.service';
 })
 export class UserListComponent implements OnInit {
   public usersList: any;
-  public allusersList: any;
   filters = FILTER_CONSTANT
   userTypes: any;
-  userPayload: UpdateProfileSearchCriteria = {
+  userPayload : UserSearchCriteria = {
     pageNumber: 0,
     pageSize: 50,
     sortField: "",
@@ -27,57 +30,104 @@ export class UserListComponent implements OnInit {
     userId: "",
     user: ""
   }
+
   displayedColumns = ['Name', 'Email', 'Organization', 'Actions']
-  constructor(private UserService: UserService,
+  constructor(private userService: UserService,
     private addNewUserService: AddNewUserService,
     private profileService: ProfileService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router,
+
   ) { }
 
   ngOnInit(): void {
-    this.getAllUsers()
+    this.userSearchCriteria(this.userPayload);
   }
-  getAllUsers() {
-    this.UserService.getAllUsers().subscribe((res) => {
-      this.allusersList = res.data;
-      this.usersList = res.data;
+
+  userSearchCriteria(payload: UserSearchCriteria) {
+    this.userService.userSearchCriteria(payload).subscribe((res) => {
+      console.log(res);
+      this.usersList = res.users[0].users;
     })
   }
- 
-  openAddUser() {
+
+  edit(userId: string) {
+    this.addNewUserService.openUpdateUserPopup(userId).afterClosed().subscribe((res) => {
+      console.log(res);
+    })
+  }
+
+  removeOrganisation() {
+
+  }
+
+  disable() {
+
+  }
+
+  AddUser() {
     this.addNewUserService.openAddUser();
   }
 
   updateUserDetails(payload: UpdateProfileSearchCriteria) {
-
     this.profileService.getUsersBySearchCriteria(payload).subscribe((res) => {
       this.usersList = res.users[0].users
-      console.log(res)
+      console.log(this.usersList)
     })
   }
-  applyUserFilters(e: any) {
-    if (Number(e.tab.textLabel) === FILTER_CONSTANT.IS_ACTIVE) {
-      this.usersList = this.allusersList.filter((x: any) => x.isActive === true)
-    }
-    else if (Number(e.tab.textLabel) === FILTER_CONSTANT.MY_PROFILE) {
-      var userId = this.storageService.getDataFromLocalStorage('user_id');
-      this.usersList = this.allusersList.filter((x: any) => x._id === userId)
-    }
-    else if (Number(e.tab.textLabel) === FILTER_CONSTANT.INACTIVE) {
-      this.usersList = this.allusersList.filter((x: any) => x.isActive === false)
-    }
-    else if (Number(e.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
-      this.userPayload.type = '63973bfb61ab6f49bfdd3c35'
+  applyUserFilters(user: any) {
+    if (Number(user.tab.textLabel) === FILTER_CONSTANT.IS_ACTIVE) {
+      this.userPayload.isActive = true;
       this.updateUserDetails(this.userPayload);
-       this.usersList = this.allusersList.filter((x: any) => x.isActive === false)
     }
-    else if (Number(e.tab.textLabel) === FILTER_CONSTANT.ASSOCIATION) {
-   
-      this.userPayload.type = '63973c8961ab6f49bfdd3c38'
+    else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MY_PROFILE) {
+      this.userPayload.role = organizationType.SUPERADMIN;
       this.updateUserDetails(this.userPayload);
-       this.usersList = this.allusersList.filter((x: any) => x.isActive === false)
     }
-  }
+    else if (Number(user.tab.textLabel) === FILTER_CONSTANT.INACTIVE) {
+      this.userPayload.isActive = false;
+      this.updateUserDetails(this.userPayload);
+    }
+    else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
+      this.userPayload.type = organizationType.MINISTRY
+      console.log(this.userPayload);
+      this.updateUserDetails(this.userPayload);
+    }
+    else if (Number(user.tab.textLabel) === FILTER_CONSTANT.ASSOCIATION) {
+      this.userPayload.type = organizationType.ASSOCIATION
+      this.updateUserDetails(this.userPayload);
+    }
 
+    // switch (Number(user.tab.textLabel)) {
+    //   case FILTER_CONSTANT.IS_ACTIVE: {
+    //     this.userPayload.isActive = true;
+    //     this.updateUserDetails(this.userPayload);
+    //     break;
+    //   }
+    //   case FILTER_CONSTANT.INACTIVE: {
+    //     this.userPayload.isActive = false;
+    //     this.updateUserDetails(this.userPayload);
+    //     break;
+    //   }
+    //   case FILTER_CONSTANT.MY_PROFILE: {
+    //     this.userPayload.role = organizationType.SUPERADMIN;
+    //     this.updateUserDetails(this.userPayload);
+    //     break;
+    //   }
+    //   case FILTER_CONSTANT.MINISTRIES: {
+    //     this.userPayload.role = organizationType.MINISTRY;
+    //     this.updateUserDetails(this.userPayload);
+    //     break;
+    //   }
+    //   case FILTER_CONSTANT.ASSOCIATION: {
+    //     this.userPayload.role = organizationType.ASSOCIATION;
+    //     this.updateUserDetails(this.userPayload);
+    //     break;
+    //   }
+    //   default: {
+    //     break;
+    //   }
+    // }
+  }
 
 }

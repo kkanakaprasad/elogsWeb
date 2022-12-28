@@ -23,8 +23,8 @@
                 </a>
             </li>
             <li *ngIf="isSuperAdmin">
-                <button mat-button [matMenuTriggerFor]="menu" class="primary">Add</button>
-                <mat-menu #menu="matMenu">
+                <button mat-button [matMenuTriggerFor]="profilemenu" class="primary">Add</button>
+                <mat-menu #profilemenu="matMenu">
                     <button mat-menu-item (click)="openCreateOrganizationPopup()">Organization</button>
                     <button mat-menu-item (click)="openCreateUserPopup()">User</button>
                 </mat-menu>
@@ -33,8 +33,8 @@
                 
                 <li *ngIf="isSuperAdmin">
                     
-                    <button mat-button [matMenuTriggerFor]="menu" class="primary"><mat-icon >account_circle</mat-icon></button>
-                    <mat-menu #menu="matMenu">
+                    <button mat-button [matMenuTriggerFor]="profilemenu" class="primary"><mat-icon >account_circle</mat-icon></button>
+                    <mat-menu #profilemenu="matMenu">
                         <h3>Personal Settings</h3>
                         <button mat-menu-item (click)="profile()">Profile</button>
                         <button mat-menu-item (click)="notifications()">Notifications</button>

@@ -14,7 +14,9 @@ import { SideNavComponent } from './side-nav/side-nav.component';
 import { OrganizationModule } from './organization/organization.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileModule } from './profile/profile.module';
+import { ActivityModule } from './activity/activity.module';
 import { ActivityComponent } from './activity/activity.component';
+
 
 
 
@@ -26,7 +28,6 @@ import { ActivityComponent } from './activity/activity.component';
     LoginComponent,
     HeaderComponent,
     SideNavComponent,
-    ActivityComponent,
     
   ],
   imports: [

@@ -2,10 +2,10 @@ export interface ProfileSearchCriteria {
     sortField: string,
     type: string,
     profile: string,
-    isActive: boolean
+    isActive: boolean,
 }
 
-export interface CreateProfile{
+export interface CreateProfile {
     userId: string,
     Name: string,
     email: string,
@@ -14,7 +14,7 @@ export interface CreateProfile{
     profileImage: string
 }
 
-export interface UpdateProfileSearchCriteria{
+export interface UpdateProfileSearchCriteria {
     pageNumber: number,
     pageSize: number,
     sortField: string,
@@ -24,5 +24,4 @@ export interface UpdateProfileSearchCriteria{
     role: string,
     userId: string,
     user:string
-
 }

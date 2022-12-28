@@ -57,7 +57,7 @@ export class SideNavComponent implements OnInit {
   navigateToAcitivities(){
     this.router.navigate([RouteConstants.ACTIVITY])
   }
-  navigateToActivity(){
+  navigateToCreateActivity(){
     this.router.navigate([RouteConstants.CREATEACTIVITY])
   }
 

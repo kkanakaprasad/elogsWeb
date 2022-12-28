@@ -39,6 +39,7 @@
           input
           type="text"
           formControlName="email"
+          [readonly]=isUserEdit
         />
         <mat-error *ngIf="addNewUserForm.get('email')?.hasError('pattern')">
           Please enter a valid email address
@@ -74,7 +75,7 @@
           placeholder="Department Name"
           input
           type="text"
-          formControlName="department"
+          formControlName="departmentname"
         />
       </mat-form-field>
     </div>

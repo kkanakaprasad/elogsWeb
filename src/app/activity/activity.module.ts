@@ -5,12 +5,14 @@ import { ActivityRoutingModule } from './activity-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { CreateactivityComponent } from './createactivity/createactivity.component';
+import { ActivityComponent } from './activity.component';
 
 
 
 @NgModule({
   declarations: [
-    CreateactivityComponent
+    CreateactivityComponent,
+    ActivityComponent
   ],
   imports: [
     CommonModule,

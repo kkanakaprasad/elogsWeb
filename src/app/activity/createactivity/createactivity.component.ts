@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from 'ngx-editor';
 import { OrganizationService } from 'src/app/organization/organization.service';
+import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { ActivityService } from '../activity.service';
+
 
 
 @Component({
@@ -18,6 +21,8 @@ export class CreateactivityComponent implements OnInit {
   constructor(
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
+    private activityService:ActivityService,
+    private alertpopupService:AlertpopupService,
   ) { }
 
   ngOnInit() {
@@ -32,7 +37,7 @@ export class CreateactivityComponent implements OnInit {
       console.log(this.allOrganization)
       this.organizationList = res.organizations
     })
-    // console.log(activityForm.value | JSON)
+    
 
   }
 
@@ -49,9 +54,22 @@ export class CreateactivityComponent implements OnInit {
     })
 
   }
+
+  createAcyivity(payload:any){
+    // const payload:CreateActivity={
+    //   ...this.activityForm.value,
+      this.activityService.createActivity(payload).subscribe((res) => {
+        this.alertpopupService.open({
+          message: res.message ? res.message : 'Activity Created Successfully',
+          action: 'ok'
+        })
+      })
+  }
+  
   onSubmit() {
 
-    console.log(this.activityForm.value)
+    console.log(this.activityForm.value);
+   // this.createAcyivity();
   }
 
   
