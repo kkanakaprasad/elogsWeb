@@ -20,7 +20,7 @@
                         <div>
                             <mat-form-field appearance="outline">
                                 <mat-label>Email</mat-label>
-                                <input matInput placeholder="Email" input type="text" formControlName="email" />
+                                <input matInput placeholder="Email" input type="text" formControlName="email" readonly/>
                             </mat-form-field>
                         </div>
 
@@ -42,13 +42,13 @@
                             </label>
                         </div>
 
-                        <div class="d-flex justify-content-start">
-                            <button mat-raised-button class="btn" color="primary" type="submit">
-                                Save
-                            </button>
-
+                        <div class="d-flex justify-content-end">
                             <button mat-raised-button class="btn" mat-dialog-close="true">
                                 Cancel
+                            </button>
+
+                            <button mat-raised-button class="btn" color="primary" type="submit">
+                                Save
                             </button>
                         </div>
                     </form>
@@ -58,7 +58,7 @@
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label (click)=(filters.ChangePassword)>
-                <mat-icon >lock_open</mat-icon>
+                <mat-icon>lock_open</mat-icon>
                 ChangePassword
             </ng-template>
             <div>
@@ -73,7 +73,7 @@
             </ng-template>
             <div>
                 <app-notifications [notifications]="notifications"
-                    [loggedInUserDetails]="loggedInUserDetails"></app-notifications>
+                    [loggedInUserDetails]="loggedInUserDetails" (triggerProfile)="getProfileByUserId()"></app-notifications>
             </div>
         </mat-tab>
 
@@ -83,8 +83,7 @@
                 Email Reports
             </ng-template>
             <div>
-                <app-notifications [notifications]="notifications"
-                    [loggedInUserDetails]="loggedInUserDetails"></app-notifications>
+                <app-email-reports [emailReportsData]="emailReports" [loggedInUserDetails]="loggedInUserDetails" (triggerProfile)="getProfileByUserId()"></app-email-reports>
             </div>
         </mat-tab>
     </mat-tab-group>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { OrganizationService } from '../organization/organization.service';
 import { RouteConstants } from '../shared/constants/routes.constants';
 import { Roles } from '../shared/enums/roles.enums';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
@@ -25,7 +26,8 @@ export class SideNavComponent implements OnInit {
 
   constructor(private userDetailsService:UserDetailsService, 
     private storageService:StorageService,
-    private router : Router) { }
+    private router : Router,
+    private organizationService : OrganizationService) { }
 
   ngOnInit(): void {
     this.getLogedInUserDeatils()
@@ -54,11 +56,17 @@ export class SideNavComponent implements OnInit {
   change(name: any) {
     this.page = name;
   }
+
   navigateToAcitivities(){
     this.router.navigate([RouteConstants.ACTIVITY])
   }
+
   navigateToCreateActivity(){
     this.router.navigate([RouteConstants.CREATEACTIVITY])
+  }
+
+  openCreateOrganizationPopup() {
+    this.organizationService.openCreateOrganizatioPopup();
   }
 
 }

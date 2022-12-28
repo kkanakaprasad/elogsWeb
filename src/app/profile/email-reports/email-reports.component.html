@@ -1,34 +1,59 @@
 <h1>Send me Email Reports</h1>
 <mat-radio-group aria-label="Select an option">
     <form [formGroup]='emailRepotsForm' (ngSubmit)="onSubmit()">
+
         <mat-radio-group aria-label formControlName="weeklyUsage">
-            <mat-label>Weekly Usage:</mat-label>
-            <mat-radio-button value="Yes">YES</mat-radio-button>
-            <mat-radio-button value="No">NO</mat-radio-button>
+            <div class="row mb-3">
+                <mat-label class="col-sm-2 col-form-label">Weekly Usage:</mat-label>
+                <div class="col-sm-10">
+                    <mat-radio-button [value]=true>Yes</mat-radio-button>
+                    <mat-radio-button [value]=false>No</mat-radio-button>
+                </div>
+            </div>
         </mat-radio-group>
-        <br>
+
         <mat-radio-group aria-label formControlName="activityStatus">
-            <mat-label>Activity Status:</mat-label>
-            <mat-radio-button (change)="activityChange($event)" value="Daily">Daily</mat-radio-button>
-            <mat-radio-button (change)="activityChange($event)" value="Weekly">Weekly</mat-radio-button>
-            <mat-radio-button (change)="activityChange($event)" value="Monthly">Monthly</mat-radio-button>
-            <mat-radio-button (change)="activityChange($event)" value="None">None</mat-radio-button>
+            <div class="row mb-3">
+                <mat-label class="col-sm-2 col-form-label">Activity Status:</mat-label>
+                <div class="col-sm-10">
+            <mat-radio-button value="Daily">Daily</mat-radio-button>
+            <mat-radio-button value="Weekly">Weekly</mat-radio-button>
+            <mat-radio-button value="Monthly">Monthly</mat-radio-button>
+            <mat-radio-button value="None">None</mat-radio-button>
+                </div>
+            </div>
         </mat-radio-group>
-        <br>
+
         <mat-radio-group aria-label formControlName="activitydue">
-            <mat-label>Activity Due (daily):</mat-label>
-            <mat-radio-button value="Yes">Yes</mat-radio-button>
-            <mat-radio-button value="No">No</mat-radio-button>
+            <div class="row mb-3">
+                <mat-label class="col-sm-2 col-form-label">Activity Due (daily):</mat-label>
+                <div class="col-sm-10">
+                    <mat-radio-button [value]=true>Yes</mat-radio-button>
+                    <mat-radio-button [value]=false>No</mat-radio-button>
+                </div>
+            </div>
         </mat-radio-group>
+
+        <h1>Daily Update Report</h1>
+
         <mat-radio-group aria-label formControlName="sendMeEmail">
-            <h1>Daily Update Report</h1>
-            <mat-label>Send me Email:</mat-label>
-            <mat-radio-button value="Yes">Yes</mat-radio-button>
-            <mat-radio-button value="No">NO</mat-radio-button>
+            <div class="row mb-3">
+                <mat-label class="col-sm-2 col-form-label">Send me Email:</mat-label>
+                <div class="col-sm-10">
+                    <mat-radio-button [value]=true>Yes</mat-radio-button>
+                    <mat-radio-button [value]=false>No</mat-radio-button>
+                </div>
+            </div>
         </mat-radio-group>
-        <div class="d-flex btn justify-content-start">
-            <button type="submit" mat-raised-button> Update </button>
-            <button type="button" mat-raised-button color="primary">CANCEL</button>
+
+        <div class="d-flex justify-content-end align-items-center">
+            <button type="submit" mat-raised-button class="btn" >
+                CANCEL
+            </button>
+            <button type="submit" mat-raised-button  color="primary" class="btn" >
+                Update
+            </button>
+            
         </div>
     </form>
 </mat-radio-group>
