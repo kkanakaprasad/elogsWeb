@@ -1,30 +1,54 @@
 <h1>Send me Email Notifications</h1>
 <mat-radio-group aria-label="Select an option">
-    <form [formGroup]='notificationRepotsForm' (ngSubmit)="onSubmit()">
-        <mat-radio-group aria-label formControlName="allnewactivity" layout="row">
-            <mat-label>All New Activity:</mat-label>
-            <mat-radio-button [checked]='true' value="Yes">Yes</mat-radio-button>
-            <mat-radio-button value="No">No</mat-radio-button>
-        </mat-radio-group>
-        <br>
-        <mat-radio-group aria-label formControlName="allnewactivityreply" layout="row">
-            <mat-label>All Activity Reply & Comment:</mat-label>
-            <mat-radio-button [checked]='true' value="Yes">Yes</mat-radio-button>
-            <mat-radio-button value="No">No</mat-radio-button>
-        </mat-radio-group>
-        <br>
-        <mat-radio-group aria-label formControlName="allactivitystatus" layout="row">
-            <mat-label>All Activity Status Change:</mat-label>
-            <mat-radio-button [checked]='true' value="Yes">Yes</mat-radio-button>
-            <mat-radio-button value="No">No</mat-radio-button>
-        </mat-radio-group>
-        <div class="d-flex btn justify-content-start">
-            <button type="submit" mat-raised-button>
-                Update
-            </button>
-            <button type="button" mat-raised-button color="primary">
-                CANCEL
-            </button>
+  <form [formGroup]="notificationRepotsForm" (ngSubmit)="onSubmit()">
+    <mat-radio-group aria-label formControlName="allnewactivity" layout="row">
+      <div class="row mb-3">
+        <mat-label class="col-sm-3 col-form-label">All New Activity:</mat-label>
+        <div class="col-sm-8">
+          <mat-radio-button [value]=true>Yes</mat-radio-button>
+          <mat-radio-button [value]=false>No</mat-radio-button>
         </div>
-    </form>
+      </div>
+    </mat-radio-group>
+    <mat-radio-group
+      aria-label
+      formControlName="allnewactivityreply"
+      layout="row">
+    <div class="row mb-3">
+      <mat-label class="col-sm-3 col-form-label">All Activity Reply & Comment:</mat-label>
+      <div class="col-sm-8">
+        <mat-radio-button  [value]=true>Yes</mat-radio-button>
+        <mat-radio-button [value]=false>No</mat-radio-button>
+      </div>
+    </div>
+    </mat-radio-group>
+    <mat-radio-group
+      aria-label
+      formControlName="allactivitystatus"
+      layout="row"
+    >
+    <div class="row mb-3">
+      <mat-label class="col-sm-3 col-form-label">All Activity Status Change:</mat-label>
+      <div class="col-sm-8">
+        <mat-radio-button [value]=true>Yes</mat-radio-button>
+        <mat-radio-button [value]=false>No</mat-radio-button>
+      </div>
+    </div>
+    </mat-radio-group>
+    <div class="d-flex justify-content-end align-items-center">
+        <button
+       class="btn"
+        mat-raised-button
+      >
+        CANCEL
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+      >
+        Update
+      </button>      
+    </div>
+  </form>
 </mat-radio-group>

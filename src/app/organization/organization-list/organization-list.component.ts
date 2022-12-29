@@ -55,33 +55,29 @@ export class OrganizationListComponent implements OnInit {
   getAllOrganizationsSearchCriteria(payload: OrganizationSearchCriteria) {
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
       this.organizationList = res.organizations[0].organizations.reverse();
-
-
     })
-
-
   }
 
-  applyOrganizationFilters(type: number) {
+  applyOrganizationFilters(user: any) {
     let updatedPayload = this.organizationListPayload;
-    if (FILTER_CONSTANT.MINISTRIES === type) {
+    if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
       updatedPayload = {
         ...updatedPayload,
         isActive: true,
         type: this.organizationTypes[FILTER_CONSTANT.MINISTRIES]._id
       }
-    } else if (FILTER_CONSTANT.IS_ACTIVE === type) {
+    } else if (Number(user.tab.textLabel) === FILTER_CONSTANT.IS_ACTIVE) {
       updatedPayload = {
         ...updatedPayload,
         isActive: true
       }
-    } else if (FILTER_CONSTANT.ASSOCIATION === type) {
+    } else if (Number(user.tab.textLabel) === FILTER_CONSTANT.ASSOCIATION) {
       updatedPayload = {
         ...updatedPayload,
         isActive: true,
         type: this.organizationTypes[FILTER_CONSTANT.ASSOCIATION]._id
       }
-    } else if (FILTER_CONSTANT.INACTIVE === type) {
+    } else if (Number(user.tab.textLabel) === FILTER_CONSTANT.INACTIVE) {
       updatedPayload = {
         ...updatedPayload,
         isActive: false
@@ -91,12 +87,15 @@ export class OrganizationListComponent implements OnInit {
     this.getAllOrganizationsSearchCriteria(updatedPayload);
   }
 
-  updateOrganizationList(organizationId: string) {
-    this.organizationService.updateOrganizatioPopup(organizationId)
+  updateOrganization(organizationId: string) {
+    this.organizationService.updateOrganizatioPopup(organizationId).afterClosed().subscribe((res)=>{
+      if(res){
+        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+      }
+    })
   }
 
-  addOrganizationList() {
-
+  createOrganization() {
     this.organizationService.openCreateOrganizatioPopup().afterClosed().subscribe((res) => {
       if (res) {
         this.getAllOrganizationsSearchCriteria(this.organizationListPayload)
@@ -106,27 +105,33 @@ export class OrganizationListComponent implements OnInit {
   }
 
   openAddUserPopup(selectedOrganizationId: string) {
-    this.addUserPopUpService.openAddUser(selectedOrganizationId);
+    this.addUserPopUpService.openAddUser(selectedOrganizationId).afterClosed().subscribe((res)=>{
+      if(res){
+        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+      }
+    });
   }
 
-  removeUserPopup(selectedOrganizationId: string) {
-    this.removeUserPopUpService.removeUserPopUp(selectedOrganizationId);
+  openRemoveUserPopup(selectedOrganizationId: string) {
+    this.removeUserPopUpService.removeUserPopUp(selectedOrganizationId).afterClosed().subscribe((res)=>{
+      if(res){
+        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+      }
+      console.log(res);
+    });
   }
 
   disableAssociation(organizationListId: string, organizationName:string) {
-
     this.confirmationDialogService.open({
       message: `Are you Sure to Disable ${organizationName}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.organizationService.getorganizationById(organizationListId).subscribe(res => {
-          console.log(res)
           const payload = {
             ...res.organization,
             isActive: false
           }
           this.organizationService.updateOrganization(organizationListId, payload).subscribe((res) => {
-            console.log(res);
             this.alertpopupService.open({
               message: res.message,
               action: 'ok'
@@ -152,13 +157,11 @@ export class OrganizationListComponent implements OnInit {
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.organizationService.getorganizationById(organizationListId).subscribe(res => {
-          console.log(res)
           const payload = {
             ...res.organization,
             isActive: true
           }
           this.organizationService.updateOrganization(organizationListId, payload).subscribe((res) => {
-            console.log(res);
             this.alertpopupService.open({
               message: res.message,
               action: 'ok'

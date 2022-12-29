@@ -29,20 +29,22 @@
                     <button mat-menu-item (click)="openCreateUserPopup()">User</button>
                 </mat-menu>
             </li>
-            <li class="nav-item dropdown pe-3">
 
-            <li *ngIf="isSuperAdmin">
-                <button mat-button [matMenuTriggerFor]="profilemenu"
-                    class="primary"><mat-icon>account_circle</mat-icon></button>
-                <mat-menu #profilemenu="matMenu">
-                    <h3>Personal Settings</h3>
+            <li class="nav-item dropdown pe-3">
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown"
+                    [matMenuTriggerFor]="profileMenu">
+                    <mat-icon>account_circle</mat-icon>
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{logedinUserDetails.Name | titlecase }}</span>
+                </a>
+
+                <mat-menu #profileMenu="matMenu" class="p-2">
+                    <h4>Personal Settings</h4>
                     <button mat-menu-item (click)="profile()">Profile</button>
                     <button mat-menu-item (click)="notifications()">Notifications</button>
                     <button mat-menu-item (click)="emailReports()">EmailReports</button>
                     <button mat-menu-item (click)="logout()">LogOut</button>
                 </mat-menu>
             </li>
-
         </ul>
     </nav>
 </header>
