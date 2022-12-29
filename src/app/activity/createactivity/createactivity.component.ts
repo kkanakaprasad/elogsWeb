@@ -21,8 +21,8 @@ export class CreateactivityComponent implements OnInit {
   constructor(
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
-    private activityService:ActivityService,
-    private alertpopupService:AlertpopupService,
+    private activityService: ActivityService,
+    private alertpopupService: AlertpopupService,
   ) { }
 
   ngOnInit() {
@@ -37,7 +37,7 @@ export class CreateactivityComponent implements OnInit {
       console.log(this.allOrganization)
       this.organizationList = res.organizations
     })
-    
+
 
   }
 
@@ -47,7 +47,7 @@ export class CreateactivityComponent implements OnInit {
       type: ['', Validators.required],
       relatedTo: ['', Validators.required],
       Ministry: ['', Validators.required,],
-      etype: ['',Validators.required],
+      etype: ['', Validators.required],
       Sector: ['', Validators.required],
       Scope: ['', Validators.required],
       Title: ['', Validators.required],
@@ -55,23 +55,21 @@ export class CreateactivityComponent implements OnInit {
 
   }
 
-  createAcyivity(payload:any){
-    // const payload:CreateActivity={
-    //   ...this.activityForm.value,
-      this.activityService.createActivity(payload).subscribe((res) => {
-        this.alertpopupService.open({
-          message: res.message ? res.message : 'Activity Created Successfully',
-          action: 'ok'
-        })
+  createAcyivity(payload: any) {
+    this.activityService.createActivity(payload).subscribe((res) => {
+      this.alertpopupService.open({
+        message: res.message ? res.message : 'Activity Created Successfully',
+        action: 'ok'
       })
+    })
   }
-  
+
   onSubmit() {
 
     console.log(this.activityForm.value);
-   // this.createAcyivity();
+
   }
 
-  
+
 
 }

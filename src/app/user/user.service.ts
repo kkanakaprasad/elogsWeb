@@ -18,6 +18,10 @@ export class UserService {
   addUser(payload: any): Observable<any> {
     return this.httpdataService.post(`user`, payload);
   }
+  
+  updateUser(userID: string, payload: any): Observable<any> {
+    return this.httpdataService.put(`user/${userID}`, payload);
+  }
 
   getUserById(userId: string): Observable<any> {
     return this.httpdataService.get(`user/${userId}`);
@@ -37,5 +41,13 @@ export class UserService {
 
   removeOrganizationsfromUser(payload: any): Observable<any> {
     return this.httpdataService.put('user/remove/OrganizationsfromUser', payload);
+  }
+
+  getOrganisation(): Observable<any> {
+    return this.httpdataService.get('organizations');
+  }
+
+  addUsersToOrganizationsfromUser(payload: any): Observable<any> {
+    return this.httpdataService.put('user/add/UsersToOrganization', payload);
   }
 }

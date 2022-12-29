@@ -1,7 +1,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a  class="logo d-flex align-items-center">
+        <a class="logo d-flex align-items-center">
             <img src="https://elogs.cxipl.com/img/gatishakti-logo-login-h.png" alt="">
         </a>
         <span (click)="sidebarShow()" class="hamburger"><i class="material-icons toggle-sidebar-btn">dehaze</i></span>
@@ -30,19 +30,19 @@
                 </mat-menu>
             </li>
             <li class="nav-item dropdown pe-3">
-                
-                <li *ngIf="isSuperAdmin">
-                    
-                    <button mat-button [matMenuTriggerFor]="profilemenu" class="primary"><mat-icon >account_circle</mat-icon></button>
-                    <mat-menu #profilemenu="matMenu">
-                        <h3>Personal Settings</h3>
-                        <button mat-menu-item (click)="profile()">Profile</button>
-                        <button mat-menu-item (click)="notifications()">Notifications</button>
-                        <button mat-menu-item (click)="emailReports()">EmailReports</button>
-                        <button mat-menu-item (click)="logout()">LogOut</button>
-                    </mat-menu>
-                </li>
-          
+
+            <li *ngIf="isSuperAdmin">
+                <button mat-button [matMenuTriggerFor]="profilemenu"
+                    class="primary"><mat-icon>account_circle</mat-icon></button>
+                <mat-menu #profilemenu="matMenu">
+                    <h3>Personal Settings</h3>
+                    <button mat-menu-item (click)="profile()">Profile</button>
+                    <button mat-menu-item (click)="notifications()">Notifications</button>
+                    <button mat-menu-item (click)="emailReports()">EmailReports</button>
+                    <button mat-menu-item (click)="logout()">LogOut</button>
+                </mat-menu>
+            </li>
+
         </ul>
     </nav>
 </header>

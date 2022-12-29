@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileSearchCriteria, UpdateProfileSearchCriteria } from 'src/app/profile/profile.interface';
 import { ProfileService } from 'src/app/profile/profile.service';
@@ -10,8 +10,13 @@ import { RouteConstants } from 'src/app/shared/constants/routes.constants';
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { AddNewUserService } from '../add-new-user/add-new-user.service';
 import { UserService } from '../user.service';
+import { AssignOrganizationPopUpService } from './assign-organization-pop-up/assign-organization-pop-up.service';
 import { RemoveOrgPopUpService } from './remove-org-pop-up/remove-org-pop-up.service';
 import { UserSearchCriteria } from './user-Interface';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { CUSTOMPAGE } from '../../../app/shared/constants/pagination';
+import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 
 @Component({
   selector: 'app-user-list',
@@ -19,8 +24,10 @@ import { UserSearchCriteria } from './user-Interface';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  public usersList: any;
+  public usersList: any = [];
   filters = FILTER_CONSTANT
+  customPage = CUSTOMPAGE;
+
   userTypes: any;
   userPayload: UserSearchCriteria = {
     pageNumber: 0,
@@ -35,6 +42,9 @@ export class UserListComponent implements OnInit {
   }
 
   displayedColumns = ['Name', 'Email', 'Organization', 'Actions']
+  dataSource = new MatTableDataSource(this.usersList);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   constructor(private userService: UserService,
     private addNewUserService: AddNewUserService,
     private profileService: ProfileService,
@@ -42,23 +52,36 @@ export class UserListComponent implements OnInit {
     private router: Router,
     private confirmationDialogService: ConfirmationDialogService,
     private removeOrgPopUpService: RemoveOrgPopUpService,
-    private alertpopupService: AlertpopupService
+    private alertpopupService: AlertpopupService,
+    private assignOrganizationPopUpService: AssignOrganizationPopUpService
   ) { }
 
   ngOnInit(): void {
     this.userSearchCriteria(this.userPayload);
   }
 
-  userSearchCriteria(payload: UserSearchCriteria) {
+  userSearchCriteria(payload: any) {
     this.userService.userSearchCriteria(payload).subscribe((res) => {
       this.usersList = res.users[0].users;
+      this.dataSource = new MatTableDataSource(this.usersList);
+      this.dataSource.paginator = this.paginator;
+    })
+  }
+  get loginUserID() {
+    return this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)
+  }
+
+  editUser(userId: string) {
+    this.addNewUserService.openUpdateUserPopup(userId).afterClosed().subscribe((res) => {
+      this.userSearchCriteria(this.userPayload);
     })
   }
 
-  edit(userId: string) {
-    this.addNewUserService.openUpdateUserPopup(userId).afterClosed().subscribe((res) => {
-      console.log(res);
-    })
+  assignOrganisation(user: any) {
+    this.assignOrganizationPopUpService.assignOrgPopUp(user).afterClosed().subscribe((res) => {
+      if (res)
+        this.userSearchCriteria(this.userPayload);
+    });
   }
 
   removeOrganisation(userId: any) {
@@ -68,20 +91,25 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  disableUser(userID: string) {
+  disableOrenableUser(userID: string, isEnable: boolean) {
     var obj = {
-      isActive: false
+      isActive: isEnable
     }
     this.confirmationDialogService.open({
-      message: 'Are you sure want to disable!!'
+      message: isEnable ? 'Are you sure want to enable!!' : 'Are you sure want to disable!!'
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.profileService.inActiveUser(userID, obj).subscribe((res) => {
           this.alertpopupService.open({
-            message: res.message,
+            message: isEnable ? 'User enabled successfully' : 'User disabled successfully',
             action: 'ok'
           })
-          this.userSearchCriteria(this.userPayload);
+          let updatedPayload = this.userPayload;
+          updatedPayload = {
+            ...updatedPayload,
+            isActive: !isEnable,
+          }
+          this.userSearchCriteria(updatedPayload);
         })
       }
     })
@@ -98,57 +126,49 @@ export class UserListComponent implements OnInit {
   }
 
   applyUserFilters(user: any) {
+    let updatedPayload = this.userPayload;
     if (Number(user.tab.textLabel) === FILTER_CONSTANT.IS_ACTIVE) {
-      this.userPayload.isActive = true;
-      this.updateUserDetails(this.userPayload);
+      updatedPayload = {
+        ...updatedPayload,
+        isActive: true,
+      }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MY_PROFILE) {
-      this.userPayload.role = organizationType.SUPERADMIN;
-      this.updateUserDetails(this.userPayload);
+      var userID = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID);
+      updatedPayload = {
+        ...updatedPayload,
+        isActive: true,
+        userId: userID
+      }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.INACTIVE) {
-      this.userPayload.isActive = false;
-      this.updateUserDetails(this.userPayload);
+      updatedPayload = {
+        ...updatedPayload,
+        isActive: false,
+      }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
-      this.userPayload.type = organizationType.MINISTRY
-      this.updateUserDetails(this.userPayload);
+      updatedPayload = {
+        ...updatedPayload,
+        isActive: true,
+        type: organizationType.MINISTRY
+      }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.ASSOCIATION) {
-      this.userPayload.type = organizationType.ASSOCIATION
-      this.updateUserDetails(this.userPayload);
+      updatedPayload = {
+        ...updatedPayload,
+        isActive: true,
+        type: organizationType.ASSOCIATION
+      }
     }
-
-    // switch (Number(user.tab.textLabel)) {
-    //   case FILTER_CONSTANT.IS_ACTIVE: {
-    //     this.userPayload.isActive = true;
-    //     this.updateUserDetails(this.userPayload);
-    //     break;
-    //   }
-    //   case FILTER_CONSTANT.INACTIVE: {
-    //     this.userPayload.isActive = false;
-    //     this.updateUserDetails(this.userPayload);
-    //     break;
-    //   }
-    //   case FILTER_CONSTANT.MY_PROFILE: {
-    //     this.userPayload.role = organizationType.SUPERADMIN;
-    //     this.updateUserDetails(this.userPayload);
-    //     break;
-    //   }
-    //   case FILTER_CONSTANT.MINISTRIES: {
-    //     this.userPayload.role = organizationType.MINISTRY;
-    //     this.updateUserDetails(this.userPayload);
-    //     break;
-    //   }
-    //   case FILTER_CONSTANT.ASSOCIATION: {
-    //     this.userPayload.role = organizationType.ASSOCIATION;
-    //     this.updateUserDetails(this.userPayload);
-    //     break;
-    //   }
-    //   default: {
-    //     break;
-    //   }
-    // }
+    this.userSearchCriteria(updatedPayload);
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  onChangedPageSize(event: any) {
+    console.log(event);
+  }
 }

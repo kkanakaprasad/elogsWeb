@@ -5,21 +5,21 @@
   <mat-tab label={{filters.IS_ACTIVE}}>
     <ng-template mat-tab-label>
       <mat-icon>person_pin</mat-icon>
-      Active
+      Active ( <span>{{usersList?.length}}</span>)
     </ng-template>
 
   </mat-tab>
   <mat-tab label={{filters.MY_PROFILE}}>
     <ng-template mat-tab-label>
       <mat-icon>person_outline</mat-icon>
-      Admin
+      Admin ( <span>{{usersList?.length}}</span>)
     </ng-template>
 
   </mat-tab>
   <mat-tab label={{filters.MINISTRIES}}>
     <ng-template mat-tab-label>
       <mat-icon>people</mat-icon>
-      Ministry/Department
+      Ministry/Department ( <span>{{usersList?.length}}</span>)
     </ng-template>
 
   </mat-tab>
@@ -27,13 +27,13 @@
   <mat-tab label={{filters.ASSOCIATION}}>
     <ng-template mat-tab-label>
       <mat-icon>group_add</mat-icon>
-      Association
+      Association ( <span>{{usersList?.length}}</span>)
     </ng-template>
   </mat-tab>
   <mat-tab label={{filters.INACTIVE}}>
     <ng-template mat-tab-label>
       <mat-icon>not_interested</mat-icon>
-      Disabled
+      Disabled ( <span>{{usersList?.length}}</span>)
     </ng-template>
 
   </mat-tab>
@@ -41,7 +41,7 @@
 
 </mat-tab-group>
 
-<table mat-table [dataSource]="usersList" class="mat-elevation-z8 userTable">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 userTable">
 
   <ng-container matColumnDef="Name">
     <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -72,13 +72,17 @@
   <ng-container matColumnDef="Actions">
     <th class="action-center" mat-header-cell *matHeaderCellDef> Actions </th>
     <td mat-cell *matCellDef="let element">
-      <div class="d-flex">
-        <button mat-raised-button color="primary" (click)="edit(element._id)">Edit</button>
-        <button mat-raised-button *ngIf="element.isActive" (click)="disableUser(element._id)">Disable</button>
-        <button *ngIf="element.organizationsdata?.length > 0" mat-raised-button color="warn"
+      <div class="d-flex" *ngIf="loginUserID !==element._id">
+        <button mat-raised-button color="primary" *ngIf="element.isActive" (click)="editUser(element._id)">Edit</button>
+        <button mat-raised-button *ngIf="element.isActive"
+          (click)="disableOrenableUser(element._id,false)">Disable</button>
+        <button mat-raised-button *ngIf="!element.isActive"
+          (click)="disableOrenableUser(element._id,true)">Enable</button>
+        <button *ngIf="element.organizationsdata?.length > 0 && element.isActive" mat-raised-button color="warn"
           (click)="removeOrganisation(element)">Remove Organisation</button>
-        <button *ngIf="element.organizationsdata?.length === 0" mat-raised-button color="accent">Assign
-          Organisation</button>
+        <button *ngIf="element.organizationsdata?.length === 0" mat-raised-button color="accent"
+          (click)="assignOrganisation(element)">Assign
+          Organisation &nbsp; </button>
       </div>
     </td>
   </ng-container>
@@ -87,3 +91,6 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 </table>
+<mat-paginator #paginator [pageSize]="customPage.pageSize" [length]="usersList.length"
+  [pageSizeOptions]="customPage.pageSizeOptions" (page)="onChangedPageSize($event)">
+</mat-paginator>
