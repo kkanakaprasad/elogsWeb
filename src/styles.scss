@@ -57,8 +57,7 @@ h6,
     position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 30px 50px 30px 40px;
+    padding: 50px 50px 30px 40px;
 }
 
 .login-12 .bg-img:before {
@@ -315,7 +314,7 @@ h6,
 }
 
 .login-12 .informeson h2 {
-    margin: 0 0 30px 0;
+    margin: 0 0 20px 0;
     font-size: 25px;
     color: #fff;
     text-shadow: 2px 1px 1px #702000;
@@ -327,13 +326,28 @@ h6,
     margin-bottom: 30px;
 }
 
+.features {
+  background: #0000004d;
+  padding: 15px;
+  border-radius: 10px;
+ h4{
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  }
+  ul{
+    margin-bottom: 0;
+    padding-left: 20px;
+    list-style: square;
+  }
+}
 .login-12 .informeson p {
     color: #fff;
     opacity: 0.9;
     line-height: 25px;
     font-size: 14px;
     text-transform: capitalize;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .login-12 .main-logo {
@@ -870,14 +884,18 @@ h6,
     list-style: none;
   }
 
+  .sidebar-user-settings{
+    padding: 15px 20px;
+
+    .add-button{
+      width: 100%;
+    }
+  }
+
   .sidebar-nav li {
     padding: 0;
     margin: 0;
     list-style: none;
-  }
-
-  .sidebar-nav .nav-item {
-    margin-bottom: 5px;
   }
 
   .sidebar-nav .nav-heading {
@@ -895,20 +913,21 @@ h6,
     font-weight: 400;
     color: #012970;
     transition: 0.3;
-    padding: 15px 30px;
+    padding: 15px 20px;
     border-radius: 4px;
+    cursor: pointer;
   }
   .sidebar-nav .nav-link.active {
-    background: #f6f9ff;
-    color: #4154f1;
+    background: #f8963330;
+    color: #000000;
   }
 
   .sidebar-nav .nav-link.active i{
-    color: #4154f1;
+    color: #000;
   }
 
   .sidebar-nav .nav-link i {
-    font-size: 16px;
+    font-size: 20px;
     margin-right: 10px;
     color: #012970;
   }
@@ -923,12 +942,12 @@ h6,
   }
 
   .sidebar-nav .nav-link:hover {
-    color: #4154f1;
+    color: #000;
     background: #f6f9ff;
   }
 
   .sidebar-nav .nav-link:hover i {
-    color: #4154f1;
+    color: #000;
   }
 
   .sidebar-nav .nav-link .bi-chevron-down {
@@ -976,7 +995,7 @@ h6,
   .main-panel{
     margin-left: 250px;
     margin-top: 60px;
-    padding: 20px 30px;
+    padding: 20px 20px;
   }
 
 
@@ -1041,4 +1060,40 @@ h3.widget-title {
     .bg-warning{
         background-color: #f9c851 !important;
     }
+}
+
+/*mat styles*/
+
+.mat-tab-group{
+  background-color: #fff;
+  padding: 20px;
+
+  .mat-tab-body{
+    padding: 20px;
+    h1{
+      font-size: 18px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+      font-weight: 500;
+    }
+    .mat-radio-group{
+      margin-bottom: 15px;
+    }
+    .col-form-label{
+      padding-top: 0;
+    }
+    .mat-tab-body-content{
+      overflow: visible;
+    }
+    .mat-radio-button{
+      min-width: 60px;
+    }
+    .mat-radio-label-content{
+      font-size: 12px;
+      color: #000000ad;
+    }
+    .btn {
+      margin-right: 15px;
+    }
+  }
 }
