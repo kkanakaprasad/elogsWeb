@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { map, Observable, startWith } from 'rxjs';
 import { OrganizationService } from 'src/app/organization/organization.service';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
 import { REG_EXP_PATTERNS } from 'src/app/shared/enums/regex-pattern.enum';
@@ -43,9 +42,9 @@ export class AddNewUserComponent implements OnInit {
     this.generateAddNewUserForm();
     this.getAllOrganization()
 
-    // this.addNewUserForm.controls['organization'].valueChanges.subscribe((res:any)=>{
-    //   this.filterData(res);
-    // })
+    this.addNewUserForm.controls['organization'].valueChanges.subscribe((res:any)=>{
+      this.filterData(res);
+    })
 
   }
 
@@ -76,7 +75,6 @@ export class AddNewUserComponent implements OnInit {
 
 
   filterData(searchString: string) {
-    console.log('searchString', searchString);
     let resultArray: any = [];
     const filterValue = searchString?.toLowerCase();
     this.organizationsData?.filter((option: any) => {
