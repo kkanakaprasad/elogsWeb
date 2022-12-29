@@ -1,6 +1,6 @@
 <mat-card-title class="d-flex justify-content-between">
   <h1 class="user">Remove User > {{organizationName}}</h1>
-  <button mat-button color="warn" mat-dialog-close="true">x</button>
+  <button mat-button color="warn" mat-dialog-close="true" [mat-dialog-close]="false">x</button>
 </mat-card-title>
 
   <mat-card-content>
@@ -87,14 +87,20 @@
             (click)="selection.toggle(row)"
           ></tr>
         </table>
+        <div *ngIf="dataSource.filteredData?.length === 0">   
+          <mat-card class="noUserFoundCard">
+              No users found
+          </mat-card>
+      </div>
+      
       </div>
         <mat-card-actions>
           <div class="d-flex btn justify-content-end">
-            <button mat-raised-button mat-dialog-close="true">Cancel</button>
+            <button mat-raised-button mat-dialog-close="true" [mat-dialog-close]="false">Cancel</button>
             <button
               mat-raised-button
               color="primary"
-              mat-dialog-close="true"
+              mat-dialog-close="true" [mat-dialog-close]="true"
               (click)="selectedUsers()"
             >
               Remove
