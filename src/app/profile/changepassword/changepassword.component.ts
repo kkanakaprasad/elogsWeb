@@ -13,13 +13,15 @@ import { ChangePasswordService } from './changePassword.service';
 })
 export class ChangepasswordComponent implements OnInit {
   @Input()
-  logedinUserEmail: any
+  logedinUserEmail: string = "";
   changePasswordForm!: FormGroup;
   password: any;
+  triggerProfile: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private changePasswordService: ChangePasswordService,
+    private alertpopupService:AlertpopupService
 
   ) {
 
@@ -48,10 +50,21 @@ export class ChangepasswordComponent implements OnInit {
     }
     this.changePasswordService.changePassword(payload).subscribe((res) => {
       console.log(res);
-
+      this.alertpopupService.open({
+        message : res.message ? res.message : 'Change Password updated successfully',
+        action : 'Ok'
+      });
+      this.triggerProfile.emit();
+    },(error) =>{
+      this.alertpopupService.open({
+        message : error.error.message ? error.error.message : 'Something went wrong! Please try Again',
+        action : 'Ok'
+      })
     }
+    
+    
+    
     )
-
   }
   resetPaswordForm(){
     this.changePasswordForm = this.formBuilder.group({
