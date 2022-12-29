@@ -6,13 +6,15 @@ import { UserListComponent } from './user-list/user-list.component';
 import { UserRoutingModule } from './user-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { OrganizationModule } from "../organization/organization.module";
+import { RemoveOrgPopUpComponent } from './user-list/remove-org-pop-up/remove-org-pop-up.component';
 
 
 
 @NgModule({
     declarations: [
         AddNewUserComponent,
-        UserListComponent
+        UserListComponent,
+        RemoveOrgPopUpComponent
     ],
     imports: [
         CommonModule,
