@@ -159,9 +159,9 @@ export class OrganizationListComponent implements OnInit {
 
   }
 
-  enableAssociation(organizationListId: string) {
+  enableAssociation(organizationListId: string,organizationName:string) {
     this.confirmationDialogService.open({
-      message: 'Are you Sure to Enable User!!'
+      message: `Are you Sure to Enable ${organizationName} `
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.organizationService.getorganizationById(organizationListId).subscribe(res => {
