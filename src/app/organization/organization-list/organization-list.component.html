@@ -35,13 +35,17 @@
     <section class="section">
       <div class="page-wrapper">
         <div fxLayout="row wrap" fxLayoutGap="16px" class="align main">
-          <mat-card class="plus" (click)="createOrganization()">
+          <mat-card class="plus" (click)="createOrganization()" *ngIf="!this.isUser">
             <mat-card-content>
               <div class="add-icon">
                 <font>+</font>
               </div>
               <h4 class="mt-2">Create Organization</h4>
             </mat-card-content>
+          </mat-card>
+          <mat-card *ngIf="organizationList?.length === 0 && isUser">
+            <h1>No Organizations Assigned!!</h1>
+
           </mat-card>
           <mat-card fxFlex.lg="calc(33% - 16px)" fxFlex.lt-lg="calc(50% - 16px)" fxFlex.xs="calc(100% - 16px)"
             *ngFor="let organization of organizationList">

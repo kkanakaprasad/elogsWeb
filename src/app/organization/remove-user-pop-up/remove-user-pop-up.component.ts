@@ -17,12 +17,12 @@ export class RemoveUserPopUpComponent implements OnInit {
   organizationUsersData: any=[];
   displayedColumns: string[] = ['select', 'Name', 'Email','Email Notification'];
   dataSource = new MatTableDataSource(this.organizationUsersData);
-  selection: any = new SelectionModel(true, []);
+  tableRowSelection: any = new SelectionModel(true, []);
   userIds:any;
   userIdsArray:string[]=[]
   organizationName: any;
   color: ThemePalette = 'accent';
-  checked = false;
+  isEmailNotificationActive= false;
   disabled = false;
 
   constructor(private alertpopupService:AlertpopupService,
@@ -63,7 +63,7 @@ export class RemoveUserPopUpComponent implements OnInit {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
+    const numSelected = this.tableRowSelection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
@@ -71,11 +71,11 @@ export class RemoveUserPopUpComponent implements OnInit {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
     if (this.isAllSelected()) {
-      this.selection.clear();
+      this.tableRowSelection.clear();
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.tableRowSelection.select(...this.dataSource.data);
   }
 
   /** The label for the checkbox on the passed row */
@@ -83,12 +83,34 @@ export class RemoveUserPopUpComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.tableRowSelection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
+  
+  userSearch(event:any){
+    console.log(event.target.value)
+    const payload: OrganizationSearchCriteria = {
+      pageNumber: 1000,
+      pageSize: 0,
+      sortField: '',
+      sortOrder: 0,
+      type: '',
+      organization: '',
+      organizationId: this.selectedOrganizationId,
+      userId: '',
+      userSearch: event.target.value
+    }
+    this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
+
+      this.organizationName= res.organizations[0].organizations[0].organization
+      this.organizationUsersData = res.organizations[0].organizations[0].users
+      // console.log(this.organizationUsersData)
+      })
+
+  }
   selectedUsers(){
-    console.log(this.selection.selected);
-    this.selection.selected.map((res:any)=>{
+    console.log(this.tableRowSelection.selected);
+    this.tableRowSelection.selected.map((res:any)=>{
       this.userIdsArray.push(res._id)
       console.log(this.userIdsArray)
     })
@@ -111,5 +133,9 @@ export class RemoveUserPopUpComponent implements OnInit {
           action: 'ok'
         })
     })
+  }
+
+  onEmailNotificationChecked(event:any){
+    console.log(event);
   }
 }

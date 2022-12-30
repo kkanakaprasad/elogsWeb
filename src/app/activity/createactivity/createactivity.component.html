@@ -1,8 +1,10 @@
+<div class="container">
+<div class="d-flex"><mat-icon> note_add</mat-icon><h2>Create Activity</h2></div>
 <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
   <div>
     <mat-form-field appearance="outline">
       <mat-label>Type</mat-label>
-      <mat-select formControlName="type">
+      <mat-select formControlName="activityType">
         <mat-option value="documentation
       ">Documentation
         </mat-option>
@@ -17,7 +19,7 @@
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Related To</mat-label>
-        <mat-select formControlName="relatedTo">
+        <mat-select formControlName="activityRelatedTo">
           <mat-option value="Single Ministry/Department
       ">Single Ministry/Department
           </mat-option>
@@ -29,7 +31,7 @@
     <div class="mx-5">
       <mat-form-field appearance="outline" class="w-100-per">
         <mat-label>Ministry/Department</mat-label>
-        <mat-select formControlName="Ministry">
+        <mat-select  multiple="multiple"formControlName="organization">
           <mat-option *ngFor="let item of organizationsData" [value]="item._id">{{
             item.organization
             }}</mat-option>
@@ -42,7 +44,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Entry Type</mat-label>
-      <mat-select formControlName="etype">
+      <mat-select formControlName="activitEntryType">
         <mat-option value="Issue
   ">Issue
         </mat-option>
@@ -55,7 +57,7 @@
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Sector</mat-label>
-        <mat-select formControlName="Sector">
+        <mat-select formControlName="activitySector">
           <mat-option value="EXIM
   ">EXIM
           </mat-option>
@@ -67,7 +69,7 @@
     <div class="mx-5">
       <mat-form-field appearance="outline">
         <mat-label>Scope</mat-label>
-        <mat-select formControlName="Scope">
+        <mat-select formControlName="activityScope">
           <mat-option value="National">National</mat-option>
           <mat-option value="Interstate">Interstate</mat-option>
         </mat-select>
@@ -79,7 +81,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
       <div class="col-12">
-        <input matInput placeholder="Add an activity here & hit enter..." input type="text" formControlName="Title" />
+        <input matInput placeholder="Add an activity here & hit enter..." input type="text" formControlName="title" />
       </div>
     </mat-form-field>
      </div>
@@ -90,5 +92,6 @@
     Submit
   </button>
 
-
+</form>
+</div>
  

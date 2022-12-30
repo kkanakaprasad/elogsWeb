@@ -35,7 +35,7 @@ export class RichTextEditorComponent implements OnInit, OnDestroy {
 
   createformgroup() {
     this.richtextForm = this.fb.group({
-      editorContent: [''],
+      description: [''],
     });
   }
   ngOnDestroy(): void {

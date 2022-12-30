@@ -3,11 +3,14 @@ import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service'
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog/confirmation-dialog.service';
 import { FILTER_CONSTANT } from 'src/app/shared/constants/filter.constants';
 import { MasterDataService } from 'src/app/shared/services/master-data/master-data.service';
+import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { AddNewUserService } from 'src/app/user/add-new-user/add-new-user.service';
 import { AddUserPopUpService } from '../add-user-pop-up/add-user-pop-up.service';
 import { CreateOrganization, OrganizationSearchCriteria } from '../organization.interface';
 import { OrganizationService } from '../organization.service';
 import { RemoveUserPopUpService } from '../remove-user-pop-up/remove-user-pop-up.service';
+import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
+import { Roles } from 'src/app/shared/enums/roles.enums'
 
 @Component({
   selector: 'app-organization-list',
@@ -30,14 +33,15 @@ export class OrganizationListComponent implements OnInit {
     userSearch: ""
   }
   organizationTypes: any;
-
+  isUser = false;
 
   constructor(private organizationService: OrganizationService,
     private masterDataService: MasterDataService,
     private addUserPopUpService: AddUserPopUpService,
     private alertpopupService: AlertpopupService,
     private removeUserPopUpService: RemoveUserPopUpService,
-    private confirmationDialogService: ConfirmationDialogService) { }
+    private confirmationDialogService: ConfirmationDialogService,
+    private storageService: StorageService,) { }
 
 
   ngOnInit(): void {
@@ -53,6 +57,10 @@ export class OrganizationListComponent implements OnInit {
   }
 
   getAllOrganizationsSearchCriteria(payload: OrganizationSearchCriteria) {
+    if (this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.User) {
+      this.isUser = true;
+      payload = { ...payload, userId: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) };
+    }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
       this.organizationList = res.organizations[0].organizations.reverse();
     })
@@ -88,8 +96,8 @@ export class OrganizationListComponent implements OnInit {
   }
 
   updateOrganization(organizationId: string) {
-    this.organizationService.updateOrganizatioPopup(organizationId).afterClosed().subscribe((res)=>{
-      if(res){
+    this.organizationService.updateOrganizatioPopup(organizationId).afterClosed().subscribe((res) => {
+      if (res) {
         this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
       }
     })
@@ -105,23 +113,23 @@ export class OrganizationListComponent implements OnInit {
   }
 
   openAddUserPopup(selectedOrganizationId: string) {
-    this.addUserPopUpService.openAddUser(selectedOrganizationId).afterClosed().subscribe((res)=>{
-      if(res){
+    this.addUserPopUpService.openAddUser(selectedOrganizationId).afterClosed().subscribe((res) => {
+      if (res) {
         this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
       }
     });
   }
 
   openRemoveUserPopup(selectedOrganizationId: string) {
-    this.removeUserPopUpService.removeUserPopUp(selectedOrganizationId).afterClosed().subscribe((res)=>{
-      if(res){
+    this.removeUserPopUpService.removeUserPopUp(selectedOrganizationId).afterClosed().subscribe((res) => {
+      if (res) {
         this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
       }
       console.log(res);
     });
   }
 
-  disableAssociation(organizationListId: string, organizationName:string) {
+  disableAssociation(organizationListId: string, organizationName: string) {
     this.confirmationDialogService.open({
       message: `Are you Sure to Disable ${organizationName}`
     }).afterClosed().subscribe((res) => {
@@ -213,7 +221,8 @@ export class OrganizationListComponent implements OnInit {
 
 
     }
-  )}
+    )
+  }
 }
 
 
