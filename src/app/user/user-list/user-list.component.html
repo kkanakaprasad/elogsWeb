@@ -74,7 +74,7 @@
 
             <button *ngIf="element.organizationsdata?.length > 0" mat-raised-button color="warn"
               (click)="removeOrganisation(element)">Remove Organisation</button>
-            <button *ngIf="element.organizationsdata?.length === 0" mat-raised-button color="accent">Assign
+            <button *ngIf="element.organizationsdata?.length === 0" mat-raised-button color="accent" (click)="assignOrganisation(element)">Assign
               Organisation</button>
           </div>
       </td>
