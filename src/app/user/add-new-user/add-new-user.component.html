@@ -1,27 +1,15 @@
-<h1 mat-dialog-title>Add New User</h1>
+<h1 mat-dialog-title>{{userId ? 'Update User':'Add New User'}}</h1>
 <div mat-dialog-content>
   <form [formGroup]="addNewUserForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
-      <input
-        matInput
-        placeholder="name"
-        input
-        type="text"
-        formControlName="Name"
-      />
+      <input matInput placeholder="name" input type="text" formControlName="Name" />
     </mat-form-field>
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
-        <input
-          matInput
-          placeholder="password"
-          input
-          type="password"
-          formControlName="password"
-          pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}"
-        />
+        <input matInput placeholder="password" input type="password" formControlName="password"
+          pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" />
         <mat-error *ngIf="addNewUserForm.get('password')?.hasError('required')">
           password is <strong>required</strong>
         </mat-error>
@@ -33,14 +21,7 @@
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Email ID</mat-label>
-        <input
-          matInput
-          placeholder="email"
-          input
-          type="text"
-          formControlName="email"
-          [readonly]=isUserEdit
-        />
+        <input matInput placeholder="email" input type="text" formControlName="email" [readonly]=isUserEdit />
         <mat-error *ngIf="addNewUserForm.get('email')?.hasError('pattern')">
           Please enter a valid email address
         </mat-error>
@@ -50,18 +31,9 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Organization to be assigned</mat-label>
-        <input
-          matInput
-          placeholder="organization Name"
-          input
-          type="text"
-          [matAutocomplete]="auto"
-          formControlName="organization"
-        /><mat-autocomplete #auto="matAutocomplete">
-          <mat-option
-            *ngFor="let Organization of organizationList"
-            [value]="Organization.organization"
-          >
+        <input matInput placeholder="organization Name" input type="text" [matAutocomplete]="auto"
+          formControlName="organization" /><mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let Organization of organizationList" [value]="Organization.organization">
             {{ Organization.organization }}
           </mat-option>
         </mat-autocomplete>
@@ -70,25 +42,14 @@
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Department Name</mat-label>
-        <input
-          matInput
-          placeholder="Department Name"
-          input
-          type="text"
-          formControlName="departmentname"
-        />
+        <input matInput placeholder="Department Name" input type="text" formControlName="departmentname" />
       </mat-form-field>
     </div>
     <mat-card-actions class="d-flex btn justify-content-end">
       <button mat-raised-button mat-dialog-close="true" [mat-dialog-close]="false">Cancel</button>
-      <button
-        type="submit"
-        mat-raised-button
-        color="primary"
-        [disabled]="addNewUserForm.invalid"
-        mat-dialog-close="true"
-      >
-        create
+      <button type="submit" mat-raised-button color="primary" [disabled]="addNewUserForm.invalid"
+        mat-dialog-close="true">
+        {{userId ? 'Update':'Create'}}
       </button>
     </mat-card-actions>
   </form>

@@ -1,0 +1,21 @@
+.userTable {
+  width: 100%;
+}
+
+.userTable,
+th {
+  background-color: #818dcf;
+  color: white;
+}
+
+.userTable,
+tr {
+  background: whitesmoke;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid rgb(206, 202, 202);
+}
