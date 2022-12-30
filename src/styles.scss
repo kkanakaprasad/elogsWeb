@@ -15,6 +15,14 @@ a {
     color: #4154f1;
     text-decoration: none;
 }
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid rgb(206, 202, 202);
+  text-transform: capitalize;
+  font-size: 14px;
+}
 
 .img-fluid {
     max-width: 100% !important;
@@ -645,8 +653,8 @@ h6,
   }
 
   .header-nav .nav-profile span {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 500;
   }
 
   .header-nav .badge-number {
@@ -802,10 +810,17 @@ h6,
   #main {
     transition: all 0.3s;
     }
-
+  .main-panel{
+    margin-left: 250px;
+    margin-top: 60px;
+    padding: 20px 20px;
+  }
   @media (max-width: 1199px) {
     .sidebar {
       left: -300px;
+    }
+    .main-panel {
+      margin-left: 0px;
     }
   }
 
@@ -948,7 +963,7 @@ h6,
     cursor: pointer;
   }
   .sidebar-nav .nav-link.active {
-    background: #f8963330;
+    background: #5191bd33;
     color: #000000;
   }
 
@@ -1020,12 +1035,6 @@ h6,
 
   .sidebar-nav .nav-content a.active i {
     background-color: #4154f1;
-  }
-
-  .main-panel{
-    margin-left: 250px;
-    margin-top: 60px;
-    padding: 20px 20px;
   }
 
 
@@ -1152,14 +1161,13 @@ h3.widget-title {
     overflow: hidden;
     // border: 1px solid #f2f8f9;
     box-shadow: 0 0 7px 2px rgb(38 38 38 / 13%);
-    transition: 1s;
     h3{
       padding: 10px;
       border-bottom: 1px solid #ddd;
-      background: #fff;
       text-transform: uppercase;
       margin-bottom: 0;
       font-size: 13px;
+      background: #e8f0f63b;
     }
     .org_box{
       padding: 15px;
@@ -1169,8 +1177,8 @@ h3.widget-title {
         i{
           font-size: 90px;
           /* opacity: 0.5; */
-          color: #0b0b0b54;
-          background: #feebd9;
+          color: rgb(11 11 11 / 39%);
+          background: #5191bd1c;
           padding: 5px;
         }
       }
@@ -1181,11 +1189,11 @@ h3.widget-title {
     .action-buttons{
       position: absolute;
       bottom: 0;
-      background: #55b57e;
+      background: #5191BD;
       width: 100%;
       left: 0;
       padding: 5px 20px;
-      transition: 1s;
+      transition: 0.5s;
       transform: translateY(100%);
 
       span{
@@ -1216,15 +1224,15 @@ h3.widget-title {
 
 .userTable {
   th {
-    background-color: #818dcf;
-    color: white;
+    background-color: #f0f0f0;
   }
   tr:nth-child(odd) {
     background: white;
   }
   tr:nth-child(even) {
-    background: whitesmoke;
+    background: #f5f5f55e;
   }
+
   tr:hover{
     background-color: #fff;
   }
@@ -1233,6 +1241,8 @@ h3.widget-title {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid rgb(206, 202, 202);
+    text-transform: capitalize;
+    font-size: 14px;
   }
   button{
     box-shadow: none;
@@ -1250,4 +1260,74 @@ h3.widget-title {
 
 .action-center {
   text-align: center;
+}
+
+/*dialog container*/
+.mat-dialog-container{
+  padding: 0px !important;
+
+  .elog-dialog{
+      h1{
+        padding: 10px 24px;
+        margin-bottom: 0;
+        background: rgb(220 234 244 / 78%);
+        color: #1d46c2;
+        font-size: 18px;
+        display: flex;
+        justify-content: space-between;
+        text-transform: capitalize;
+
+        small{
+          font-size: 18px;
+          text-shadow: 1px 0px 1px #504d4d;
+          color: #777474;
+        }
+
+        button.close{
+          font-size: 25px;
+          border: none;
+          background: none;
+          color: #f44336;
+        }
+      }
+      .mat-form-field-wrapper{
+        padding-bottom: 0;
+      }
+
+      .selected-chips{
+        padding: 10px;
+        max-height: 200px;
+        overflow-y: auto;
+        max-width: 450px;
+
+        .mat-chip.mat-standard-chip{
+          font-weight: 400;
+          text-transform: capitalize;
+          background: #e4eff6bd;
+          border: 1px solid #ddd;
+        }
+      }
+    .elog-dialog-body {
+      padding: 24px;
+      margin: 0;
+      .assigned-projects tr.mat-header-row{
+        background: #f0f0f0;
+      }
+      .noUserFoundCard{
+        color: red;
+        margin-top: 10px;
+      }
+      .mat-table{
+        width: 100%;
+      }
+
+      .mat-dialog-content{
+        margin: 0;
+        padding: 0;
+        .mat-header-row{
+          background: #f0f0f0;
+        }
+      }
+    }
+  }
 }
