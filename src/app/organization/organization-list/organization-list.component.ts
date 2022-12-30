@@ -34,7 +34,11 @@ export class OrganizationListComponent implements OnInit {
   }
   organizationTypes: any;
   isUser = false;
-  selectedTab : any;
+  selectedTab = {
+    tab : {
+      textLabel : FILTER_CONSTANT.IS_ACTIVE
+    }
+  };
 
   constructor(private organizationService: OrganizationService,
     private masterDataService: MasterDataService,
@@ -69,7 +73,6 @@ export class OrganizationListComponent implements OnInit {
 
   applyOrganizationFilters(user: any) {
     this.selectedTab = user;
-    console.log(this.selectedTab);
     let updatedPayload = this.organizationListPayload;
     if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
       updatedPayload = {
@@ -126,8 +129,8 @@ export class OrganizationListComponent implements OnInit {
   openRemoveUserPopup(selectedOrganizationId: string) {
     this.removeUserPopUpService.removeUserPopUp(selectedOrganizationId).afterClosed().subscribe((res) => {
       if (res) {
-        console.log(res)
-        this.applyOrganizationFilters(this.selectedTab);
+        // this.applyOrganizationFilters(this.selectedTab);
+        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
       }
       console.log(res);
     });

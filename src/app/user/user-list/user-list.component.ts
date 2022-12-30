@@ -27,7 +27,11 @@ export class UserListComponent implements OnInit {
   public usersList: any = [];
   filters = FILTER_CONSTANT
   customPage = CUSTOMPAGE;
-  selectedTab :any;
+  selectedTab = {
+    tab : {
+      textLabel : FILTER_CONSTANT.IS_ACTIVE
+    }
+  };
   userTypes: any;
   userPayload: UserSearchCriteria = {
     pageNumber: 0,

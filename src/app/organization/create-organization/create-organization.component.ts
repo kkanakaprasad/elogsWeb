@@ -35,33 +35,35 @@ export class CreateOrganizationComponent implements OnInit {
     this.getOrganizationsData()
   }
   getOrganizationsData() {
-    this.organizationService.getorganizationById(this.dataId).subscribe((res) => {
-      this.isSelected = true
-      this.oraginsationData = res.organization
-      console.log(this.oraginsationData)
-      const payload: OrganizationSearchCriteria = {
-        pageNumber: 1000,
-        pageSize: 0,
-        sortField: '',
-        sortOrder: 0,
-        type: '',
-        organization: '',
-        organizationId: this.oraginsationData._id,
-        userId: '',
-        userSearch: ""
-      }
-      this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
+    if (this.dataId) {
+      this.organizationService.getorganizationById(this.dataId).subscribe((res) => {
+        this.isSelected = true
+        this.oraginsationData = res.organization
+        console.log(this.oraginsationData)
+        const payload: OrganizationSearchCriteria = {
+          pageNumber: 1000,
+          pageSize: 0,
+          sortField: '',
+          sortOrder: 0,
+          type: '',
+          organization: '',
+          organizationId: this.oraginsationData._id,
+          userId: '',
+          userSearch: ""
+        }
+        this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
 
-        // console.log(res.organizations[0].organizations[0].users) 
-        this.organizationUsersData = res.organizations[0].organizations[0].users
-       
-        this.createOrganizationForm.controls['organization'].setValue(this.oraginsationData.organization);
-        this.createOrganizationForm.controls['shortName'].setValue(this.oraginsationData.shortName);
-      this.createOrganizationForm.controls['defaultAssign'].setValue('')
-      }
-      )
+          // console.log(res.organizations[0].organizations[0].users) 
+          this.organizationUsersData = res.organizations[0].organizations[0].users
 
-    })
+          this.createOrganizationForm.controls['organization'].setValue(this.oraginsationData.organization);
+          this.createOrganizationForm.controls['shortName'].setValue(this.oraginsationData.shortName);
+          this.createOrganizationForm.controls['defaultAssign'].setValue('')
+        }
+        )
+
+      })
+    }
   }
 
 
@@ -80,7 +82,7 @@ export class CreateOrganizationComponent implements OnInit {
       type: ['', Validators.nullValidator],
       organization: ['', Validators.required],
       shortName: ['', Validators.required],
-      defaultAssign: ['',Validators.nullValidator],
+      defaultAssign: ['', Validators.nullValidator],
     })
   }
 
@@ -90,7 +92,7 @@ export class CreateOrganizationComponent implements OnInit {
       "isActive": true
     }
     if (this.dataId) {
-          this.organizationService.updateOrganization(this.dataId, payload).subscribe((res) => {
+      this.organizationService.updateOrganization(this.dataId, payload).subscribe((res) => {
         console.log(res);
         this.alertpopupService.open({
           message: res.message,
