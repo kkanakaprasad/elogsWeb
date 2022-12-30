@@ -5,6 +5,7 @@ import { UserSearchCriteria } from '../user-Interface';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { OrganizationSearchCriteria } from 'src/app/organization/organization.interface';
 
 @Component({
   selector: 'app-remove-org-pop-up',
@@ -16,7 +17,7 @@ export class RemoveOrgPopUpComponent implements OnInit {
   orgnizationsData: any = [];
   dataSource = new MatTableDataSource(this.orgnizationsData);
   selection: any = new SelectionModel(true, []);
-  displayedColumns: string[] = ['select', 'Organization'];
+  displayedColumns: string[] = ['select', 'Organization','shortName','emailNotification'];
   organizationIDs: string[] = [];
 
   userPayload: UserSearchCriteria = {
@@ -50,7 +51,9 @@ export class RemoveOrgPopUpComponent implements OnInit {
       this.userService.userSearchCriteria(payload).subscribe((res) => {
         this.orgnizationsData = res.users[0].users[0].organizationsdata;
         this.dataSource = new MatTableDataSource(this.orgnizationsData);
+        console.log(this.orgnizationsData);
       })
+    
     }
   }
 
@@ -78,12 +81,12 @@ export class RemoveOrgPopUpComponent implements OnInit {
   removeOrganization() {
     this.selection.selected.map((res: any) => {
       this.organizationIDs.push(res._id)
-    })
+              })
 
     const payload = {
       userId: this.selectedUser._id,
       organizationIds: this.organizationIDs
-    }
+        }
     this.userService.removeOrganizationsfromUser(payload).subscribe((res) => {
       this.alertpopupService.open({
         message: 'Organization removed successfully.',
@@ -96,6 +99,14 @@ export class RemoveOrgPopUpComponent implements OnInit {
         action: 'ok'
       })
     })
+  }
+
+  onEmailNotificationChecked(event:any){
+    console.log(event);
+  }
+  organisationSearch(event:any){
+   
+
   }
 
 }

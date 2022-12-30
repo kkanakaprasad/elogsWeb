@@ -62,7 +62,7 @@ export class UserListComponent implements OnInit {
 
   userSearchCriteria(payload: any) {
     this.userService.userSearchCriteria(payload).subscribe((res) => {
-      this.usersList = res.users[0].users;
+      this.usersList = res.users[0].users.reverse();
       this.dataSource = new MatTableDataSource(this.usersList);
       this.dataSource.paginator = this.paginator;
     })
@@ -115,7 +115,7 @@ export class UserListComponent implements OnInit {
     })
   }
 
-  AddUser() {
+  addUser() {
     this.addNewUserService.openAddUser();
   }
 

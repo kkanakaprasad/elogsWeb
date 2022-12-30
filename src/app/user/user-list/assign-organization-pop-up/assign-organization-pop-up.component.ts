@@ -75,10 +75,10 @@ export class AssignOrganizationPopUpComponent implements OnInit {
           id: item._id,
           organization: item.organization
         })
-      });
+             });
       // this.getOrganizations();
     }
-  }
+      }
 
   assign() {
     var organizationIDs: any = [];
@@ -108,4 +108,6 @@ export class AssignOrganizationPopUpComponent implements OnInit {
 
     // this.userService.addUsersToOrganizationsfromUser()
   }
+
+  organisationSearch(event:any){}
 }
