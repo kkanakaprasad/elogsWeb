@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li *ngIf="isSuperAdmin">
-                <button mat-button [matMenuTriggerFor]="profilemenu" class="primary">Add</button>
+                <button mat-raised-button [matMenuTriggerFor]="profilemenu" color="warn">Add</button>
                 <mat-menu #profilemenu="matMenu">
                     <button mat-menu-item (click)="openCreateOrganizationPopup()">Organization</button>
                     <button mat-menu-item (click)="openCreateUserPopup()">User</button>
@@ -37,12 +37,14 @@
                     <span class="d-none d-md-block dropdown-toggle ps-2">{{logedinUserDetails.Name | titlecase }}</span>
                 </a>
 
-                <mat-menu #profileMenu="matMenu" class="p-2">
+                <mat-menu #profileMenu="matMenu" class="profile_menu">
                     <h4>Personal Settings</h4>
-                    <button mat-menu-item (click)="profile()">Profile</button>
-                    <button mat-menu-item (click)="notifications()">Notifications</button>
-                    <button mat-menu-item (click)="emailReports()">EmailReports</button>
-                    <button mat-menu-item (click)="logout()">LogOut</button>
+                    <div class="menu">
+                      <button mat-menu-item (click)="profile()">Profile</button>
+                      <button mat-menu-item (click)="notifications()">Notifications</button>
+                      <button mat-menu-item (click)="emailReports()">EmailReports</button>
+                      <button mat-menu-item (click)="logout()">LogOut</button>
+                   </div>
                 </mat-menu>
             </li>
         </ul>

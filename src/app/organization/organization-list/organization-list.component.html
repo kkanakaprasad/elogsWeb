@@ -1,112 +1,114 @@
-<div class="container">
-  <div class="page-wrapper">
-    <mat-tab-group (selectedTabChange)="applyOrganizationFilters($event)">
-      <mat-tab label={{filters.IS_ACTIVE}}>
-        <ng-template mat-tab-label>
-          Active
-        </ng-template>
-        <div style="padding: 0px !important;">
-          <h2>Organizations</h2>
-        </div>
-      </mat-tab>
+<div class="page-wrapper">
+  <mat-tab-group class="organization-cards" (selectedTabChange)="applyOrganizationFilters($event)">
+    <mat-tab label={{filters.IS_ACTIVE}}>
+      <ng-template mat-tab-label>
+        Active
+      </ng-template>
+    </mat-tab>
 
-      <mat-tab label={{filters.MINISTRIES}}>
-        <ng-template mat-tab-label>
-          Ministry/Department
-        </ng-template>
-        <h2>Organizations</h2>
-      </mat-tab>
+    <mat-tab label={{filters.MINISTRIES}}>
+      <ng-template mat-tab-label>
+        Ministry/Department
+      </ng-template>
+    </mat-tab>
 
-      <mat-tab label={{filters.ASSOCIATION}}>
-        <ng-template mat-tab-label>
-          Association
-        </ng-template>
-        <h2>Organizations</h2>
-      </mat-tab>
+    <mat-tab label={{filters.ASSOCIATION}}>
+      <ng-template mat-tab-label>
+        Association
+      </ng-template>
+    </mat-tab>
 
-      <mat-tab label={{filters.INACTIVE}}>
-        <ng-template mat-tab-label>
-          Disabled
-        </ng-template>
-        <h2>Organizations</h2>
-      </mat-tab>
-    </mat-tab-group>
+    <mat-tab label={{filters.INACTIVE}}>
+      <ng-template mat-tab-label>
+        Disabled
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 
-    <section class="section">
-      <div class="page-wrapper">
-        <div fxLayout="row wrap" fxLayoutGap="16px" class="align main">
-          <mat-card class="plus" (click)="createOrganization()" *ngIf="!this.isUser">
-            <mat-card-content>
-              <div class="add-icon">
-                <font>+</font>
+  <section class="in-page-wrapper">
+    <div class="row">
+      <div class="col-md-4 org-card">
+        <mat-card class="plus" (click)="createOrganization()" *ngIf="!this.isUser">
+          <mat-card-content>
+            <div class="add-icon">
+              <font>+</font>
+            </div>
+            <h4 class="mt-2">Create Organization</h4>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="organizationList?.length === 0 && isUser">
+          <h1>No Organizations Assigned!!</h1>
+
+        </mat-card>
+      </div>
+      <div class="col-md-4 org-card" *ngFor="let organization of organizationList">
+        <mat-card>
+          <mat-card-content>
+            <h3>
+              <span class="organization-title">{{
+                organization.organization | titlecase
+                }}</span>
+              <span> ({{ organization.shortName | uppercase }})</span>
+              </h3>
+              <div class="org_box">
+                <div class="org_icon">
+                  <i class="material-icons">corporate_fare</i>
+                </div>
+
+                <div>
+                  <p>
+                    {{ organization.users.length }} User(s)</p>
+                  <p>0 Activity(s)</p>
+                  <p>0 Hour(s) Spent</p>
+                  <p>0 Mb Storage</p>
               </div>
-              <h4 class="mt-2">Create Organization</h4>
-            </mat-card-content>
-          </mat-card>
-          <mat-card *ngIf="organizationList?.length === 0 && isUser">
-            <h1>No Organizations Assigned!!</h1>
+              </div>
 
-          </mat-card>
-          <mat-card fxFlex.lg="calc(33% - 16px)" fxFlex.lt-lg="calc(50% - 16px)" fxFlex.xs="calc(100% - 16px)"
-            *ngFor="let organization of organizationList">
-            <mat-card-content>
-              <p>
-                <span class="organization-title">{{
-                  organization.organization | titlecase
-                  }}</span>
-                <span> ( {{ organization.shortName | uppercase }} )</span>
-              </p>
-              <p>
-                <span>{{ organization.users.length }}</span> User(s)
-              </p>
-              <p>0 Activity(s)</p>
-              <p>0 Hour(s) Spent</p>
-              <p>0 Mb Storage</p>
+            <div class="action-buttons">
+              <div class="row justify-content-between">
 
-              <ng-container *ngIf="organizationList[0].isActive == true">
-                <div class="button">
-                  <button class="addButton" mat-button color="primary" (click)="openAddUserPopup(organization._id)">
+                <ng-container *ngIf="organizationList[0].isActive == true">
+                  <span class="col-6" (click)="openAddUserPopup(organization._id)">
                     Add User
-                  </button>
+                  </span>
 
-                  <button class="addButton" mat-button color="primary" (click)="updateOrganization(organization._id)">
+                  <span class="col-6" (click)="updateOrganization(organization._id)">
                     Edit
-                  </button>
-
-                  <button class="addButton" mat-button color="primary" (click)="openRemoveUserPopup(organization._id)">
+                  </span>
+                  <span class="col-6" (click)="openRemoveUserPopup(organization._id)">
                     Remove User
-                  </button>
+                  </span>
 
                   <ng-container *ngIf="organization.users?.length >=1">
-                    <button class="addButton" mat-button color="primary"
-                      (click)="disableAssociation(this.organization._id,organization.organization)">
+                    <span class="col-6" (click)="disableAssociation(this.organization._id,organization.organization)">
                       Disable
-                    </button>
+                    </span>
                   </ng-container>
 
                   <ng-container *ngIf="organization.users?.length  == 0">
-                    <button class="addButton" mat-button color="primary"
-                      (click)="removeUser(organization._id,organization.organization)">
+                    <span class="col-6" (click)="removeUser(organization._id,organization.organization)">
                       Delete
-                    </button>
+                    </span>
                   </ng-container>
-
-                </div>
               </ng-container>
 
               <ng-container *ngIf="organizationList[0].isActive == false">
-                <button class="addButton" mat-button color="primary"
+                <span class="col-6"
                   (click)="removeUser(organization._id,organization.organization)">
                   Delete User
-                </button>
-                <button class="addButton" mat-button color="primary" (click)="enableAssociation(this.organization._id,organization.organization)">
+              </span>
+                <span  class="col-6" (click)="enableAssociation(this.organization._id,organization.organization)">
                   Enable
-                </button>
+                </span>
               </ng-container>
-            </mat-card-content>
-          </mat-card>
-        </div>
+
+              </div>
+
+          </div>
+          </mat-card-content>
+        </mat-card>
       </div>
-    </section>
-  </div>
+
+    </div>
+  </section>
 </div>

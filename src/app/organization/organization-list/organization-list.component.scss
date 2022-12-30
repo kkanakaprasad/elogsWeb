@@ -1,35 +1,15 @@
-mat-card{
-    width: 350px;
-    min-height: 220px;
-    border-bottom: 5px;
-    text-align: center;
-}
-.main{
-display: flex;
-flex-wrap: wrap;
-justify-content: space-between;
-row-gap: 10px;
-}
-.mat-card-content   {
-    text-align: left;
-    margin: 30px 20px
-}
-.addButton{
-    float: right;
-}
-
 .add-icon{
     height: 100px;
     width: 100px;
     margin: auto;
-    border: .25px  solid #556ee7;
+    border: .25px  solid #f44336;
     border-radius: 50%;
     display: grid;
     place-items: center;
 }
 font{
     font-size: 80px;
-    color:  #5927b1;
+    color:  #f44336;
 }
 .plus{
 display: grid;
@@ -39,7 +19,6 @@ cursor: pointer;
 
 .organization-title{
     font-weight: 900;
-    font-size: 16px;
 }
 .togle-button{
     width: 200px!important;
@@ -48,8 +27,4 @@ cursor: pointer;
 .mat-button-toggle-checked {
     background-color: #556ee7;
     color: white !important
-}
-
-.mat-tab-group{
-    padding : 5px;
 }
