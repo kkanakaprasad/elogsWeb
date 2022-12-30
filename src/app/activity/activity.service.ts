@@ -9,11 +9,15 @@ export class ActivityService {
 
 constructor(private httpDataService:HttpDataService) { }
 
-
 getAllActivities(): Observable<any>{
- return this.httpDataService.get('activity-type')
+ return this.httpDataService.get('activity')
 }
+
 createActivity(payload:any): Observable<any>{
   return this.httpDataService.post('activity-type',payload);
+}
+
+postActivity(payload:any):Observable<any>{
+  return this.httpDataService.post('activity',payload)
 }
 }

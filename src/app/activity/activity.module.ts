@@ -9,10 +9,11 @@ import { ActivityComponent } from './activity.component';
 
 
 
+
 @NgModule({
   declarations: [
     CreateactivityComponent,
-    ActivityComponent
+    ActivityComponent,
   ],
   imports: [
     CommonModule,

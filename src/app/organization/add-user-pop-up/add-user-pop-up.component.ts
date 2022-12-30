@@ -59,6 +59,28 @@ export class AddUserPopUpComponent implements OnInit {
     })
 
   }
+  
+  userSearch(event:any){
+    console.log(event.target.value)
+    const payload: OrganizationSearchCriteria = {
+      pageNumber: 1000,
+      pageSize: 0,
+      sortField: '',
+      sortOrder: 0,
+      type: '',
+      organization: '',
+      organizationId: this.selectedOrganizationId,
+      userId: '',
+      userSearch: event.target.value
+    }
+    this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
+
+      this.organizationName= res.organizations[0].organizations[0].organization
+      this.organizationUsersData = res.organizations[0].organizations[0].users
+      // console.log(this.organizationUsersData)
+      })
+
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {

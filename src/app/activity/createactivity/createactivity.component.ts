@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from 'ngx-editor';
 import { OrganizationService } from 'src/app/organization/organization.service';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
+import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { ActivityService } from '../activity.service';
 
 
@@ -18,11 +20,14 @@ export class CreateactivityComponent implements OnInit {
   organizationList: any;
   activityForm!: FormGroup;
 
+
   constructor(
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
     private activityService:ActivityService,
     private alertpopupService:AlertpopupService,
+    private storageService: StorageService
+    
   ) { }
 
   ngOnInit() {
@@ -44,18 +49,20 @@ export class CreateactivityComponent implements OnInit {
 
   generateAddNewUserForm() {
     this.activityForm = this.formBuilder.group({
-      type: ['', Validators.required],
-      relatedTo: ['', Validators.required],
-      Ministry: ['', Validators.required,],
-      etype: ['',Validators.required],
-      Sector: ['', Validators.required],
-      Scope: ['', Validators.required],
-      Title: ['', Validators.required],
+      activityType: ['', Validators.required],
+      activityRelatedTo: ['', Validators.required],
+      organization: ['', Validators.required,],
+      activitEntryType: ['',Validators.required],
+      activitySector: ['', Validators.required],
+      activityScope: ['', Validators.required],
+      title: ['', Validators.required],
+      description: ['string', Validators.required],
+      attachments: ['string', Validators.required],
     })
 
   }
 
-  createAcyivity(payload:any){
+  createActivity(payload:any){
     // const payload:CreateActivity={
     //   ...this.activityForm.value,
       this.activityService.createActivity(payload).subscribe((res) => {
@@ -65,11 +72,25 @@ export class CreateactivityComponent implements OnInit {
         })
       })
   }
+
+  
   
   onSubmit() {
-
+    const payload={...this.activityForm.value, priority: "none ",status: "string",createdBy:this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)}
     console.log(this.activityForm.value);
-   // this.createAcyivity();
+    this.activityService.postActivity(payload).subscribe((res)=>{
+      this.alertpopupService.open({
+        message: res.message ? res.message : 'Activity Created Successfully',
+        action: 'ok'
+      })
+
+    },(error) => {
+      this.alertpopupService.open({
+        message: error.message ? error.message : "something went wrong!",
+        action: "ok"
+
+      });
+    })
   }
 
   
