@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   emailReports: any;
   userId: any;
   notifications: any
-
+  loggedInUserEmail : string = "";
 
 
   userTypes: any;
@@ -58,6 +58,7 @@ export class ProfileComponent implements OnInit {
       this.loggedInUserDetails = res?.existingUser;
       this.profileForm.controls['Name'].setValue(this.loggedInUserDetails.Name);
       this.profileForm.controls['email'].setValue(this.loggedInUserDetails.email);
+      this.loggedInUserEmail = this.loggedInUserDetails?.email
     })
   }
 
