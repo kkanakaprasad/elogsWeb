@@ -75,7 +75,7 @@
                   <span class="col-6" (click)="updateOrganization(organization._id)">
                     Edit
                   </span>
-                  <span class="col-6" (click)="openRemoveUserPopup(organization._id)">
+                  <span *ngIf="organization.users?.length >0" class="col-6" (click)="openRemoveUserPopup(organization._id)">
                     Remove User
                   </span>
 
