@@ -34,6 +34,7 @@ export class OrganizationListComponent implements OnInit {
   }
   organizationTypes: any;
   isUser = false;
+  selectedTab : any;
 
   constructor(private organizationService: OrganizationService,
     private masterDataService: MasterDataService,
@@ -67,6 +68,8 @@ export class OrganizationListComponent implements OnInit {
   }
 
   applyOrganizationFilters(user: any) {
+    this.selectedTab = user;
+    console.log(this.selectedTab);
     let updatedPayload = this.organizationListPayload;
     if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
       updatedPayload = {
@@ -98,7 +101,7 @@ export class OrganizationListComponent implements OnInit {
   updateOrganization(organizationId: string) {
     this.organizationService.updateOrganizatioPopup(organizationId).afterClosed().subscribe((res) => {
       if (res) {
-        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+        this.applyOrganizationFilters(this.selectedTab);
       }
     })
   }
@@ -106,7 +109,7 @@ export class OrganizationListComponent implements OnInit {
   createOrganization() {
     this.organizationService.openCreateOrganizatioPopup().afterClosed().subscribe((res) => {
       if (res) {
-        this.getAllOrganizationsSearchCriteria(this.organizationListPayload)
+        this.applyOrganizationFilters(this.selectedTab);
 
       }
     })
@@ -115,7 +118,7 @@ export class OrganizationListComponent implements OnInit {
   openAddUserPopup(selectedOrganizationId: string) {
     this.addUserPopUpService.openAddUser(selectedOrganizationId).afterClosed().subscribe((res) => {
       if (res) {
-        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+        this.applyOrganizationFilters(this.selectedTab);;
       }
     });
   }
@@ -123,7 +126,8 @@ export class OrganizationListComponent implements OnInit {
   openRemoveUserPopup(selectedOrganizationId: string) {
     this.removeUserPopUpService.removeUserPopUp(selectedOrganizationId).afterClosed().subscribe((res) => {
       if (res) {
-        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+        console.log(res)
+        this.applyOrganizationFilters(this.selectedTab);
       }
       console.log(res);
     });
@@ -131,7 +135,7 @@ export class OrganizationListComponent implements OnInit {
 
   disableAssociation(organizationListId: string, organizationName: string) {
     this.confirmationDialogService.open({
-      message: `Are you Sure to Disable ${organizationName}`
+      message: `Are you sure to Disable ${organizationName}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.organizationService.getorganizationById(organizationListId).subscribe(res => {
@@ -144,7 +148,7 @@ export class OrganizationListComponent implements OnInit {
               message: res.message,
               action: 'ok'
             })
-            this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+            this.applyOrganizationFilters(this.selectedTab);
           }, (error) => {
             this.alertpopupService.open({
               message: "Faild to create Organization! Please try again ",
@@ -174,7 +178,7 @@ export class OrganizationListComponent implements OnInit {
               message: res.message,
               action: 'ok'
             })
-            this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+            this.applyOrganizationFilters(this.selectedTab);
           }
             , (error) => {
               this.alertpopupService.open({
@@ -205,7 +209,7 @@ export class OrganizationListComponent implements OnInit {
                 message: res.message,
                 action: 'ok'
               })
-              this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+              this.applyOrganizationFilters(this.selectedTab);
             }, (error) => {
               this.alertpopupService.open({
                 message: "Faild to create Organization! Please try again ",

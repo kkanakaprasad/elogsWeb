@@ -1,7 +1,7 @@
 export const FILTER_CONSTANT = {
     IS_ACTIVE: 2,
-    MINISTRIES: 0,
-    ASSOCIATION: 1,
+    MINISTRIES: 1,
+    ASSOCIATION: 0,
     INACTIVE: 3,
     MY_PROFILE: 4,
     CHANGE_PASSWORD: 5,
