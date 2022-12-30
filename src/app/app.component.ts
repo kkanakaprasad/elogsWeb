@@ -15,7 +15,7 @@ export class AppComponent {
   }
 
   ngAfterContentChecked() {
-    this.httpDataService.loadingCount = this.loadingCount
+    this.loadingCount = this.httpDataService.loadingCount
   }
     
 }
