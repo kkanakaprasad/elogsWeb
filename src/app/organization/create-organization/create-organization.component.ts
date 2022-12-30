@@ -68,6 +68,7 @@ export class CreateOrganizationComponent implements OnInit {
   getOrganizationTypes() {
     this.masterDataService.getOrganizationTypes().subscribe((res) => {
       this.organizationTypes = res.data
+      console.log(this.organizationTypes)
     })
 
   }

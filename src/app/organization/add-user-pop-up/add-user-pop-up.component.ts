@@ -113,6 +113,19 @@ export class AddUserPopUpComponent implements OnInit {
     })
   }
 
+  //remove users logic for X mark 
+
+  removeUserFromOrganization(userId:string){
+    const payload={
+      userId:userId,
+      organizationIds:this.selectedOrganizationId
+    }
+    this.organizationService.removeUsersfromOrganization(payload).subscribe(res=>{
+      console.log(res)
+    })
+    console.log(userId)
+  }
+
   getUsersOrgnationById() {
     const payload : OrganizationSearchCriteria = {
       pageNumber: 10000,
@@ -153,7 +166,7 @@ export class AddUserPopUpComponent implements OnInit {
     }
       , (error) => {
         this.alertpopupService.open({
-          message: "Faild to remove users from Organization! Please try again ",
+          message: "Faild to add users to Organization! Please try again ",
           action: 'ok'
         })
     })

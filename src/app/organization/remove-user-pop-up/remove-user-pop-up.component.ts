@@ -125,7 +125,7 @@ export class RemoveUserPopUpComponent implements OnInit {
         message: res.message,
         action: 'ok'
       })
-      this.getUsersOrgnationById()
+      
     }
       , (error) => {
         this.alertpopupService.open({
