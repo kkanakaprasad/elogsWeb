@@ -101,7 +101,6 @@ export class OrganizationListComponent implements OnInit {
   updateOrganization(organizationId: string) {
     this.organizationService.updateOrganizatioPopup(organizationId).afterClosed().subscribe((res) => {
       if (res) {
-        // this.applyOrganizationFilters(this.selectedTab);
         this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
       }
     })
@@ -119,7 +118,6 @@ export class OrganizationListComponent implements OnInit {
   openAddUserPopup(selectedOrganizationId: string) {
     this.addUserPopUpService.openAddUser(selectedOrganizationId).afterClosed().subscribe((res) => {
       if (res) {
-        // this.applyOrganizationFilters(this.selectedTab);
         this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
       }
     });
@@ -128,8 +126,6 @@ export class OrganizationListComponent implements OnInit {
   openRemoveUserPopup(selectedOrganizationId: string) {
     this.removeUserPopUpService.removeUserPopUp(selectedOrganizationId).afterClosed().subscribe((res) => {
       if (res) {
-        console.log(res)
-        // this.applyOrganizationFilters(this.selectedTab);
         this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
       }
       console.log(res);
@@ -151,7 +147,6 @@ export class OrganizationListComponent implements OnInit {
               message: res.message,
               action: 'ok'
             })
-            // this.applyOrganizationFilters(this.selectedTab);
             this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
           }, (error) => {
             this.alertpopupService.open({
