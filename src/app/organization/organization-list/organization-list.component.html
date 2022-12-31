@@ -2,25 +2,25 @@
   <mat-tab-group class="organization-cards" (selectedTabChange)="applyOrganizationFilters($event)">
     <mat-tab label={{filters.IS_ACTIVE}}>
       <ng-template mat-tab-label>
-        Active {{activeMetricsCount}}
+        Active ({{activeMetricsCount}})
       </ng-template>
     </mat-tab>
 
     <mat-tab label={{filters.MINISTRIES}}>
       <ng-template mat-tab-label>
-        Ministry/Department {{ministriesMetricsCount}}
+        Ministry/Department ({{ministriesMetricsCount}})
       </ng-template>
     </mat-tab>
 
     <mat-tab label={{filters.ASSOCIATION}}>
       <ng-template mat-tab-label>
-        Association {{associationsMetricsCount}}
+        Association ({{associationsMetricsCount}})
       </ng-template>
     </mat-tab>
 
     <mat-tab label={{filters.INACTIVE}}>
       <ng-template mat-tab-label>
-        Disabled {{inActiveMetricsCount}}
+        Inactive ({{inActiveMetricsCount}})
       </ng-template>
     </mat-tab>
   </mat-tab-group>
