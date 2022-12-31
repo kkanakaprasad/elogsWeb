@@ -32,11 +32,12 @@ export class OrganizationListComponent implements OnInit {
     userId: "",
     userSearch: ""
   }
+  updatedPayload = this.organizationListPayload;
   organizationTypes: any;
   isUser = false;
   selectedTab = {
-    tab : {
-      textLabel : FILTER_CONSTANT.IS_ACTIVE
+    tab: {
+      textLabel: FILTER_CONSTANT.IS_ACTIVE
     }
   };
 
@@ -50,7 +51,7 @@ export class OrganizationListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+    this.getAllOrganizationsSearchCriteria();
     this.getOrganizationTypes();
   }
 
@@ -61,50 +62,50 @@ export class OrganizationListComponent implements OnInit {
     })
   }
 
-  getAllOrganizationsSearchCriteria(payload: OrganizationSearchCriteria) {
+  getAllOrganizationsSearchCriteria() {
     if (this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.User) {
       this.isUser = true;
-      payload = { ...payload, userId: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) };
+      this.updatedPayload = { ...this.updatedPayload, userId: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) };
     }
-    this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
+    this.organizationService.getOrganizationsSearchCriteria(this.updatedPayload).subscribe((res) => {
       this.organizationList = res.organizations[0].organizations.reverse();
     })
   }
 
   applyOrganizationFilters(user: any) {
     this.selectedTab = user;
-    let updatedPayload = this.organizationListPayload;
+    this.updatedPayload = this.organizationListPayload;
     if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
-      updatedPayload = {
-        ...updatedPayload,
+      this.updatedPayload = {
+        ...this.updatedPayload,
         isActive: true,
         type: this.organizationTypes[FILTER_CONSTANT.MINISTRIES]._id
       }
     } else if (Number(user.tab.textLabel) === FILTER_CONSTANT.IS_ACTIVE) {
-      updatedPayload = {
-        ...updatedPayload,
+      this.updatedPayload = {
+        ...this.updatedPayload,
         isActive: true
       }
     } else if (Number(user.tab.textLabel) === FILTER_CONSTANT.ASSOCIATION) {
-      updatedPayload = {
-        ...updatedPayload,
+      this.updatedPayload = {
+        ...this.updatedPayload,
         isActive: true,
         type: this.organizationTypes[FILTER_CONSTANT.ASSOCIATION]._id
       }
     } else if (Number(user.tab.textLabel) === FILTER_CONSTANT.INACTIVE) {
-      updatedPayload = {
-        ...updatedPayload,
+      this.updatedPayload = {
+        ...this.updatedPayload,
         isActive: false
       }
     }
 
-    this.getAllOrganizationsSearchCriteria(updatedPayload);
+    this.getAllOrganizationsSearchCriteria();
   }
 
   updateOrganization(organizationId: string) {
     this.organizationService.updateOrganizatioPopup(organizationId).afterClosed().subscribe((res) => {
       if (res) {
-        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+        this.getAllOrganizationsSearchCriteria();
       }
     })
   }
@@ -112,7 +113,9 @@ export class OrganizationListComponent implements OnInit {
   createOrganization() {
     this.organizationService.openCreateOrganizatioPopup().afterClosed().subscribe((res) => {
       if (res) {
-        this.applyOrganizationFilters(this.selectedTab);
+        // this.applyOrganizationFilters(this.selectedTab);
+        this.getAllOrganizationsSearchCriteria();
+
 
       }
     })
@@ -121,7 +124,7 @@ export class OrganizationListComponent implements OnInit {
   openAddUserPopup(selectedOrganizationId: string) {
     this.addUserPopUpService.openAddUser(selectedOrganizationId).afterClosed().subscribe((res) => {
       if (res) {
-        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+        this.getAllOrganizationsSearchCriteria();
       }
     });
   }
@@ -129,7 +132,7 @@ export class OrganizationListComponent implements OnInit {
   openRemoveUserPopup(selectedOrganizationId: string) {
     this.removeUserPopUpService.removeUserPopUp(selectedOrganizationId).afterClosed().subscribe((res) => {
       if (res) {
-        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+        this.getAllOrganizationsSearchCriteria();
       }
       console.log(res);
     });
@@ -150,7 +153,7 @@ export class OrganizationListComponent implements OnInit {
               message: res.message,
               action: 'ok'
             })
-            this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
+            this.getAllOrganizationsSearchCriteria();
           }, (error) => {
             this.alertpopupService.open({
               message: "Faild to create Organization! Please try again ",
@@ -165,7 +168,7 @@ export class OrganizationListComponent implements OnInit {
 
   }
 
-  enableOrganization(organizationListId: string,organizationName:string) {
+  enableOrganization(organizationListId: string, organizationName: string) {
     this.confirmationDialogService.open({
       message: `Are you Sure to Enable ${organizationName} `
     }).afterClosed().subscribe((res) => {
@@ -180,7 +183,9 @@ export class OrganizationListComponent implements OnInit {
               message: res.message,
               action: 'ok'
             })
-            this.applyOrganizationFilters(this.selectedTab);
+            // this.applyOrganizationFilters(this.selectedTab);
+            this.getAllOrganizationsSearchCriteria();
+
           }
             , (error) => {
               this.alertpopupService.open({
@@ -211,7 +216,9 @@ export class OrganizationListComponent implements OnInit {
                 message: res.message,
                 action: 'ok'
               })
-              this.applyOrganizationFilters(this.selectedTab);
+              // this.applyOrganizationFilters(this.selectedTab);
+              this.getAllOrganizationsSearchCriteria();
+
             }, (error) => {
               this.alertpopupService.open({
                 message: "Faild to create Organization! Please try again ",
