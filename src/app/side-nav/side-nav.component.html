@@ -45,7 +45,7 @@
         </li>
 
         <li class="nav-item" *ngIf="isSuperAdmin">
-            <a class="nav-link " [class.active]="page === 'Company'" (click)="change('Company')">
+            <a class="nav-link " [class.active]="page === 'Company'" (click)="naviagteToCompanySettings();change('Company')">
                 <i class="material-icons">description</i>
                 <span>Company Settings</span>
             </a>

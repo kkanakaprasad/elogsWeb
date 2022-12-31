@@ -69,4 +69,8 @@ export class SideNavComponent implements OnInit {
     this.organizationService.openCreateOrganizatioPopup();
   }
 
+  naviagteToCompanySettings(){
+    this.router.navigate([RouteConstants.COMPANY_SETTINGS])
+  }
+
 }

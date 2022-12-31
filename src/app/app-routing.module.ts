@@ -56,9 +56,17 @@ const routes: Routes = [
       {
         path:RouteConstants.ACTIVITY,
         data:{
-          roles:[Roles.Organisation,Roles.User]
+          roles:[Roles.SuperAdmin,Roles.User]
         },
         loadChildren:() => import('./activity/activity.module').then(m=>m.ActivityModule)
+      },
+      {
+        path : RouteConstants.COMPANY_SETTINGS,
+        data:{
+          roles:[Roles.SuperAdmin]
+        },
+        loadChildren:()=> import('./company-settings/company-settings.module').then(m=>m.CompanySettingsModule)
+
       }
       
       

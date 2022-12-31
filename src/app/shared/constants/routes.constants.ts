@@ -5,5 +5,6 @@ export const RouteConstants = {
     USER_LIST : 'user-list',
     PROFILE:'profile',
     ACTIVITY:'activity',
-    CREATEACTIVITY:'activity/create'
+    CREATEACTIVITY:'activity/create',
+    COMPANY_SETTINGS : 'company-settings'
 }
