@@ -35,12 +35,7 @@ export class OrganizationListComponent implements OnInit {
   updatedPayload = this.organizationListPayload;
   organizationTypes: any;
   isUser = false;
-  selectedTab = {
-    tab: {
-      textLabel: FILTER_CONSTANT.IS_ACTIVE
-    }
-  };
-
+ 
   constructor(private organizationService: OrganizationService,
     private masterDataService: MasterDataService,
     private addUserPopUpService: AddUserPopUpService,
@@ -73,7 +68,6 @@ export class OrganizationListComponent implements OnInit {
   }
 
   applyOrganizationFilters(user: any) {
-    this.selectedTab = user;
     this.updatedPayload = this.organizationListPayload;
     if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
       this.updatedPayload = {
@@ -113,7 +107,6 @@ export class OrganizationListComponent implements OnInit {
   createOrganization() {
     this.organizationService.openCreateOrganizatioPopup().afterClosed().subscribe((res) => {
       if (res) {
-        // this.applyOrganizationFilters(this.selectedTab);
         this.getAllOrganizationsSearchCriteria();
 
 
@@ -183,7 +176,7 @@ export class OrganizationListComponent implements OnInit {
               message: res.message,
               action: 'ok'
             })
-            // this.applyOrganizationFilters(this.selectedTab);
+          
             this.getAllOrganizationsSearchCriteria();
 
           }
@@ -216,7 +209,6 @@ export class OrganizationListComponent implements OnInit {
                 message: res.message,
                 action: 'ok'
               })
-              // this.applyOrganizationFilters(this.selectedTab);
               this.getAllOrganizationsSearchCriteria();
 
             }, (error) => {
