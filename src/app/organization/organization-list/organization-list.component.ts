@@ -101,7 +101,8 @@ export class OrganizationListComponent implements OnInit {
   updateOrganization(organizationId: string) {
     this.organizationService.updateOrganizatioPopup(organizationId).afterClosed().subscribe((res) => {
       if (res) {
-        this.applyOrganizationFilters(this.selectedTab);
+        // this.applyOrganizationFilters(this.selectedTab);
+        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
       }
     })
   }
@@ -118,7 +119,8 @@ export class OrganizationListComponent implements OnInit {
   openAddUserPopup(selectedOrganizationId: string) {
     this.addUserPopUpService.openAddUser(selectedOrganizationId).afterClosed().subscribe((res) => {
       if (res) {
-        this.applyOrganizationFilters(this.selectedTab);;
+        // this.applyOrganizationFilters(this.selectedTab);
+        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
       }
     });
   }
@@ -127,13 +129,14 @@ export class OrganizationListComponent implements OnInit {
     this.removeUserPopUpService.removeUserPopUp(selectedOrganizationId).afterClosed().subscribe((res) => {
       if (res) {
         console.log(res)
-        this.applyOrganizationFilters(this.selectedTab);
+        // this.applyOrganizationFilters(this.selectedTab);
+        this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
       }
       console.log(res);
     });
   }
 
-  disableAssociation(organizationListId: string, organizationName: string) {
+  disableOrganization(organizationListId: string, organizationName: string) {
     this.confirmationDialogService.open({
       message: `Are you sure to Disable ${organizationName}`
     }).afterClosed().subscribe((res) => {
@@ -148,7 +151,8 @@ export class OrganizationListComponent implements OnInit {
               message: res.message,
               action: 'ok'
             })
-            this.applyOrganizationFilters(this.selectedTab);
+            // this.applyOrganizationFilters(this.selectedTab);
+            this.getAllOrganizationsSearchCriteria(this.organizationListPayload);
           }, (error) => {
             this.alertpopupService.open({
               message: "Faild to create Organization! Please try again ",
@@ -163,7 +167,7 @@ export class OrganizationListComponent implements OnInit {
 
   }
 
-  enableAssociation(organizationListId: string,organizationName:string) {
+  enableOrganization(organizationListId: string,organizationName:string) {
     this.confirmationDialogService.open({
       message: `Are you Sure to Enable ${organizationName} `
     }).afterClosed().subscribe((res) => {
@@ -193,7 +197,7 @@ export class OrganizationListComponent implements OnInit {
 
   }
 
-  removeUser(organizationId: string, organizationName: string) {
+  removeOrganization(organizationId: string, organizationName: string) {
 
     this.confirmationDialogService.open({
       message: `Are you Sure to Delete ${organizationName}`
