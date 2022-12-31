@@ -68,15 +68,19 @@
     <ng-container matColumnDef="Actions">
       <th class="action-center" mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let element">
-        <div class="d-flex">
-            <button mat-raised-button color="primary" (click)="editUser(element._id)">Edit</button>
-            <button mat-raised-button *ngIf="element.isActive" (click)="disableOrenableUser(element._id,true)">Disable</button>
-
-            <button *ngIf="element.organizationsdata?.length > 0" mat-raised-button color="warn"
-              (click)="removeOrganisation(element)">Remove Organisation</button>
-            <button *ngIf="element.organizationsdata?.length === 0" mat-raised-button color="accent" (click)="assignOrganisation(element)">Assign
-              Organisation</button>
-          </div>
+        <div class="d-flex" *ngIf="loginUserID !==element._id">
+          <button mat-raised-button *ngIf="element.isActive" color="primary"
+            (click)="editUser(element._id)">Edit</button>
+          <button mat-raised-button *ngIf="element.isActive"
+            (click)="disableOrenableUser(element._id,false)">Disable</button>
+          <button mat-raised-button *ngIf="!element.isActive"
+            (click)="disableOrenableUser(element._id,true)">Enable</button>
+          <button *ngIf="element.organizationsdata?.length > 0" mat-raised-button color="warn"
+            (click)="removeOrganisation(element)">Remove Organisation</button>
+          <button *ngIf="element.organizationsdata?.length === 0" mat-raised-button color="accent"
+            (click)="assignOrganisation(element)">Assign
+            Organisation</button>
+        </div>
       </td>
     </ng-container>
 
@@ -84,4 +88,8 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
   </table>
+
+  <mat-paginator #paginator [pageSize]="customPage.pageSize" [length]="usersList.length"
+    [pageSizeOptions]="customPage.pageSizeOptions" (page)="onChangedPageSize($event)">
+  </mat-paginator>
 </div>

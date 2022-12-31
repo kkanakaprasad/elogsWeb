@@ -75,6 +75,9 @@ export class AddNewUserComponent implements OnInit {
 
 
   filterData(searchString: string) {
+    if(!searchString){
+      return;
+    }
     let resultArray: any = [];
     const filterValue = searchString?.toLowerCase();
     this.organizationsData?.filter((option: any) => {

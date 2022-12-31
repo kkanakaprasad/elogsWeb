@@ -1,26 +1,42 @@
-<mat-card-title class="d-flex justify-content-between">
-  <h1 class="user">Add User > {{ organizationName }}</h1>
-  <button class="addButton" mat-button color="primary" (click)="addUser()">
-    Add User
-  </button>
-</mat-card-title>
-<div mat-dialog-content>
-<div class="d-flex justify-content-end">
-    <mat-form-field appearance="outline">
-    <input matInput placeholder="Enter User Name" input type="text" (keyup.enter)="userSearch($event)" />
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
-</div>
+<div class="elog-dialog">
 
-<mat-card-content>
+  <!-- <div class="d-flex justify-content-between"> -->
+    <h1 class="user"> <span> Add User <small>></small> {{ organizationName }}</span> 
+    <button mat-raised-button color="primary" (click)="addUser()">
+      Add User
+    </button>
+  </h1>
+  <!-- </div> -->
+
+
+  <div class="row mt-2">
+    <div class="col-md-8">
+      <div class="selected-chips">
+        <mat-chip-list>
+          <mat-chip *ngFor="let user of selection.selected">{{
+            user.Name
+          }}</mat-chip>
+        </mat-chip-list>
+        </div>
+      </div>
+      <div class="col-md-4" style="padding-right: 30px;">
+        <div class="d-flex justify-content-end">
+          <mat-form-field appearance="outline">
+          <input matInput placeholder="Enter User Name" input type="text" (keyup.enter)="userSearch($event)" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+      </div>
+  </div>
+
+
+
+<mat-card-content class="elog-dialog-body p-0">
+  <div mat-dialog-content>
   <div class="row">
     <!-- unassigned users table -->
     <div class="col-8">
-      <mat-chip-list>
-        <mat-chip *ngFor="let user of selection.selected">{{
-          user.Name
-        }}</mat-chip>
-      </mat-chip-list>
+
       <table
         mat-table
         [dataSource]="dataSource"
@@ -66,12 +82,11 @@
       </table>
     </div>
 
-    <div class="col-4">
+    <div class="col-4 px-4">
       <!-- organization users table -->
       <table
         mat-table
         [dataSource]="dataSourceUsers"
-        class="assignedUsersTable"
       >
         <!-- Name Column -->
         <ng-container matColumnDef="User">
@@ -86,8 +101,9 @@
       </table>
     </div>
   </div>
-</mat-card-content>
 </div>
+</mat-card-content>
+
 <mat-card-actions>
   <div class="d-flex btn justify-content-end">
     <button mat-raised-button mat-dialog-close="true" [mat-dialog-close]="false">Cancel</button>
@@ -102,4 +118,5 @@
     </button>
   </div>
 </mat-card-actions>
+</div>
 

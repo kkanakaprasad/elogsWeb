@@ -27,7 +27,11 @@ export class UserListComponent implements OnInit {
   public usersList: any = [];
   filters = FILTER_CONSTANT
   customPage = CUSTOMPAGE;
-
+  selectedTab = {
+    tab : {
+      textLabel : FILTER_CONSTANT.IS_ACTIVE
+    }
+  };
   userTypes: any;
   userPayload: UserSearchCriteria = {
     pageNumber: 0,
@@ -73,21 +77,21 @@ export class UserListComponent implements OnInit {
 
   editUser(userId: string) {
     this.addNewUserService.openUpdateUserPopup(userId).afterClosed().subscribe((res) => {
-      this.userSearchCriteria(this.userPayload);
+      this.applyUserFilters(this.selectedTab);
     })
   }
 
   assignOrganisation(user: any) {
     this.assignOrganizationPopUpService.assignOrgPopUp(user).afterClosed().subscribe((res) => {
       if (res)
-        this.userSearchCriteria(this.userPayload);
+      this.applyUserFilters(this.selectedTab);
     });
   }
 
   removeOrganisation(userId: any) {
     this.removeOrgPopUpService.removeOrgPopUp(userId).afterClosed().subscribe((res) => {
       if (res)
-        this.userSearchCriteria(this.userPayload);
+      this.applyUserFilters(this.selectedTab);
     });
   }
 
@@ -104,12 +108,7 @@ export class UserListComponent implements OnInit {
             message: isEnable ? 'User enabled successfully' : 'User disabled successfully',
             action: 'ok'
           })
-          let updatedPayload = this.userPayload;
-          updatedPayload = {
-            ...updatedPayload,
-            isActive: !isEnable,
-          }
-          this.userSearchCriteria(updatedPayload);
+          this.applyUserFilters(this.selectedTab);
         })
       }
     })
@@ -126,6 +125,7 @@ export class UserListComponent implements OnInit {
   }
 
   applyUserFilters(user: any) {
+    this.selectedTab = user;
     let updatedPayload = this.userPayload;
     if (Number(user.tab.textLabel) === FILTER_CONSTANT.IS_ACTIVE) {
       updatedPayload = {
