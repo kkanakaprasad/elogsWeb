@@ -44,6 +44,11 @@ export class UserListComponent implements OnInit {
     userId: "",
     user: ""
   }
+  activeMetricsCount: number=0;
+  associationsMetricsCount: number=0  ;
+  ministriesMetricsCount: number=0;
+  inActiveMetricsCount: number=0;
+  
 
   displayedColumns = ['Name', 'Email', 'Organization', 'Actions']
   dataSource = new MatTableDataSource(this.usersList);
