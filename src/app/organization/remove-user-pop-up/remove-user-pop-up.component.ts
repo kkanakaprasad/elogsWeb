@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
 import { OrganizationSearchCriteria } from '../organization.interface';
 import { OrganizationService } from '../organization.service';
+import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 
 @Component({
   selector: 'app-remove-user-pop-up',
@@ -51,10 +52,8 @@ export class RemoveUserPopUpComponent implements OnInit {
       userSearch: ""
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
-
-      this.organizationName= res.organizations[0].organizations[0].organization
-      this.organizationUsersData = res.organizations[0].organizations[0].users
-      console.log(this.organizationUsersData);
+      this.organizationName= res.data.organizations[0].organization
+      this.organizationUsersData = res.data.organizations[0].users
       this.dataSource = new MatTableDataSource(this.organizationUsersData);
 
     })
@@ -88,26 +87,14 @@ export class RemoveUserPopUpComponent implements OnInit {
 
   
   userSearch(event:any){
-    console.log(event.target.value)
-    const payload: OrganizationSearchCriteria = {
-      pageNumber: 1000,
-      pageSize: 0,
-      sortField: '',
-      sortOrder: 0,
-      type: '',
-      organization: '',
-      organizationId: this.selectedOrganizationId,
-      userId: '',
-      userSearch: event.target.value
+    if(event.target.value){
+      const search = new SearchPipe();
+      this.dataSource = new MatTableDataSource(search.transform(this.organizationUsersData,event.target.value,'Name'));
+    }else{
+      this.dataSource = new MatTableDataSource(this.organizationUsersData);
     }
-    this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
-
-      this.organizationName= res.organizations[0].organizations[0].organization
-      this.organizationUsersData = res.organizations[0].organizations[0].users
-      // console.log(this.organizationUsersData)
-      })
-
   }
+
   selectedUsers(){
     console.log(this.tableRowSelection.selected);
     this.tableRowSelection.selected.map((res:any)=>{
