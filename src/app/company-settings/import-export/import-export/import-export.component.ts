@@ -15,10 +15,10 @@ export class ImportExportComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  firstFormGroup = this._formBuilder.group({
+  uploadFileForm = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
   });
-  secondFormGroup = this._formBuilder.group({
+  priviewDataForm = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
   });
   isLinear = false;

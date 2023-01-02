@@ -6,7 +6,7 @@
 </div>
 <hr>
 <mat-stepper [linear]="isLinear" #stepper>
-    <mat-step [stepControl]="firstFormGroup">      
+    <mat-step [stepControl]="uploadFileForm">      
             <ng-template matStepLabel>Upload File</ng-template>
             <div class="d-flex justify-content-between">
                 <div class="border">
@@ -73,7 +73,7 @@
             </div>
        
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" label="Preview Data">
+    <mat-step [stepControl]="priviewDataForm" label="Preview Data">
       
             <div>
                 <button mat-button matStepperPrevious>Back</button>

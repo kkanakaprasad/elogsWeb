@@ -6,11 +6,7 @@ import { ImportExportComponent } from './import-export/import-export/import-expo
 const routes: Routes = [
   {
     path : '',
-    component : CompanySettingsComponent,
-    children: [{
-      path: 'import&exports',
-      component: ImportExportComponent
-    }]
+    component : CompanySettingsComponent,   
   }
 ];
 
