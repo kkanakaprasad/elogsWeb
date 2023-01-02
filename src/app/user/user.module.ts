@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AddNewUserComponent } from './add-new-user/add-new-user.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserRoutingModule } from './user-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -20,6 +20,7 @@ import { AssignOrganizationPopUpComponent } from './user-list/assign-organizatio
     ],
     imports: [
         CommonModule,
+        FormsModule,
         ReactiveFormsModule,
         UserRoutingModule,
         SharedModule,

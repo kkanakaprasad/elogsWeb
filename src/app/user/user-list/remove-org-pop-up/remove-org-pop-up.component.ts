@@ -6,6 +6,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
 import { OrganizationSearchCriteria } from 'src/app/organization/organization.interface';
+import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 
 @Component({
   selector: 'app-remove-org-pop-up',
@@ -37,19 +38,19 @@ export class RemoveOrgPopUpComponent implements OnInit {
     public dialogref: MatDialogRef<RemoveOrgPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string
   ) {
-    console.log(data);
     this.selectedUser = data
   }
 
   ngOnInit() {
     this.userSearchCriteria(this.userPayload);
+    console.log(this.selection.selected)
   }
 
   userSearchCriteria(payload: UserSearchCriteria) {
     payload.userId = this.selectedUser._id;
     if (payload.userId) {
       this.userService.userSearchCriteria(payload).subscribe((res) => {
-        this.orgnizationsData = res.data.users.organizationsdata;
+        this.orgnizationsData = res.data.users[0].organizationsdata;
         this.dataSource = new MatTableDataSource(this.orgnizationsData);
       })
     
@@ -103,9 +104,15 @@ export class RemoveOrgPopUpComponent implements OnInit {
   onEmailNotificationChecked(event:any){
     console.log(event);
   }
+  
   organisationSearch(event:any){
-   
-
+    if(event.target.value){
+      const search = new SearchPipe();
+      this.dataSource = new MatTableDataSource(search.transform(this.orgnizationsData,event.target.value,'organization'));
+    }else{
+      this.dataSource = new MatTableDataSource(this.orgnizationsData);
+    }
+    
   }
 
 }

@@ -5,7 +5,7 @@
   </h1>
 <div class="d-flex justify-content-end">
   <mat-form-field appearance="outline">
-    <input matInput placeholder="Enter Organisation Name" input type="text" (keyup.enter)="organisationSearch($event)" />
+    <input matInput placeholder="Enter Organisation Name" input type="text" (keyup)="organisationSearch($event)" />
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 </div>
@@ -48,8 +48,8 @@
       </div>
       <mat-card-actions>
         <div class="d-flex btn justify-content-end">
-          <button mat-raised-button mat-dialog-close="true">Cancel</button>
-          <button mat-raised-button color="primary" mat-dialog-close="true" (click)="removeOrganization()">
+          <button mat-raised-button mat-dialog-close="true" [mat-dialog-close]=false>Cancel</button>
+          <button mat-raised-button color="primary" mat-dialog-close="true" [mat-dialog-close]=true [disabled]="selection.selected.length === 0" (click)="removeOrganization()">
             Remove
           </button>
         </div>
