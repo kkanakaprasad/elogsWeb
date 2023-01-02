@@ -27,7 +27,6 @@ export class RemoveOrgPopUpComponent implements OnInit {
     sortField: "",
     sortOrder: 0,
     type: "",
-    isActive: true,
     role: "",
     userId: "",
     user: ""
@@ -49,7 +48,7 @@ export class RemoveOrgPopUpComponent implements OnInit {
     payload.userId = this.selectedUser._id;
     if (payload.userId) {
       this.userService.userSearchCriteria(payload).subscribe((res) => {
-        this.orgnizationsData = res.data.users[0].organizationsdata;
+        this.orgnizationsData = res.data.users[0]?.organizationsdata;
         this.dataSource = new MatTableDataSource(this.orgnizationsData);
       })
     
