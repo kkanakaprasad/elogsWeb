@@ -52,10 +52,7 @@ export class CreateOrganizationComponent implements OnInit {
           userSearch: ""
         }
         this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
-
-          // console.log(res.organizations[0].organizations[0].users) 
           this.organizationUsersData = res.data.organizations[0].users
-
           this.createOrganizationForm.controls['organization'].setValue(this.oraginsationData.organization);
           this.createOrganizationForm.controls['shortName'].setValue(this.oraginsationData.shortName);
           this.createOrganizationForm.controls['defaultAssign'].setValue('')
@@ -105,7 +102,6 @@ export class CreateOrganizationComponent implements OnInit {
         })
       })
     } else {
-      // this.createOrganizationForm.controls['defaultAssign'].clearValidators()
       this.organizationService.createOrganization(payload).subscribe((res) => {
         this.alertpopupService.open({
           message: res.message,

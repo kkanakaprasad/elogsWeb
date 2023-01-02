@@ -56,7 +56,6 @@ export class AddUserPopUpComponent implements OnInit {
       });
     })).subscribe(res => {
       this.unAssignedUsersData = res;
-      console.log(res)
       this.dataSource = new MatTableDataSource(this.unAssignedUsersData);
     })
 
@@ -140,7 +139,6 @@ export class AddUserPopUpComponent implements OnInit {
 
   selectedUsers(){
     this.selection.selected.map((res:any)=>{
-     console.log(res._id)
      this.usersToSelectedOrganization.push(res._id)
     })
     const payload={

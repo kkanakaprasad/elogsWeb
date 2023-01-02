@@ -67,10 +67,10 @@ export class OrganizationListComponent implements OnInit {
     }
     this.organizationService.getOrganizationsSearchCriteria(this.updatedPayload).subscribe((res) => {
       this.organizationList = res.data.organizations.reverse();
-      this.activeMetricsCount=res.data.metrics[0].active[0].activeOrganizatiosns
-      this.associationsMetricsCount=res.data.metrics[0].associations[0].associationCount
-      this.ministriesMetricsCount=res.data.metrics[0].ministries[0].ministriesCount
-      this.inActiveMetricsCount=res.data.metrics[0].inActive[0].inActiveOrganizatiosns
+      this.activeMetricsCount=res.data.metrics[0].active[0]?.activeOrganizatiosns
+      this.associationsMetricsCount=res.data.metrics[0].associations[0]?.associationCount
+      this.ministriesMetricsCount=res.data.metrics[0].ministries[0]?.ministriesCount
+      this.inActiveMetricsCount=res.data.metrics[0].inActive[0]?.inActiveOrganizatiosns
     })
   }
 

@@ -77,14 +77,17 @@ export class UserListComponent implements OnInit {
 
   editUser(userId: string) {
     this.addNewUserService.openUpdateUserPopup(userId).afterClosed().subscribe((res) => {
+      if(res){
       this.applyUserFilters(this.selectedTab);
+    }
     })
   }
 
   assignOrganisation(user: any) {
     this.assignOrganizationPopUpService.assignOrgPopUp(user).afterClosed().subscribe((res) => {
-      if (res)
+      if (res){
       this.applyUserFilters(this.selectedTab);
+    }
     });
   }
 
