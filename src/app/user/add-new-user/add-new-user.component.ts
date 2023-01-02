@@ -61,7 +61,7 @@ export class AddNewUserComponent implements OnInit {
       user: ""
     }
     this.userService.userSearchCriteria(userPayload).subscribe((res) => {
-      this.userDetails = res.users[0].users;
+      this.userDetails = res.data.users;
       this.addNewUserForm.controls['Name'].setValue(this.userDetails[0].Name),
         this.addNewUserForm.controls['password'].setValue(this.userDetails[0].password),
         this.addNewUserForm.controls['email'].setValue(this.userDetails[0].email),
