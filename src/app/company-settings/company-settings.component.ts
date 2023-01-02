@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-interface Organizations {
-  value: string;
-  viewValue: string;
-}
+import { ImportExportComponent } from './import-export/import-export/import-export.component';
+
 @Component({
   selector: 'app-company-settings',
   templateUrl: './company-settings.component.html',
@@ -15,18 +13,5 @@ export class CompanySettingsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
-  isLinear = false;
-
-  constructor(private _formBuilder: FormBuilder) {}
-  organizations: Organizations[] = [
-    {value: 'DECAS', viewValue: 'DECAS(0)'},
-    {value: 'TestingAssociation001-1', viewValue: 'TestingAssociation001'},
-    {value: 'Prasad Org-2', viewValue: 'Prasad Org(0)'},
-  ];
+ 
 }
