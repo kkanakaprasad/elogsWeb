@@ -8,6 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrganizationService } from '../organization.service';
 import { OrganizationSearchCriteria } from '../organization.interface';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 
 @Component({
   selector: 'app-add-user-pop-up',
@@ -55,32 +56,23 @@ export class AddUserPopUpComponent implements OnInit {
       });
     })).subscribe(res => {
       this.unAssignedUsersData = res;
+      console.log(res)
       this.dataSource = new MatTableDataSource(this.unAssignedUsersData);
     })
 
   }
   
   userSearch(event:any){
-    console.log(event.target.value)
-    const payload: OrganizationSearchCriteria = {
-      pageNumber: 1000,
-      pageSize: 0,
-      sortField: '',
-      sortOrder: 0,
-      type: '',
-      organization: '',
-      organizationId: this.selectedOrganizationId,
-      userId: '',
-      userSearch: event.target.value
+    if(event.target.value){
+      const search = new SearchPipe();
+      this.dataSource = new MatTableDataSource(search.transform(this.unAssignedUsersData,event.target.value,'Name'));
+    }else{
+      this.dataSource = new MatTableDataSource(this.unAssignedUsersData);
     }
-    this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
-
-      this.organizationName= res.organizations[0].organizations[0].organization
-      this.organizationUsersData = res.organizations[0].organizations[0].users
-      // console.log(this.organizationUsersData)
-      })
-
-  }
+    
+    }
+    
+  
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {

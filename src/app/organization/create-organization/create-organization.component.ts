@@ -54,7 +54,7 @@ export class CreateOrganizationComponent implements OnInit {
         this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
 
           // console.log(res.organizations[0].organizations[0].users) 
-          this.organizationUsersData = res.organizations[0].organizations[0].users
+          this.organizationUsersData = res.data.organizations[0].users
 
           this.createOrganizationForm.controls['organization'].setValue(this.oraginsationData.organization);
           this.createOrganizationForm.controls['shortName'].setValue(this.oraginsationData.shortName);
