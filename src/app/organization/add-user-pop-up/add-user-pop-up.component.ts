@@ -109,10 +109,10 @@ export class AddUserPopUpComponent implements OnInit {
 
   getAllOrganizationsSearchCriteria(payload: OrganizationSearchCriteria) {
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
-      this.organizationList = res.organizations[0].organizations.reverse();
+      this.organizationList = res.data.organizations[0].organizations.reverse();
     })
   }
-
+  
   //remove users logic for X mark 
 
   removeUserFromOrganization(userId:string){
@@ -139,10 +139,9 @@ export class AddUserPopUpComponent implements OnInit {
       userSearch: ""
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res:any)=>{
-      console.log(res.organizations[0].organizations[0]);
-      console.log(res.organizations[0].organizations[0].organization);
-      this.organizationName=res.organizations[0].organizations[0].organization
-      this.organizationUsersData=res.organizations[0].organizations[0].users
+      console.log(res.data.organizations[0].users);
+      this.organizationName=res.data.organizations[0].organization
+      this.organizationUsersData = res.data.organizations[0].users
       this.dataSourceUsers = new MatTableDataSource( this.organizationUsersData);
     })
   }

@@ -51,10 +51,8 @@ export class RemoveUserPopUpComponent implements OnInit {
       userSearch: ""
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
-
-      this.organizationName= res.organizations[0].organizations[0].organization
-      this.organizationUsersData = res.organizations[0].organizations[0].users
-      console.log(this.organizationUsersData);
+      this.organizationName= res.data.organizations[0].organization
+      this.organizationUsersData = res.data.organizations[0].users
       this.dataSource = new MatTableDataSource(this.organizationUsersData);
 
     })
@@ -101,10 +99,8 @@ export class RemoveUserPopUpComponent implements OnInit {
       userSearch: event.target.value
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
-
-      this.organizationName= res.organizations[0].organizations[0].organization
-      this.organizationUsersData = res.organizations[0].organizations[0].users
-      // console.log(this.organizationUsersData)
+      this.organizationName= res.data.organizations[0].organization
+      this.organizationUsersData = res.data.organizations[0].users      
       })
 
   }
