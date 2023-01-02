@@ -118,6 +118,7 @@
       mat-dialog-close="true"
       [mat-dialog-close]="true"
       (click)="selectedUsers()"
+      [disabled]="selection.selected.length==0"
     >
       update
     </button>

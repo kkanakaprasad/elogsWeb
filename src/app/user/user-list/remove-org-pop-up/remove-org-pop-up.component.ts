@@ -43,7 +43,6 @@ export class RemoveOrgPopUpComponent implements OnInit {
 
   ngOnInit() {
     this.userSearchCriteria(this.userPayload);
-    console.log(this.selection.selected)
   }
 
   userSearchCriteria(payload: UserSearchCriteria) {
