@@ -1,7 +1,7 @@
 <div class="elog-dialog">
   <h1 class="user">
     <span>Remove Organization <small>></small> {{selectedUser.Name}}</span>
-    <button color="warn" class="close" mat-dialog-close="true">x</button>
+    <button color="warn" class="close" mat-dialog-close="true" [mat-dialog-close]=false>x</button>
   </h1>
 <div class="d-flex justify-content-end">
   <mat-form-field appearance="outline">
@@ -45,6 +45,11 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+        <div *ngIf="dataSource.filteredData?.length == 0">
+          <mat-card class="noUserFoundCard">
+            No organizations(s) found
+          </mat-card>
+        </div>
       </div>
       <mat-card-actions>
         <div class="d-flex btn justify-content-end">

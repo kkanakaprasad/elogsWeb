@@ -44,6 +44,12 @@ export class UserListComponent implements OnInit {
     userId: "",
     user: ""
   }
+  activeMetricsCount: number=0;
+  adminMetricsCount: number=0;
+  associationsMetricsCount: number=0  ;
+  ministriesMetricsCount: number=0;
+  inActiveMetricsCount: number=0;
+
 
   displayedColumns = ['Name', 'Email', 'Organization', 'Actions']
   dataSource = new MatTableDataSource(this.usersList);
@@ -65,7 +71,12 @@ export class UserListComponent implements OnInit {
   }
 
   userSearchCriteria(payload: any) {
-    this.userService.userSearchCriteria(payload).subscribe((res) => {
+   this.userService.userSearchCriteria(payload).subscribe((res) => {
+   this.activeMetricsCount=res.data.metrics[0].active[0]?.activeUsers;
+   this.associationsMetricsCount=res.data.metrics[0].associations[0]?.associationCount;
+   this.ministriesMetricsCount=res.data.metrics[0].ministries[0]?.ministriesCount;
+   this.inActiveMetricsCount=res.data.metrics[0].inActive[0]?.inActiveUsers;
+
       this.usersList = res.data.users.reverse();
       this.dataSource = new MatTableDataSource(this.usersList);
       this.dataSource.paginator = this.paginator;

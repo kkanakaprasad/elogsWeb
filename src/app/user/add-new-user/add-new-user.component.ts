@@ -18,7 +18,7 @@ import { UserService } from '../user.service';
 export class AddNewUserComponent implements OnInit {
   Users: any;
   addNewUserForm!: FormGroup;
-  organizationList: any;
+  organizationList: any=[{organization:""}];
   organizationsData: any;
   isUserEdit: boolean = false;
   userDetails: any;
@@ -67,7 +67,6 @@ export class AddNewUserComponent implements OnInit {
         this.addNewUserForm.controls['email'].setValue(this.userDetails[0].email),
         this.addNewUserForm.controls['organization'].setValue(this.userDetails[0].organization),
         this.addNewUserForm.controls['department']?.setValue(this.userDetails[0].department)
-      console.log(this.userDetails, "user list");
     }, (error) => {
       console.log(error);
     })
@@ -78,15 +77,7 @@ export class AddNewUserComponent implements OnInit {
     if(!searchString){
       return;
     }
-    let resultArray: any = [];
-    const filterValue = searchString?.toLowerCase();
-    this.organizationsData?.filter((option: any) => {
-      let result = option.organization.toLowerCase().includes(filterValue);
-      if (result) {
-        resultArray.push(option);
-      }
-    });
-    this.organizationList = resultArray;
+    this.organizationList = this.organizationsData;
   }
 
   generateAddNewUserForm() {

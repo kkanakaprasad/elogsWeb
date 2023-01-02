@@ -70,7 +70,7 @@ export class OrganizationListComponent implements OnInit {
       this.activeMetricsCount=res.data.metrics[0].active[0]?.activeOrganizatiosns
       this.associationsMetricsCount=res.data.metrics[0].associations[0]?.associationCount
       this.ministriesMetricsCount=res.data.metrics[0].ministries[0]?.ministriesCount
-      this.inActiveMetricsCount=res.data.metrics[0].inActive[0]?.inActiveOrganizatiosns
+      this.inActiveMetricsCount=res.data.metrics[0].inActive[0]?.inActiveOrganizatiosns>0?res.data.metrics[0].inActive[0]?.inActiveOrganizatiosns:0
     })
   }
 
