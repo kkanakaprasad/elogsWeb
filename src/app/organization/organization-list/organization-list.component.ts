@@ -35,10 +35,10 @@ export class OrganizationListComponent implements OnInit {
   updatedPayload = this.organizationListPayload;
   organizationTypes: any;
   isUser = false;
-  activeMetricsCount: any;
-  associationsMetricsCount: any;
-  ministriesMetricsCount: any;
-  inActiveMetricsCount: any;
+  activeMetricsCount: number=0;
+  associationsMetricsCount: number=0  ;
+  ministriesMetricsCount: number=0;
+  inActiveMetricsCount: number=0;
  
   constructor(private organizationService: OrganizationService,
     private masterDataService: MasterDataService,
