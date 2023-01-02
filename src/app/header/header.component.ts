@@ -83,6 +83,9 @@ export class HeaderComponent implements OnInit {
   changetab() {
     this.router.navigate([RouteConstants.PROFILE])
   }
+  companySettings() {
+    this.router.navigate([RouteConstants.COMPANY_SETTINGS])
+  }
 }
 
 
