@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
 import { REG_EXP_PATTERNS } from 'src/app/shared/enums/regex-pattern.enum';
+import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
+import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { ChangePassword } from './ChangePassword.Interface';
 import { ChangePasswordService } from './changePassword.service';
 
@@ -21,7 +23,8 @@ export class ChangepasswordComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private changePasswordService: ChangePasswordService,
-    private alertpopupService:AlertpopupService
+    private alertpopupService:AlertpopupService,
+    private storageService:StorageService
 
   ) {
 
@@ -43,8 +46,8 @@ export class ChangepasswordComponent implements OnInit {
 
   onSubmit() {
 
-    const payload: ChangePassword = {
-      email: this.logedinUserEmail,
+    const payload:any = {
+      userId: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID), 
       oldPassword: this.changePasswordForm.controls['OldPassword']?.value,
       newPassword: this.changePasswordForm.controls['NewPassword']?.value
     }
