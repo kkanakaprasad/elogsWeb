@@ -4,7 +4,7 @@ export interface UserSearchCriteria {
     sortField: string,
     sortOrder: number,
     type: string,
-    isActive: boolean,
+    isActive?: boolean,
     role: string,
     userId: string,
     user:string

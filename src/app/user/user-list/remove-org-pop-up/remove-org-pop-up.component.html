@@ -1,11 +1,11 @@
 <div class="elog-dialog">
   <h1 class="user">
     <span>Remove Organization <small>></small> {{selectedUser.Name}}</span>
-    <button color="warn" class="close" mat-dialog-close="true">x</button>
+    <button color="warn" class="close" mat-dialog-close="true" [mat-dialog-close]=false>x</button>
   </h1>
 <div class="d-flex justify-content-end">
   <mat-form-field appearance="outline">
-    <input matInput placeholder="Enter Organisation Name" input type="text" (keyup.enter)="organisationSearch($event)" />
+    <input matInput placeholder="Enter Organisation Name" input type="text" (keyup)="organisationSearch($event)" />
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 </div>
@@ -45,11 +45,16 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+        <div *ngIf="dataSource.filteredData?.length == 0">
+          <mat-card class="noUserFoundCard">
+            No organizations(s) found
+          </mat-card>
+        </div>
       </div>
       <mat-card-actions>
         <div class="d-flex btn justify-content-end">
-          <button mat-raised-button mat-dialog-close="true">Cancel</button>
-          <button mat-raised-button color="primary" mat-dialog-close="true" (click)="removeOrganization()">
+          <button mat-raised-button mat-dialog-close="true" [mat-dialog-close]=false>Cancel</button>
+          <button mat-raised-button color="primary" mat-dialog-close="true" [mat-dialog-close]=true [disabled]="selection.selected.length === 0" (click)="removeOrganization()">
             Remove
           </button>
         </div>

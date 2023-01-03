@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrganizationService } from 'src/app/organization/organization.service';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 
 @Component({
   selector: 'app-assign-organization-pop-up',
@@ -34,9 +35,9 @@ export class AssignOrganizationPopUpComponent implements OnInit {
 
   getOrganizations() {
     this.userService.getOrganisation().subscribe((res) => {
+      // console.log(res.organizations)
       this.organizations = res.organizations;
       this.dataSource = new MatTableDataSource(this.organizations);
-      console.log(this.organizations);
     })
   }
 
@@ -76,7 +77,7 @@ export class AssignOrganizationPopUpComponent implements OnInit {
           organization: item.organization
         })
              });
-      // this.getOrganizations();
+      this.getOrganizations();
     }
       }
 
@@ -109,5 +110,13 @@ export class AssignOrganizationPopUpComponent implements OnInit {
     // this.userService.addUsersToOrganizationsfromUser()
   }
 
-  organisationSearch(event:any){}
+  organisationSearch(event:any){
+    if(event.target.value){
+      const search = new SearchPipe();
+      this.dataSource = new MatTableDataSource(search.transform(this.organizations,event.target.value,'organization'));
+    }else{
+      this.dataSource = new MatTableDataSource(this.organizations);
+    }
+
+  }
 }

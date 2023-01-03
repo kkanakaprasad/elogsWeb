@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   BASE_URL : `https://elog-api.onrender.com/`,
-  // BASE_URL : `http://localhost:9000/`
+  //BASE_URL : `http://localhost:9000/`
 };
 
 /*

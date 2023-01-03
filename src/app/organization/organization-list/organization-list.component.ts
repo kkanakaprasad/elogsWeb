@@ -35,6 +35,10 @@ export class OrganizationListComponent implements OnInit {
   updatedPayload = this.organizationListPayload;
   organizationTypes: any;
   isUser = false;
+  activeMetricsCount: number=0;
+  associationsMetricsCount: number=0  ;
+  ministriesMetricsCount: number=0;
+  inActiveMetricsCount: number=0;
  
   constructor(private organizationService: OrganizationService,
     private masterDataService: MasterDataService,
@@ -53,7 +57,6 @@ export class OrganizationListComponent implements OnInit {
   getOrganizationTypes() {
     this.masterDataService.getOrganizationTypes().subscribe((res) => {
       this.organizationTypes = res.data;
-      console.log(this.organizationTypes);
     })
   }
 
@@ -63,7 +66,11 @@ export class OrganizationListComponent implements OnInit {
       this.updatedPayload = { ...this.updatedPayload, userId: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) };
     }
     this.organizationService.getOrganizationsSearchCriteria(this.updatedPayload).subscribe((res) => {
-      this.organizationList = res.organizations[0].organizations.reverse();
+      this.organizationList = res.data.organizations.reverse();
+      this.activeMetricsCount=res.data.metrics[0].active[0]?.activeOrganizatiosns
+      this.associationsMetricsCount=res.data.metrics[0].associations[0]?.associationCount
+      this.ministriesMetricsCount=res.data.metrics[0].ministries[0]?.ministriesCount
+      this.inActiveMetricsCount=res.data.metrics[0].inActive[0]?.inActiveOrganizatiosns>0?res.data.metrics[0].inActive[0]?.inActiveOrganizatiosns:0
     })
   }
 
@@ -127,7 +134,6 @@ export class OrganizationListComponent implements OnInit {
       if (res) {
         this.getAllOrganizationsSearchCriteria();
       }
-      console.log(res);
     });
   }
 
