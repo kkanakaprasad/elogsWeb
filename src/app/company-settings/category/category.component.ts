@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CompanySettingsService } from '../company-settings.service';
 
 @Component({
   selector: 'app-category',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryComponent implements OnInit {
 
-  constructor() { }
+  constructor( private companySettingsService: CompanySettingsService ) { }
 
   ngOnInit(): void {
   }
 
+  newCategoryPopup() {
+   
+    this.companySettingsService.newCategoryPopup().afterClosed().subscribe((res) => {
+      if(res) {
+        
+      }
+  })
+}
 }

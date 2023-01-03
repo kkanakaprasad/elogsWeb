@@ -8,8 +8,7 @@
         </p>
     </div>
     <div>
-        <button mat-raised-button color="primary">
-            + New Category</button>
+        <button type="button" class="btn btn-success" (click)="newCategoryPopup()">+ New Category</button>
     </div>
 </div><br>
 <div class="border">
@@ -17,12 +16,14 @@
     <hr>
     <div class="d-flex justify-content-between ">
         <mat-checkbox class="example-margin">Documentation/ Procedure (doc)
-            8 <mat-icon>create</mat-icon></mat-checkbox>
+            8 <mat-icon (click)="newCategoryPopup()">create</mat-icon></mat-checkbox>
         <mat-checkbox class="example-margin">Policy/ Rules/ Regulations (poy)
-            3 <mat-icon>create</mat-icon></mat-checkbox>
+            3 <mat-icon (click)="newCategoryPopup()">create</mat-icon></mat-checkbox>
         <mat-checkbox class="example-margin">Schemes/ Programmes (sug)
-            2 <mat-icon>create</mat-icon></mat-checkbox>
-    </div><br><br>
+            2 <mat-icon (click)="newCategoryPopup()">create</mat-icon></mat-checkbox>
+    </div>
+    <mat-checkbox class="example-margin">Schemes/ Programmes (sug)
+        2 <mat-icon (click)="newCategoryPopup()">create</mat-icon></mat-checkbox><br><br>
     <div class="d-flex flex-column">
         <h3>Default Category</h3>
         <hr>

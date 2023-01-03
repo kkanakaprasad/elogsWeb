@@ -16,9 +16,9 @@
                             <mat-form-field appearance="fill">
                                 <mat-label>select organization</mat-label>
                                 <mat-select>
-                                    <mat-option *ngFor="let organization of organizations"
-                                        [value]="organization.value">
-                                        {{organization.viewValue}}
+                                    <mat-option *ngFor="let organization of organizationsList"
+                                        [value]="organization.organization">
+                                        {{organization.organization}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>

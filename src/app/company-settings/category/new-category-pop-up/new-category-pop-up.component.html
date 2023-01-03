@@ -1,0 +1,28 @@
+<div class="elog-dialog">
+    <h1 mat-dialog-title><mat-icon>format_indent_increase</mat-icon>New Category<mat-icon mat-dialog-close="true" [mat-dialog-close]="false">clear</mat-icon></h1>
+    <div mat-dialog-content class="elog-dialog-body">
+        <form [formGroup]="newCategoryForm">
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Name :</mat-label>
+                    <input matInput placeholder="Category Name" input type="text" formControlName="category" />
+                </mat-form-field>
+            </div>          
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Short Name</mat-label>
+                        <input matInput placeholder="Short Name" input type="text" formControlName="shortName" />
+                    </mat-form-field>
+                </div>           
+            <div class="d-flex btn justify-content-end">
+                <button mat-raised-button mat-dialog-close="true" [mat-dialog-close]="false">
+                    Cancel
+                </button>
+                <button type="submit" mat-raised-button color="primary"
+                    mat-dialog-close="true">
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
