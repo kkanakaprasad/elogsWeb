@@ -18,7 +18,7 @@ export class NewCategoryPopUpComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,public dialogref: MatDialogRef<NewCategoryPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public dataId: NewCategoryPopUpComponent, private companySettingsService: CompanySettingsService) { }
 
-    NewCategoryFormValues() {
+    UpdateCategoryFormValues() {
       this.newCategoryForm = this.formBuilder.group({
        
         name: ['', Validators.required],
@@ -29,7 +29,7 @@ export class NewCategoryPopUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateActivityTypes ()
-    this.NewCategoryFormValues()
+    this.UpdateCategoryFormValues()
   }
 
   updateActivityTypes () {
