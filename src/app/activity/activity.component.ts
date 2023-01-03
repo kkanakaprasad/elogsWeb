@@ -1,6 +1,8 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { RouteConstants } from '../shared/constants/routes.constants';
 import { ActivityService } from './activity.service';
 
 @Component({
@@ -13,11 +15,12 @@ export class ActivityComponent implements OnInit {
   filters=['Created Date','Due Date','Status','Types','Entry Type','GeoGraphy','Scope','Priority','Created By','Assigned to']
   groupby=['Due Date','Status','Priority','Assigned to']
   sortby=['Tittle','Activity#','Due Date','Assigned to']
-  displayedColumns = ['Activity', 'Title', 'Priority','Duedate']
+  displayedColumns = ['Activity', 'Title', 'Priority','Duedate', 'Action']
   dataSource: any;
   selection: any = new SelectionModel(true, []);
   constructor(
-    private activityService :ActivityService
+    private activityService :ActivityService,
+    private router : Router,
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +61,10 @@ export class ActivityComponent implements OnInit {
       
       this.dataSource = new MatTableDataSource( res.data)
   })
+}
+updateActivity(activity:string){
+console.log(activity)
+this.router.navigate([RouteConstants.CREATEACTIVITY], { queryParams: { Aid: activity } })
 }
 
 }

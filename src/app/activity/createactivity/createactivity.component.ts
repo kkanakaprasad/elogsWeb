@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Validators } from 'ngx-editor';
 import { OrganizationService } from 'src/app/organization/organization.service';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
@@ -25,14 +26,17 @@ export class CreateactivityComponent implements OnInit {
   activityEntryTypesData: any;
   activitySectorsData: any;
   activityScopesData: any;
-  organizationFormControlValue: any;
+  selectedOrganizationValue: any;
+  removable:boolean=true
+  selectedOrganizationId: any;
 
   constructor(
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
     private activityService:ActivityService,
     private alertpopupService:AlertpopupService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private activatedRoute: ActivatedRoute
     
   ) { }
 
@@ -40,8 +44,13 @@ export class CreateactivityComponent implements OnInit {
     this.getActivityMasterData()
     this.getAllOrganization();
     this.generateAddNewUserForm()
-    
+    this.activatedRoute.queryParams.subscribe((res) => {
+      this.selectedOrganizationId = res['Aid'];
+      console.log(this.selectedOrganizationId)
+    });
+    this.getActivityById()    
   }
+  
   getAllOrganization() {
     this.organizationService.getAllOrganizations().subscribe((res) => {
       console.log(res)
@@ -79,10 +88,16 @@ export class CreateactivityComponent implements OnInit {
     })
 
   }
+
+  getActivityById(){
+    this.activityService.getActivityById(this.selectedOrganizationId).subscribe(res=>{
+      console.log(res)
+    })
+  }
   
   onSubmit() {
-    this.organizationFormControlValue=this.activityForm.get('organization')?.value.map((org:any)=>org._id)
-    const payload={...this.activityForm.value, organization:this.organizationFormControlValue, priority: "none ",status: "string",createdBy:this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)}
+    this.selectedOrganizationValue=this.activityForm.get('organization')?.value.map((org:any)=>org._id)
+    const payload={...this.activityForm.value, organization:this.selectedOrganizationValue, priority: "none ",status: "string",createdBy:this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)}
     console.log(payload);
     this.activityService.postActivity(payload).subscribe((res)=>{
       this.alertpopupService.open({
@@ -104,6 +119,14 @@ export class CreateactivityComponent implements OnInit {
     console.log(event.value)
     event.value==="Multiple Ministries/Departments"?this.isMultipleOrganization=false:true
     console.log(this.isMultipleOrganization)
+  }
+
+  removeChip(index: number) {
+    
+    let organizationValues = this.activityForm.controls['organization'];
+    organizationValues.value.splice(index,1);
+    this.activityForm.controls['organization']?.setValue(organizationValues.value);
+    
   }
   
 
