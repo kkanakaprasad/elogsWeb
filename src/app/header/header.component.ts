@@ -84,13 +84,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([RouteConstants.PROFILE])
   }
 
-  myCompany(){
+  navigateTomyCompany(){
     this.router.navigate([RouteConstants.COMPANY_SETTINGS])
   }
-  importandexport(){
+  navigateToimportandexport(){
     this.router.navigate([RouteConstants.COMPANY_SETTINGS])
   }
-  catageory(){
+  navigateTocatageory(){
     this.router.navigate([RouteConstants.COMPANY_SETTINGS])
   }
 }
