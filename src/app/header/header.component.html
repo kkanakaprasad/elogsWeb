@@ -40,11 +40,17 @@
                 <mat-menu #profileMenu="matMenu" class="profile_menu">
                     <h4>Personal Settings</h4>
                     <div class="menu">
-                      <button mat-menu-item (click)="profile()">Profile</button>
-                      <button mat-menu-item (click)="notifications()">Notifications</button>
-                      <button mat-menu-item (click)="emailReports()">EmailReports</button>
-                      <button mat-menu-item (click)="logout()">LogOut</button>
-                   </div>
+                        <button mat-menu-item (click)="profile()">Profile</button>
+                        <button mat-menu-item (click)="notifications()">Notifications</button>
+                        <button mat-menu-item (click)="emailReports()">EmailReports</button>
+                        <button mat-menu-item (click)="logout()">LogOut</button>
+                        <h4>Company Settings</h4>
+                        <div class="menu">
+                            <button mat-menu-item (click)="myCompany()">My Company</button>
+                            <button mat-menu-item (click)="importandexport()">Import & Export</button>
+                            <button mat-menu-item (click)="catageory()">Catageory</button>
+                        </div>
+                    </div>
                 </mat-menu>
             </li>
         </ul>
