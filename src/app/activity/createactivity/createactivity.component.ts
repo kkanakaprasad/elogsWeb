@@ -79,19 +79,6 @@ export class CreateactivityComponent implements OnInit {
     })
 
   }
-
-  createActivity(payload:any){
-    // const payload:CreateActivity={
-    //   ...this.activityForm.value,
-      this.activityService.createActivity(payload).subscribe((res) => {
-        this.alertpopupService.open({
-          message: res.message ? res.message : 'Activity Created Successfully',
-          action: 'ok'
-        })
-      })
-  }
-
-  
   
   onSubmit() {
     this.organizationFormControlValue=this.activityForm.get('organization')?.value.map((org:any)=>org._id)
@@ -112,6 +99,7 @@ export class CreateactivityComponent implements OnInit {
     })
   }
 
+  //future use
   relatedValue(event:any){
     console.log(event.value)
     event.value==="Multiple Ministries/Departments"?this.isMultipleOrganization=false:true
