@@ -13,6 +13,10 @@ getAllActivities(): Observable<any>{
  return this.httpDataService.get('activity')
 }
 
+getActivitiesMasterData(): Observable<any>{
+ return this.httpDataService.get('activity-masterdata')
+}
+
 createActivity(payload:any): Observable<any>{
   return this.httpDataService.post('activity-type',payload);
 }

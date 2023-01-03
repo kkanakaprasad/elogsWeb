@@ -19,7 +19,13 @@ export class CreateactivityComponent implements OnInit {
   allOrganization: any;
   organizationList: any;
   activityForm!: FormGroup;
-
+  isMultipleOrganization:any
+  activityTypesData: any;
+  activityRelatedTypesData: any;
+  activityEntryTypesData: any;
+  activitySectorsData: any;
+  activityScopesData: any;
+  organizationFormControlValue: any;
 
   constructor(
     private organizationService: OrganizationService,
@@ -31,8 +37,10 @@ export class CreateactivityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getActivityMasterData()
     this.getAllOrganization();
     this.generateAddNewUserForm()
+    
   }
   getAllOrganization() {
     this.organizationService.getAllOrganizations().subscribe((res) => {
@@ -46,6 +54,16 @@ export class CreateactivityComponent implements OnInit {
 
   }
 
+  getActivityMasterData(){
+    this.activityService.getActivitiesMasterData().subscribe(res=>{
+      console.log(res.data)
+      this.activityTypesData=res.data.activityTypesData;
+      this.activityRelatedTypesData=res.data.activityRelatedTypesData;
+      this.activityEntryTypesData=res.data.activityEntryTypesData;
+      this.activitySectorsData=res.data.activitySectorsData;
+      this.activityScopesData=res.data.activityScopesData;
+    })
+  }
 
   generateAddNewUserForm() {
     this.activityForm = this.formBuilder.group({
@@ -76,8 +94,9 @@ export class CreateactivityComponent implements OnInit {
   
   
   onSubmit() {
-    const payload={...this.activityForm.value, priority: "none ",status: "string",createdBy:this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)}
-    console.log(this.activityForm.value);
+    this.organizationFormControlValue=this.activityForm.get('organization')?.value.map((org:any)=>org._id)
+    const payload={...this.activityForm.value, organization:this.organizationFormControlValue, priority: "none ",status: "string",createdBy:this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)}
+    console.log(payload);
     this.activityService.postActivity(payload).subscribe((res)=>{
       this.alertpopupService.open({
         message: res.message ? res.message : 'Activity Created Successfully',
@@ -93,6 +112,11 @@ export class CreateactivityComponent implements OnInit {
     })
   }
 
+  relatedValue(event:any){
+    console.log(event.value)
+    event.value==="Multiple Ministries/Departments"?this.isMultipleOrganization=false:true
+    console.log(this.isMultipleOrganization)
+  }
   
 
 }

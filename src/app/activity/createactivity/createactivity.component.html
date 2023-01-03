@@ -5,35 +5,34 @@
     <mat-form-field appearance="outline">
       <mat-label>Type</mat-label>
       <mat-select formControlName="activityType">
-        <mat-option value="documentation
-      ">Documentation
-        </mat-option>
-        <mat-option value="policy">Policy</mat-option>
-        <mat-option value="procedure">Procedure</mat-option>
-        <mat-option value="scheme">Scheme</mat-option>
-        <mat-option value="others">Others</mat-option>
-      </mat-select>
+          <mat-option *ngFor="let activityTypesData of activityTypesData" [value]="activityTypesData._id">{{
+            activityTypesData.name
+            }}</mat-option>
+        </mat-select>
     </mat-form-field>
   </div>
   <div class=" d-flex">
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Related To</mat-label>
-        <mat-select formControlName="activityRelatedTo">
-          <mat-option value="Single Ministry/Department
-      ">Single Ministry/Department
-          </mat-option>
-          <mat-option value="Multiple Ministries/Departments">Multiple Ministries/Departments</mat-option>
-          <mat-option value="others">Others</mat-option>
+        <mat-select formControlName="activityRelatedTo" >
+          <mat-option *ngFor="let activityRelatedTypesData of activityRelatedTypesData" [value]="activityRelatedTypesData._id">{{
+            activityRelatedTypesData.name
+            }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="mx-5">
+    
+    <mat-chip-list><mat-chip *ngFor="let item of activityForm.get('organization')?.value">
+         {{item.organization}}
+    </mat-chip>
+  </mat-chip-list>
+    <div class="mx-5" >
       <mat-form-field appearance="outline" class="w-100-per">
         <mat-label>Ministry/Department</mat-label>
-        <mat-select  multiple="multiple"formControlName="organization">
-          <mat-option *ngFor="let item of organizationsData" [value]="item._id">{{
-            item.organization
+        <mat-select  multiple="multiple" formControlName="organization">
+          <mat-option *ngFor="let organization of organizationsData" [value]="organization">{{
+            organization.organization
             }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -45,11 +44,9 @@
     <mat-form-field appearance="outline">
       <mat-label>Entry Type</mat-label>
       <mat-select formControlName="activitEntryType">
-        <mat-option value="Issue
-  ">Issue
-        </mat-option>
-        <mat-option value="Suggestion">Suggestion</mat-option>
-        <mat-option value="others">Others</mat-option>
+        <mat-option *ngFor="let activityEntryTypesData of activityEntryTypesData" [value]="activityEntryTypesData._id">{{
+          activityEntryTypesData.name
+          }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -58,11 +55,10 @@
       <mat-form-field appearance="outline">
         <mat-label>Sector</mat-label>
         <mat-select formControlName="activitySector">
-          <mat-option value="EXIM
-  ">EXIM
-          </mat-option>
-          <mat-option value="Domestic">Domestic</mat-option>
-          <mat-option value="others">Others</mat-option>
+          <mat-option *ngFor="let activitySectorsData of activitySectorsData" [value]="activitySectorsData._id">{{
+            activitySectorsData.name
+            }}</mat-option>
+          
         </mat-select>
       </mat-form-field>
     </div>
@@ -70,8 +66,9 @@
       <mat-form-field appearance="outline">
         <mat-label>Scope</mat-label>
         <mat-select formControlName="activityScope">
-          <mat-option value="National">National</mat-option>
-          <mat-option value="Interstate">Interstate</mat-option>
+          <mat-option *ngFor="let activityScopesData of activityScopesData" [value]="activityScopesData._id">{{
+            activityScopesData.name
+            }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
