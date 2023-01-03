@@ -97,7 +97,10 @@ export class AddNewUserComponent implements OnInit {
         userAttributes: {},
         organization: this.addNewUserForm.value.organization,
         isActive: true,
-        department: this.addNewUserForm.value.department
+        department: this.addNewUserForm.value.department,
+        email:this.addNewUserForm.value.email,
+        password:this.addNewUserForm.value.password
+        
       }
       this.userService.updateUser(this.userId, payload).subscribe((res) => {
         if (res.success) {

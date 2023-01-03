@@ -22,7 +22,7 @@
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Email ID</mat-label>
-          <input matInput placeholder="email" input type="text" formControlName="email" [readonly]=isUserEdit />
+          <input matInput placeholder="email" input type="text" formControlName="email"/>
           <mat-error *ngIf="addNewUserForm.get('email')?.hasError('pattern')">
             Please enter a valid email address
           </mat-error>
