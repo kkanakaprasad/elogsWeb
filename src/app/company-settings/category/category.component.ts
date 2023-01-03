@@ -7,10 +7,12 @@ import { CompanySettingsService } from '../company-settings.service';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
+  public activityTypes: any
 
   constructor( private companySettingsService: CompanySettingsService ) { }
 
   ngOnInit(): void {
+    this.getAllActivityTypes ()
   }
 
   newCategoryPopup() {
@@ -19,6 +21,13 @@ export class CategoryComponent implements OnInit {
       if(res) {
         
       }
+  })
+}
+getAllActivityTypes () {
+  this.companySettingsService.getAllActivityTypes().subscribe((res) => {
+  this.activityTypes = res.data
+  console.log(this.activityTypes);
+
   })
 }
 }

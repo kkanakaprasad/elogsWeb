@@ -18,4 +18,8 @@ export class CompanySettingsService {
   newCategoryPopup(){
     return this.matDialog.open(NewCategoryPopUpComponent,{disableClose:true,width :'500px',data : "category"})
   }
+
+  getAllActivityTypes(): Observable<any>{
+    return this.httpDataService.get(`activity-masterdata/activityType`)
+  }
 }
