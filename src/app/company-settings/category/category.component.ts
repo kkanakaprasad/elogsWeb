@@ -9,33 +9,32 @@ import { CompanySettingsService } from '../company-settings.service';
 export class CategoryComponent implements OnInit {
   public activityTypes: any
 
-  constructor( private companySettingsService: CompanySettingsService ) { }
+  constructor(private companySettingsService: CompanySettingsService) { }
 
   ngOnInit(): void {
-    this.getAllActivityTypes ()
+    this.getAllActivityTypes()
   }
 
   updateCategoryPopup(activityTypeData: any) {
-   
+
     this.companySettingsService.updateCategoryPopup(activityTypeData).afterClosed().subscribe((res) => {
-      if(res) {
+      if (res) {
         this.getAllActivityTypes()
       }
-  })
-}
-createCategoryPopup() {
-   
-  this.companySettingsService.createCategoryPopup().afterClosed().subscribe((res) => {
-    if(res) {
-      this.getAllActivityTypes()
-    }
-})
-}
-getAllActivityTypes () {
-  this.companySettingsService.getAllActivityTypes().subscribe((res) => {
-  this.activityTypes = res.data
-  console.log(this.activityTypes);
+    })
+  }
+  createCategoryPopup() {
 
-  })
-}
+    this.companySettingsService.createCategoryPopup().afterClosed().subscribe((res) => {
+      if (res) {
+        this.getAllActivityTypes()
+      }
+    })
+  }
+  getAllActivityTypes() {
+    this.companySettingsService.getAllActivityTypes().subscribe((res) => {
+      this.activityTypes = res.data
+
+    })
+  }
 }
