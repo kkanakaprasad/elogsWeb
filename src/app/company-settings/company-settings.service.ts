@@ -17,11 +17,13 @@ export class CompanySettingsService {
   }
 
   updateCategoryPopup(activityTypeData: any){
-    return this.matDialog.open(NewCategoryPopUpComponent,{disableClose:true,width :'500px',data : activityTypeData})
+    return this.matDialog.open(NewCategoryPopUpComponent,{
+      disableClose:true,width :'500px',data : {...activityTypeData, mode: "üpdate"}})
   }
 
   createCategoryPopup(){
-    return this.matDialog.open(NewCategoryPopUpComponent,{disableClose:true,width :'500px',data : ''})
+    return this.matDialog.open(NewCategoryPopUpComponent,
+      {disableClose:true,width :'500px',data : {mode: "create"}})
   }
 
 

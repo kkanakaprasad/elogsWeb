@@ -1,5 +1,5 @@
 <div class="elog-dialog">
-    <h1 mat-dialog-title><mat-icon>format_indent_increase</mat-icon>Update Category<mat-icon mat-dialog-close="true" [mat-dialog-close]="false">clear</mat-icon></h1>
+    <h1 mat-dialog-title><mat-icon>format_indent_increase</mat-icon>{{mode === "create"?'create':'update'}} Category<mat-icon mat-dialog-close="true" [mat-dialog-close]="false">clear</mat-icon></h1>
     <div mat-dialog-content class="elog-dialog-body">
         <form [formGroup]="newCategoryForm" (ngSubmit)="onSubmit()">
             <div>
@@ -20,7 +20,7 @@
                 </button>
                 <button type="submit" mat-raised-button color="primary"
                     mat-dialog-close="true">
-                    {{isSelected==false?'create':'update'}}
+                    {{mode === "create"?'create':'update'}}
                 </button>
             </div>
         </form>

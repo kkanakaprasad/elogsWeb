@@ -17,12 +17,15 @@ export class NewCategoryPopUpComponent implements OnInit {
   public activityTypes: any;
   isSelected: boolean = false;
 
+  mode;
 
   constructor(private formBuilder: FormBuilder,
     public dialogref: MatDialogRef<NewCategoryPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public selectedCategory: any,
     private companySettingsService: CompanySettingsService,
-    private alertpopupService: AlertpopupService,) { }
+    private alertpopupService: AlertpopupService,) {
+      this.mode = this.selectedCategory.mode
+     }
 
   ngOnInit(): void {
     this.genrateCategoryForm()
@@ -32,7 +35,8 @@ export class NewCategoryPopUpComponent implements OnInit {
    * To genarate category form
    */
   genrateCategoryForm() {
-    this.newCategoryForm = this.formBuilder.group({
+    this.isSelected = true,
+    this.newCategoryForm = this.formBuilder.group({     
       name: [this.selectedCategory.name ? this.selectedCategory.name : "", Validators.required],
       shortName: [this.selectedCategory.shortName ? this.selectedCategory.shortName : "", Validators.required],
 
@@ -40,10 +44,9 @@ export class NewCategoryPopUpComponent implements OnInit {
   }
 
   /**
-   * 
+   *  Submit category form
    */
-  onSubmit() {
-   
+  onSubmit() {  
 
     if (this.selectedCategory._id) {
       const payload: UpdateActivityType = {
