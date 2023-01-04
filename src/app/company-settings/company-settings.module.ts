@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ImportExportComponent } from './import-export/import-export/import-export.component'
 import { CategoryComponent } from './category/category.component';
+import { NewCategoryPopUpComponent } from './category/new-category-pop-up/new-category-pop-up.component';
 
 
 
@@ -13,7 +14,8 @@ import { CategoryComponent } from './category/category.component';
   declarations: [
     CompanySettingsComponent,
     ImportExportComponent,
-    CategoryComponent
+    CategoryComponent,
+    NewCategoryPopUpComponent
   ],
   imports: [
     CommonModule,
