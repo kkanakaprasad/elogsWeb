@@ -35,7 +35,7 @@ export class CreateactivityComponent implements OnInit {
   fileName: any;
   fileSize: any;
   filesListArray:any[]=[];
-  // fileInformation: { name: any; size: any; path: any; };
+ 
 
 
   constructor(
@@ -70,7 +70,6 @@ export class CreateactivityComponent implements OnInit {
         return result[2].data[0].organizationData.find((o: any) => o._id === org._id)
       })
 
-      console.log(result);
       this.activityTypesData = result[1].data.activityTypesData;
       this.activityRelatedTypesData = result[1].data.activityRelatedTypesData;
       this.activityEntryTypesData = result[1].data.activityEntryTypesData;
@@ -110,7 +109,6 @@ export class CreateactivityComponent implements OnInit {
     path:this.filePath
    });
     }
-    console.log(this.filesListArray)
   }
 
   get activityMasterData$() {
@@ -188,7 +186,6 @@ export class CreateactivityComponent implements OnInit {
       });
     })
   }
-    // console.log(payload)
   }
 
   //future use
