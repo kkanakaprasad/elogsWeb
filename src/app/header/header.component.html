@@ -38,14 +38,24 @@
                 </a>
 
                 <mat-menu #profileMenu="matMenu" class="profile_menu">
+                    <h2>This Account is managed by SIG - Logistics Division...</h2>
+                    {{logedinUserDetails.email}}
                     <h4>Personal Settings</h4>
                     <div class="menu">
-                      <button mat-menu-item (click)="profile()">Profile</button>
-                      <button mat-menu-item (click)="notifications()">Notifications</button>
-                      <button mat-menu-item (click)="emailReports()">EmailReports</button>
-                      <button mat-menu-item (click)="companySettings()">CompanySettings</button>
-                      <button mat-menu-item (click)="logout()">LogOut</button>
-                   </div>
+                        <button mat-menu-item (click)="profile()">Profile</button>
+                        <button mat-menu-item (click)="notifications()">Notifications</button>
+                        <button mat-menu-item (click)="emailReports()">EmailReports</button>
+                        <button mat-menu-item (click)="logout()">LogOut</button>
+                        <div *ngIf="isSuperAdmin">
+                            <h4>Company Settings</h4>
+                            <div class="menu">
+                                <button mat-menu-item (click)="navigateTomyCompany()">My Company</button>
+                                <button mat-menu-item (click)="navigateToimportandexport()">Import & Export</button>
+                                <button mat-menu-item (click)="navigateTocatageory()">Catageory</button>
+                            </div>
+                        </div>
+
+                    </div>
                 </mat-menu>
             </li>
         </ul>
