@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { HttpDataService } from '../shared/services/http-service/http-service.service';
 import { NewCategoryPopUpComponent } from './category/new-category-pop-up/new-category-pop-up.component';
+import { CreateActivityType, UpdateActivityType } from './category/category.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,24 @@ export class CompanySettingsService {
     return this.httpDataService.get(`organizations`)
   }
 
-  newCategoryPopup(){
-    return this.matDialog.open(NewCategoryPopUpComponent,{disableClose:true,width :'500px',data : "category"})
+  updateCategoryPopup(activityTypeData: any){
+    return this.matDialog.open(NewCategoryPopUpComponent,{disableClose:true,width :'500px',data : activityTypeData})
   }
+
+  createCategoryPopup(){
+    return this.matDialog.open(NewCategoryPopUpComponent,{disableClose:true,width :'500px',data : ''})
+  }
+
 
   getAllActivityTypes(): Observable<any>{
     return this.httpDataService.get(`activity-masterdata/activityType`)
+  }
+
+  updateActivtyType (activityTypeId: any, payload: UpdateActivityType):Observable<any> {
+    return this.httpDataService.put(`activity-masterdata/update/activityType/${activityTypeId}`, payload)
+  }
+
+  createActivtyType ( payload: CreateActivityType):Observable<any> {
+    return this.httpDataService.post(`activity-masterdata/create/activityType`, payload)
   }
 }

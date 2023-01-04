@@ -8,25 +8,27 @@
         </p>
     </div>
     <div>
-        <button type="button" class="btn btn-success" (click)="newCategoryPopup()">+ New Category</button>
+        <button type="button" class="btn btn-success" (click)="createCategoryPopup()">+ New Category</button>
     </div>
 </div><br>
 <div class="border">
     <h3>Custom Category</h3>
     <hr>
-    <div class="d-flex justify-content-start"  *ngFor="let type of activityTypes">
+    <div class="d-flex justify-content-start" *ngFor="let type of activityTypes">
         <div *ngIf="type.isDefault === false">
-        <mat-checkbox class="example-margin" [checked]="type.isActive">{{type.name}}    
-           <mat-icon (click)="newCategoryPopup()">create</mat-icon></mat-checkbox>
-        
-            </div>
+            <mat-checkbox class="example-margin" [checked]="type.isActive" [value]="type._id">{{type.name}}
+                ({{type.shortName}})
+            </mat-checkbox>
+            <mat-icon (click)="updateCategoryPopup(type)">create</mat-icon>
+        </div>
     </div><br><br>
-   
+
     <div class="d-flex flex-column">
         <h3>Default Category</h3>
         <hr>
         <div *ngFor="let type of activityTypes">
-        <mat-checkbox class="example-margin"  *ngIf="type.isDefault === true" [checked]="type.isActive">{{type.name}}</mat-checkbox><br>
+            <mat-checkbox class="example-margin" *ngIf="type.isDefault === true" [checked]="type.isActive"
+                [value]="type._id">{{type.name}} ({{type.shortName}})</mat-checkbox><br>
         </div><br><br>
         <div>
             <button type="button" class="btn btn-success">Save</button>

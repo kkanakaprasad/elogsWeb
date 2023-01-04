@@ -15,13 +15,21 @@ export class CategoryComponent implements OnInit {
     this.getAllActivityTypes ()
   }
 
-  newCategoryPopup() {
+  updateCategoryPopup(activityTypeData: any) {
    
-    this.companySettingsService.newCategoryPopup().afterClosed().subscribe((res) => {
+    this.companySettingsService.updateCategoryPopup(activityTypeData).afterClosed().subscribe((res) => {
       if(res) {
-        
+        this.getAllActivityTypes()
       }
   })
+}
+createCategoryPopup() {
+   
+  this.companySettingsService.createCategoryPopup().afterClosed().subscribe((res) => {
+    if(res) {
+      this.getAllActivityTypes()
+    }
+})
 }
 getAllActivityTypes () {
   this.companySettingsService.getAllActivityTypes().subscribe((res) => {
