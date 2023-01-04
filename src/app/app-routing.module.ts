@@ -65,7 +65,7 @@ const routes: Routes = [
         data:{
           roles:[Roles.SuperAdmin]
         },
-        loadChildren:()=> import('./company-settings/company-settings.module').then(m=>m.CompanySettingsModule)
+        loadChildren:()=> import('./company-settings/company-settings.module').then(m=>m.CompanySettingsModule),
 
       }
       

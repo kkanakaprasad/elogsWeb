@@ -63,7 +63,6 @@ export class AddNewUserComponent implements OnInit {
     this.userService.userSearchCriteria(userPayload).subscribe((res) => {
       this.userDetails = res.data.users;
       this.addNewUserForm.controls['Name'].setValue(this.userDetails[0].Name),
-        this.addNewUserForm.controls['password'].setValue(this.userDetails[0].password),
         this.addNewUserForm.controls['email'].setValue(this.userDetails[0].email),
         this.addNewUserForm.controls['organization'].setValue(this.userDetails[0].organization),
         this.addNewUserForm.controls['department']?.setValue(this.userDetails[0].department)
@@ -92,13 +91,18 @@ export class AddNewUserComponent implements OnInit {
 
   onSubmit() {
     if (this.userId) {
-      var payload = {
+      let payload : any = {
         Name: this.addNewUserForm.value.Name,
         userAttributes: {},
         organization: this.addNewUserForm.value.organization,
         isActive: true,
-        department: this.addNewUserForm.value.department
+        department: this.addNewUserForm.value.department,
+        email:this.addNewUserForm.value.email,
       }
+      if(this.addNewUserForm.value.password){
+        payload = {...payload,password : this.addNewUserForm.value.password}
+      }
+
       this.userService.updateUser(this.userId, payload).subscribe((res) => {
         if (res.success) {
           this.alertpopupService.open({

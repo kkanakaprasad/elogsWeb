@@ -13,7 +13,7 @@ export class ChangePasswordService {
 constructor(private httpDataService: HttpDataService) { }
 
 changePassword(payload:ChangePassword): Observable<any> {
-  return this.httpDataService.post(`auth/resetPassword`,payload);
+  return this.httpDataService.post(`user/reset/Password`,payload);
 }
 
 }

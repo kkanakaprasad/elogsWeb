@@ -1,1 +1,35 @@
-<p>company-settings works!</p>
+<mat-tab-group>
+    <mat-tab label="My Company ">
+        <ng-template mat-tab-label>
+            <mat-icon>business</mat-icon>
+            My Company
+        </ng-template>
+        <div class="text-center">
+            <div class="d-flex justify-content-start ">
+                <p>Name:</p>
+                <mat-form-field appearance="outline">
+                    <mat-label>SIG - Logistics Division (MoCI)</mat-label>
+                    <input matInput placeholder="SIG - Logistics Division (MoCI)">
+                </mat-form-field><br>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button mat-button>Cancel</button><br>
+                <button type="button" class="btn btn-success">Update</button>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Import & Export">
+        <ng-template mat-tab-label>
+            <mat-icon>import_export</mat-icon>
+            Import & Export
+        </ng-template>
+        <app-import-export></app-import-export>
+    </mat-tab>
+    <mat-tab label="Category">
+        <ng-template mat-tab-label>
+            <mat-icon>format_indent_increase</mat-icon>
+            Category
+        </ng-template>
+        <app-category></app-category>
+    </mat-tab>
+</mat-tab-group>
