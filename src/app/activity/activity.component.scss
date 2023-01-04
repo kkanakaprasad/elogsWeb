@@ -1,28 +1,51 @@
 md-select {
-    background-color: white;   
-    color: black;
-    border : 1px solid #666666;
+  background-color: white;
+  color: black;
+  border: 1px solid #666666;
 
 }
+
 .userTable {
-    width: 100%;
-  }
-  
-  .userTable,
-  th {
-    background-color: #818dcf;
-    color: white;
-  }
-  
-  .userTable,
-  tr {
-    background: whitesmoke;
-  }
-  
-  th,
-  td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid rgb(206, 202, 202);
-  }
-  
+  width: 100%;
+}
+
+.userTable,
+th {
+  background-color: #818dcf;
+  color: white;
+}
+
+.userTable,
+tr {
+  background: whitesmoke;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid rgb(206, 202, 202);
+}
+
+.example-section {
+  margin: 12px 0;
+}
+
+.example-margin {
+  margin: 0 12px;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.blue-color {
+  color:blue;
+}

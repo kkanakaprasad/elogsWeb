@@ -46,12 +46,15 @@
                         <button mat-menu-item (click)="notifications()">Notifications</button>
                         <button mat-menu-item (click)="emailReports()">EmailReports</button>
                         <button mat-menu-item (click)="logout()">LogOut</button>
-                        <h4>Company Settings</h4>
-                        <div class="menu">
-                            <button mat-menu-item (click)="navigateTomyCompany()">My Company</button>
-                            <button mat-menu-item (click)="navigateToimportandexport()">Import & Export</button>
-                            <button mat-menu-item (click)="navigateTocatageory()">Catageory</button>
+                        <div *ngIf="isSuperAdmin">
+                            <h4>Company Settings</h4>
+                            <div class="menu">
+                                <button mat-menu-item (click)="navigateTomyCompany()">My Company</button>
+                                <button mat-menu-item (click)="navigateToimportandexport()">Import & Export</button>
+                                <button mat-menu-item (click)="navigateTocatageory()">Catageory</button>
+                            </div>
                         </div>
+
                     </div>
                 </mat-menu>
             </li>
