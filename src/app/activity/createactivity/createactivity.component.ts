@@ -7,6 +7,7 @@ import { OrganizationService } from 'src/app/organization/organization.service';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
+import { UserDetailsService } from 'src/app/shared/services/user-details-service/user-details.service';
 import { ActivityService } from '../activity.service';
 
 
@@ -34,8 +35,11 @@ export class CreateactivityComponent implements OnInit {
   filePath: any;
   fileName: any;
   fileSize: any;
-  filesListArray:any[]=[];
- 
+  filesListArray: any[] = [];
+  userOrganizations: any;
+  userDetails: any;
+  createdByOrganization: any;
+
 
 
   constructor(
@@ -44,7 +48,8 @@ export class CreateactivityComponent implements OnInit {
     private activityService: ActivityService,
     private alertpopupService: AlertpopupService,
     private storageService: StorageService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private userDetailsService: UserDetailsService
 
   ) {
     this.activatedRoute.queryParams.subscribe((res) => {
@@ -55,6 +60,7 @@ export class CreateactivityComponent implements OnInit {
 
   ngOnInit() {
     this.generateAddNewUserForm()
+    this.getUserDetails()
     if (this.selectedActivityId) {
       this.forkJoinResult();
     } else {
@@ -65,8 +71,8 @@ export class CreateactivityComponent implements OnInit {
 
   forkJoinResult() {
     forkJoin([this.organizations$, this.activityMasterData$, this.activity$]).subscribe(result => {
-        this.organizationsData = result[0].organizations;
-         const selectedOrganizations = result[0].organizations.filter((org: any) => {
+      this.organizationsData = result[0].organizations;
+      const selectedOrganizations = result[0].organizations.filter((org: any) => {
         return result[2].data[0].organizationData.find((o: any) => o._id === org._id)
       })
 
@@ -100,14 +106,15 @@ export class CreateactivityComponent implements OnInit {
   }
 
   getFileDetails(event: any) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-    this.filePath=event.target.value[i]
-   this.fileName=event.target.files[i].name
-   this.fileSize=event.target.files[i].size
-   this.filesListArray.push({name:this.fileName,
-    size: this.fileSize,
-    path:this.filePath
-   });
+    for (var i = 0; i < event.target.files.length; i++) {
+      this.filePath = event.target.value[i]
+      this.fileName = event.target.files[i].name
+      this.fileSize = event.target.files[i].size
+      this.filesListArray.push({
+        name: this.fileName,
+        size: this.fileSize,
+        path: this.filePath
+      });
     }
   }
 
@@ -136,6 +143,7 @@ export class CreateactivityComponent implements OnInit {
       title: ['', Validators.required],
       description: ['string', Validators.required],
       attachments: ['', Validators.required],
+      createdByOrganization: ['', Validators.required]
     })
 
   }
@@ -144,49 +152,63 @@ export class CreateactivityComponent implements OnInit {
     return this.activityService.getActivityById(this.selectedActivityId);
   }
 
-  getActivityById(){
-    this.activity$.subscribe(res=>{
-    })
-  }
+  // getActivityById() {
+  //   this.activity$.subscribe(res => {
+  //   })
+  // }
 
 
 
   onSubmit() {
-    
-    if(this.selectedActivityId){
-      const payload={...this.activityForm.value,attachments:this.filesListArray, organization:this.selectedOrganizationValue, priority: "none ",status: "string",createdBy:this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)}
-      this.activityService.updateActivity(this.selectedActivityId,payload).subscribe(res=>{
+
+    if (this.selectedActivityId) {
+      const payload = { ...this.activityForm.value, 
+        attachments: this.filesListArray, 
+        organization: this.selectedOrganizationValue, 
+        priority: "none ", 
+        status: "string", 
+        createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) 
+      }
+      this.activityService.updateActivity(this.selectedActivityId, payload).subscribe(res => {
         this.alertpopupService.open({
-          message: res.message ? res.message : 'Activity Created Successfully',
+          message: res.message ? res.message : 'Activity updated Successfully',
           action: 'ok'
         })
-  
-      },(error) => {
+
+      }, (error) => {
         this.alertpopupService.open({
           message: error.message ? error.message : "something went wrong!",
           action: "ok"
-  
+
         });
-        })
-    }else{
-    this.selectedOrganizationValue=this.activityForm.get('organization')?.value.map((org:any)=>org._id)
-    const payload={...this.activityForm.value,attachments:this.filesListArray, organization:this.selectedOrganizationValue, priority: "none ",status: "string",createdBy:this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)}
-   
-    this.activityService.postActivity(payload).subscribe((res)=>{
-      this.alertpopupService.open({
-        message: res.message ? res.message : 'Activity Created Successfully',
-        action: 'ok'
       })
+    } 
+      else {
+        this.selectedOrganizationValue = this.activityForm.get('organization')?.value.map((org: any) => org._id)
+        const payload = { ...this.activityForm.value, 
+          attachments: this.filesListArray, 
+          organization: this.selectedOrganizationValue,
+          priority: "none ", 
+          status: "string", 
+          createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) 
+        }
+        
+        this.activityService.postActivity(payload).subscribe((res) => {
+          this.alertpopupService.open({
+            message: res.message ? res.message : 'Activity Created Successfully',
+            action: 'ok'
+          })
 
-    },(error) => {
-      this.alertpopupService.open({
-        message: error.message ? error.message : "something went wrong!",
-        action: "ok"
+        }, (error) => {
+          this.alertpopupService.open({
+            message: error.message ? error.message : "something went wrong!",
+            action: "ok"
 
-      });
-    })
-  }
-  }
+          });
+        })
+      }
+    }
+  
 
   //future use
   relatedValue(event: any) {
@@ -200,8 +222,17 @@ export class CreateactivityComponent implements OnInit {
     this.activityForm.controls['organization']?.setValue(organizationValues.value);
 
   }
-  removeFileChip(index:number){
-    this.filesListArray.splice(index,1)
+  removeFileChip(index: number) {
+    this.filesListArray.splice(index, 1)
+  }
+  getUserDetails() {
+    this.userDetailsService.getUserDetails().subscribe((res) => {
+      this.userDetails = res
+      console.log(res);
+      if(this.userDetails?.length === 1){
+        this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organizationData[0]?._id);
+      }
+    })
   }
 
 }
