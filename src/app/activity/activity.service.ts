@@ -20,4 +20,8 @@ createActivity(payload:any): Observable<any>{
 postActivity(payload:any):Observable<any>{
   return this.httpDataService.post('activity',payload)
 }
+
+getActivityMastarData():Observable<any>{
+  return this.httpDataService.get('activity-masterdata');
+}
 }

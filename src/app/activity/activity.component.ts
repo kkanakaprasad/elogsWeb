@@ -24,23 +24,25 @@ const year = today.getFullYear();
 })
 export class ActivityComponent implements OnInit {
 
- 
+
   groupby = ['Due Date', 'Status', 'Priority', 'Assigned to']
   sortby = ['Tittle', 'Activity#', 'Due Date', 'Assigned to']
   displayedColumns = ['select', 'Activity', 'Title', 'Priority', 'Duedate']
+
   createddates = ActivityFiltersData.createddate;
-  duedates=ActivityFiltersData.createddate;
-  statuses=ActivityFiltersData.status;
-  type=ActivityFiltersData.types;
-  entryTypes=ActivityFiltersData.entrytype;
-  geographys=ActivityFiltersData.geography;
-  scopes=ActivityFiltersData.scope;
-  priorities=ActivityFiltersData.priority;
-  created=ActivityFiltersData.createdby;
-  assign=ActivityFiltersData.assignedto;
-  groupBy=ActivityFiltersData.groupby;
-  sortBy=ActivityFiltersData.sortby;
+  duedates = ActivityFiltersData.createddate;
+  statuses = ActivityFiltersData.status;
+  type = ActivityFiltersData.types;
+  entryTypes = ActivityFiltersData.entrytype;
+  geographys = ActivityFiltersData.geography;
+  scopes = ActivityFiltersData.scope;
+  priorities = ActivityFiltersData.priority;
+  created = ActivityFiltersData.createdby;
+  assign = ActivityFiltersData.assignedto;
+  groupBy = ActivityFiltersData.groupby;
+  sortBy = ActivityFiltersData.sortby;
   dataSource: any;
+  masterData: any;
   public activitylist: any = [];
   filter = FILTER_CONSTANT;
   customPage = CUSTOMPAGE;
@@ -54,6 +56,12 @@ export class ActivityComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   selection: any = new SelectionModel(true, []);
+  filters: any = {
+    types: [],
+    status: [],
+    entryType: []
+  }
+
   constructor(
     private activityService: ActivityService,
     private storageService: StorageService
@@ -70,6 +78,7 @@ export class ActivityComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllActivities();
+    this.getAcivityMasterData();
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
   }
 
@@ -125,7 +134,51 @@ export class ActivityComponent implements OnInit {
 
   sortChange(sortState: Sort) {
     console.log(sortState);
-    
+
   }
 
-}
+  getAcivityMasterData() {
+    this.activityService.getActivityMastarData().subscribe((res) => {
+      if (res.data) {
+        this.masterData = res.data;
+       
+
+      }
+    })
+  }
+
+  entryTypeChanged(event: any) {
+    if (event.checked) {
+      this.filters.entryType.push(event.source.value);
+    } else {
+      let index = this.filters.entryType.findIndex((d: any) => d === event.source.value);
+      this.filters.entryType.splice(index, 1);
+    }
+    console.log(this.filters);
+  }
+
+  geographyChanged(event: any){
+
+    if (event.checked) {
+      this.filters.status.push(event.source.value);
+    } else {
+      let index = this.filters.status.findIndex((d: any) => d === event.source.value);
+      this.filters.status.splice(index, 1);
+    
+    }
+    console.log(this.filters);
+  }
+
+  typeChanged(event: any){
+    if (event.checked) {
+      this.filters.types.push(event.source.value);
+    } else {
+      let index = this.filters.types.findIndex((d: any) => d === event.source.value);
+      this.filters.types.splice(index, 1);
+     
+    }
+    console.log(this.filters);
+  }
+  }
+
+
