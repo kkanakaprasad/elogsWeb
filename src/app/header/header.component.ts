@@ -9,6 +9,7 @@ import { StorageService } from '../shared/services/storage-service/storage.servi
 import { UserDetails } from '../shared/services/user-details-service/user-details.interface';
 import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
 import { AddNewUserService } from '../user/add-new-user/add-new-user.service';
+import { UserSearchCriteria } from '../user/user-list/user-Interface';
 import { UserService } from '../user/user.service';
 
 @Component({
@@ -39,9 +40,20 @@ export class HeaderComponent implements OnInit {
   }
 
   userDetails() {
-    this.userService.getUserById(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res: any) => {
-      this.logedinUserDetails = res.existingUser;
-      this.userDetailsService.setUserDetails(res.existingUser);
+    const payload :UserSearchCriteria = {
+      pageNumber: 0,
+      pageSize: 10,
+      sortField: '',
+      sortOrder: 0,
+      type: '',
+      role: '',
+      userId: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID),
+      user: ''
+    }
+    this.userService.userSearchCriteria(payload).subscribe((res: any) => {
+      console.log(res);
+      this.logedinUserDetails = res.data.users[0];
+      this.userDetailsService.setUserDetails(res.data.users[0]);
     })
   }
 

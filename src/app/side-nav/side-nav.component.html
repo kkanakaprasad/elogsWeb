@@ -1,10 +1,16 @@
 <aside id="sidebar" class="sidebar">
 
-    <div class="sidebar-user-settings">
-        <button mat-raised-button class="btn me-md-2 add-button" color="warn" type="button" (click)="openCreateOrganizationPopup()">
+    <div class="sidebar-user-settings" *ngIf="isSuperAdmin">
+        <button mat-raised-button class="btn me-md-2 add-button" color="warn" type="button"  (click)="openCreateOrganizationPopup()">
             Organization
         </button>
     </div>
+    <div class="sidebar-user-settings" *ngIf="!isSuperAdmin">
+        <button mat-raised-button class="btn me-md-2 add-button" color="warn" type="button"  (click)=" navigateToCreateActivity()">
+            Create Activity
+        </button> 
+    </div>
+   
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
@@ -59,5 +65,5 @@
         </li>
 
     </ul>
-
+    
 </aside>
