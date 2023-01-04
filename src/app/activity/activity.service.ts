@@ -29,4 +29,7 @@ getActivityById(activityId:string):Observable<any>{
   return this.httpDataService.get(`activity/${activityId}`)
   
 }
+updateActivity(activityId:string,payload:any): Observable<any>{
+  return this.httpDataService.put(`activity/${activityId}`,payload)
+ }
 }

@@ -1,9 +1,13 @@
 export enum Activities {
-    LOW='low',
-    HIEGH='High',
     NEW='New',
     IN_PROGRESS='In Progress',
     Resolved="Resolved",
     REJECT='Reject'
 
+}
+
+export enum priority {
+    LOW='low',
+    HIEGH='High',
+    NONE='none'
 }
