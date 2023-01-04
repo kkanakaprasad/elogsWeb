@@ -1,118 +1,226 @@
 <div></div>
 <div class="text-end">
-    <span>
-        <div class="btn btn-secondary  mx-1" (click)="downloadFile()">
+  <span>
+    <div class="btn btn-secondary  mx-1" (click)="downloadFile()">
+      <i class="icon-taskdownl"></i>
+      <mat-icon>file_download</mat-icon>
+    </div>
+  </span>
 
-            <i class="icon-taskdownl"></i>
-            <mat-icon>file_download</mat-icon>
-        </div>
-    </span>
-    <mat-form-field appearance="outline">
-        <mat-select placeholder="Filters">
-            <mat-option *ngFor="let option of filters" [value]="option">
-                {{option}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <span class="mx-2">
-        <mat-form-field appearance="outline">
-            <mat-select placeholder="Group By">
-                <mat-option *ngFor="let option of groupby" [value]="option">
-                    {{option}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </span>
-    <span>
-        <mat-form-field appearance="outline">
-            <mat-select placeholder="Sort By">
-                <mat-option *ngFor="let option of sortby" [value]="option">
-                    {{option}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </span>
+  <button mat-button [matMenuTriggerFor]="filters">Filters<mat-icon [ngStyle]="{'color':'green'}">filter_alt</mat-icon></button>
+  <mat-menu #filters="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="createddate">Created Date</button>
+    <button mat-menu-item [matMenuTriggerFor]="duedate">Due Date</button>
+    <button mat-menu-item [matMenuTriggerFor]="status">Status</button>
+    <button mat-menu-item [matMenuTriggerFor]="types">Types</button>
+    <button mat-menu-item [matMenuTriggerFor]="entrytype">Entry Type</button>
+    <button mat-menu-item [matMenuTriggerFor]="geography">Geography</button>
+    <button mat-menu-item [matMenuTriggerFor]="scope">Scope</button>
+    <button mat-menu-item [matMenuTriggerFor]="priority">Priority</button>
+    <button mat-menu-item [matMenuTriggerFor]="createdby">Created by</button>
+    <button mat-menu-item [matMenuTriggerFor]="assignto">Assigned to</button> 
+
+  </mat-menu>
+  <mat-menu #createddate="matMenu">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of createddates">
+      <section class="example-section">
+        <mat-checkbox class="example-margin">
+          {{option.DisplayName}}
+        </mat-checkbox>
+      </section>
+    </div>
+  </mat-menu>
+  <mat-menu #duedate="matMenu">
+    <div (click)="$event.stopPropagation();">
+      <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+        <mat-radio-button class="example-radio-button" *ngFor="let option of duedates" [value]="option">
+          {{option.DisplayName}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <mat-label>From Date</mat-label>
+      <mat-label>To Date</mat-label>
+      <mat-date-range-input [formGroup]="fromDate" [rangePicker]="campaignOnePicker"
+        [comparisonStart]="toDate.value.start" [comparisonEnd]="toDate.value.end">
+        <input matStartDate placeholder="Start date" formControlName="start">
+        <input matEndDate placeholder="End date" formControlName="end">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+      <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+    </div>
+  </mat-menu>
+  <mat-menu #status="matMenu">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of statuses">
+      <section class="example-section">
+        <mat-checkbox class="example-margin">
+          {{option.DisplayName}}
+        </mat-checkbox>
+      </section>
+    </div>
+  </mat-menu>
+  <mat-menu #types="matMenu">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of type">
+      <section class="example-section">
+        <mat-checkbox class="example-margin">
+          {{option.DisplayName}}
+        </mat-checkbox>
+      </section>
+    </div>
+  </mat-menu>
+  <mat-menu #entrytype="matMenu">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of entryTypes">
+      <section class="example-section">
+        <mat-checkbox class="example-margin">
+          {{option.DisplayName}}
+        </mat-checkbox>
+      </section>
+    </div>
+  </mat-menu>
+  <mat-menu #geography="matMenu">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of geographys">
+      <section class="example-section">
+        <mat-checkbox class="example-margin">
+          {{option.DisplayName}}
+        </mat-checkbox>
+      </section>
+    </div>
+  </mat-menu>
+  <mat-menu #scope="matMenu">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of scopes">
+      <section class="example-section">
+        <mat-checkbox class="example-margin">
+          {{option.DisplayName}}
+        </mat-checkbox>
+      </section>
+    </div>
+  </mat-menu>
+  <mat-menu #priority="matMenu">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of priorities">
+      <section class="example-section">
+        <mat-checkbox class="example-margin">
+          {{option.DisplayName}}
+        </mat-checkbox>
+      </section>
+    </div>
+  </mat-menu>
+  <mat-menu #createdby="matMenu">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of created">
+      <section class="example-section">
+        <mat-checkbox class="example-margin">
+          {{option}}
+        </mat-checkbox>
+      </section>
+    </div>
+  </mat-menu>
+  <mat-menu #assignto="matMenu">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of assign">
+      <section class="example-section">
+        <mat-checkbox class="example-margin">
+          {{option}}
+        </mat-checkbox>
+      </section>
+    </div>
+  </mat-menu>
+
+  
+  <button mat-button [matMenuTriggerFor]="groupBymenu" >Group By <mat-icon [ngStyle]="{'color':'green'}">filter_list</mat-icon></button>
+<mat-menu #groupBymenu="matMenu">
+  <mat-option *ngFor="let option of groupBy">
+    {{option.DisplayName}}
+  </mat-option>
+</mat-menu>
+
+<button mat-button [matMenuTriggerFor]="sortby">Sort By<mat-icon [ngStyle]="{'color':'green'}">sort</mat-icon></button>
+<mat-menu #sortby="matMenu">
+  <mat-option *ngFor="let option of sortBy">
+    {{option.DisplayName}}
+  </mat-option>
+</mat-menu>
+  
+  
+      
 </div>
 
 
 <mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>assignment</mat-icon>
+      All Tasks
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>assignment_ind</mat-icon>
+      My Tasks
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>hourglass_empty</mat-icon>
+      Overdue
+    </ng-template>
+  </mat-tab>
+  <div *ngIf="isSuperAdmin">
     <mat-tab>
-        <ng-template mat-tab-label>
-            <mat-icon>assignment</mat-icon>
-            All Tasks
-        </ng-template>
+      <ng-template mat-tab-label>
+        <mat-icon>wb_incandescent</mat-icon>
+        High Priority
+      </ng-template>
     </mat-tab>
-    <mat-tab>
-        <ng-template mat-tab-label>
-            <mat-icon>assignment_ind</mat-icon>
-            My Tasks
-        </ng-template>
-    </mat-tab>
-    <mat-tab>
-        <ng-template mat-tab-label>
-            <mat-icon>date_range</mat-icon>
-            Overdue
-        </ng-template>
-    </mat-tab>
+  </div>
 </mat-tab-group>
+
 
 <!-- <router-outlet></router-outlet> -->
 
 
-  <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8 userTable">
-    <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox
-            (change)="$event ? toggleAllRows() : null"
-            [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()"
-            [aria-label]="checkboxLabel()"
-          >
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox
-            (click)="$event.stopPropagation()"
-            (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)"
-            [aria-label]="checkboxLabel(row)"
-          >
-          </mat-checkbox>
-        </td>
-      </ng-container>
+<table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
+  class="mat-elevation-z8 userTable">
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
 
-    <!--- Note that these columns can be defined in any order.
+
+  <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
-  
-    <!-- Position Column -->
-    <ng-container matColumnDef="Activity">
-      <th mat-header-cell *matHeaderCellDef> Activity </th>
-      <td mat-cell *matCellDef="let element"> {{element.activityType}} </td>
-    </ng-container>
-  
-    <!-- Name Column -->
-    <ng-container matColumnDef="Title">
-      <th mat-header-cell *matHeaderCellDef> Title </th>
-      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-    </ng-container>
-  
-    <!-- Weight Column -->
-    <ng-container matColumnDef="Priority">
-      <th mat-header-cell *matHeaderCellDef> Priority </th>
-      <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
-    </ng-container>
-  
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="Duedate">
-      <th mat-header-cell *matHeaderCellDef> Due date </th>
-      <td mat-cell *matCellDef="let element"> {{element.updatedAt}} </td>
-    </ng-container>
 
-    <!-- <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef> Symbol </th>
-      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-    </ng-container> -->
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+  <!-- Position Column -->
+
+  <ng-container matColumnDef="Activity">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Activity </th>
+    <td mat-cell *matCellDef="let element"> {{element.activityType}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="Title">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="Priority">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Priority </th>
+    <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="Duedate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Due date </th>
+    <td mat-cell *matCellDef="let element"> {{element.updatedAt | date:'fullDate'}} </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator #paginator [pageSize]="customPage.pageSize" [length]="activitylist.length"
+  [pageSizeOptions]="customPage.pageSizeOptions" (page)="onChangedPageSize($event)">
+</mat-paginator>
