@@ -60,7 +60,6 @@ export class FileuploaderComponent implements OnInit {
 
       
     }
-    console.log(this.files)
     this.updatedFilesDescription.emit(this.files);
   }
 

@@ -180,7 +180,6 @@ export class CreateactivityComponent implements OnInit {
           status: "new", 
           description:this.descriptionOfTextEditor,
           createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID),
-          // createdByOrganization:
         }
         
         this.activityService.postActivity(payload).subscribe((res) => {
@@ -218,7 +217,6 @@ export class CreateactivityComponent implements OnInit {
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       this.userDetails = res
-      console.log(res);
       if(this.userDetails?.length === 1){
         this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organizationData[0]?._id);
       }
@@ -230,7 +228,6 @@ export class CreateactivityComponent implements OnInit {
 
   }
   updatedFilesDescription(event:any){
-    console.log(event)
     for (var i = 0; i < event.length; i++) {
       this.filePath = "string"
       this.fileName = event[i].name
