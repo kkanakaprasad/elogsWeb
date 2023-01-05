@@ -39,6 +39,7 @@ export class CreateactivityComponent implements OnInit {
   userOrganizations: any;
   userDetails: any;
   createdByOrganization: any;
+  descriptionOfTextEditor: any;
 
 
 
@@ -105,19 +106,6 @@ export class CreateactivityComponent implements OnInit {
     })
   }
 
-  getFileDetails(event: any) {
-    for (var i = 0; i < event.target.files.length; i++) {
-      this.filePath = event.target.value[i]
-      this.fileName = event.target.files[i].name
-      this.fileSize = event.target.files[i].size
-      this.filesListArray.push({
-        name: this.fileName,
-        size: this.fileSize,
-        path: this.filePath
-      });
-    }
-  }
-
   get activityMasterData$() {
     return this.activityService.getActivitiesMasterData()
   }
@@ -141,7 +129,7 @@ export class CreateactivityComponent implements OnInit {
       activitySector: ['', Validators.required],
       activityScope: ['', Validators.required],
       title: ['', Validators.required],
-      description: ['string', Validators.required],
+      description: ['', Validators.required],
       attachments: ['', Validators.required],
       createdByOrganization: ['', Validators.required]
     })
@@ -166,7 +154,7 @@ export class CreateactivityComponent implements OnInit {
         attachments: this.filesListArray, 
         organization: this.selectedOrganizationValue, 
         priority: "none ", 
-        status: "string", 
+        status: "new", 
         createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) 
       }
       this.activityService.updateActivity(this.selectedActivityId, payload).subscribe(res => {
@@ -189,8 +177,10 @@ export class CreateactivityComponent implements OnInit {
           attachments: this.filesListArray, 
           organization: this.selectedOrganizationValue,
           priority: "none ", 
-          status: "string", 
-          createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) 
+          status: "new", 
+          description:this.descriptionOfTextEditor,
+          createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID),
+          // createdByOrganization:
         }
         
         this.activityService.postActivity(payload).subscribe((res) => {
@@ -233,6 +223,24 @@ export class CreateactivityComponent implements OnInit {
         this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organizationData[0]?._id);
       }
     })
+  }
+
+  updatedDescription(event :any){
+  this.descriptionOfTextEditor=event
+
+  }
+  updatedFilesDescription(event:any){
+    console.log(event)
+    for (var i = 0; i < event.length; i++) {
+      this.filePath = "string"
+      this.fileName = event[i].name
+      this.fileSize = event[i].size
+      this.filesListArray.push({
+        name: this.fileName,
+        size: this.fileSize,
+        path: this.filePath
+      });
+    } 
   }
 
 }
