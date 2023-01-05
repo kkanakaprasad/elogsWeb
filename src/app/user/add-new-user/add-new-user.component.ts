@@ -119,10 +119,8 @@ export class AddNewUserComponent implements OnInit {
       })
     }
     else {
-      const selectedOrganization = this.organizationsData.findIndex((value: any) => value.organization == this.addNewUserForm.controls['organization'].value);
       const payload = {
         ...this.addNewUserForm.value,
-        organization: [this.organizationsData[selectedOrganization]._id],
         roles: [Roles.User]
       }
       this.userService.addUser(payload).subscribe((res) => {
@@ -142,7 +140,7 @@ export class AddNewUserComponent implements OnInit {
 
   getAllOrganization() {
     this.organizationService.getAllOrganizations().subscribe((res) => {
-      this.organizationsData = res.organizations;
+      this.organizationsData = res;
       this.organizationList = res.organizations
     })
 
