@@ -37,7 +37,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link " [class.active]="page === 'Documents'" (click)="change('Documents')">
+            <a class="nav-link " [class.active]="page === 'Documents'" (click)="naviagteToDocuments();change('Documents')">
                 <i class="material-icons">description</i>
                 <span>Documents</span>
             </a>
@@ -58,7 +58,7 @@
         </li>
 
         <li class="nav-item" *ngIf="isSuperAdmin">
-            <a class="nav-link " [class.active]="page === 'Archive'" (click)="change('Archive')">
+            <a class="nav-link " [class.active]="page === 'Archive'" (click)="naviagteToArchive();change('Archive')">
                 <i class="material-icons">description</i>
                 <span>Archive</span>
             </a>

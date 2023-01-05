@@ -73,4 +73,12 @@ export class SideNavComponent implements OnInit {
     this.router.navigate([RouteConstants.COMPANY_SETTINGS])
   }
 
+  naviagteToArchive() {
+    this.router.navigate([RouteConstants.ARCHIVE])
+  }
+
+  naviagteToDocuments() {
+    this.router.navigate([RouteConstants.DOCUMENTS])
+  }
+
 }
