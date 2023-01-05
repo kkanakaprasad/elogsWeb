@@ -26,12 +26,13 @@
                         <h4>Upload your CSV file</h4>
                         <hr>
                         <div class="d-flex justify-content-start ">
-                            <button mat-stroked-button>
-                                Choose file</button><br>
+                            <!-- <button mat-stroked-button (change)="uploadData($event)">
+                                Choose file</button><br> -->
+                                <input id="my-file-selector" type="file" (change)="uploadCsvFile($event)" name="Choose file">
                             <small><b>2 MB</b> or <b>1,000</b> rows maximum size</small>
                         </div><br>
                         <div>
-                            <button type="button" class="btn btn-success">Continue</button>
+                            <button type="button"  class="btn btn-success">Continue</button>
                         </div>
                     </div>
                 </div><br>
@@ -74,6 +75,80 @@
        
     </mat-step>
     <mat-step [stepControl]="priviewDataForm" label="Preview Data">
+        <div>
+            <div class="div-2">
+                <p>
+                    <b>Organization: The Chartered Institute of Logistics & Transport</b><br>
+                    <b>7 Tasks to Import</b><br>
+                    Please double-check the below points before importing your Tasks
+                </p>
+                <ul>
+                    <li>Blank Title</li>
+                    <li>Invalid Due Date (should be <b>MM/DD/YYYY</b>)</li>
+                    <li>Invalid or Misspelled Status</li>
+                    <li>Invalid or Misspelled Type</li>
+                    <li>Unknown Assigned To Email ID (User must be associated with the project)</li>
+                </ul>
+                <div>
+                <button mat-raised-button color="primary">Confirm & Import</button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+
+                
+                <!-- <ng-container matColumnDef="si">
+                  <th mat-header-cell *matHeaderCellDef> SI# </th>
+                  <td mat-cell *matCellDef="let element"> {{element.si}} </td>
+                </ng-container> -->
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="title">
+                  <th mat-header-cell *matHeaderCellDef> Title </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Title}} </td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="description">
+                  <th mat-header-cell *matHeaderCellDef> Description </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Description}} </td>
+                </ng-container>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="duedate">
+                  <th mat-header-cell *matHeaderCellDef> Due Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element.duedate}} </td>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+                  </ng-container>
+
+                  <!-- Type Column -->
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef> Type </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Type}} </td>
+                  </ng-container>
+
+                   <!-- Assigned to Column -->
+                <ng-container matColumnDef="assignedto">
+                    <th mat-header-cell *matHeaderCellDef> Assigned to </th>
+                    <td mat-cell *matCellDef="let element"> {{element.assignedto}} </td>
+                  </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              
+              <div class="text-center">
+                <button mat-raised-button color="primary">Import</button>
+                </div>
+
+        </div>
       
             <div>
                 <button mat-button matStepperPrevious>Back</button>
