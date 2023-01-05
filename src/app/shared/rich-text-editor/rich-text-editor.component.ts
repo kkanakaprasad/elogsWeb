@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Editor, Toolbar } from 'ngx-editor';
 
@@ -8,8 +8,11 @@ import { Editor, Toolbar } from 'ngx-editor';
   styleUrls: ['./rich-text-editor.component.scss']
 })
 export class RichTextEditorComponent implements OnInit, OnDestroy {
+  @Input()
+  value : string = `<h3>Write Here....</h3>`
+  @Output() updatedDescription = new EventEmitter<string>();
+
   editor!: Editor;
-  value: any;
   richtextForm!: FormGroup;
   toolbar: Toolbar = [
     ['bold', 'italic'],
@@ -31,6 +34,9 @@ export class RichTextEditorComponent implements OnInit, OnDestroy {
       .scrollIntoView()
       .exec();
     this.createformgroup();
+    this.richtextForm.controls['description'].valueChanges.subscribe((res)=>{
+      this.updatedDescription.emit(res);
+    })
   }
 
   createformgroup() {

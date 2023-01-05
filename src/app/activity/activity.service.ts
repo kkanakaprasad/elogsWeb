@@ -25,6 +25,10 @@ postActivity(payload:any):Observable<any>{
   return this.httpDataService.post('activity',payload)
 }
 
+getActivityMastarData():Observable<any>{
+  return this.httpDataService.get('activity-masterdata');
+}
+
 getActivityById(activityId:string):Observable<any>{
   return this.httpDataService.get(`activity/${activityId}`)
   
