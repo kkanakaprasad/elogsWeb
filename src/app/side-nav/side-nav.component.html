@@ -38,28 +38,28 @@
 
         <li class="nav-item">
             <a class="nav-link " [class.active]="page === 'Documents'" (click)="naviagteToDocuments();change('Documents')">
-                <i class="material-icons">description</i>
+                <i class="material-icons">attach_file</i>
                 <span>Documents</span>
             </a>
         </li>
 
         <li class="nav-item" *ngIf="isSuperAdmin">
             <a class="nav-link " [class.active]="page === 'Users'" (click)="naviagteToUserList();change('Users')">
-                <i class="material-icons">description</i>
+                <i class="material-icons">group</i>
                 <span>Users</span>
             </a>
         </li>
 
         <li class="nav-item" *ngIf="isSuperAdmin">
             <a class="nav-link " [class.active]="page === 'Company'" (click)="naviagteToCompanySettings();change('Company')">
-                <i class="material-icons">description</i>
+                <i class="material-icons">business</i>
                 <span>Company Settings</span>
             </a>
         </li>
 
         <li class="nav-item" *ngIf="isSuperAdmin">
             <a class="nav-link " [class.active]="page === 'Archive'" (click)="naviagteToArchive();change('Archive')">
-                <i class="material-icons">description</i>
+                <i class="material-icons">delete_sweep</i>
                 <span>Archive</span>
             </a>
         </li>
