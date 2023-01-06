@@ -8,8 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ArchiveComponent implements OnInit {
 
-  taskDisplayedColumns = ['Activity', 'Tittle', 'Status', 'Organisation']
-  fileDisplayedColumns = ['Activity', 'FileName', 'Size', 'Organisation']
+  taskDisplayedColumns = ['Activity','Tittle','Status','Organisation']
+   fileDisplayedColumns = ['Activity', 'FileName', 'Size', 'Organization']
   dataSource = new MatTableDataSource();
   
  
