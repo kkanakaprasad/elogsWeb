@@ -73,6 +73,23 @@ const routes: Routes = [
           roles:[Roles.SuperAdmin,Roles.User]
         },
         loadChildren:()=> import('./activity/activity.module').then(m=>m.ActivityModule),
+      },
+
+      {
+        path : RouteConstants.ARCHIVE,
+        data:{
+          roles:[Roles.SuperAdmin]
+        },
+        loadChildren:()=> import('./archive/archive.module').then(m=>m.ArchiveModule),
+
+      },
+
+      {
+        path : RouteConstants.DOCUMENTS,
+        data:{
+          roles:[Roles.SuperAdmin,Roles.User]
+        },
+        loadChildren:()=> import('./documents/documents.module').then(m=>m.DocumentsModule),
 
       }
       

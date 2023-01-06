@@ -229,13 +229,10 @@ export class CreateactivityComponent implements OnInit {
   }
   updatedFilesDescription(event:any){
     for (var i = 0; i < event.length; i++) {
-      this.filePath = "string"
-      this.fileName = event[i].name
-      this.fileSize = event[i].size
       this.filesListArray.push({
-        name: this.fileName,
-        size: this.fileSize,
-        path: this.filePath
+        name: event[i].name,
+        size: event[i].size,
+        path: "string"
       });
     } 
   }

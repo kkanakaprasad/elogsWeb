@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { OrganizationService } from 'src/app/organization/organization.service';
+import { Priority, Status, Visibility } from '../activity.constant';
 import { ActivityService } from '../activity.service';
 
 @Component({
@@ -13,14 +14,12 @@ export class ActivityDetailsComponent implements OnInit {
   selectedActivityId: any;
   activityDetails: any;
   activityLogForm!: FormGroup;
-  Priority=['none','low','medium','high'];
-  Visibility= ['internal','everyone']
-  Status=['new','inProgress','notAdmissible','resolved']
+  Priority=Priority;
+  Visibility= Visibility
+  Status=Status
   organizationList: any;
-  filePath: any;
-  fileName: any;
-  fileSize: any;
   filesListArray:any[]=[];
+  description: string='';
   cardData:any[]=[{
     title:'prasad',
     description:'scscsvjsvhsvj'
@@ -29,6 +28,7 @@ export class ActivityDetailsComponent implements OnInit {
     description:'scscsvjsvhsvj1'
   }
 ]
+  
 
 
   constructor(
@@ -46,7 +46,7 @@ export class ActivityDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.getAllOrganizationsBySearchCriteria()
     this.getActivityDetailsById()
-    this.activityLogFormValues()
+    this.genarateActivityLogForm()
   }
 
   getActivityDetailsById(){
@@ -57,7 +57,7 @@ export class ActivityDetailsComponent implements OnInit {
   }
   
 
-  activityLogFormValues() {
+  genarateActivityLogForm() {
     this.activityLogForm = this.formBuilder.group({
       priority: ['', [Validators.required]],
       visibility:['',[Validators.required]],
@@ -88,21 +88,18 @@ export class ActivityDetailsComponent implements OnInit {
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
       this.organizationList=res.data.organizations 
-      console.log(res.data.organizations)
+     
     })
   }
   updatedDescription(event:string){
-    console.log(event)
+    this.description=event
   }
   updatedFilesDescription(event:any){
     for (var i = 0; i < event.length; i++) {
-      this.filePath = "string"
-      this.fileName = event[i].name
-      this.fileSize = event[i].size
       this.filesListArray.push({
-        name: this.fileName,
-        size: this.fileSize,
-        path: this.filePath
+        name: event[i].name,
+        size: event[i].size,
+        path: "string"
       });
     } 
   }

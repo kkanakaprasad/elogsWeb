@@ -16,6 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProfileModule } from './profile/profile.module';
 import { ActivityModule } from './activity/activity.module';
 import { ActivityComponent } from './activity/activity.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 
 
@@ -28,6 +30,8 @@ import { ActivityComponent } from './activity/activity.component';
     LoginComponent,
     HeaderComponent,
     SideNavComponent,
+    ArchiveComponent,
+    DocumentsComponent,
     
   ],
   imports: [

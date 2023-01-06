@@ -7,5 +7,7 @@ export const RouteConstants = {
     ACTIVITY:'activity',
     CREATEACTIVITY:'activity/create',
     ACTIVITY_DETAILS:'activity/details',
-    COMPANY_SETTINGS : 'company-settings'
+    COMPANY_SETTINGS : 'company-settings',
+    ARCHIVE:'archive',
+    DOCUMENTS:'documents',
 }
