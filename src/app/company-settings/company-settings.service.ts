@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpDataService } from '../shared/services/http-service/http-service.service';
 import { NewCategoryPopUpComponent } from './category/new-category-pop-up/new-category-pop-up.component';
 import { CreateActivityType, UpdateActivityType } from './category/category.interface';
+import { ExportsTasksComponent } from './import-export/exports-tasks/exports-tasks.component';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,11 @@ export class CompanySettingsService {
   createCategoryPopup(){
     return this.matDialog.open(NewCategoryPopUpComponent,
       {disableClose:true,width :'500px',data : {mode: "create"}})
+  }
+
+  exportTasksPopup(){
+    return this.matDialog.open(ExportsTasksComponent,
+      {disableClose:true,width :'500px',data : ''})
   }
 
 

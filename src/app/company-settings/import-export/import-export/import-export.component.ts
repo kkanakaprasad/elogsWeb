@@ -33,7 +33,6 @@ export class ImportExportComponent implements OnInit {
   getAllOrganizations() {
     this.companySettingsService.getAllOrganizations().subscribe((res) => {
       this.organizationsList = res.organizations
-      console.log(this.organizationsList)
     })
   }
 
@@ -44,9 +43,9 @@ export class ImportExportComponent implements OnInit {
     if (target.files.length !== 1) {
       throw new Error('Cannot use multiple files');
     }
-     const reader: FileReader = new FileReader();
-     reader.readAsBinaryString(target.files[0]);
-     reader.onload = (e: any) => {
+    const reader: FileReader = new FileReader();
+    reader.readAsBinaryString(target.files[0]);
+    reader.onload = (e: any) => {
 
       const binarystr: string = e.target.result;
       const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
@@ -56,7 +55,14 @@ export class ImportExportComponent implements OnInit {
 
       this.csvFile = XLSX.utils.sheet_to_json(ws);
       this.dataSource = new MatTableDataSource(this.csvFile);
-      console.log(this.csvFile);
     };
+  }
+
+  exportTasksPopup() {
+    this.companySettingsService.exportTasksPopup().afterClosed().subscribe((res) => {
+      if (res) {
+
+      }
+    })
   }
 }
