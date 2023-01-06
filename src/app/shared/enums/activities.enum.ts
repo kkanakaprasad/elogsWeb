@@ -1,13 +1,14 @@
-export enum Activities {
-    NEW='New',
-    IN_PROGRESS='In Progress',
-    Resolved="Resolved",
-    REJECT='Reject'
-
+export enum Status {
+    NEW = 'NEW',
+    INPROGRESS = 'INPROGRESS',
+    REJECTED = 'REJECTED',
+    NOTADMISSIBLE = 'NOT ADMISSIBLE',
+    RESOLVED = 'RESOLVED',
 }
 
-export enum priority {
-    LOW='low',
-    HIEGH='High',
-    NONE='none'
+export enum Priority {
+    NONE = 'NONE',
+    LOW = 'LOW',
+    MEDIUM = 'MEDIUM',
+    HIGH = 'HIGH'
 }

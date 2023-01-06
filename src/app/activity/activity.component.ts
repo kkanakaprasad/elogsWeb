@@ -29,7 +29,7 @@ export class ActivityComponent implements OnInit {
 
   groupby = ['Due Date', 'Status', 'Priority', 'Assigned to']
   sortby = ['Tittle', 'Activity#', 'Due Date', 'Assigned to']
-  displayedColumns = ['select', 'Activity', 'Title', 'Priority', 'Duedate']
+  displayedColumns = ['select', 'Activity', 'Title', 'Priority', 'Duedate','actions']
 
   createddates = ActivityFiltersData.createddate;
   duedates = ActivityFiltersData.createddate;
@@ -66,7 +66,8 @@ export class ActivityComponent implements OnInit {
 
   constructor(
     private activityService: ActivityService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router
   ) { }
 
   fromDate = new FormGroup({
@@ -179,7 +180,10 @@ export class ActivityComponent implements OnInit {
       this.filters.types.splice(index, 1);
      
     }
-    console.log(this.filters);
+  }
+  activityDetails(activityId:any){
+    console.log(activityId)
+    this.router.navigate( [RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activityId}});
   }
   }
 

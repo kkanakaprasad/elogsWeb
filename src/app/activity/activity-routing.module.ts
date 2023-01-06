@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
+import { ActivityDetailsComponent } from './activity-details/activity-details.component';
 import { ActivityComponent } from './activity.component';
 import { CreateactivityComponent } from './createactivity/createactivity.component';
 
@@ -11,6 +12,9 @@ const routes: Routes = [
   },
   
   { path: 'create', component: CreateactivityComponent },
+  {
+    path: "details", component:ActivityDetailsComponent
+  }
 ];
 
 
