@@ -6,5 +6,7 @@ export const RouteConstants = {
     PROFILE:'profile',
     ACTIVITY:'activity',
     CREATEACTIVITY:'activity/create',
-    COMPANY_SETTINGS : 'company-settings'
+    COMPANY_SETTINGS : 'company-settings',
+    ARCHIVE:'archive',
+    DOCUMENTS:'documents',
 }

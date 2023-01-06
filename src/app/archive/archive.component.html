@@ -1,0 +1,62 @@
+<mat-tab-group>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>assignment</mat-icon>
+            Tasks
+        </ng-template>
+
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 archiveTable">
+            <!-- Activity Column -->
+            <ng-container matColumnDef="Activity">
+                <th mat-header-cell *matHeaderCellDef>
+                    <section class="example-section">
+                        <mat-checkbox class="example-margin"> Activity </mat-checkbox>
+                    </section>
+                </th>
+            </ng-container>
+            <!-- Tittle Column -->
+            <ng-container matColumnDef="Tittle">
+                <th mat-header-cell *matHeaderCellDef> Tittle </th>
+            </ng-container>
+            <!-- Status Column -->
+            <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+            </ng-container>
+            <!-- Organisation Column -->
+            <ng-container matColumnDef="Organisation">
+                <th mat-header-cell *matHeaderCellDef> Organisation </th>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="taskDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns:taskDisplayedColumns;"></tr>
+        </table>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon>attachment</mat-icon>
+                Files
+            </ng-template>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 archiveTable">
+                <!-- Activity Column -->
+                <ng-container matColumnDef="Activity">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <section class="example-section">
+                            <mat-checkbox class="example-margin"> Activity </mat-checkbox>
+                        </section>
+                    </th>
+                </ng-container>
+                <!-- FileName Column -->
+                <ng-container matColumnDef="FileName">
+                    <th mat-header-cell *matHeaderCellDef> FileName </th>
+                </ng-container>
+                <!-- Size Column -->
+                <ng-container matColumnDef="Size">
+                    <th mat-header-cell *matHeaderCellDef> Size </th>
+                </ng-container>
+                <!-- Organisation Column -->
+                <ng-container matColumnDef="Organization">
+                    <th mat-header-cell *matHeaderCellDef> Organization </th>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="fileDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns:fileDisplayedColumns;"></tr>
+
+            </table>
