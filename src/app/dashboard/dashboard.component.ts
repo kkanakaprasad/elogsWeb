@@ -7,6 +7,8 @@ import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirm
 import { RouteConstants } from '../shared/constants/routes.constants';
 import { StorageService } from '../shared/services/storage-service/storage.service';
 import { AddNewUserService } from '../user/add-new-user/add-new-user.service';
+import { STORAGE_KEYS } from '../shared/enums/storage.enum';
+import { Roles } from '../shared/enums/roles.enums';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,15 +16,19 @@ import { AddNewUserService } from '../user/add-new-user/add-new-user.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  userRole:any;
 
-  constructor(private matDialog: MatDialog, 
+  constructor(private matDialog: MatDialog,
     private organizationService:OrganizationService,
     private storageService: StorageService,
     private confirmationDialogService :ConfirmationDialogService,
     private router : Router,
-    private addNewUserService :AddNewUserService) { }
+    private addNewUserService :AddNewUserService,
+    ) { }
 
   ngOnInit(): void {
+    this.userRole = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE);
+
   }
   openDialog() {
     this.organizationService.openCreateOrganizatioPopup()
@@ -45,5 +51,5 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
-  
+
 }

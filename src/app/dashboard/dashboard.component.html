@@ -1,99 +1,78 @@
-<h2>Hi, Welcome to Dashboard</h2>
-
+<div class="alert alert-primary alert-dismissible fade show welcome-msg" role="alert">
+  Hi<strong> {{userRole}}</strong>, Welcome to Dashboard.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 <section class="section dashboard">
-        <div class="row">
-            <div class="col-md-8">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="card dashboard-card">
-                    <h2>Activity</h2>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6">
-                        <div class="widget stats-widget">
-                            <div class="widget-body clearfix">
-                            <div class="pull-left">
-                                <h3 class="widget-title text-primary">
-                                <span class="counter" data-plugin="counterUp">1</span>
-                                </h3>
-                                <small class="text-color">New</small>
-                            </div>
-                            <span class="pull-right big-icon watermark"
-                                ><i class="fa fa-paperclip"></i
-                            ></span>
-                            </div>
-                            <footer class="widget-footer bg-primary">
-                            <small>20% </small>
-                            </footer>
-                        </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                        <div class="widget stats-widget">
-                            <div class="widget-body clearfix">
-                            <div class="pull-left">
-                                <h3 class="widget-title text-danger">
-                                <span class="counter" data-plugin="counterUp">0</span>
-                                </h3>
-                                <small class="text-color">Not Admissible</small>
-                            </div>
-                            <span class="pull-right big-icon watermark"
-                                ><i class="fa fa-ban"></i
-                            ></span>
-                            </div>
-                            <footer class="widget-footer bg-danger">
-                            <small>0% </small>
-                            </footer>
-                        </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                        <div class="widget stats-widget">
-                            <div class="widget-body clearfix">
-                            <div class="pull-left">
-                                <h3 class="widget-title text-success">
-                                <span class="counter" data-plugin="counterUp">1</span>
-                                </h3>
-                                <small class="text-color">Resolved</small>
-                            </div>
-                            <span class="pull-right big-icon watermark"
-                                ><i class="fa fa-unlock-alt"></i
-                            ></span>
-                            </div>
-                            <footer class="widget-footer bg-success">
-                            <small>20% </small>
-                            </footer>
-                        </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                        <div class="widget stats-widget">
-                            <div class="widget-body clearfix">
-                            <div class="pull-left">
-                                <h3 class="widget-title text-warning">
-                                <span class="counter" data-plugin="counterUp">3</span>
-                                </h3>
-                                <small class="text-color">In-Progress</small>
-                            </div>
-                            <span class="pull-right big-icon watermark"
-                                ><i class="fa fa-file-text-o"></i
-                            ></span>
-                            </div>
-                            <footer class="widget-footer bg-warning">
-                            <small>60% </small>
-                            </footer>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <div class="col-md-6">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-6">
 
-                </div>
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <h6 class="m-0">Activity <span>Metrics</span></h6>
+            </div>
+            <div class="card-body">
+
+            </div>
+        </div>
+
+
+        </div>
+        <div class="col-md-6">
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <h6 class="m-0">Related To <span>Metrics</span></h6>
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="card shadow mb-4">
+        <div class="card-header">
+          <h6 class="m-0">On Time <span>Metrics</span></h6>
+        </div>
+        <div class="card-body" style="min-height: 200px;">
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-7">
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <h6 class="m-0">User <span>Metrics</span></h6>
+              </div>
+              <div class="card-body">
+
+              </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <h6 class="m-0">Organization <span>Metrics</span></h6>
+              </div>
+              <div class="card-body">
+
               </div>
             </div>
-            <div class="col-md-4">
-              <div>
-                <h2>ToDo Tasks</h2>
-              </div>
-            </div>
+        </div>
+      </div>
 
     </div>
-</section>
+    <div class="col-md-4">
+      <div class="card shadow mb-4">
+        <div class="card-header">
+          <h6 class="m-0">To Do</h6>
+        </div>
+        <div class="card-body">
 
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
