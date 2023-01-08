@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CompanySettingsService } from '../../company-settings.service';
 import * as XLSX from 'xlsx';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSelect } from '@angular/material/select';
 
 
 @Component({
@@ -10,11 +11,13 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './import-export.component.html',
   styleUrls: ['./import-export.component.scss']
 })
-export class ImportExportComponent implements OnInit {
+export class ImportExportComponent implements OnInit, AfterViewInit {
   csvFile: any = [] as any;
   organizationsList = [] as any;
   displayedColumns: string[] = ['Title', 'Description', 'Due Date', 'Status', 'Type', 'Assigned To'];
   dataSource = new MatTableDataSource(this.csvFile);
+  selectOrganization = '';
+
 
 
   ngOnInit(): void {
@@ -64,5 +67,14 @@ export class ImportExportComponent implements OnInit {
 
       }
     })
+  }
+
+  @ViewChild('matSelect') matSelect!: MatSelect;
+  //Reference Variable //variable Name //Type
+
+  ngAfterViewInit() {
+    this.matSelect.valueChange.subscribe((selectValue: any) => {
+      this.selectOrganization = selectValue;
+    });
   }
 }

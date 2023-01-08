@@ -15,7 +15,7 @@
                         <h4>Organisation:</h4>
                         <mat-form-field appearance="outline">
                             <mat-label>select organization</mat-label>
-                            <mat-select>
+                            <mat-select  #matSelect>
                                 <mat-option *ngFor="let organization of organizationsList"
                                     [value]="organization.organization">
                                     {{organization.organization}}
@@ -147,12 +147,11 @@
         <div>
             <h2>Upload Summary</h2>
             <hr>
-            <p>Input CSV file: </p>
+            <p>Input CSV file: {{selectOrganization}}</p>
             <p>Total data: <b>{{csvFile.length}}</b> rows</p>
             <p>Valid data: <b>{{csvFile.length}}</b> rows</p>
             <p>{{csvFile.length}} Activity(s) Imported into project: <b>The Chartered Institute of Logistics & Transport
                 </b></p>
-
         </div>
 
         <div>
