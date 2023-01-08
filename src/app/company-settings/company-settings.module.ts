@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ImportExportComponent } from './import-export/import-export/import-export.component'
 import { CategoryComponent } from './category/category.component';
 import { NewCategoryPopUpComponent } from './category/new-category-pop-up/new-category-pop-up.component';
+import { ExportsTasksComponent } from './import-export/exports-tasks/exports-tasks.component';
 
 
 
@@ -15,7 +16,8 @@ import { NewCategoryPopUpComponent } from './category/new-category-pop-up/new-ca
     CompanySettingsComponent,
     ImportExportComponent,
     CategoryComponent,
-    NewCategoryPopUpComponent
+    NewCategoryPopUpComponent,
+    ExportsTasksComponent
   ],
   imports: [
     CommonModule,
