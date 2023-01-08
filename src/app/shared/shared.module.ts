@@ -7,11 +7,14 @@ import { CustomModelModule } from "./custom-model/custom-model.module";
 import { MaterialModule } from "./Modules/material/material.module";
 import { RichTextEditorModule } from "./rich-text-editor/rich-text-editor.module";
 import { SearchPipe } from './pipes/search.pipe';
+import { FileUploaderDirective } from './fileUploaderDirective/file-uploader.directive';
+import { FileuploaderModule } from "./fileuploader/fileuploader.module";
 
 
 @NgModule({
     declarations: [
-    SearchPipe
+    SearchPipe,
+    FileUploaderDirective
   ],
     imports: [
       CommonModule,
@@ -20,13 +23,15 @@ import { SearchPipe } from './pipes/search.pipe';
       CustomModelModule,
       ConfirmationDialogModule,
       RichTextEditorModule,
+      FileuploaderModule,
     ],
     exports : [
       MaterialModule,
       CustomModelModule,
       ConfirmationDialogModule,
       RichTextEditorModule,
-      SearchPipe
+      SearchPipe,
+      FileuploaderModule
     ]
   })
 export class SharedModule { }

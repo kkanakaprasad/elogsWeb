@@ -128,21 +128,10 @@
       </mat-form-field>
     </div>
     <div>
-      <app-rich-text-editor></app-rich-text-editor>
+      <app-rich-text-editor value="" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
     </div>
     <div>
-      <mat-chip-list
-        ><mat-chip
-          *ngFor="let item of filesListArray; let i = index"
-          [removable]="removable"
-          (removed)="removeFileChip(i)"
-        >
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          {{ item.name }}
-        </mat-chip>
-      </mat-chip-list>
-      <label>Select a file:</label>
-      <input type="file" multiple (change)="getFileDetails($event)" />
+      <app-fileuploader (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
     </div>
     <button mat-raised-button color="primary" type="submit">Submit</button>
   </form>
