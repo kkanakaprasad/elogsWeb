@@ -1,0 +1,8 @@
+<form [formGroup]="richtextForm">
+
+  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+
+  <ngx-editor formControlName="description" [editor]="editor" [placeholder]="'Type here...'"
+    [ngModel]="value"></ngx-editor>
+
+</form>

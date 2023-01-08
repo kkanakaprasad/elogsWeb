@@ -1,0 +1,128 @@
+<div class="elog-dialog">
+
+  <!-- <div class="d-flex justify-content-between"> -->
+    <h1 class="user"> <span> Add User <small>></small> {{ organizationName }}</span> 
+    <button mat-raised-button color="primary" (click)="addUser()">
+      Add User
+    </button>
+  </h1>
+  <!-- </div> -->
+
+
+  <div class="row mt-2">
+    <div class="col-md-8">
+      <div class="selected-chips">
+        <mat-chip-list>
+          <mat-chip *ngFor="let user of selection.selected">{{
+            user.Name
+          }}</mat-chip>
+        </mat-chip-list>
+        </div>
+      </div>
+      <div class="col-md-4" style="padding-right: 30px;">
+        <div class="d-flex justify-content-end">
+          <mat-form-field appearance="outline">
+          <input matInput placeholder="Enter User Name" input type="text" (keyup)="userSearch($event)" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+      </div>
+  </div>
+
+
+
+<mat-card-content class="elog-dialog-body p-0">
+  <div mat-dialog-content>
+  <div class="row">
+    <!-- unassigned users table -->
+    <div class="col-8">
+
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        style="padding-right: 10px; width: 100%"
+      >
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="$event ? toggleAllRows() : null"
+              [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [aria-label]="checkboxLabel()"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+              [aria-label]="checkboxLabel(row)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">{{ element?.Name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="selection.toggle(row)"
+        ></tr>
+      </table>
+      <div *ngIf="dataSource.filteredData?.length === 0">
+        <mat-card class="noUserFoundCard" >
+          No users found
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="col-4 px-4">
+      <!-- organization users table -->
+      <table
+        mat-table
+        [dataSource]="dataSourceUsers"
+      >
+        <!-- Name Column -->
+        <ng-container matColumnDef="User">
+          <th mat-header-cell *matHeaderCellDef>
+            User(s) in this Organization
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.Name }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers"></tr>
+      </table>
+    </div>
+  </div>
+</div>
+</mat-card-content>
+
+<mat-card-actions>
+  <div class="d-flex btn justify-content-end">
+    <button mat-raised-button mat-dialog-close="true" [mat-dialog-close]="false">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      mat-dialog-close="true"
+      [mat-dialog-close]="true"
+      (click)="selectedUsers()"
+      [disabled]="selection.selected.length==0"
+    >
+      update
+    </button>
+  </div>
+</mat-card-actions>
+</div>
+

@@ -1,0 +1,69 @@
+<aside id="sidebar" class="sidebar">
+
+    <div class="sidebar-user-settings" *ngIf="isSuperAdmin">
+        <button mat-raised-button class="btn me-md-2 add-button" color="warn" type="button"  (click)="openCreateOrganizationPopup()">
+            Organization
+        </button>
+    </div>
+    <div class="sidebar-user-settings" *ngIf="!isSuperAdmin">
+        <button mat-raised-button class="btn me-md-2 add-button" color="warn" type="button"  (click)=" navigateToCreateActivity()">
+            Create Activity
+        </button> 
+    </div>
+   
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link " [class.active]="page === 'dashboard'"
+                (click)="naviagteToDashboard();change('dashboard')">
+                <i class="material-icons">dashboard</i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link " [class.active]="page === 'Organization'"
+                (click)="navigateToOrganizationList();change('Organization')">
+                <i class="material-icons">corporate_fare</i>
+                <span>Organization</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link " [class.active]="page === 'Activities' "(click)="navigateToAcitivities();change('Activies')">
+                <i class="material-icons">hourglass_empty</i>
+                <span>Activities</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link " [class.active]="page === 'Documents'" (click)="naviagteToDocuments();change('Documents')">
+                <i class="material-icons">attach_file</i>
+                <span>Documents</span>
+            </a>
+        </li>
+
+        <li class="nav-item" *ngIf="isSuperAdmin">
+            <a class="nav-link " [class.active]="page === 'Users'" (click)="naviagteToUserList();change('Users')">
+                <i class="material-icons">group</i>
+                <span>Users</span>
+            </a>
+        </li>
+
+        <li class="nav-item" *ngIf="isSuperAdmin">
+            <a class="nav-link " [class.active]="page === 'Company'" (click)="naviagteToCompanySettings();change('Company')">
+                <i class="material-icons">business</i>
+                <span>Company Settings</span>
+            </a>
+        </li>
+
+        <li class="nav-item" *ngIf="isSuperAdmin">
+            <a class="nav-link " [class.active]="page === 'Archive'" (click)="naviagteToArchive();change('Archive')">
+                <i class="material-icons">delete_sweep</i>
+                <span>Archive</span>
+            </a>
+        </li>
+
+    </ul>
+    
+</aside>

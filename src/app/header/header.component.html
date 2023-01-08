@@ -1,0 +1,63 @@
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a class="logo d-flex align-items-center">
+            <img src="https://elogs.cxipl.com/img/gatishakti-logo-login-h.png" alt="">
+        </a>
+        <span (click)="sidebarShow()" class="hamburger"><i class="material-icons toggle-sidebar-btn">dehaze</i></span>
+    </div>
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" method="POST" action="#">
+            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search">
+                <i class="material-icons">search</i></button>
+        </form>
+    </div>
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+
+            <li class="nav-item d-block d-lg-none">
+                <a class="nav-link nav-icon search-bar-toggle " href="#">
+                    <i class="material-icons">search </i>
+                </a>
+            </li>
+            <li *ngIf="isSuperAdmin">
+                <button mat-raised-button [matMenuTriggerFor]="profilemenu" color="warn">Add</button>
+                <mat-menu #profilemenu="matMenu">
+                    <button mat-menu-item (click)="openCreateOrganizationPopup()">Organization</button>
+                    <button mat-menu-item (click)="openCreateUserPopup()">User</button>
+                </mat-menu>
+            </li>
+
+            <li class="nav-item dropdown pe-3">
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown"
+                    [matMenuTriggerFor]="profileMenu">
+                    <mat-icon>account_circle</mat-icon>
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{logedinUserDetails.Name | titlecase }}</span>
+                </a>
+
+                <mat-menu #profileMenu="matMenu" class="profile_menu">
+                    <h2>This Account is managed by SIG - Logistics Division...</h2>
+                    {{logedinUserDetails.email}}
+                    <h4>Personal Settings</h4>
+                    <div class="menu">
+                        <button mat-menu-item (click)="profile()">Profile</button>
+                        <button mat-menu-item (click)="notifications()">Notifications</button>
+                        <button mat-menu-item (click)="emailReports()">EmailReports</button>
+                        <button mat-menu-item (click)="logout()">LogOut</button>
+                        <div *ngIf="isSuperAdmin">
+                            <h4>Company Settings</h4>
+                            <div class="menu">
+                                <button mat-menu-item (click)="navigateTomyCompany()">My Company</button>
+                                <button mat-menu-item (click)="navigateToimportandexport()">Import & Export</button>
+                                <button mat-menu-item (click)="navigateTocatageory()">Catageory</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </mat-menu>
+            </li>
+        </ul>
+    </nav>
+</header>

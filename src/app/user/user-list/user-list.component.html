@@ -1,0 +1,95 @@
+<div class="page-wrapper add-height">
+  <div class="text-end">
+    <button mat-raised-button color="primary" (click)=" addUser()">Add Users</button>
+  </div>
+  <mat-tab-group (selectedTabChange)="applyUserFilters($event)" class="mt-2 users_list">
+    <mat-tab label={{filters.IS_ACTIVE}}>
+      <ng-template mat-tab-label>
+        <mat-icon>person_pin</mat-icon>
+        Active ({{activeMetricsCount}})
+      </ng-template>
+
+    </mat-tab>
+    <mat-tab label={{filters.MY_PROFILE}}>
+      <ng-template mat-tab-label>
+        <mat-icon>person_outline</mat-icon>
+        Admin (1)
+      </ng-template>
+
+    </mat-tab>
+    <mat-tab label={{filters.MINISTRIES}}>
+      <ng-template mat-tab-label>
+        <mat-icon>people</mat-icon>
+        Ministry/Department ({{ministriesMetricsCount}})
+      </ng-template>
+    </mat-tab>
+    <mat-tab label={{filters.ASSOCIATION}}>
+      <ng-template mat-tab-label>
+        <mat-icon>group_add</mat-icon>
+        Association ({{associationsMetricsCount}})
+      </ng-template>
+    </mat-tab>
+    <mat-tab label={{filters.INACTIVE}}>
+      <ng-template mat-tab-label>
+        <mat-icon>not_interested</mat-icon>
+      Inactive ({{inActiveMetricsCount}})
+      </ng-template>
+
+    </mat-tab>
+  </mat-tab-group>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 userTable">
+    <ng-container matColumnDef="Name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    Weight Column
+    <ng-container matColumnDef="Organization">
+      <th mat-header-cell *matHeaderCellDef> Organizations </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.organizationsdata?.length > 0">
+          {{element?.organizationsdata[0]?.organization}}...
+          <span *ngIf="element.organizationsdata?.length > 1"> +{{element.organizationsdata.length-1}} More</span>
+        </div>
+        <div *ngIf="element.organizationsdata?.length === 0">
+          <span>N/A</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="Actions">
+      <th class="action-center" mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="d-flex" *ngIf="loginUserID !==element._id">
+          <button mat-raised-button *ngIf="element.isActive" color="primary"
+            (click)="editUser(element._id)">Edit</button>
+          <button mat-raised-button *ngIf="element.isActive"
+            (click)="disableOrenableUser(element._id,false)">Disable</button>
+          <button mat-raised-button *ngIf="!element.isActive"
+            (click)="disableOrenableUser(element._id,true)">Enable</button>
+          <button *ngIf="element.organizationsdata?.length > 0" mat-raised-button color="warn"
+            (click)="removeOrganisation(element)">Remove Organisation</button>
+          <button   *ngIf="element.organizationsdata?.length === 0" mat-raised-button color="accent"
+            (click)="assignOrganisation(element)">Assign
+            Organisation</button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+  <mat-paginator #paginator [pageSize]="customPage.pageSize" [length]="usersList.length"
+    [pageSizeOptions]="customPage.pageSizeOptions" (page)="onChangedPageSize($event)">
+  </mat-paginator>
+</div>

@@ -1,0 +1,54 @@
+<h1>Send me Email Notifications</h1>
+<mat-radio-group aria-label="Select an option">
+  <form [formGroup]="notificationRepotsForm" (ngSubmit)="onSubmit()">
+    <mat-radio-group aria-label formControlName="allnewactivity" layout="row">
+      <div class="row mb-3">
+        <mat-label class="col-sm-3 col-form-label">All New Activity:</mat-label>
+        <div class="col-sm-8">
+          <mat-radio-button [value]=true>Yes</mat-radio-button>
+          <mat-radio-button [value]=false>No</mat-radio-button>
+        </div>
+      </div>
+    </mat-radio-group>
+    <mat-radio-group
+      aria-label
+      formControlName="allnewactivityreply"
+      layout="row">
+    <div class="row mb-3">
+      <mat-label class="col-sm-3 col-form-label">All Activity Reply & Comment:</mat-label>
+      <div class="col-sm-8">
+        <mat-radio-button  [value]=true>Yes</mat-radio-button>
+        <mat-radio-button [value]=false>No</mat-radio-button>
+      </div>
+    </div>
+    </mat-radio-group>
+    <mat-radio-group
+      aria-label
+      formControlName="allactivitystatus"
+      layout="row"
+    >
+    <div class="row mb-3">
+      <mat-label class="col-sm-3 col-form-label">All Activity Status Change:</mat-label>
+      <div class="col-sm-8">
+        <mat-radio-button [value]=true>Yes</mat-radio-button>
+        <mat-radio-button [value]=false>No</mat-radio-button>
+      </div>
+    </div>
+    </mat-radio-group>
+    <div class="d-flex justify-content-end align-items-center">
+        <button
+       class="btn"
+        mat-raised-button
+      >
+        CANCEL
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+      >
+        Update
+      </button>      
+    </div>
+  </form>
+</mat-radio-group>

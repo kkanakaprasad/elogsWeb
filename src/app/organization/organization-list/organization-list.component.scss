@@ -1,0 +1,30 @@
+.add-icon{
+    height: 100px;
+    width: 100px;
+    margin: auto;
+    border: .25px  solid #f44336;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+font{
+    font-size: 80px;
+    color:  #f44336;
+}
+.plus{
+display: grid;
+place-items: center;
+cursor: pointer;
+}
+
+.organization-title{
+    font-weight: 900;
+}
+.togle-button{
+    width: 200px!important;
+    min-width: unset!important;
+}
+.mat-button-toggle-checked {
+    background-color: #556ee7;
+    color: white !important
+}

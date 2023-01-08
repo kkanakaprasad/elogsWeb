@@ -1,0 +1,149 @@
+<div class="container">
+  <div class="d-flex">
+    <mat-icon> note_add</mat-icon>
+    <h2>Create Activity</h2>
+  </div>
+  <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
+    <div>
+      <ng-container *ngIf="userDetails?.organizationsdata?.length > 1">
+        <mat-form-field appearance="outline">
+          <mat-label>organizations</mat-label>
+          <mat-select formControlName="createdByOrganization">
+            <mat-option
+              *ngFor="let organization of userDetails?.organizationsdata"
+              [value]="organization._id"
+              >{{ organization.organization }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="userDetails?.organizationsdata?.length === 1">
+        <h3>{{ userDetails.organizationsdata[0]?.Name}}</h3>
+      </ng-container>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="activityType">
+          <mat-option
+            *ngFor="let activityTypesData of activityTypesData"
+            [value]="activityTypesData._id"
+            >{{ activityTypesData.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="d-flex">
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Related To</mat-label>
+          <mat-select formControlName="activityRelatedTo">
+            <mat-option
+              *ngFor="let activityRelatedTypesData of activityRelatedTypesData"
+              [value]="activityRelatedTypesData._id"
+              >{{ activityRelatedTypesData.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-chip-list
+          ><mat-chip
+            *ngFor="
+              let item of activityForm.get('organization')?.value;
+              let i = index
+            "
+            [removable]="removable"
+            (removed)="removeChip(i)"
+          >
+            {{ item.organization }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      <div class="mx-5">
+        <mat-form-field appearance="outline" class="w-100-per">
+          <mat-label>Ministry/Department</mat-label>
+          <mat-select multiple="multiple" formControlName="organization">
+            <mat-option
+              *ngFor="let organization of organizationsData"
+              [value]="organization"
+              >{{ organization.organization }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Entry Type</mat-label>
+        <mat-select formControlName="activitEntryType">
+          <mat-option
+            *ngFor="let activityEntryTypesData of activityEntryTypesData"
+            [value]="activityEntryTypesData._id"
+            >{{ activityEntryTypesData.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="d-flex">
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Sector</mat-label>
+          <mat-select formControlName="activitySector">
+            <mat-option
+              *ngFor="let activitySectorsData of activitySectorsData"
+              [value]="activitySectorsData._id"
+              >{{ activitySectorsData.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="mx-5">
+        <mat-form-field appearance="outline">
+          <mat-label>Scope</mat-label>
+          <mat-select formControlName="activityScope">
+            <mat-option
+              *ngFor="let activityScopesData of activityScopesData"
+              [value]="activityScopesData._id"
+              >{{ activityScopesData.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <div class="col-12">
+          <input
+            matInput
+            placeholder="Add an activity here & hit enter..."
+            input
+            type="text"
+            formControlName="title"
+          />
+        </div>
+      </mat-form-field>
+    </div>
+    <div>
+      <app-rich-text-editor></app-rich-text-editor>
+    </div>
+    <div>
+      <mat-chip-list
+        ><mat-chip
+          *ngFor="let item of filesListArray; let i = index"
+          [removable]="removable"
+          (removed)="removeFileChip(i)"
+        >
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          {{ item.name }}
+        </mat-chip>
+      </mat-chip-list>
+      <label>Select a file:</label>
+      <input type="file" multiple (change)="getFileDetails($event)" />
+    </div>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</div>

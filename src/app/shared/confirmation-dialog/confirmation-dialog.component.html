@@ -1,0 +1,15 @@
+<div class="elog-dialog">
+    <div *ngIf="data.header">
+        <h3 mat-dialog-title [innerHTML]='data.header'></h3>
+        <hr class="popupHr" />
+    </div>
+    <div class="elog-dialog-body">
+    <span mat-dialog-content [innerHTML]='data.message' class="message"></span>
+    <mat-dialog-actions align='end'>
+        <button mat-button mat-dialog-close="true" [mat-dialog-close]="false">Cancel</button>
+        <button mat-raised-button color="primary" mat-dialog-close="true"
+            [mat-dialog-close]='true'>{{actionLabel}}</button>
+
+    </mat-dialog-actions>
+  </div>
+</div>
