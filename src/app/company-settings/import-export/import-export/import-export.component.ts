@@ -17,6 +17,7 @@ export class ImportExportComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['Title', 'Description', 'Due Date', 'Status', 'Type', 'Assigned To'];
   dataSource = new MatTableDataSource(this.csvFile);
   selectOrganization = '';
+  fileData: any
 
 
 
@@ -43,6 +44,7 @@ export class ImportExportComponent implements OnInit, AfterViewInit {
 
   uploadCsvFile(event: any) {
     const target: DataTransfer = <DataTransfer>(event.target);
+    this.fileData = event.target.files    
     if (target.files.length !== 1) {
       throw new Error('Cannot use multiple files');
     }

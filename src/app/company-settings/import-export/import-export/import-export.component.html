@@ -144,13 +144,13 @@
 
     <mat-step>
         <ng-template matStepLabel>Upload Summary</ng-template>
-        <div>
+        <div *ngFor="let fileName of fileData">
             <h2>Upload Summary</h2>
             <hr>
-            <p>Input CSV file: {{selectOrganization}}</p>
+            <p>Input CSV file: <b>{{fileName.name}}</b></p>
             <p>Total data: <b>{{csvFile.length}}</b> rows</p>
             <p>Valid data: <b>{{csvFile.length}}</b> rows</p>
-            <p>{{csvFile.length}} Activity(s) Imported into project: <b>The Chartered Institute of Logistics & Transport
+            <p>{{csvFile.length}} Activity(s) Imported into project: <b>{{selectOrganization}}
                 </b></p>
         </div>
 
