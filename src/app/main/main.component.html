@@ -2,6 +2,19 @@
     <app-header></app-header>
     <app-side-nav></app-side-nav>
     <div class="main-panel" id="main">
+        <div class="d-flex justify-content-start ">
+            <h4>Organisation:</h4>
+            <mat-form-field appearance="outline">
+                <mat-label>All</mat-label>
+                <mat-select  panelclass="my-panel" #matSelect>
+                    <input class = 'p-2' placeholder="enter text" matInput type="text" (keyup)="filterOrganization($event)"/>
+                    <mat-option *ngFor="let organization of searchedOrganizationList"
+                        [value]="organization.organization">
+                        {{organization.organization}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
         <router-outlet></router-outlet>
     </div>
 </div>
