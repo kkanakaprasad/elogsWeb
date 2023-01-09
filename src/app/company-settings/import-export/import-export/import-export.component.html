@@ -1,89 +1,159 @@
 <div class="d-flex justify-content-between ">
     <p>Import Activity</p>
-    <button mat-stroked-button>
+    <button mat-stroked-button (click)="exportTasksPopup()">
         <mat-icon>archive</mat-icon>
         Export Activity (.csv)</button>
 </div>
 <hr>
 <mat-stepper [linear]="isLinear" #stepper>
-    <mat-step [stepControl]="uploadFileForm">      
-            <ng-template matStepLabel>Upload File</ng-template>
-            <div class="d-flex justify-content-between">
-                <div class="border">
-                    <div class="d-flex flex-column">
-                        <div class="d-flex justify-content-between">
-                            <h4>Organisation:</h4>
-                            <mat-form-field appearance="fill">
-                                <mat-label>select organization</mat-label>
-                                <mat-select>
-                                    <mat-option *ngFor="let organization of organizationsList"
-                                        [value]="organization.organization">
-                                        {{organization.organization}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <h4>Upload your CSV file</h4>
-                        <hr>
-                        <div class="d-flex justify-content-start ">
-                            <button mat-stroked-button>
-                                Choose file</button><br>
-                            <small><b>2 MB</b> or <b>1,000</b> rows maximum size</small>
-                        </div><br>
-                        <div>
-                            <button type="button" class="btn btn-success">Continue</button>
-                        </div>
+    <mat-step [stepControl]="uploadFileForm">
+        <ng-template matStepLabel>Upload File</ng-template>
+        <div class="d-flex justify-content-between">
+            <div class="border">
+                <div class="d-flex flex-column">
+                    <div class="d-flex justify-content-between">
+                        <h4>Organisation:</h4>
+                        <mat-form-field appearance="outline">
+                            <mat-label>select organization</mat-label>
+                            <mat-select  #matSelect>
+                                <mat-option *ngFor="let organization of organizationsList"
+                                    [value]="organization.organization">
+                                    {{organization.organization}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
-                </div><br>
-                <div class="border">
-                    <div class="d-flex flex-column">
-                        <h2>CSV File</h2>
-                        <hr>
-                        <div class="d-flex justify-content-start ">
-                            <u><a href="https://elogs.cxipl.com/projects/download_sample_csvfile">Download the
-                                sample file</a></u><br>
-                            <p>to see what you can import</p>
-                        </div>
-                        <ul>
-                            <li><b>Title</b> - Activity Title - <b style="color: #dd0f0f;">mandatory</b></li>
-                            <li><b>Description</b> - Description of the task</li>
-                            <li><b>Due Date</b> - Due date of Activity (mm/dd/yyyy)</li>
-                            <li><b>Status</b> - Current status of the Activity (NEW, In Progress, RESOLVED,
-                                CLOSED)</li>
-                            <li><b>Type</b> - Activity type (Bug, Development, Enhancement, RnD, QA, Unit
-                                Testing, Maintenance, Release, Updates, Idea, Others)</li>
-                            <li><b>Assign to</b> - Email ID of Activity Assigned To</li>
-                        </ul>
-                        <h2>Help</h2>
-                        <hr>
-                        <ul>
-                            <li>Choose a project to Import Activity</li>
-                            <li>Upload the valid CSV file with your Tasks</li>
-                            <li>First system will prompt a preview of all the data in the file</li>
-                            <li>In preview you can validate your data</li>
-                            <li>Confirm the data in the preview and Import them to the system</li>
-                            <li>All the Tasks will be posted to the selected Organization.</li>
-                        </ul>
+                    <h4>Upload your CSV file</h4>
+                    <hr>
+                    <div class="d-flex justify-content-start ">
+                        <input id="my-file-selector" type="file" accept=".csv" (change)="uploadCsvFile($event)"
+                            name="Choose file">
+                        <small><b>2 MB</b> or <b>1,000</b> rows maximum size</small>
+                    </div><br>
+                    <div>
+                        <button mat-raised-button matStepperNext color="primary"
+                            [disabled]="csvFile.length==0">Continue</button>
                     </div>
                 </div>
+            </div><br>
+            <div class="border">
+                <div class="d-flex flex-column">
+                    <h2>CSV File</h2>
+                    <hr>
+                    <div class="d-flex justify-content-start ">
+                        <u><a href="https://elogs.cxipl.com/projects/download_sample_csvfile">Download the
+                                sample file</a></u><br>
+                        <p>to see what you can import</p>
+                    </div>
+                    <ul>
+                        <li><b>Title</b> - Activity Title - <b style="color: #dd0f0f;">mandatory</b></li>
+                        <li><b>Description</b> - Description of the task</li>
+                        <li><b>Due Date</b> - Due date of Activity (mm/dd/yyyy)</li>
+                        <li><b>Status</b> - Current status of the Activity (NEW, In Progress, RESOLVED,
+                            CLOSED)</li>
+                        <li><b>Type</b> - Activity type (Bug, Development, Enhancement, RnD, QA, Unit
+                            Testing, Maintenance, Release, Updates, Idea, Others)</li>
+                        <li><b>Assign to</b> - Email ID of Activity Assigned To</li>
+                    </ul>
+                    <h2>Help</h2>
+                    <hr>
+                    <ul>
+                        <li>Choose a project to Import Activity</li>
+                        <li>Upload the valid CSV file with your Tasks</li>
+                        <li>First system will prompt a preview of all the data in the file</li>
+                        <li>In preview you can validate your data</li>
+                        <li>Confirm the data in the preview and Import them to the system</li>
+                        <li>All the Tasks will be posted to the selected Organization.</li>
+                    </ul>
+                </div>
+            </div>
 
-            </div>
-            <div>
-                <button mat-button matStepperNext>Continue</button>
-            </div>
-       
+        </div>
+
+        <!-- Priview data page        -->
     </mat-step>
     <mat-step [stepControl]="priviewDataForm" label="Preview Data">
-      
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
+        <div>
+            <div class="div-2">
+                <p>
+                    <b>Organization: The Chartered Institute of Logistics & Transport</b><br>
+                    <b>7 Tasks to Import</b><br>
+                    Please double-check the below points before importing your Tasks
+                </p>
+                <ul>
+                    <li>Blank Title</li>
+                    <li>Invalid Due Date (should be <b>MM/DD/YYYY</b>)</li>
+                    <li>Invalid or Misspelled Status</li>
+                    <li>Invalid or Misspelled Type</li>
+                    <li>Unknown Assigned To Email ID (User must be associated with the project)</li>
+                </ul>
+                <div>
+                    <button mat-raised-button color="primary">Confirm & Import</button>
+                </div>
             </div>
-      
+        </div>
+
+        <div>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="Title">
+                    <th mat-header-cell *matHeaderCellDef> Title </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Title}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="Description">
+                    <th mat-header-cell *matHeaderCellDef> Description </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Description}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="Due Date">
+                    <th mat-header-cell *matHeaderCellDef> Due Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.DueDate}} </td>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="Status">
+                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+                </ng-container>
+
+                <!-- Type Column -->
+                <ng-container matColumnDef="Type">
+                    <th mat-header-cell *matHeaderCellDef> Type </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Type}} </td>
+                </ng-container>
+
+                <!-- Assigned to Column -->
+                <ng-container matColumnDef="Assigned To">
+                    <th mat-header-cell *matHeaderCellDef> Assigned To </th>
+                    <td mat-cell *matCellDef="let element"> {{element.AssignedTo}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div class="text-center">
+                <button mat-raised-button matStepperNext color="primary">Import</button>
+            </div>
+        </div>
     </mat-step>
+
     <mat-step>
         <ng-template matStepLabel>Upload Summary</ng-template>
-        <p>You are now done.</p>
+        <div *ngFor="let fileName of fileData">
+            <h2>Upload Summary</h2>
+            <hr>
+            <p>Input CSV file: <b>{{fileName.name}}</b></p>
+            <p>Total data: <b>{{csvFile.length}}</b> rows</p>
+            <p>Valid data: <b>{{csvFile.length}}</b> rows</p>
+            <p>{{csvFile.length}} Activity(s) Imported into project: <b>{{selectOrganization}}
+                </b></p>
+        </div>
+
         <div>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button (click)="stepper.reset()">Reset</button>
