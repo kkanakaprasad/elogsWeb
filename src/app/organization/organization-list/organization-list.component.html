@@ -2,25 +2,34 @@
   <mat-tab-group class="organization-cards" (selectedTabChange)="applyOrganizationFilters($event)">
     <mat-tab label={{filters.IS_ACTIVE}}>
       <ng-template mat-tab-label>
-        Active ({{activeMetricsCount}})
+        <a href="#">
+          Active ({{activeMetricsCount}})
+        </a>
       </ng-template>
+
     </mat-tab>
 
     <mat-tab label={{filters.MINISTRIES}}>
       <ng-template mat-tab-label>
-        Ministry/Department ({{ministriesMetricsCount}})
+        <a href="#">
+          Ministry/Department ({{ministriesMetricsCount}})
+        </a>
       </ng-template>
     </mat-tab>
 
     <mat-tab label={{filters.ASSOCIATION}}>
       <ng-template mat-tab-label>
-        Association ({{associationsMetricsCount}})
+        <a href="#">
+          Association ({{associationsMetricsCount}})
+        </a>
       </ng-template>
     </mat-tab>
 
     <mat-tab label={{filters.INACTIVE}}>
       <ng-template mat-tab-label>
-        Inactive ({{inActiveMetricsCount}})
+        <a href="#">
+          Inactive ({{inActiveMetricsCount}})
+        </a>
       </ng-template>
     </mat-tab>
   </mat-tab-group>
@@ -49,62 +58,76 @@
                 organization.organization | titlecase
                 }}</span>
               <span> ({{ organization.shortName | uppercase }})</span>
-              </h3>
-              <div class="org_box">
-                <div class="org_icon">
-                  <i class="material-icons">corporate_fare</i>
-                </div>
+            </h3>
+            <div class="org_box">
+              <div class="org_icon">
+                <i class="material-icons">corporate_fare</i>
+              </div>
 
-                <div>
-                  <p>
-                    {{ organization.users.length }} User(s)</p>
-                  <p>0 Activity(s)</p>
-                  <p>0 Hour(s) Spent</p>
-                  <p>0 Mb Storage</p>
+              <div>
+                <p>
+                  {{ organization.users.length }} User(s)</p>
+                <p>0 Activity(s)</p>
+                <p>0 Hour(s) Spent</p>
+                <p>0 Mb Storage</p>
               </div>
-              </div>
+            </div>
 
             <div class="action-buttons">
               <div class="row justify-content-between">
 
                 <ng-container *ngIf="organizationList[0].isActive == true">
                   <span class="col-6" (click)="openAddUserPopup(organization._id)">
-                    Add User
+                    <div class="d-flex align-items-center">
+                      <mat-icon>person_add</mat-icon>
+                      Add User
+                    </div>
                   </span>
-
                   <span class="col-6" (click)="updateOrganization(organization._id)">
-                    Edit
+                    <div class="d-flex align-items-center">
+                      <mat-icon>edit</mat-icon>
+                      Edit
+                    </div>
                   </span>
-                  <span *ngIf="organization.users?.length >0" class="col-6" (click)="openRemoveUserPopup(organization._id)">
-                    Remove User
+                  <span *ngIf="organization.users?.length >0" class="col-6"
+                    (click)="openRemoveUserPopup(organization._id)">
+                    <div class="d-flex align-items-center">
+                      <mat-icon>person_remove</mat-icon>
+                      Remove User
+                    </div>
                   </span>
 
                   <ng-container *ngIf="organization.users?.length >=1">
                     <span class="col-6" (click)="disableOrganization(this.organization._id,organization.organization)">
-                      Disable
+                      <div class="d-flex align-items-center">
+                        <mat-icon>not_interested </mat-icon>
+                        Disable
+                      </div>
                     </span>
                   </ng-container>
 
                   <ng-container *ngIf="organization.users?.length  == 0">
                     <span class="col-6" (click)="removeOrganization(organization._id,organization.organization)">
-                      Delete
+                      <div class="d-flex align-items-center">
+                        <mat-icon>delete</mat-icon>
+                        Delete
+                      </div>
                     </span>
                   </ng-container>
-              </ng-container>
+                </ng-container>
 
-              <ng-container *ngIf="organizationList[0].isActive == false">
-                <span class="col-6"
-                  (click)="removeOrganization(organization._id,organization.organization)">
-                  Delete User
-              </span>
-                <span  class="col-6" (click)="enableOrganization(this.organization._id,organization.organization)">
-                  Enable
-                </span>
-              </ng-container>
+                <ng-container *ngIf="organizationList[0].isActive == false">
+                  <span class="col-6" (click)="removeOrganization(organization._id,organization.organization)">
+                    Delete User
+                  </span>
+                  <span class="col-6" (click)="enableOrganization(this.organization._id,organization.organization)">
+                    Enable
+                  </span>
+                </ng-container>
 
               </div>
 
-          </div>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>

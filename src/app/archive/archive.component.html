@@ -1,8 +1,10 @@
 <mat-tab-group>
     <mat-tab>
         <ng-template mat-tab-label>
-            <mat-icon>assignment</mat-icon>
-            Tasks
+            <a>
+                <mat-icon>assignment</mat-icon>
+                Tasks
+            </a>
         </ng-template>
 
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 archiveTable">
@@ -31,8 +33,10 @@
         </table>
         <mat-tab>
             <ng-template mat-tab-label>
-                <mat-icon>attachment</mat-icon>
-                Files
+                <a>
+                    <mat-icon>attachment</mat-icon>
+                    Files
+                </a>
             </ng-template>
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 archiveTable">
                 <!-- Activity Column -->
