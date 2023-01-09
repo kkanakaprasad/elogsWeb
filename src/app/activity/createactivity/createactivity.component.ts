@@ -54,7 +54,7 @@ export class CreateactivityComponent implements OnInit {
 
   ) {
     this.activatedRoute.queryParams.subscribe((res) => {
-      this.selectedActivityId = res['Aid'];
+      this.selectedActivityId = res['aId'];
       console.log(this.selectedActivityId)
     });
   }
@@ -140,12 +140,6 @@ export class CreateactivityComponent implements OnInit {
     return this.activityService.getActivityById(this.selectedActivityId);
   }
 
-  // getActivityById() {
-  //   this.activity$.subscribe(res => {
-  //   })
-  // }
-
-
 
   onSubmit() {
 
@@ -217,8 +211,8 @@ export class CreateactivityComponent implements OnInit {
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       this.userDetails = res
-      if(this.userDetails?.length === 1){
-        this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organizationData[0]?._id);
+      if(this.userDetails?.organization?.length === 1){
+        this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organization[0]);
       }
     })
   }
