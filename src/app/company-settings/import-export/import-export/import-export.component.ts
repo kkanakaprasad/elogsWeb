@@ -79,4 +79,12 @@ export class ImportExportComponent implements OnInit, AfterViewInit {
       this.selectOrganization = selectValue;
     });
   }
+
+  filterOrganization(event:any) {
+    const searchText = event.target.value;
+
+    this.organizationsList = this.organizationsList.filter((org: any) => {
+      return org.organization.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+    });
+  }
 }
