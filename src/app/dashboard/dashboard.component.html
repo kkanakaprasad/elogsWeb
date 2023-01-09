@@ -4,29 +4,97 @@
 </div>
 <section class="section dashboard">
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-8 mb-4">
       <div class="row">
-        <div class="col-md-6">
-
-          <div class="card shadow mb-4">
-            <div class="card-header">
+        <div class="col-md-6 mb-4">
+          <div class="card shadow h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
               <h6 class="m-0">Activity <span>Metrics</span></h6>
+              <div class="calendar-inputs">
+                <input type="text" class="form-control col-md-1" placeholder="08-01-2023" name="" id="">
+                <input type="text" class="form-control col-md-1" placeholder="To Date" name="" id="">
+              </div>
             </div>
             <div class="card-body">
-
+              <div class="d-flex mb-3 justify-content-between">
+                <div class="total">Total <span>65</span></div>
+                <div>Type Button</div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 activity mb-3">
+                  <div class="brdr-primary">
+                    <div class="d-inline-block">New</div>
+                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">23</div>
+                    <div class="percentage">
+                      (35.38 %)
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 activity mb-3">
+                  <div class="brdr-warning">
+                    <div class="d-inline-block">In-Progress</div>
+                    <div class="d-inline-block float-right bg-warning-text fw-bold fs-5">30</div>
+                    <div class="percentage">
+                      (46.15 %)
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 activity">
+                  <div class="brdr-success">
+                    <div class="d-inline-block">Resolved</div>
+                    <div class="d-inline-block float-right bg-success-text fw-bold fs-5">12</div>
+                    <div class="percentage">
+                      (18.46 %)
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 activity">
+                  <div class="brdr-danger">
+                    <div class="d-inline-block">Not Admissible</div>
+                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">0</div>
+                    <div class="percentage">
+                      (0 %)
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-
-
-        </div>
-        <div class="col-md-6">
-          <div class="card shadow mb-4">
+        <div class="col-md-6 mb-4">
+          <div class="card shadow h-100">
             <div class="card-header">
               <h6 class="m-0">Related To <span>Metrics</span></h6>
             </div>
             <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3 related">
+                  <div class="bg-primary h-100">
+                    <h6>Others<span>(0 %)</span></h6>
+                    <h3>0</h3>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3 related">
+                    <div class="bg-success h-100">
+                      <h6>Multiple Ministries / Departments<span>(19.05  %)</span></h6>
+                      <h3>12</h3>
+                    </div>
+                </div>
+                <div class="col-md-6 related">
+                  <div class="bg-warning h-100">
+                    <h6>Single Ministry / Department<span>(14.29  %)</span></h6>
+                    <h3>9</h3>
+                  </div>
+                </div>
+                <div class="col-md-6 related">
+                  <div class="bg-danger h-100">
+                    <h6>None<span>(66.67  %)</span></h6>
+                    <h3>42</h3>
+                  </div>
+                </div>
             </div>
-        </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -34,42 +102,121 @@
         <div class="card-header">
           <h6 class="m-0">On Time <span>Metrics</span></h6>
         </div>
-        <div class="card-body" style="min-height: 200px;">
-
+        <div class="card-body">
+          <div class="ontime">
+            <div class="ontime-left">
+                <h5>On Time</h5>
+                <h4>34</h4>
+            </div>
+            <div class="ontime-right">
+                <h4>Overdue From</h4>
+                <div class="overdue d-flex justify-content-between">
+                    <div>
+                        <div class="round-box" style="border-color: rgb(248, 187, 189)">2</div>
+                        <h5 class="day-heading"> &lt; Week</h5>
+                    </div>
+                    <div>
+                        <div class="round-box" style="border-color: rgb(243, 141, 144)">4</div>
+                        <h5 class="day-heading">1 to 2 Weeks</h5>
+                    </div>
+                    <div>
+                        <div class="round-box" style="border-color: rgb(238, 95, 99)">1</div>
+                        <h5 class="day-heading">2 Weeks - Month</h5>
+                    </div>
+                    <div>
+                        <div class="round-box" style="border-color: rgb(233, 49, 54)">32</div>
+                        <h5 class="day-heading">&gt; Month</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-7">
-            <div class="card shadow mb-4">
-              <div class="card-header">
-                <h6 class="m-0">User <span>Metrics</span></h6>
-              </div>
-              <div class="card-body">
-
-              </div>
+          <div class="card shadow mb-4 h-100">
+            <div class="card-header">
+              <h6 class="m-0">User <span>Metrics</span></h6>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="active-users">
+                    <span>Active</span>
+                    <h4>9</h4>
+                </div>
+                <div class="inactive-users">
+                    <span>Inactive</span>
+                    <h4>1</h4>
+                </div>
+                <div class="mapped-users">
+                    <span>In more than one organization</span>
+                    <h4>4</h4>
+                </div>
+                <div class="recent-users">
+                    <span>Active in 24hrs</span>
+                    <h4>4</h4>
+                </div>
+            </div>
+            </div>
           </div>
         </div>
         <div class="col-md-5">
-            <div class="card shadow mb-4">
-              <div class="card-header">
-                <h6 class="m-0">Organization <span>Metrics</span></h6>
-              </div>
-              <div class="card-body">
-
-              </div>
+          <div class="card shadow mb-4 h-100">
+            <div class="card-header">
+              <h6 class="m-0">Organization <span>Metrics</span></h6>
             </div>
+            <div class="card-body">
+              <div class="row organization">
+                <div class="col-md-3">
+                  <div class="h-100">
+                    <h3>43</h3>
+                    <h6>Active</h6>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="h-100">
+                    <h3>1</h3>
+                    <h6>Inactive</h6>
+                  </div>
+                </div>
+                <div class="col-md-5 h-100">
+                  <div class="h-100">
+                    <h3>43</h3>
+                    <h6>Active in 24hrs</h6>
+                  </div>
+                </div>
+            </div>
+            </div>
+          </div>
         </div>
       </div>
 
     </div>
-    <div class="col-md-4">
-      <div class="card shadow mb-4">
+    <div class="col-md-4 mb-4">
+      <div class="card shadow h-100">
         <div class="card-header">
           <h6 class="m-0">To Do</h6>
         </div>
         <div class="card-body">
-
+          <div>
+            <div class="listdv">
+              <div class="fl task_title_db">
+              <a href="https://elogs.cxipl.com/dashboard/?project=51d3891f6396b43c17c9e4c285feba9d" title="ManasaOrg" style="color:#5191BD">ORGM</a> -
+              <a href="https://elogs.cxipl.com/dashboard#details/e14f0571747d3b7d9fdcbb19ab90ae67" title="Edit profile email validation issue">#17: Edit profile email validation issue</a>
+              </div>
+                <div class="cb"></div>
+              <div class="fl" style="font-size:12px;">
+                <span style="color: #999999;">Created on Today</span>
+              </div>
+                    <div class="fr" style="font-size:12px;">
+                  <div class="img-cls-dt" style="margin:-1px;"></div>
+                        <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                      </div>
+                            <div class="cb"></div>
+                      <div class="lstbtndv"></div>
+                  </div>
+          </div>
         </div>
       </div>
     </div>
