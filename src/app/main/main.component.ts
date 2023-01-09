@@ -8,7 +8,7 @@ import { SearchPipe } from '../shared/pipes/search.pipe';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  organizationsList = [] as any;
+  organizationsList : any = [];
   searchedOrganizationList : any = [];
 
   constructor(private companySettingsService: CompanySettingsService) { }
@@ -25,14 +25,7 @@ export class MainComponent implements OnInit {
     })
   }
 
-  // filterOrganization(event:any) {
-  //   const searchText = event.target.value;
 
-  //   this.organizationsList = this.organizationsList.map((org: any) => {
-  //     return new SearchPipe().transform( org, searchText, org.organization)
-  //     //return org.organization.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-  //   });
-  // }
   filterOrganization(event:any){
     if(event.target.value){
       const search = new SearchPipe();
