@@ -8,6 +8,7 @@ import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service'
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { UserDetailsService } from 'src/app/shared/services/user-details-service/user-details.service';
+import { Priority, Status } from '../activity.constant';
 import { ActivityService } from '../activity.service';
 
 
@@ -31,16 +32,14 @@ export class CreateactivityComponent implements OnInit {
   selectedOrganizationValue: any;
   removable: boolean = true
   selectedActivityId: any;
-  selectedActivityData: any;
-  filePath: any;
-  fileName: any;
-  fileSize: any;
+  selectedActivityData: any; 
   filesListArray: any[] = [];
   userOrganizations: any;
   userDetails: any;
   createdByOrganization: any;
   descriptionOfTextEditor: any;
-
+  priority=Priority;
+  status=Status;
 
 
   constructor(
@@ -147,8 +146,8 @@ export class CreateactivityComponent implements OnInit {
       const payload = { ...this.activityForm.value, 
         attachments: this.filesListArray, 
         organization: this.selectedOrganizationValue, 
-        priority: "none ", 
-        status: "new", 
+        priority: Priority[0] , 
+        status: Status[0], 
         createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) 
       }
       this.activityService.updateActivity(this.selectedActivityId, payload).subscribe(res => {
@@ -170,8 +169,8 @@ export class CreateactivityComponent implements OnInit {
         const payload = { ...this.activityForm.value, 
           attachments: this.filesListArray, 
           organization: this.selectedOrganizationValue,
-          priority: "none ", 
-          status: "new", 
+          priority: Priority[0], 
+          status: Status[0], 
           description:this.descriptionOfTextEditor,
           createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID),
         }

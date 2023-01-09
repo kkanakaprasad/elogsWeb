@@ -19,7 +19,7 @@ export class ActivityDetailsComponent implements OnInit {
   activityLogForm!: FormGroup;
   Priority=Priority;
   visibility= Visibility
-  Status=Status
+  status=Status
   organizationList: any;
   filesListArray:any[]=[];
   description: string='';
@@ -162,23 +162,26 @@ selectedActivityEntryTypeId: any;
     // updateActivityLogById(){
       
     // }
-    dueDateSetter(selectedOption:any){
-      console.log(selectedOption)
+    dueDateSetter(selectedOption:any,selectedOptionalDate?:any){
+
       if(selectedOption=='noDueDate'){
         this.selectedDate=""
-        console.log(this.selectedDate)
+        
       }else if(selectedOption=='Today'){
         this.selectedDate=new Date()
-        console.log(this.selectedDate)
+        
       }else if(selectedOption=='Tomorrow'){
         this.selectedDate=new Date(this.toDay.setDate(this.toDay.getDate()+1))
-        console.log(this.selectedDate)
+        
       }else if(selectedOption=='Next Monday'){
         this.selectedDate=new Date(this.toDay.setDate(this.toDay.getDate() + (7-this.toDay.getDay())%7+1))
-        console.log(this.selectedDate)
+        
       }else if(selectedOption=='This Friday'){
         this.selectedDate=new Date(this.toDay.setDate(this.toDay.getDate() + (12-this.toDay.getDay())%7))
-        console.log(this.selectedDate)
+        
+      }else if(selectedOption=='custom'){
+        this.selectedDate=selectedOptionalDate.value
+        
       }
     }
 

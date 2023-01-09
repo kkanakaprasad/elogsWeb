@@ -22,7 +22,7 @@
               </tr>
               <tr>
                 <td>Priority:</td>
-                <td>{{ activityData?.priority | titlecase}}</td>
+                <td>{{ activityData?.priority | titlecase }}</td>
               </tr>
               <tr>
                 <td>Status:</td>
@@ -44,7 +44,7 @@
               </tr>
               <tr>
                 <td>Organization:</td>
-                <td>{{organizationCreatedBy}}</td>
+                <td>{{ organizationCreatedBy }}</td>
               </tr>
             </tbody>
           </table>
@@ -89,10 +89,10 @@
             <mat-form-field appearance="outline">
               <mat-label>Status: </mat-label>
               <mat-select formControlName="status">
-                <mat-option [value]="Status[0]">New</mat-option>
-                <mat-option [value]="Status[1]">In Progress</mat-option>
-                <mat-option [value]="Status[2]">Not Admissible</mat-option>
-                <mat-option [value]="Status[3]">Resolved</mat-option>
+                <mat-option [value]="status[0]">New</mat-option>
+                <mat-option [value]="status[1]">In Progress</mat-option>
+                <mat-option [value]="status[2]">Not Admissible</mat-option>
+                <mat-option [value]="status[3]">Resolved</mat-option>
               </mat-select>
             </mat-form-field>
             <mat-radio-group aria-label formControlName="priority" layout="row">
@@ -173,29 +173,53 @@
       <button mat-stroked-button><mat-icon>download</mat-icon></button>
       <hr />
       <div class="d-flex">
-      <mat-icon class="mat-Icon">assignment_ind</mat-icon><h4> Assigned To <strong> {{organizationCreatedBy}}</strong></h4>
-    </div>
-    <div class="d-flex">
-      <mat-icon> date_range</mat-icon>
-      <h4>Due On {{activityData?.dueDate| date : "medium" }} </h4>
-      <button mat-button [matMenuTriggerFor]="menu"><mat-icon>view_headline</mat-icon></button>
+        <mat-icon class="mat-Icon">assignment_ind</mat-icon>
+        <h4>
+          Assigned To <strong> {{ organizationCreatedBy }}</strong>
+        </h4>
+      </div>
+      <div class="d-flex">
+        <mat-icon> date_range</mat-icon>
+        <h4>Due On {{ activityData?.dueDate | date : "medium" }}</h4>
+        <button mat-button [matMenuTriggerFor]="menu">
+          <mat-icon>view_headline</mat-icon>
+        </button>
         <mat-menu #menu="matMenu">
-         <button mat-menu-item (click)="dueDateSetter('noDueDate')">No Due Date</button>
-         <button mat-menu-item (click)="dueDateSetter('Today')">Today</button>
-         <button mat-menu-item (click)="dueDateSetter('Tomorrow')">Tomorrow</button>
-         <button mat-menu-item (click)="dueDateSetter('Next Monday')">Next Monday</button>
-         <button mat-menu-item (click)="dueDateSetter('This Friday')">This Friday</button>
-         <button mat-menu-item (click)="dueDateSetter('Custom Date')">Custom Date</button>
+          <button mat-menu-item (click)="dueDateSetter('noDueDate')">
+            No Due Date
+          </button>
+          <button mat-menu-item (click)="dueDateSetter('Today')">Today</button>
+          <button mat-menu-item (click)="dueDateSetter('Tomorrow')">
+            Tomorrow
+          </button>
+          <button mat-menu-item (click)="dueDateSetter('Next Monday')">
+            Next Monday
+          </button>
+          <button mat-menu-item (click)="dueDateSetter('This Friday')">
+            This Friday
+          </button>
+          <!-- <button mat-menu-item (click)="$event.stopPropagation()"> -->
+            <mat-form-field appearance="fill" (click)="$event.stopPropagation()" [ngStyle]="{width : '180px'}">
+              <mat-label>Choose a date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                (dateChange)="dueDateSetter('custom', $event)"
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          <!-- </button> -->
         </mat-menu>
-      
-    </div>
-    <hr>
-    <div class="d-flex ">
-      <mat-icon>attach_file</mat-icon>
-      <h2>No Files in this Activity
-        
-      </h2>
-    </div>
+      </div>
+      <hr />
+      <div class="d-flex">
+        <mat-icon>attach_file</mat-icon>
+        <h2>No Files in this Activity</h2>
+      </div>
       <div>
         <mat-icon>perm_identity</mat-icon>
       </div>
