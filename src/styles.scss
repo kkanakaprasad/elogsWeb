@@ -23,6 +23,9 @@ td {
   text-transform: capitalize;
   font-size: 14px;
 }
+.pdr-0{
+  padding-right: 0 !important;
+}
 
 .img-fluid {
     max-width: 100% !important;
@@ -1184,7 +1187,7 @@ h6,
 
       .ontime-left{
         text-align: center;
-        background-color: rgba(25, 135, 84, 0.9);
+        background-color: #10c469 !important;
         color: #fff;
         margin-right: 20px;
         padding: 20px;
@@ -1257,6 +1260,93 @@ h6,
     .total {
       span{
         font-size: 18px;
+      }
+    }
+    .activities_panel{
+      .activity-list{
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        padding-top: 10px;
+
+        .activity-title{
+          a:last-child{
+            color: #000;
+          }
+        }
+      }
+      .activity-list:last-child{
+        border-bottom: none;
+      }
+      .created, .date-time{
+        font-size: 12px;
+        color: #777;
+      }
+      .heading{
+
+        h2{
+          margin-bottom: 0;
+          line-height: 26px;
+          border-bottom: 1px solid transparent;
+          span{
+            font-size: 14px;
+            font-weight: 400;
+            background: transparent;
+            color: #fff;
+            padding: 5px 10px;
+          }
+        }
+      }
+      .overdue{
+        h2 {
+          border-bottom-color: #f44336;
+            span{
+            background: #f44336;
+          }
+        }
+      }
+      .upcoming{
+        h2 {
+          border-bottom-color: #10c469 !important;
+          span{
+            background: #10c469;
+          }
+        }
+      }
+    }
+
+    .user-metrics{
+      display: grid;
+      grid-template-columns: 12% 13% 1fr 23%;
+      grid-gap: 10px;
+      font-size: 12px;
+      span{
+        border-bottom: 2px solid transparent;
+        padding-bottom: 3px;
+      }
+      h4{
+        margin-bottom: 0;
+        font-size: 20px;
+        margin-top: 10px;
+      }
+      .active-users {
+        span{
+          border-bottom-color: #188ae2 !important;
+        }
+      }
+      .inactive-users {
+        span{
+          border-bottom-color: #ff5b5b !important;
+        }
+      }
+      .mapped-users {
+        span{
+          border-bottom-color: #10c469 !important;
+        }
+      }
+      .recent-users {
+        span{
+          border-bottom-color: #f9c851 !important;
+        }
       }
     }
 
