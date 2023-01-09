@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { CompanySettingsService } from '../company-settings/company-settings.service';
 import { SearchPipe } from '../shared/pipes/search.pipe';
+import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
+
 
 @Component({
   selector: 'app-main',
@@ -8,14 +11,18 @@ import { SearchPipe } from '../shared/pipes/search.pipe';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  organizationsList : any = [];
-  searchedOrganizationList : any = [];
+  organizationsList: any = [];
+  searchedOrganizationList: any = [];
+  selectOrganization: any;
+  @ViewChild('matAutocomplete') matAutocomplete!: MatAutocomplete;
+  //Reference Variable //variable Name //Type
 
   constructor(private companySettingsService: CompanySettingsService) { }
 
   ngOnInit(): void {
     this.getAllOrganizations()
   }
+
 
   getAllOrganizations() {
     this.companySettingsService.getAllOrganizations().subscribe((res) => {
@@ -26,17 +33,20 @@ export class MainComponent implements OnInit {
   }
 
 
-  filterOrganization(event:any){
-    if(event.target.value){
+  filterOrganization(event: any) {
+    if (event.target.value) {
       const search = new SearchPipe();
-      this.searchedOrganizationList = search.transform(this.organizationsList,event.target.value,'organization');
-    }else{
+      this.searchedOrganizationList = search.transform(this.organizationsList, event.target.value, 'organization');
+
+    } else {
       this.organizationsList;
     }
-    
-    }
-    
+  }
 
-  
+  seleectedOrganization(event: MatAutocompleteSelectedEvent) {
+
+    this.selectOrganization = event.option.value;
+    new SelectedOrganizationService().setSelectedOrganization(this.selectOrganization);    
+  }
 
 }
