@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-8">
       <h2>{{ activityDetails?.title }}</h2>
-      <p>Last updated by -- on --</p>
+      <p>Last updated  on {{activityData?.createdAt | date:'medium'}}</p>
       <hr />
       <div class="row">
         <div class="col-md-3">
@@ -14,19 +14,19 @@
               </tr>
               <tr>
                 <td>Entry Type:</td>
-                <td>---</td>
+                <td>{{activityEntryType}}</td>
               </tr>
               <tr>
                 <td>Related To:</td>
-                <td>---</td>
+                <td>{{activityRelatedTypesData}}</td>
               </tr>
               <tr>
                 <td>Priority:</td>
-                <td>---</td>
+                <td>{{activityData?.priority}}</td>
               </tr>
               <tr>
                 <td>Status:</td>
-                <td>---</td>
+                <td>{{activityData?.status}}</td>
               </tr>
             </tbody>
           </table>
@@ -54,11 +54,11 @@
             <tbody>
               <tr>
                 <td>Sector:</td>
-                <td>-</td>
+                <td>{{activitySectorsData}}</td>
               </tr>
               <tr>
                 <td>Scope:</td>
-                <td>-</td>
+                <td>{{ActivityScopeData}}</td>
               </tr>
             </tbody>
           </table>
@@ -126,10 +126,10 @@
                   >Visibility:</mat-label
                 >
                 <div class="col-sm-8">
-                  <mat-radio-button [value]="Visibility[0]"
+                  <mat-radio-button [value]="visibility[0]"
                     >Internal</mat-radio-button
                   >
-                  <mat-radio-button [value]="Visibility[1]"
+                  <mat-radio-button [value]="visibility[1]"
                     >Everyone</mat-radio-button
                   >
                 </div>
@@ -165,17 +165,23 @@
       
     </div>
     <div class="col-md-3">
-      <mat-icon>refresh</mat-icon>
-      <mat-icon>edit</mat-icon>
-      <mat-icon>archive</mat-icon>
-      <mat-icon>delete</mat-icon>
-      <mat-icon>timeline</mat-icon>
-      <mat-icon>checkmark</mat-icon>
-      <mat-icon>download</mat-icon>
+      <button mat-stroked-button class="refresh"><mat-icon>refresh</mat-icon></button>
+      <button mat-stroked-button (click)="updateActivityDetails()"><mat-icon>edit</mat-icon></button>
+      <button mat-stroked-button><mat-icon>archive</mat-icon></button>
+      <button mat-stroked-button><mat-icon>delete</mat-icon></button>
+      <button mat-stroked-button><mat-icon>timeline</mat-icon></button>
+      <button mat-stroked-button><mat-icon>checkmark</mat-icon></button>
+      <button mat-stroked-button><mat-icon>download</mat-icon></button>
       <hr />
       <mat-icon class="mat-Icon">assignment_ind</mat-icon>
       <div>
         <mat-icon>perm_identity</mat-icon>
+      </div>
+      <div>
+        <mat-icon>Activities</mat-icon>
+      </div>
+      <div>
+        <h3><mat-icon>group</mat-icon>  People Involved</h3>
       </div>
     </div>
   </div>
