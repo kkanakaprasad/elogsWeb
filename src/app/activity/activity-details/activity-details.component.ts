@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationService } from 'src/app/organization/organization.service';
+import { RouteConstants } from 'src/app/shared/constants/routes.constants';
+import { UserDetailsService } from 'src/app/shared/services/user-details-service/user-details.service';
 import { Priority, Status, Visibility } from '../activity.constant';
 import { ActivityService } from '../activity.service';
 
@@ -15,7 +17,7 @@ export class ActivityDetailsComponent implements OnInit {
   activityDetails: any;
   activityLogForm!: FormGroup;
   Priority=Priority;
-  Visibility= Visibility
+  visibility= Visibility
   Status=Status
   organizationList: any;
   filesListArray:any[]=[];
@@ -28,6 +30,20 @@ export class ActivityDetailsComponent implements OnInit {
     description:'scscsvjsvhsvj1'
   }
 ]
+selectedActivityEntryTypeId: any;
+  activityEntryType: any;
+  activityRelatedTypesData: any;
+  selectedActivityRelatedTypeId: any;
+  selectedActivityTypesDataId: any;
+  activityTypesData: any;
+  selectedPriorityId: any;
+  activityPriority: any;
+  activityData: any;
+  activitySectorsData: any;
+  selectedActivitySectorId: any;
+  selectedActivityScopeId: any;
+  ActivityScopeData: any;
+  selectedActivityCreatedById: any;
   
 
 
@@ -35,7 +51,9 @@ export class ActivityDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private activityService: ActivityService,
     private formBuilder:FormBuilder,
-    private organizationService:OrganizationService
+    private organizationService:OrganizationService,
+    private router :Router,
+    private userDetailsService :UserDetailsService
   ) {
     this.activatedRoute.queryParams.subscribe((res) => {
       this.selectedActivityId = res['aId'];
@@ -44,18 +62,37 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllOrganizationsBySearchCriteria()
     this.getActivityDetailsById()
+    this.getActivityMasterData()
+    this.getAllOrganizationsBySearchCriteria()
     this.genarateActivityLogForm()
+    
   }
 
   getActivityDetailsById(){
     this.activityService.getActivityById(this.selectedActivityId).subscribe(res=>{
-      console.log(res)
-      this.activityDetails=res.data[0]
+      this.activityData=res.data[0]
+      this.selectedActivityEntryTypeId=res.data[0].activitEntryType
+      this.selectedActivityRelatedTypeId=res.data[0].activityRelatedTo
+      this.selectedActivitySectorId=res.data[0].activitySector
+      this.selectedActivityScopeId=res.data[0].activityScope
+      this.selectedActivityCreatedById=res.data[0].createdBy
+    
     })
   }
-  
+
+
+  getActivityMasterData(){
+    this.activityService.getActivitiesMasterData().subscribe(res=>{
+      
+      this.activityEntryType=res.data?.activityEntryTypesData.filter((activityEntry:any)=>activityEntry._id==this.selectedActivityEntryTypeId).map((item:any)=>item.name)
+      this.activityRelatedTypesData=res.data?.activityRelatedTypesData.filter((activityRelated:any)=>activityRelated._id==this.selectedActivityRelatedTypeId).map((item:any)=>item.name)
+      this.activitySectorsData=res.data?.activitySectorsData.filter((sectorsData:any)=>sectorsData._id==this.selectedActivitySectorId).map((item:any)=>item.name)
+      this.ActivityScopeData=res.data?.activityScopesData.filter((activityScopesData:any)=>activityScopesData._id==this.selectedActivityScopeId).map((item:any)=>item.name)
+      this.ActivityScopeData=res.data?.activityScopesData.filter((activityScopesData:any)=>activityScopesData._id==this.selectedActivityScopeId).map((item:any)=>item.name)
+    console.log(this.activitySectorsData)
+    })
+    }
 
   genarateActivityLogForm() {
     this.activityLogForm = this.formBuilder.group({
@@ -103,6 +140,9 @@ export class ActivityDetailsComponent implements OnInit {
       });
     } 
   }
-
+  updateActivityDetails(){
+      this.router.navigate( [RouteConstants.CREATEACTIVITY], { queryParams: { aId: this.selectedActivityId}});
+    }
+ 
 
 }
