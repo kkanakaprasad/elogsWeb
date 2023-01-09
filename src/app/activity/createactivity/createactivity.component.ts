@@ -225,7 +225,7 @@ export class CreateactivityComponent implements OnInit {
     for (var i = 0; i < event.length; i++) {
       this.filesListArray.push({
         name: event[i].name,
-        size: event[i].size,
+        size: event[i].size.toString(),
         path: "string"
       });
     } 
