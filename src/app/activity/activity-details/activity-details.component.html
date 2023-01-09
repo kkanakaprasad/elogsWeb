@@ -1,0 +1,188 @@
+<div class="row container">
+  <div class="row">
+    <div class="col-md-8">
+      <h2>{{ activityDetails?.title }}</h2>
+      <p>Last updated  on {{activityData?.createdAt | date:'medium'}}</p>
+      <hr />
+      <div class="row">
+        <div class="col-md-3">
+          <table class="table table-borderless">
+            <tbody>
+              <tr>
+                <td>Type</td>
+                <td>---</td>
+              </tr>
+              <tr>
+                <td>Entry Type:</td>
+                <td>{{activityEntryType}}</td>
+              </tr>
+              <tr>
+                <td>Related To:</td>
+                <td>{{activityRelatedTypesData}}</td>
+              </tr>
+              <tr>
+                <td>Priority:</td>
+                <td>{{activityData?.priority}}</td>
+              </tr>
+              <tr>
+                <td>Status:</td>
+                <td>{{activityData?.status}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-3">
+          <table class="table table-borderless">
+            <tbody>
+              <tr>
+                <td>Reported By:</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Ministry/Department:</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Organization:</td>
+                <td>-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-3">
+          <table class="table table-borderless">
+            <tbody>
+              <tr>
+                <td>Sector:</td>
+                <td>{{activitySectorsData}}</td>
+              </tr>
+              <tr>
+                <td>Scope:</td>
+                <td>{{ActivityScopeData}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          
+          <div class="col-md-12 my-2" *ngFor="let activityData of cardData">
+            <mat-card>
+              <mat-card-content>
+                <h3>
+                  <span class="organization-title">{{
+                    activityData.title | titlecase
+                    }}</span>
+                  </h3>
+                  <div>
+                    <p>
+                      {{ activityData.description }} </p>
+                    
+                </div>
+              </mat-card-content>
+            </mat-card>
+        </div>
+          <form [formGroup]="activityLogForm" (ngSubmit)="onSubmit()">
+            <div>
+              <label> Write your Reply: </label>
+              <app-rich-text-editor
+                value=""
+                (updatedDescription)="updatedDescription($event)"
+              ></app-rich-text-editor>
+            </div>
+            <mat-form-field appearance="outline">
+              <mat-label>Status: </mat-label>
+              <mat-select formControlName="status">
+                <mat-option [value]="Status[0]">New</mat-option>
+                <mat-option [value]="Status[1]">In Progress</mat-option>
+                <mat-option [value]="Status[2]">Not Admissible</mat-option>
+                <mat-option [value]="Status[3]">Resolved</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-radio-group aria-label formControlName="priority" layout="row">
+              <div class="row mb-3">
+                <mat-label class="col-sm-3 col-form-label">Priority:</mat-label>
+                <div class="col-sm-8">
+                  <mat-radio-button [value]="Priority[0]"
+                    >None</mat-radio-button
+                  >
+                  <mat-radio-button [value]="Priority[1]">Low</mat-radio-button>
+                  <mat-radio-button [value]="Priority[2]"
+                    >Medium</mat-radio-button
+                  >
+                  <mat-radio-button [value]="Priority[3]"
+                    >High</mat-radio-button
+                  >
+                </div>
+              </div>
+            </mat-radio-group>
+            <mat-radio-group
+              aria-label
+              formControlName="visibility"
+              layout="row"
+            >
+              <div class="row mb-3">
+                <mat-label class="col-sm-3 col-form-label"
+                  >Visibility:</mat-label
+                >
+                <div class="col-sm-8">
+                  <mat-radio-button [value]="visibility[0]"
+                    >Internal</mat-radio-button
+                  >
+                  <mat-radio-button [value]="visibility[1]"
+                    >Everyone</mat-radio-button
+                  >
+                </div>
+              </div>
+            </mat-radio-group>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Assign to</mat-label>
+              <mat-select formControlName="AssignTo">
+                <mat-option
+                  *ngFor="let Organization of organizationList"
+                  [value]="Organization._id"
+                >
+                  {{ Organization.organization }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <div>
+              <app-fileuploader
+                (updatedFilesDescription)="updatedFilesDescription($event)"
+              ></app-fileuploader>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center">
+              <button class="btn" mat-raised-button>CANCEL</button>
+              <button mat-raised-button color="primary" type="submit">
+                Post
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+    <div class="col-md-3">
+      <button mat-stroked-button class="refresh"><mat-icon>refresh</mat-icon></button>
+      <button mat-stroked-button (click)="updateActivityDetails()"><mat-icon>edit</mat-icon></button>
+      <button mat-stroked-button><mat-icon>archive</mat-icon></button>
+      <button mat-stroked-button><mat-icon>delete</mat-icon></button>
+      <button mat-stroked-button><mat-icon>timeline</mat-icon></button>
+      <button mat-stroked-button><mat-icon>checkmark</mat-icon></button>
+      <button mat-stroked-button><mat-icon>download</mat-icon></button>
+      <hr />
+      <mat-icon class="mat-Icon">assignment_ind</mat-icon>
+      <div>
+        <mat-icon>perm_identity</mat-icon>
+      </div>
+      <div>
+        <mat-icon>Activities</mat-icon>
+      </div>
+      <div>
+        <h3><mat-icon>group</mat-icon>  People Involved</h3>
+      </div>
+    </div>
+  </div>
+</div>

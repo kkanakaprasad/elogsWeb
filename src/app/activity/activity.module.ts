@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { CreateactivityComponent } from './createactivity/createactivity.component';
 import { ActivityComponent } from './activity.component';
+import { ActivityDetailsComponent } from './activity-details/activity-details.component';
 
 
 
@@ -14,6 +15,7 @@ import { ActivityComponent } from './activity.component';
   declarations: [
     CreateactivityComponent,
     ActivityComponent,
+    ActivityDetailsComponent,
   ],
   imports: [
     CommonModule,
