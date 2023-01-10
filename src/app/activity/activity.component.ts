@@ -13,7 +13,7 @@ import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { Roles } from '../shared/enums/roles.enums';
 import { ActivityFiltersData } from './activity-filterData';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivityRowActions, Status } from './activity.constant';
+import { ActivityRowActions, Status, UserActivityRowActions } from './activity.constant';
 
 
 
@@ -31,7 +31,7 @@ const year = today.getFullYear();
 
 export class ActivityComponent implements OnInit {
 
-
+  activityId = '';
   groupby = ['Due Date', 'Status', 'Priority', 'Assigned to']
   sortby = ['Tittle', 'Activity#', 'Due Date', 'Assigned to']
   displayedColumns = ['select','Status','Activity', 'Title', 'Priority', 'Duedate','Assignto','actions']
@@ -49,6 +49,7 @@ export class ActivityComponent implements OnInit {
   groupBy = ActivityFiltersData.groupby;
   sortBy = ActivityFiltersData.sortby;
   activityRowActions=ActivityRowActions;
+  userActivityRowActions=UserActivityRowActions;
   dataSource: any;
   masterData: any;
   statusEnums = Status
@@ -56,12 +57,14 @@ export class ActivityComponent implements OnInit {
   filter = FILTER_CONSTANT;
   customPage = CUSTOMPAGE;
   isSuperAdmin: boolean = false;
+  
   selectedTab = {
     tab: {
       textLabel: FILTER_CONSTANT.IS_ACTIVE
     }
   };
   activityRowActionByStatus: any;
+  userActivityRowActionByStatus:any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -75,7 +78,8 @@ export class ActivityComponent implements OnInit {
   constructor(
     private activityService: ActivityService,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    
   ) { }
 
   fromDate = new FormGroup({
@@ -89,6 +93,7 @@ export class ActivityComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllActivities();
+    //this.onActivityRowActionClick();
     this.getAcivityMasterData();
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
   }
@@ -123,8 +128,9 @@ export class ActivityComponent implements OnInit {
 
   getAllActivities() {
     this.activityService.getAllActivities().subscribe((res) => {
-      this.dataSource = new MatTableDataSource(res.data)
+           this.dataSource = new MatTableDataSource(res.data)
       this.dataSource.paginator = this.paginator;
+      // console.log(res.data);
     })
   }
 
@@ -148,8 +154,6 @@ export class ActivityComponent implements OnInit {
     this.activityService.getActivityMastarData().subscribe((res) => {
       if (res.data) {
         this.masterData = res.data;
-       
-
       }
     })
   }
@@ -193,10 +197,14 @@ export class ActivityComponent implements OnInit {
 
   generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED"){
     this.activityRowActionByStatus =  this.activityRowActions[status];
+    this.userActivityRowActionByStatus=this.userActivityRowActions[status];
 
   }
 
   
-  }
+
+
+}
+  
 
 
