@@ -13,24 +13,29 @@ import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { Roles } from '../shared/enums/roles.enums';
 import { ActivityFiltersData } from './activity-filterData';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ActivityRowActions, Status } from './activity.constant';
+
 
 
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
 
+
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
   styleUrls: ['./activity.component.scss']
 })
+
+
 export class ActivityComponent implements OnInit {
 
 
   groupby = ['Due Date', 'Status', 'Priority', 'Assigned to']
   sortby = ['Tittle', 'Activity#', 'Due Date', 'Assigned to']
-  displayedColumns = ['select', 'Activity', 'Title', 'Priority', 'Duedate','actions']
-
+  displayedColumns = ['select','Status','Activity', 'Title', 'Priority', 'Duedate','Assignto','actions']
+  currentStatus= Status
   createddates = ActivityFiltersData.createddate;
   duedates = ActivityFiltersData.createddate;
   statuses = ActivityFiltersData.status;
@@ -43,8 +48,10 @@ export class ActivityComponent implements OnInit {
   assign = ActivityFiltersData.assignedto;
   groupBy = ActivityFiltersData.groupby;
   sortBy = ActivityFiltersData.sortby;
+  activityRowActions=ActivityRowActions;
   dataSource: any;
   masterData: any;
+  statusEnums = Status
   public activitylist: any = [];
   filter = FILTER_CONSTANT;
   customPage = CUSTOMPAGE;
@@ -54,6 +61,7 @@ export class ActivityComponent implements OnInit {
       textLabel: FILTER_CONSTANT.IS_ACTIVE
     }
   };
+  activityRowActionByStatus: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -112,18 +120,14 @@ export class ActivityComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
+
   getAllActivities() {
     this.activityService.getAllActivities().subscribe((res) => {
       this.dataSource = new MatTableDataSource(res.data)
       this.dataSource.paginator = this.paginator;
-
-      // this.dataSource.sort = this.sort;
-      // const sortState: Sort = { active: 'Title', direction: 'desc' };
-      // this.sort.active = sortState.active;
-      // this.sort.direction = sortState.direction;
-      // this.sort.sortChange.emit(sortState);
     })
   }
+
   ngAfterViewInit() {
     if (this.dataSource) {
       this.dataSource.paginator = this.paginator;
@@ -184,7 +188,15 @@ export class ActivityComponent implements OnInit {
   activityDetails(activityId:any){
     console.log(activityId)
     this.router.navigate( [RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activityId}});
+    
   }
+
+  generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED"){
+    this.activityRowActionByStatus =  this.activityRowActions[status];
+
+  }
+
+  
   }
 
 
