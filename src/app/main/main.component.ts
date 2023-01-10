@@ -17,7 +17,8 @@ export class MainComponent implements OnInit {
   @ViewChild('matAutocomplete') matAutocomplete!: MatAutocomplete;
   //Reference Variable //variable Name //Type
 
-  constructor(private companySettingsService: CompanySettingsService) { }
+  constructor(private companySettingsService: CompanySettingsService,
+              private selectedOrganizationService: SelectedOrganizationService) { }
 
   ngOnInit(): void {
     this.getAllOrganizations()
@@ -46,7 +47,7 @@ export class MainComponent implements OnInit {
   seleectedOrganization(event: MatAutocompleteSelectedEvent) {
 
     this.selectOrganization = event.option.value;
-    new SelectedOrganizationService().setSelectedOrganization(this.selectOrganization);    
+    this.selectedOrganizationService.setSelectedOrganization(this.selectOrganization);    
   }
 
 }
