@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { ArchiveService } from './archive.service';
 
 @Component({
   selector: 'app-archive',
@@ -8,15 +9,23 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ArchiveComponent implements OnInit {
 
-  taskDisplayedColumns = ['Activity','Tittle','Status','Organisation']
-   fileDisplayedColumns = ['Activity', 'FileName', 'Size', 'Organization']
-  dataSource = new MatTableDataSource();
-  
- 
+  archiveActivitiesList: any = [];
+  taskDisplayedColumns = ['Activity', 'Title', 'Status', 'Organisation'];
+  fileDisplayedColumns = ['Activity', 'FileName', 'Size', 'Organization'];
+  dataSource = new MatTableDataSource(this.archiveActivitiesList);
 
-  constructor() { }
+
+  constructor(private archiveService: ArchiveService) { }
 
   ngOnInit(): void {
+    this.getArchiveActivities();
   }
-  
+
+  getArchiveActivities() {
+    this.archiveService.getArchiveActivities().subscribe((res) => {
+      this.archiveActivitiesList = res.data;
+      this.dataSource = new MatTableDataSource(this.archiveActivitiesList);
+    
+    })
+  }
 }
