@@ -42,6 +42,7 @@ selectedActivityEntryTypeId: any;
   activityLogData: any;
   selectedDate:any;
   toDay=new Date();
+  isArchive: any;
   
 
 
@@ -75,12 +76,12 @@ selectedActivityEntryTypeId: any;
       this.selectedActivitySectorId=res.data[0].activitySector
       this.selectedActivityScopeId=res.data[0].activityScope
       this.selectedActivityCreatedById=res.data[0].createdBy
-      console.log(this.activityData.organizationData[0].organization)
+      // console.log(this.activityData.organizationData[0].organization)
       console.log(res)
       this.organizationCreatedBy=this.activityData.organizationData[0].organization
       this.activityLogData=this.activityData.activityLog
-    
-    
+      this.isArchive=this.activityData.isArchive
+      
     })
   }
 
