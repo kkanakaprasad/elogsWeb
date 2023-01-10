@@ -1,90 +1,357 @@
-<h2>Hi, Welcome to Dashboard</h2>
-
+<div class="alert alert-primary alert-dismissible fade show welcome-msg" role="alert">
+  Hi<strong> {{userRole}}</strong>, Welcome to Dashboard.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 <section class="section dashboard">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card dashboard-card">
-                    <h2>Activity</h2>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6">
-                        <div class="widget stats-widget">
-                            <div class="widget-body clearfix">
-                            <div class="pull-left">
-                                <h3 class="widget-title text-primary">
-                                <span class="counter" data-plugin="counterUp">1</span>
-                                </h3>
-                                <small class="text-color">New</small>
-                            </div>
-                            <span class="pull-right big-icon watermark"
-                                ><i class="fa fa-paperclip"></i
-                            ></span>
-                            </div>
-                            <footer class="widget-footer bg-primary">
-                            <small>20% </small>
-                            </footer>
-                        </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                        <div class="widget stats-widget">
-                            <div class="widget-body clearfix">
-                            <div class="pull-left">
-                                <h3 class="widget-title text-danger">
-                                <span class="counter" data-plugin="counterUp">0</span>
-                                </h3>
-                                <small class="text-color">Not Admissible</small>
-                            </div>
-                            <span class="pull-right big-icon watermark"
-                                ><i class="fa fa-ban"></i
-                            ></span>
-                            </div>
-                            <footer class="widget-footer bg-danger">
-                            <small>0% </small>
-                            </footer>
-                        </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                        <div class="widget stats-widget">
-                            <div class="widget-body clearfix">
-                            <div class="pull-left">
-                                <h3 class="widget-title text-success">
-                                <span class="counter" data-plugin="counterUp">1</span>
-                                </h3>
-                                <small class="text-color">Resolved</small>
-                            </div>
-                            <span class="pull-right big-icon watermark"
-                                ><i class="fa fa-unlock-alt"></i
-                            ></span>
-                            </div>
-                            <footer class="widget-footer bg-success">
-                            <small>20% </small>
-                            </footer>
-                        </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                        <div class="widget stats-widget">
-                            <div class="widget-body clearfix">
-                            <div class="pull-left">
-                                <h3 class="widget-title text-warning">
-                                <span class="counter" data-plugin="counterUp">3</span>
-                                </h3>
-                                <small class="text-color">In-Progress</small>
-                            </div>
-                            <span class="pull-right big-icon watermark"
-                                ><i class="fa fa-file-text-o"></i
-                            ></span>
-                            </div>
-                            <footer class="widget-footer bg-warning">
-                            <small>60% </small>
-                            </footer>
-                        </div>
-                        </div>
+  <div class="row">
+    <div class="col-md-8 mb-3 pdr-0">
+      <div class="row">
+        <div class="col-md-6 mb-3 pdr-0">
+          <div class="card shadow h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <h6 class="m-0">Activity <span>Metrics</span></h6>
+              <div class="calendar-inputs">
+                <input type="text" class="form-control col-md-1" placeholder="08-01-2023" name="" id="">
+                <input type="text" class="form-control col-md-1" placeholder="To Date" name="" id="">
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="d-flex mb-3 justify-content-between">
+                <div class="total">Total <span>65</span></div>
+                <div>Type Button</div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 activity mb-3">
+                  <div class="brdr-primary">
+                    <div class="d-inline-block">New</div>
+                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">23</div>
+                    <div class="percentage">
+                      (35.38 %)
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 activity mb-3">
+                  <div class="brdr-warning">
+                    <div class="d-inline-block">In-Progress</div>
+                    <div class="d-inline-block float-right bg-warning-text fw-bold fs-5">30</div>
+                    <div class="percentage">
+                      (46.15 %)
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 activity">
+                  <div class="brdr-success">
+                    <div class="d-inline-block">Resolved</div>
+                    <div class="d-inline-block float-right bg-success-text fw-bold fs-5">12</div>
+                    <div class="percentage">
+                      (18.46 %)
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 activity">
+                  <div class="brdr-danger">
+                    <div class="d-inline-block">Not Admissible</div>
+                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">0</div>
+                    <div class="percentage">
+                      (0 %)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="card shadow h-100">
+            <div class="card-header">
+              <h6 class="m-0">Related To <span>Metrics</span></h6>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3 related">
+                  <div class="bg-primary h-100">
+                    <h6>Others<span>(0 %)</span></h6>
+                    <h3>0</h3>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3 related">
+                    <div class="bg-success h-100">
+                      <h6>Multiple Ministries / Departments<span>(19.05  %)</span></h6>
+                      <h3>12</h3>
+                    </div>
+                </div>
+                <div class="col-md-6 related">
+                  <div class="bg-warning h-100">
+                    <h6>Single Ministry / Department<span>(14.29  %)</span></h6>
+                    <h3>9</h3>
+                  </div>
+                </div>
+                <div class="col-md-6 related">
+                  <div class="bg-danger h-100">
+                    <h6>None<span>(66.67  %)</span></h6>
+                    <h3>42</h3>
+                  </div>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow mb-3">
+        <div class="card-header">
+          <h6 class="m-0">On Time <span>Metrics</span></h6>
+        </div>
+        <div class="card-body">
+          <div class="ontime">
+            <div class="ontime-left">
+                <h5>On Time</h5>
+                <h4>34</h4>
+            </div>
+            <div class="ontime-right">
+                <h4>Overdue From</h4>
+                <div class="overdue d-flex justify-content-between">
+                    <div>
+                        <div class="round-box" style="border-color: rgb(248, 187, 189)">2</div>
+                        <h5 class="day-heading"> &lt; Week</h5>
+                    </div>
+                    <div>
+                        <div class="round-box" style="border-color: rgb(243, 141, 144)">4</div>
+                        <h5 class="day-heading">1 to 2 Weeks</h5>
+                    </div>
+                    <div>
+                        <div class="round-box" style="border-color: rgb(238, 95, 99)">1</div>
+                        <h5 class="day-heading">2 Weeks - Month</h5>
+                    </div>
+                    <div>
+                        <div class="round-box" style="border-color: rgb(233, 49, 54)">32</div>
+                        <h5 class="day-heading">&gt; Month</h5>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+        </div>
+        </div>
+      </div>
 
+      <div class="row">
+        <div class="col-md-7 pdr-0">
+          <div class="card shadow h-100">
+            <div class="card-header">
+              <h6 class="m-0">User <span>Metrics</span></h6>
             </div>
+            <div class="card-body user-metrics">
+                  <div class="active-users">
+                    <span>Active</span>
+                    <h4>9</h4>
+                  </div>
+                  <div class="inactive-users">
+                    <span>Inactive</span>
+                    <h4>1</h4>
+                  </div>
+                  <div class="mapped-users">
+                    <span>In more than one organization</span>
+                    <h4>4</h4>
+                  </div>
+                  <div class="recent-users">
+                    <span>Active in 24hrs</span>
+                    <h4>4</h4>
+                  </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="card shadow h-100">
+            <div class="card-header">
+              <h6 class="m-0">Organization <span>Metrics</span></h6>
+            </div>
+            <div class="card-body">
+              <div class="row organization">
+                <div class="col-md-3">
+                  <div class="h-100">
+                    <h3>43</h3>
+                    <h6>Active</h6>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="h-100">
+                    <h3>1</h3>
+                    <h6>Inactive</h6>
+                  </div>
+                </div>
+                <div class="col-md-5 h-100">
+                  <div class="h-100">
+                    <h3>43</h3>
+                    <h6>Active in 24hrs</h6>
+                  </div>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
-</section>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow h-100">
+        <div class="card-header">
+          <h6 class="m-0">To Do</h6>
+        </div>
+        <div class="card-body activities_panel">
+          <div class="heading overdue mb-3">
+            <h2> <span>Overdue Tasks</span></h2>
+            <div class="activity-list">
+              <div class="activity-title">
+                <a routerLink="#" [title]="">ORGM</a> -
+                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="created">
+                  <span>Created on Today</span>
+                </div>
+                <div class="date-time">
+                  <div class="img-cls-dt"></div>
+                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                </div>
+              </div>
+            </div>
 
+            <div class="activity-list">
+              <div class="activity-title">
+                <a routerLink="#" [title]="">ORGM</a> -
+                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="created">
+                  <span>Created on Today</span>
+                </div>
+                <div class="date-time">
+                  <div class="img-cls-dt"></div>
+                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-list">
+              <div class="activity-title">
+                <a routerLink="#" [title]="">ORGM</a> -
+                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="created">
+                  <span>Created on Today</span>
+                </div>
+                <div class="date-time">
+                  <div class="img-cls-dt"></div>
+                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-list">
+              <div class="activity-title">
+                <a routerLink="#" [title]="">ORGM</a> -
+                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="created">
+                  <span>Created on Today</span>
+                </div>
+                <div class="date-time">
+                  <div class="img-cls-dt"></div>
+                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-list">
+              <div class="activity-title">
+                <a routerLink="#" [title]="">ORGM</a> -
+                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="created">
+                  <span>Created on Today</span>
+                </div>
+                <div class="date-time">
+                  <div class="img-cls-dt"></div>
+                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="heading upcoming">
+            <h2> <span>Upcoming Tasks</span></h2>
+            <div class="activity-list">
+              <div class="activity-title">
+                <a routerLink="#" [title]="">ORGM</a> -
+                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="created">
+                  <span>Created on Today</span>
+                </div>
+                <div class="date-time">
+                  <div class="img-cls-dt"></div>
+                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-list">
+              <div class="activity-title">
+                <a routerLink="#" [title]="">ORGM</a> -
+                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="created">
+                  <span>Created on Today</span>
+                </div>
+                <div class="date-time">
+                  <div class="img-cls-dt"></div>
+                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-list">
+              <div class="activity-title">
+                <a routerLink="#" [title]="">ORGM</a> -
+                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="created">
+                  <span>Created on Today</span>
+                </div>
+                <div class="date-time">
+                  <div class="img-cls-dt"></div>
+                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-list">
+              <div class="activity-title">
+                <a routerLink="#" [title]="">ORGM</a> -
+                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="created">
+                  <span>Created on Today</span>
+                </div>
+                <div class="date-time">
+                  <div class="img-cls-dt"></div>
+                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-end"> <a routerLink="">View All</a> </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

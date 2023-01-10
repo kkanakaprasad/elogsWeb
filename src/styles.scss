@@ -23,6 +23,9 @@ td {
   text-transform: capitalize;
   font-size: 14px;
 }
+.pdr-0{
+  padding-right: 0 !important;
+}
 
 .img-fluid {
     max-width: 100% !important;
@@ -521,12 +524,12 @@ h6,
 
   @media (min-width: 1200px) {
     .logo {
-      width: 185px;
+      width: 150px;
     }
   }
 
   .logo img {
-    width: 160px;
+    width: 120px;
     margin-right: 6px;
   }
 
@@ -543,7 +546,7 @@ h6,
     height: 60px;
     box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
     background-color: #fff;
-    padding: 5px 0 5px 20px;
+    padding: 5px 0 5px 10px;
     /* Toggle Sidebar Button */
     /* Search Bar */
   }
@@ -767,15 +770,35 @@ h6,
 
   .mat-menu-panel{
     margin-top: 15px;
-    width: 200px;
-
-    h4{
-      font-weight: 500;
+    padding: 20px;
+    max-width: 350px !important;
+    .account-info{
       border-bottom: 1px solid #ddd;
-      padding: 10px;
-      margin-bottom: 0;
-      background: #f0f1f7;
+      padding-bottom: 10px;
     }
+    h2{
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 5px;
+    }
+    .menu{
+      display: flex;
+      margin-top: 10px;
+      justify-content: space-between;
+    }
+    .settings-menu {
+      h4{
+        font-weight: 500;
+      /* padding: 10px; */
+        margin-bottom: 5px;
+        font-size: 14px;
+      }
+      button{
+        height: auto;
+        line-height: 22px;
+      }
+    }
+
     .mat-menu-content:not(:empty){
       padding-top: 0;
       padding-bottom: 0;
@@ -793,7 +816,7 @@ h6,
     top: 60px;
     left: 0;
     bottom: 0;
-    width: 250px;
+    width: 190px;
     z-index: 996;
     transition: all 0.3s;
     overflow-y: auto;
@@ -813,7 +836,7 @@ h6,
   .main-panel{
     margin-left: 250px;
     margin-top: 60px;
-    padding: 20px 20px;
+    padding: 15px;
   }
   @media (max-width: 1199px) {
     .sidebar {
@@ -838,7 +861,7 @@ h6,
 
     #main,
     #footer {
-      margin-left: 250px;
+      margin-left: 190px;
     }
   }
 
@@ -856,7 +879,7 @@ h6,
     }
 
     .toggle_sidebar .sidebar {
-      left: -250px;
+      left: -190px;
     }
   }
 
@@ -930,7 +953,7 @@ h6,
   }
 
   .sidebar-user-settings{
-    padding: 15px 20px;
+    padding: 15px 10px;
 
     .add-button{
       width: 100%;
@@ -954,11 +977,11 @@ h6,
   .sidebar-nav .nav-link {
     display: flex;
     align-items: center;
-    font-size: 15px ;
+    font-size: 14px ;
     font-weight: 400;
-    color: #012970;
+    color: #000;
     transition: 0.3;
-    padding: 15px 20px;
+    padding: 12px 10px;
     border-radius: 4px;
     cursor: pointer;
   }
@@ -1049,44 +1072,58 @@ h6,
     font-size: 95%;
     font-weight: 500;
 }
-.widget-body, .widget-footer, .widget-header {
-    padding: 1rem;
-}
-.widget-footer:after, .widget-footer:before, .widget-header:after, .widget-header:before {
-    content: " ";
-    display: table;
-}
-.widget-title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 0;
-    color: #333;
-}
-h3.widget-title {
-    font-size: 40px;
-    margin-bottom: 16px;
-    font-weight: 500;
-}
-.widget-separator {
-    margin: 0 16px;
-}
-.widget p {
-    line-height: 1.8;
-}
-.stats-widget .big-icon {
-    color: #ccc;
-    font-size: 32px;
-}
-.stats-widget .widget-footer {
-    padding: 8px 16px;
-}
-.stats-widget .widget-footer small {
-    color: #fff;
-}
 
-.dashboard-card{
-    padding: 20px;
+.welcome-msg{
+    background: #d8e3f4;
+}
+.card{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #e3e6f0;
+  border-radius: 0.35rem;
 
+  .card-header {
+    padding: 5px 10px;
+    margin-bottom: 0;
+    background-color: #f8f9fc;
+    border-bottom: 1px solid #e3e6f0;
+    min-height: 50px;
+    align-items: center;
+    display: flex;
+      h6{
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        span{
+          font-size: 13px;
+          font-weight: 400;
+          color: #8b8a8a;
+        }
+      }
+      .calendar-inputs {
+        display: flex;
+        input{
+          width: 90px;
+          font-size: 12px;
+          padding: 5px;
+          height: 30px;
+          border-radius: 0;
+        }
+        :first-child{
+          margin-right: 5px;
+        }
+      }
+  }
+}
+.shadow {
+  box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+}
+.dashboard{
     .bg-primary{
         background-color: #188ae2 !important;
     }
@@ -1099,6 +1136,220 @@ h3.widget-title {
     .bg-warning{
         background-color: #f9c851 !important;
     }
+    .bg-primary-text{
+      color: #188ae2 !important;
+    }
+    .bg-danger-text{
+        color: #ff5b5b !important;
+    }
+    .bg-success-text{
+        color: #10c469 !important;
+    }
+    .bg-warning-text{
+        color: #f9c851 !important;
+    }
+    .brdr-primary{
+      border-left: 5px solid #188ae2 !important;
+    }
+    .brdr-danger{
+      border-left: 5px solid #ff5b5b !important;
+    }
+    .brdr-success{
+      border-left: 5px solid #10c469 !important;
+    }
+    .brdr-warning{
+      border-left: 5px solid #f9c851 !important;
+    }
+    .float-right{
+      float: right;
+    }
+    .activity > div{
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    .related > div{
+      padding: 10px;
+      color: #fff;
+      text-align: center;
+      h6{
+        font-size: 11px;
+        margin-bottom: 15px;
+        line-height: 16px
+      }
+      h3{
+        margin-bottom: 0;
+        font-size: 30px;
+      }
+    }
+    .ontime{
+      display: flex;
+
+      .ontime-left{
+        text-align: center;
+        background-color: #10c469 !important;
+        color: #fff;
+        margin-right: 20px;
+        padding: 20px;
+        width: 20%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+
+        h4{
+          font-size: 28px;
+        }
+        h5{
+          font-size: 14px;
+        }
+      }
+
+      .ontime-right{
+        width: 100%;
+        h4{
+          font-size: 14px;
+          font-weight: normal;
+          margin-bottom: 20px;
+          border-left: 3px solid rgba(247, 23, 92);
+          padding-left: 10px;
+        }
+        .overdue{
+          display: flex;
+          div{
+            text-align: center;
+          }
+          .round-box{
+            color: #333;
+            margin: 0 auto;
+            width: 100px;
+            height: 100px;
+            border-radius: 99rem;
+            font-size: 24px;
+            font-weight: 400;
+            padding-top: 28px;
+            border: 5px solid;
+            cursor: pointer;
+            text-align: center;
+          }
+        }
+      }
+    }
+    .organization{
+      div{
+        border-right: 1px solid #ddd;
+        h6{
+          font-size: 12px;
+        }
+        h3{
+          font-size: 20px;
+          color: #000;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+      }
+      div:last-child{
+        border-right: none;
+      }
+    }
+    .percentage{
+      font-size: 13px;
+      color: #6e6b6b;
+      margin-top: 5px;
+    }
+    .total {
+      span{
+        font-size: 18px;
+      }
+    }
+    .activities_panel{
+      .activity-list{
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        padding-top: 10px;
+
+        .activity-title{
+          a:last-child{
+            color: #000;
+          }
+        }
+      }
+      .activity-list:last-child{
+        border-bottom: none;
+      }
+      .created, .date-time{
+        font-size: 12px;
+        color: #777;
+      }
+      .heading{
+
+        h2{
+          margin-bottom: 0;
+          line-height: 26px;
+          border-bottom: 1px solid transparent;
+          span{
+            font-size: 14px;
+            font-weight: 400;
+            background: transparent;
+            color: #fff;
+            padding: 5px 10px;
+          }
+        }
+      }
+      .overdue{
+        h2 {
+          border-bottom-color: #f44336;
+            span{
+            background: #f44336;
+          }
+        }
+      }
+      .upcoming{
+        h2 {
+          border-bottom-color: #10c469 !important;
+          span{
+            background: #10c469;
+          }
+        }
+      }
+    }
+
+    .user-metrics{
+      display: grid;
+      grid-template-columns: 12% 13% 1fr 23%;
+      grid-gap: 10px;
+      font-size: 12px;
+      span{
+        border-bottom: 2px solid transparent;
+        padding-bottom: 3px;
+      }
+      h4{
+        margin-bottom: 0;
+        font-size: 20px;
+        margin-top: 10px;
+      }
+      .active-users {
+        span{
+          border-bottom-color: #188ae2 !important;
+        }
+      }
+      .inactive-users {
+        span{
+          border-bottom-color: #ff5b5b !important;
+        }
+      }
+      .mapped-users {
+        span{
+          border-bottom-color: #10c469 !important;
+        }
+      }
+      .recent-users {
+        span{
+          border-bottom-color: #f9c851 !important;
+        }
+      }
+    }
+
 }
 
 /*mat styles*/
