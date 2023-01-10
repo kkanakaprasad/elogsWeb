@@ -4,6 +4,7 @@ import { CompanySettingsService } from '../../company-settings.service';
 import * as XLSX from 'xlsx';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSelect } from '@angular/material/select';
+import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class ImportExportComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource(this.csvFile);
   selectOrganization = '';
   fileData: any
+  searchedOrganizationList : any = [];
 
 
 
@@ -36,7 +38,8 @@ export class ImportExportComponent implements OnInit, AfterViewInit {
 
   getAllOrganizations() {
     this.companySettingsService.getAllOrganizations().subscribe((res) => {
-      this.organizationsList = res.organizations
+      this.organizationsList = res.organizations;
+      this.searchedOrganizationList = res.organizations;
     })
   }
 
@@ -79,4 +82,14 @@ export class ImportExportComponent implements OnInit, AfterViewInit {
       this.selectOrganization = selectValue;
     });
   }
+
+  filterOrganization(event:any){
+    if(event.target.value){
+      const search = new SearchPipe();
+      this.searchedOrganizationList = search.transform(this.organizationsList,event.target.value,'organization');
+    }else{
+      this.organizationsList;
+    }
+    
+    }
 }

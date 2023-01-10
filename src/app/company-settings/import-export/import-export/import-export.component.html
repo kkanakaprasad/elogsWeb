@@ -16,7 +16,8 @@
                         <mat-form-field appearance="outline">
                             <mat-label>select organization</mat-label>
                             <mat-select  #matSelect>
-                                <mat-option *ngFor="let organization of organizationsList"
+                                <input class = 'p-2' placeholder="enter text" matInput type="text" (keyup)="filterOrganization($event)"/>
+                                <mat-option *ngFor="let organization of searchedOrganizationList"
                                     [value]="organization.organization">
                                     {{organization.organization}}
                                 </mat-option>

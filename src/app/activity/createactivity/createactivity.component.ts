@@ -8,6 +8,7 @@ import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service'
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { UserDetailsService } from 'src/app/shared/services/user-details-service/user-details.service';
+import { Priority, Status } from '../activity.constant';
 import { ActivityService } from '../activity.service';
 
 
@@ -31,16 +32,14 @@ export class CreateactivityComponent implements OnInit {
   selectedOrganizationValue: any;
   removable: boolean = true
   selectedActivityId: any;
-  selectedActivityData: any;
-  filePath: any;
-  fileName: any;
-  fileSize: any;
+  selectedActivityData: any; 
   filesListArray: any[] = [];
   userOrganizations: any;
   userDetails: any;
   createdByOrganization: any;
   descriptionOfTextEditor: any;
-
+  priority=Priority;
+  status=Status;
 
 
   constructor(
@@ -54,7 +53,7 @@ export class CreateactivityComponent implements OnInit {
 
   ) {
     this.activatedRoute.queryParams.subscribe((res) => {
-      this.selectedActivityId = res['Aid'];
+      this.selectedActivityId = res['aId'];
       console.log(this.selectedActivityId)
     });
   }
@@ -140,12 +139,6 @@ export class CreateactivityComponent implements OnInit {
     return this.activityService.getActivityById(this.selectedActivityId);
   }
 
-  // getActivityById() {
-  //   this.activity$.subscribe(res => {
-  //   })
-  // }
-
-
 
   onSubmit() {
 
@@ -153,8 +146,8 @@ export class CreateactivityComponent implements OnInit {
       const payload = { ...this.activityForm.value, 
         attachments: this.filesListArray, 
         organization: this.selectedOrganizationValue, 
-        priority: "none ", 
-        status: "new", 
+        priority: Priority[0] , 
+        status: Status[0], 
         createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) 
       }
       this.activityService.updateActivity(this.selectedActivityId, payload).subscribe(res => {
@@ -176,8 +169,8 @@ export class CreateactivityComponent implements OnInit {
         const payload = { ...this.activityForm.value, 
           attachments: this.filesListArray, 
           organization: this.selectedOrganizationValue,
-          priority: "none ", 
-          status: "new", 
+          priority: Priority[0], 
+          status: Status[0], 
           description:this.descriptionOfTextEditor,
           createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID),
         }
@@ -217,8 +210,8 @@ export class CreateactivityComponent implements OnInit {
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       this.userDetails = res
-      if(this.userDetails?.length === 1){
-        this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organizationData[0]?._id);
+      if(this.userDetails?.organization?.length === 1){
+        this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organization[0]);
       }
     })
   }
@@ -231,7 +224,7 @@ export class CreateactivityComponent implements OnInit {
     for (var i = 0; i < event.length; i++) {
       this.filesListArray.push({
         name: event[i].name,
-        size: event[i].size,
+        size: event[i].size.toString(),
         path: "string"
       });
     } 

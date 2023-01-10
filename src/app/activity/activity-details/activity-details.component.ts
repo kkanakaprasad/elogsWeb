@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationService } from 'src/app/organization/organization.service';
+import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { RouteConstants } from 'src/app/shared/constants/routes.constants';
+import { UserDetailsService } from 'src/app/shared/services/user-details-service/user-details.service';
 import { Priority, Status, Visibility } from '../activity.constant';
 import { ActivityService } from '../activity.service';
 
@@ -15,19 +18,30 @@ export class ActivityDetailsComponent implements OnInit {
   activityDetails: any;
   activityLogForm!: FormGroup;
   Priority=Priority;
-  Visibility= Visibility
-  Status=Status
+  visibility= Visibility
+  status=Status
   organizationList: any;
   filesListArray:any[]=[];
   description: string='';
-  cardData:any[]=[{
-    title:'prasad',
-    description:'scscsvjsvhsvj'
-  },{
-    title:'prasad1',
-    description:'scscsvjsvhsvj1'
-  }
-]
+  
+selectedActivityEntryTypeId: any;
+  activityEntryType: any;
+  activityRelatedTypesData: any;
+  selectedActivityRelatedTypeId: any;
+  selectedActivityTypesDataId: any;
+  activityTypesData: any;
+  selectedPriorityId: any;
+  activityPriority: any;
+  activityData: any;
+  activitySectorsData: any;
+  selectedActivitySectorId: any;
+  selectedActivityScopeId: any;
+  ActivityScopeData: any;
+  selectedActivityCreatedById: any;
+  organizationCreatedBy: any;
+  activityLogData: any;
+  selectedDate:any;
+  toDay=new Date();
   
 
 
@@ -35,7 +49,9 @@ export class ActivityDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private activityService: ActivityService,
     private formBuilder:FormBuilder,
-    private organizationService:OrganizationService
+    private organizationService:OrganizationService,
+    private router :Router,
+    private alertpopupService :AlertpopupService
   ) {
     this.activatedRoute.queryParams.subscribe((res) => {
       this.selectedActivityId = res['aId'];
@@ -44,33 +60,69 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllOrganizationsBySearchCriteria()
     this.getActivityDetailsById()
+    this.getActivityMasterData()
+    this.getAllOrganizationsBySearchCriteria()
     this.genarateActivityLogForm()
+    
   }
 
   getActivityDetailsById(){
     this.activityService.getActivityById(this.selectedActivityId).subscribe(res=>{
+      this.activityData=res.data[0]
+      this.selectedActivityEntryTypeId=res.data[0].activitEntryType
+      this.selectedActivityRelatedTypeId=res.data[0].activityRelatedTo
+      this.selectedActivitySectorId=res.data[0].activitySector
+      this.selectedActivityScopeId=res.data[0].activityScope
+      this.selectedActivityCreatedById=res.data[0].createdBy
+      console.log(this.activityData.organizationData[0].organization)
       console.log(res)
-      this.activityDetails=res.data[0]
+      this.organizationCreatedBy=this.activityData.organizationData[0].organization
+      this.activityLogData=this.activityData.activityLog
+    
+    
     })
   }
-  
+
+
+  getActivityMasterData(){
+    this.activityService.getActivitiesMasterData().subscribe(res=>{
+      this.activityEntryType=res.data?.activityEntryTypesData.filter((activityEntry:any)=>activityEntry._id==this.selectedActivityEntryTypeId).map((item:any)=>item.name)
+      this.activityRelatedTypesData=res.data?.activityRelatedTypesData.filter((activityRelated:any)=>activityRelated._id==this.selectedActivityRelatedTypeId).map((item:any)=>item.name)
+      this.activitySectorsData=res.data?.activitySectorsData.filter((sectorsData:any)=>sectorsData._id==this.selectedActivitySectorId).map((item:any)=>item.name)
+      this.ActivityScopeData=res.data?.activityScopesData.filter((activityScopesData:any)=>activityScopesData._id==this.selectedActivityScopeId).map((item:any)=>item.name)
+      this.ActivityScopeData=res.data?.activityScopesData.filter((activityScopesData:any)=>activityScopesData._id==this.selectedActivityScopeId).map((item:any)=>item.name)
+    })
+    }
 
   genarateActivityLogForm() {
     this.activityLogForm = this.formBuilder.group({
       priority: ['', [Validators.required]],
       visibility:['',[Validators.required]],
       status:['',[Validators.required]],
-      AssignTo:['',[Validators.required]]
-      
+      assignTo:['',[Validators.required]],
+      attachments:['',[Validators.required]],
+      message:['',[Validators.required]],
      
     })
   }
   
   onSubmit(){
-    console.log(this.activityLogForm.value)
+    console.log({...this.activityLogForm.value,attachments:this.filesListArray,message:this.description})
+    const payload={...this.activityLogForm.value,attachments:this.filesListArray,message:this.description}
+    this.activityService.updateActivityLogById(this.selectedActivityId,payload).subscribe(res=>{
+      this.alertpopupService.open({
+        message: res.message ? res.message : 'Activity Updated Successfully',
+        action: 'ok'
+      })
 
+    }, (error) => {
+      this.alertpopupService.open({
+        message: error.message ? error.message : "something went wrong!",
+        action: "ok"
+
+      });
+    })
   }
   
   getAllOrganizationsBySearchCriteria(){
@@ -103,6 +155,34 @@ export class ActivityDetailsComponent implements OnInit {
       });
     } 
   }
+  updateActivityDetails(){
+      this.router.navigate( [RouteConstants.CREATEACTIVITY], { queryParams: { aId: this.selectedActivityId}});
+    }
+ 
+    // updateActivityLogById(){
+      
+    // }
+    dueDateSetter(selectedOption:any,selectedOptionalDate?:any){
 
+      if(selectedOption=='noDueDate'){
+        this.selectedDate=""
+        
+      }else if(selectedOption=='Today'){
+        this.selectedDate=new Date()
+        
+      }else if(selectedOption=='Tomorrow'){
+        this.selectedDate=new Date(this.toDay.setDate(this.toDay.getDate()+1))
+        
+      }else if(selectedOption=='Next Monday'){
+        this.selectedDate=new Date(this.toDay.setDate(this.toDay.getDate() + (7-this.toDay.getDay())%7+1))
+        
+      }else if(selectedOption=='This Friday'){
+        this.selectedDate=new Date(this.toDay.setDate(this.toDay.getDate() + (12-this.toDay.getDay())%7))
+        
+      }else if(selectedOption=='custom'){
+        this.selectedDate=selectedOptionalDate.value
+        
+      }
+    }
 
 }
