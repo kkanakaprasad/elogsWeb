@@ -36,4 +36,9 @@ getActivityById(activityId:string):Observable<any>{
 updateActivity(activityId:string,payload:any): Observable<any>{
   return this.httpDataService.put(`activity/${activityId}`,payload)
  }
+
+ updateActivityLogById(activityId:string,payload:any): Observable<any>{
+  return this.httpDataService.put(`activity/activityLog/${activityId}`,payload)
+ }
+ 
 }
