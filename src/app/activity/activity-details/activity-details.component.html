@@ -10,7 +10,7 @@
             <tbody>
               <tr>
                 <td>Type</td>
-                <td>---</td>
+                <td>{{activityType}}</td>
               </tr>
               <tr>
                 <td>Entry Type:</td>
@@ -36,11 +36,11 @@
             <tbody>
               <tr>
                 <td>Reported By:</td>
-                <td>-</td>
+                <td>{{activityReportedBy}}</td>
               </tr>
               <tr>
                 <td>Ministry/Department:</td>
-                <td>-</td>
+                <td *ngFor="let ministry of ministries">{{ministry?.organization}}</td>
               </tr>
               <tr>
                 <td>Organization:</td>
@@ -137,11 +137,11 @@
         <button mat-stroked-button class="refresh" matTooltip="Refresh"><mat-icon>refresh</mat-icon></button>
         <button mat-stroked-button class="refresh" (click)="updateActivityDetails()"
           matTooltip="Edit"><mat-icon>edit</mat-icon></button>
-        <button mat-stroked-button class="refresh" matTooltip="Archive"><mat-icon>archive</mat-icon></button>
-        <button mat-stroked-button class="refresh" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
-        <button mat-stroked-button class="refresh" matTooltip="Timeline"><mat-icon>timeline</mat-icon></button>
-        <button mat-stroked-button class="refresh" matTooltip="Checkmark"><mat-icon>checkmark</mat-icon></button>
-        <button mat-stroked-button class="refresh" matTooltip="Download"><mat-icon>download</mat-icon></button>
+        <button mat-stroked-button (click)="updateSelectedArchiveStatus()" class="refresh" matTooltip="Archive"><mat-icon>archive</mat-icon></button>
+        <button mat-stroked-button (click)="deleteSelectedActivity()" class="refresh" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
+        <button mat-stroked-button (click)="updateStatusOfSelectedActivity('Resolve')" class="refresh" matTooltip="Resolve"><mat-icon>timeline</mat-icon></button>
+        <button mat-stroked-button (click)="updateStatusOfSelectedActivity('Reject')" class="refresh" matTooltip="Reject"><mat-icon>checkmark</mat-icon></button>
+        <button mat-stroked-button class="refresh" (click)="downloadActivity()" matTooltip="Download"><mat-icon>download</mat-icon></button>
       </div>
       <hr />
       <div class="d-flex align-items-center">
@@ -152,7 +152,7 @@
         <div class="img-span d-flex justify-content-center align-items-center">
           <mat-icon class="mat-i">person_outline</mat-icon>
         </div>
-        <strong> {{ organizationCreatedBy }}</strong>
+        <strong> {{ selectedActivityAssignedTo }}</strong>
       </div>
       <hr>
       <div class="d-flex">
