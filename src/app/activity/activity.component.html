@@ -1,13 +1,13 @@
 <div></div>
 <div class="text-end">
   <span>
-    <div class="btn btn-secondary  mx-1" (click)="downloadFile()">
+    <div class="btn btn-secondary mx-1" (click)="downloadFile()" matTooltip="Download">
       <i class="icon-taskdownl"></i>
       <mat-icon>file_download</mat-icon>
     </div>
   </span>
-
-  <button mat-button [matMenuTriggerFor]="filters">Filters<mat-icon>filter_alt</mat-icon></button>
+  <button mat-button [matMenuTriggerFor]="filters" matTooltip="Filters" >
+    Filters <mat-icon> filter_alt</mat-icon></button>
   <mat-menu #filters="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="createddate">Created Date</button>
     <button mat-menu-item [matMenuTriggerFor]="duedate">Due Date</button>
@@ -123,14 +123,16 @@
   </mat-menu>
 
 
-  <button mat-button [matMenuTriggerFor]="groupBymenu">Group By <mat-icon>filter_list</mat-icon></button>
+  <button mat-button [matMenuTriggerFor]="groupBymenu" matTooltip="Group By">Group By
+    <mat-icon>filter_list</mat-icon></button>
   <mat-menu #groupBymenu="matMenu">
     <mat-option *ngFor="let option of groupBy">
       {{option.DisplayName}}
     </mat-option>
   </mat-menu>
 
-  <button mat-button [matMenuTriggerFor]="sortby">Sort By<mat-icon>sort</mat-icon></button>
+  <button mat-button [matMenuTriggerFor]="sortby" matTooltip="Sort By">
+    Sort By<mat-icon>sort</mat-icon></button>
   <mat-menu #sortby="matMenu">
     <mat-option *ngFor="let option of sortBy">
       {{option.DisplayName}}
@@ -142,27 +144,35 @@
 <mat-tab-group>
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon>assignment</mat-icon>
-      All Tasks
+     
+        <mat-icon>assignment</mat-icon>
+        All Tasks
+      
     </ng-template>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon>assignment_ind</mat-icon>
-      My Tasks
+    
+        <mat-icon>assignment_ind</mat-icon>
+        My Tasks
+      
     </ng-template>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon>hourglass_empty</mat-icon>
-      Overdue
+    
+        <mat-icon>hourglass_empty</mat-icon>
+        Overdue
+     
     </ng-template>
   </mat-tab>
   <div *ngIf="isSuperAdmin">
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>wb_incandescent</mat-icon>
-        High Priority
+       
+          <mat-icon>wb_incandescent</mat-icon>
+          High Priority
+       
       </ng-template>
     </mat-tab>
   </div>
