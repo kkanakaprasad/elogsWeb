@@ -5,34 +5,43 @@
   <mat-tab-group (selectedTabChange)="applyUserFilters($event)" class="mt-2 users_list">
     <mat-tab label={{filters.IS_ACTIVE}}>
       <ng-template mat-tab-label>
-        <mat-icon>person_pin</mat-icon>
-        Active ({{activeMetricsCount}})
+        <a href="#" class="d-flex align-items-center">
+          <mat-icon>person_pin</mat-icon>
+          Active ({{activeMetricsCount}})
+        </a>
       </ng-template>
 
     </mat-tab>
+
     <mat-tab label={{filters.MY_PROFILE}}>
       <ng-template mat-tab-label>
-        <mat-icon>person_outline</mat-icon>
-        Admin (1)
+        <a href="#" class="d-flex align-items-center">
+          <mat-icon>person_outline</mat-icon>Admin (1)
+        </a>
       </ng-template>
-
     </mat-tab>
     <mat-tab label={{filters.MINISTRIES}}>
       <ng-template mat-tab-label>
-        <mat-icon>people</mat-icon>
-        Ministry/Department ({{ministriesMetricsCount}})
+        <a href="#" class="d-flex align-items-center">
+          <mat-icon>people</mat-icon>
+          Ministry/Department({{ministriesMetricsCount}})
+        </a>
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.ASSOCIATION}}>
       <ng-template mat-tab-label>
-        <mat-icon>group_add</mat-icon>
-        Association ({{associationsMetricsCount}})
+        <a href="#" class="d-flex align-items-center">
+          <mat-icon>group_add</mat-icon>
+          Association ({{associationsMetricsCount}})
+        </a>
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.INACTIVE}}>
       <ng-template mat-tab-label>
-        <mat-icon>not_interested</mat-icon>
-      Inactive ({{inActiveMetricsCount}})
+        <a href="#" class="d-flex align-items-center">
+          <mat-icon>not_interested</mat-icon>
+          Inactive ({{inActiveMetricsCount}})
+        </a>
       </ng-template>
 
     </mat-tab>
@@ -77,7 +86,7 @@
             (click)="disableOrenableUser(element._id,true)">Enable</button>
           <button *ngIf="element.organizationsdata?.length > 0" mat-raised-button color="warn"
             (click)="removeOrganisation(element)">Remove Organisation</button>
-          <button   *ngIf="element.organizationsdata?.length === 0" mat-raised-button color="accent"
+          <button *ngIf="element.organizationsdata?.length === 0" mat-raised-button color="accent"
             (click)="assignOrganisation(element)">Assign
             Organisation</button>
         </div>
