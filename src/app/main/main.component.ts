@@ -28,8 +28,7 @@ export class MainComponent implements OnInit {
   getAllOrganizations() {
     this.companySettingsService.getAllOrganizations().subscribe((res) => {
       this.organizationsList = res.organizations
-      this.searchedOrganizationList = res.organizations
-      console.log(this.organizationsList)
+      this.searchedOrganizationList = res.organizations    
     })
   }
 
