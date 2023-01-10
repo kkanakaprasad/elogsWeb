@@ -94,6 +94,7 @@ export class ActivityDetailsComponent implements OnInit {
       this.ministries=this.activityData?.organizationData
       this.selectedActivityAssignedTo=this.activityData?.organizationData.filter((organization:any)=>organization._id==this.activityData.assignTo).map((item: any) => item.organization)
       this.getUserById()
+      console.log(this.activityData)
 
     })
   }
@@ -282,7 +283,7 @@ export class ActivityDetailsComponent implements OnInit {
             })
        }
        downloadActivity(){
-        const activityDataForDownload={
+        const activityDataForDownload=[{
           title: this.activityData.title,
           description:this.activityData.description,
           status:this.activityData.status,
@@ -299,81 +300,81 @@ export class ActivityDetailsComponent implements OnInit {
           categoryMappedTo:"",
           activityprogress:""
 
-        }
+        }];
         const headersList :{propertyName : string, displayName : string}[] = [
           {
             propertyName : 'title',
-            displayName : ' Title'
+            displayName : 'Title'
 
           },
           {
             propertyName : 'description',
-            displayName : '  Description'
+            displayName : 'Description'
 
           },
           {
-            propertyName : ' status',
-            displayName : '   Status'
+            propertyName : 'status',
+            displayName : 'Status'
 
           },
           {
-            propertyName : ' assignedTo',
-            displayName : '    Assigned To'
+            propertyName : 'assignedTo',
+            displayName : 'Assigned To'
 
           },
           {
-            propertyName : ' dueDate',
-            displayName : '    Due Date'
+            propertyName : 'dueDate',
+            displayName : 'Due Date'
 
           },
           {
-            propertyName : ' attachments',
-            displayName : '    Attachments'
+            propertyName : 'attachments',
+            displayName : 'Attachments'
 
           },
           {
-            propertyName : '  priority',
+            propertyName : 'priority',
             displayName : 'Priority'
 
           },
           {
-            propertyName : '  type',
-            displayName : '  Type'
+            propertyName : 'type',
+            displayName : 'Type'
 
           },
           {
-            propertyName : ' sector',
-            displayName : '    Sector'
+            propertyName : 'sector',
+            displayName : 'Sector'
 
           },
           {
-            propertyName : '  entryType',
-            displayName : ' Entry Type'
+            propertyName : 'entryType',
+            displayName : 'Entry Type'
 
           },
           {
-            propertyName : ' ministry',
-            displayName : ' Ministry/Department'
+            propertyName : 'ministry',
+            displayName : 'Ministry/Department'
 
           },
           {
-            propertyName : '  scope',
-            displayName : '  Scope'
+            propertyName : 'scope',
+            displayName : 'Scope'
 
           },
           {
-            propertyName : '  relatedTo',
-            displayName : '  Related To'
+            propertyName : 'relatedTo',
+            displayName : 'Related To'
 
           },
           {
-            propertyName : '  categoryMappedTo',
-            displayName : '  Category Mapped to'
+            propertyName : 'categoryMappedTo',
+            displayName : 'Category Mapped to'
 
           },
           {
-            propertyName : '  activityprogress',
-            displayName : '  Activity % of progress'
+            propertyName : 'activityprogress',
+            displayName : 'Activity % of progress'
 
           },
         ]
