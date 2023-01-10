@@ -93,10 +93,8 @@ export class ActivityDetailsComponent implements OnInit {
       this.selectedActivityTypeId=this.activityData?.activityType
       this.ministries=this.activityData?.organizationData
       this.selectedActivityAssignedTo=this.activityData?.organizationData.filter((organization:any)=>organization._id==this.activityData.assignTo).map((item: any) => item.organization)
-      console.log(this.selectedActivityAssignedTo)
-
       this.getUserById()
-      console.log(this.activityData)
+
     })
   }
 
@@ -380,7 +378,7 @@ export class ActivityDetailsComponent implements OnInit {
           },
         ]
         this.csvHelperService.downloadFile(activityDataForDownload,"activity details", headersList)
-        console.log(activityDataForDownload)
+
        }
     }
     
