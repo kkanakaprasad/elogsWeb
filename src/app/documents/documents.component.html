@@ -9,7 +9,7 @@
     <ng-container matColumnDef="FileName">
         <th mat-header-cell *matHeaderCellDef> FileName </th>
     </ng-container>
-    <!-- Status Column -->
+    <!-- Status Column --> 
     <ng-container matColumnDef="Size">
         <th mat-header-cell *matHeaderCellDef> Size </th>
     </ng-container>
@@ -23,3 +23,6 @@
     <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
 
 </table>
+<div *ngIf="dataSource" class="text-center">
+    No records found
+  </div>

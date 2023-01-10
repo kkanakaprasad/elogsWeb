@@ -29,6 +29,9 @@
             <tr mat-header-row *matHeaderRowDef="taskDisplayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns:taskDisplayedColumns;"></tr>
         </table>
+        <div *ngIf="dataSource">
+            <p class="text-center" my-3>No records found</p>
+          </div>
         <mat-tab>
             <ng-template mat-tab-label>
                 <mat-icon>attachment</mat-icon>
@@ -60,3 +63,10 @@
                 <tr mat-row *matRowDef="let row; columns:fileDisplayedColumns;"></tr>
 
             </table>
+            <div >
+            <div *ngIf="dataSource" class="text-center">
+                <mat-icon>delete</mat-icon>
+               <h1> No files have been archived yet</h1>
+               <p> All archived files of all projects will appear here</p>
+            </div>
+            </div>
