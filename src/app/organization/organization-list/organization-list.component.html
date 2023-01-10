@@ -2,38 +2,25 @@
   <mat-tab-group class="organization-cards" (selectedTabChange)="applyOrganizationFilters($event)">
     <mat-tab label={{filters.IS_ACTIVE}}>
       <ng-template mat-tab-label>
-        <a href="#">
           Active ({{activeMetricsCount}})
-        </a>
       </ng-template>
-
     </mat-tab>
-
     <mat-tab label={{filters.MINISTRIES}}>
       <ng-template mat-tab-label>
-        <a href="#">
           Ministry/Department ({{ministriesMetricsCount}})
-        </a>
       </ng-template>
     </mat-tab>
-
     <mat-tab label={{filters.ASSOCIATION}}>
       <ng-template mat-tab-label>
-        <a href="#">
           Association ({{associationsMetricsCount}})
-        </a>
       </ng-template>
     </mat-tab>
-
     <mat-tab label={{filters.INACTIVE}}>
       <ng-template mat-tab-label>
-        <a href="#">
           Inactive ({{inActiveMetricsCount}})
-        </a>
       </ng-template>
     </mat-tab>
   </mat-tab-group>
-
   <section class="in-page-wrapper">
     <div class="row">
       <div class="col-md-4 org-card">
