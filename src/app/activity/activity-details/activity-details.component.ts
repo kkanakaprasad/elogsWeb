@@ -166,22 +166,22 @@ selectedActivityEntryTypeId: any;
 
       if(selectedOption=='noDueDate'){
         this.selectedDate=""
-        
+        console.log(this.selectedDate)
       }else if(selectedOption=='Today'){
         this.selectedDate=new Date()
-        
+        console.log(this.selectedDate)
       }else if(selectedOption=='Tomorrow'){
         this.selectedDate=new Date(this.toDay.setDate(this.toDay.getDate()+1))
-        
+        console.log(this.selectedDate)
       }else if(selectedOption=='Next Monday'){
         this.selectedDate=new Date(this.toDay.setDate(this.toDay.getDate() + (7-this.toDay.getDay())%7+1))
-        
+        console.log(this.selectedDate)
       }else if(selectedOption=='This Friday'){
         this.selectedDate=new Date(this.toDay.setDate(this.toDay.getDate() + (12-this.toDay.getDay())%7))
-        
+        console.log(this.selectedDate)
       }else if(selectedOption=='custom'){
         this.selectedDate=selectedOptionalDate.value
-        
+        console.log(this.selectedDate)
       }
     }
 
