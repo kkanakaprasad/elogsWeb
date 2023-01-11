@@ -91,51 +91,8 @@
             <tr mat-header-row *matHeaderRowDef="fileDisplayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: fileDisplayedColumns;"></tr>
         </table>
-        <div *ngIf="dataSource">
-            <p class="text-center" my-3>No records found</p>
-        </div>
-        <mat-tab>
-            <ng-template mat-tab-label>
-                <a>
-                    <mat-icon>attachment</mat-icon>
-                    Files
-                </a>
-            </ng-template>
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 archiveTable">
-                <!-- Activity Column -->
-                <ng-container matColumnDef="Activity">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <section class="example-section">
-                            <mat-checkbox class="example-margin"> Activity </mat-checkbox>
-                        </section>
-                    </th>
-                </ng-container>
-                <!-- FileName Column -->
-                <ng-container matColumnDef="FileName">
-                    <th mat-header-cell *matHeaderCellDef> FileName </th>
-                </ng-container>
-                <!-- Size Column -->
-                <ng-container matColumnDef="Size">
-                    <th mat-header-cell *matHeaderCellDef> Size </th>
-                </ng-container>
-                <!-- Organisation Column -->
-                <ng-container matColumnDef="Organization">
-                    <th mat-header-cell *matHeaderCellDef> Organization </th>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="fileDisplayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns:fileDisplayedColumns;"></tr>
-
-            </table>
-            <div>
-                <div *ngIf="dataSource" class="text-center">
-                    <mat-icon>delete</mat-icon>
-                    <h1> No files have been archived yet</h1>
-                    <p> All archived files of all projects will appear here</p>
-                </div>
-            </div>
 
 
-        </mat-tab>
+    </mat-tab>
 
 </mat-tab-group>
