@@ -12,12 +12,12 @@ export const SuperAdminActivityRowActions = {
         {
             title: 'Resolve',
             icon: "assistant_photo",
-            action:"RESOLVE"
+            action:"RESOLVED"
         },
         {
             title: 'Reject',
             icon: "cancel",
-            action:"REJECT"
+            action:"REJECTED"
         },
         {
             title: 'Reply',
@@ -30,9 +30,9 @@ export const SuperAdminActivityRowActions = {
             action:"EDIT"
         },
         {
-            title: 'Move to Organisation',
+            title: 'Move to Organization',
             icon: "skip_next",
-            action:"MOVE TO ORGANISATION"
+            action:"MOVE_TO_ORGANIZATION"
         },
         {
             title: 'Archive',
@@ -50,27 +50,33 @@ export const SuperAdminActivityRowActions = {
         {
             title: 'Resolve',
             icon: "assistant_photo",
+            action:"RESOLVED"
         },
         {
             title: 'Reject',
             icon: "cancel",
+            action:"REJECTED"
         },
         {
             title: 'Reply',
             icon: "reply",
+            action:"REPLY"
         },
 
         {
             title: 'Move to Organisation',
             icon: "skip_next",
+            action:"MOVE_TO_ORGANIZATION"
         },
         {
             title: 'Archive',
             icon: "archive",
+            action:"ARCHIVE"
         },
         {
             title: 'Delete',
             icon: "delete_sweep",
+            action:"DELETE"
         }
     ],
 
@@ -79,19 +85,23 @@ export const SuperAdminActivityRowActions = {
         {
             title: 'Reopen',
             icon: "reply",
+            action: "NEW"
         },
 
         {
             title: 'Move to Organisation',
             icon: "skip_next",
+            action:"MOVE_TO_ORGANIZATION"
         },
         {
             title: 'Archive',
             icon: "archive",
+            action:"ARCHIVE"
         },
         {
             title: 'Delete',
             icon: "delete_sweep",
+            action:"DELETE"
         }
     ],
 
@@ -100,23 +110,28 @@ export const SuperAdminActivityRowActions = {
         {
             title: 'Reject',
             icon: "cancel",
+            action:"REJECTED"
         },
         {
             title: 'Reply',
             icon: "reply",
+            action:"REPLY"
         },
 
         {
             title: 'Move to Organisation',
             icon: "skip_next",
+            action:"MOVE_TO_ORGANIZATION"
         },
         {
             title: 'Archive',
             icon: "archive",
+            action:"ARCHIVE"
         },
         {
             title: 'Delete',
             icon: "delete_sweep",
+            action:"DELETE"
         }
     ]
 }
@@ -136,17 +151,17 @@ export const ActivityRowActions = [
         icon: "assistant_photo",
         action : 'RESOLVE',
         displayCondition : (activity:any,loggedInUserDetails:any) =>{
-            return (activity.status === 'INPROGRESS' || activity.status === 'NEW' || activity.createdBy === loggedInUserDetails._id || loggedInUserDetails.organization.includes(activity.assignTo))
+            return ((activity.status === 'INPROGRESS' || activity.status === 'NEW') && (activity.createdBy === loggedInUserDetails._id || loggedInUserDetails.organization.includes(activity.assignTo)))
         }
     },
     {
         title: 'Reject',
         icon: "cancel",
-        action : 'REJECT',
+        action : 'REJECTED',
         displayCondition : (activity:any,loggedInUserDetails:any) =>{
-            return ((activity.status === 'NEW' && activity.createdBy === loggedInUserDetails._id ) || 
-                (activity.status === 'INPROGRESS' || activity.createdBy === loggedInUserDetails._id || loggedInUserDetails.organization.includes(activity.assignTo)) || 
-                (activity.status === 'RESOLVED' && activity.createdBy === loggedInUserDetails._id ))
+            return ((activity.status !== 'REJECTED') &&( (activity.status === 'NEW' && activity.createdBy === loggedInUserDetails._id ) || 
+                (activity.status === 'INPROGRESS' && activity.createdBy === loggedInUserDetails._id || loggedInUserDetails.organization.includes(activity.assignTo)) || 
+                (activity.status === 'RESOLVED' && activity.createdBy === loggedInUserDetails._id )))
         }
     },
     {
@@ -188,7 +203,15 @@ export const ActivityRowActions = [
         displayCondition : (activity:any,loggedInUserDetails:any) =>{
             return ((activity.status === 'NEW' && activity.createdBy === loggedInUserDetails._id))
         }
-    }
+    },
+    {
+        title: 'Reopen',
+        icon: "reply",
+        action: "NEW",
+        displayCondition : (activity:any,loggedInUserDetails:any) =>{
+            return ((activity.status === 'REJECTED'))
+        }
+    },
 ]
 
 

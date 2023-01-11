@@ -247,13 +247,13 @@
 
 <mat-menu #menu="matMenu">
   <ng-container *ngIf="isSuperAdmin">
-  <button *ngFor="let action of activityRowActionByStatus" mat-menu-item>
+  <button *ngFor="let action of activityRowActionByStatus" mat-menu-item (click)="onActivityRowActionClick(action.action)">
     <mat-icon>{{action.icon}}</mat-icon>
     <span>{{action.title}}</span>
   </button>
 </ng-container>
 <ng-container *ngIf="isSuperAdmin===false">
-  <button *ngFor="let action of userActivityRowActionByStatus" mat-menu-item>
+  <button *ngFor="let action of userActivityRowActionByStatus" mat-menu-item (click)="onActivityRowActionClick(action.action)">
     <mat-icon>{{action.icon}}</mat-icon>
     <span>{{action.title}}</span>
   </button>
