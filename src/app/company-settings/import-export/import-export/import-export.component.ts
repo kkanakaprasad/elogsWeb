@@ -13,7 +13,7 @@ import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
   styleUrls: ['./import-export.component.scss']
 })
 export class ImportExportComponent implements OnInit, AfterViewInit {
-  csvFile: any = [] as any;
+  csvFile: any = [];
   organizationsList = [] as any;
   displayedColumns: string[] = ['Title', 'Description', 'Due Date', 'Status', 'Type', 'Assigned To'];
   dataSource = new MatTableDataSource(this.csvFile);

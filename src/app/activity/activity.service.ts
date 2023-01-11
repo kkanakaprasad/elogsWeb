@@ -40,5 +40,14 @@ updateActivity(activityId:string,payload:any): Observable<any>{
  updateActivityLogById(activityId:string,payload:any): Observable<any>{
   return this.httpDataService.put(`activity/activityLog/${activityId}`,payload)
  }
+ updateArchivestatus(activityId:string,payload:any): Observable<any>{
+  return this.httpDataService.put(`activity/archive/${activityId}`,payload)
+ }
+ deleteSelectedActivity(activityId:string): Observable<any>{
+  return this.httpDataService.delete(`activity/${activityId}`)
+ }
+updateActivityStatus(activityId:string,payload:any): Observable<any>{
+  return this.httpDataService.put(`activity/update/activityStatus/${activityId}`,payload)
+ }
  
 }
