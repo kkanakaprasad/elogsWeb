@@ -51,6 +51,7 @@ export class ActivityDetailsComponent implements OnInit {
   ministries: any;
   activityReportedBy: any;
   selectedActivityAssignedTo: any;
+  ActivityTimeLogs: any;
 
 
 
@@ -87,13 +88,14 @@ export class ActivityDetailsComponent implements OnInit {
       this.selectedActivitySectorId = res.data[0].activitySector
       this.selectedActivityScopeId = res.data[0].activityScope
       this.selectedActivityCreatedById = res.data[0].createdBy
-      this.organizationCreatedBy = this.activityData?.organizationData[0].organization
+      this.organizationCreatedBy = this.activityData?.createdByOrganizationData[0]?.organization
       this.activityLogData = this.activityData?.activityLog
       this.isArchive = this.activityData?.isArchive
       this.selectedActivityTypeId=this.activityData?.activityType
       this.ministries=this.activityData?.organizationData
       this.selectedActivityAssignedTo=this.activityData?.organizationData.filter((organization:any)=>organization._id==this.activityData.assignTo).map((item: any) => item.organization)
       this.getUserById()
+      this.ActivityTimeLogs=this.activityData.statusLog
       console.log(this.activityData)
 
     })
@@ -380,6 +382,10 @@ export class ActivityDetailsComponent implements OnInit {
         ]
         this.csvHelperService.downloadFile(activityDataForDownload,"activity details", headersList)
 
+       }
+
+       refreshPage(){
+        this.getActivityDetailsById()
        }
     }
     

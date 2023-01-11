@@ -134,7 +134,7 @@
     </div>
     <div class="col-md-3 kit">
       <div class="d-flex justify-content-between">
-        <button mat-stroked-button class="refresh" matTooltip="Refresh"><mat-icon>refresh</mat-icon></button>
+        <button mat-stroked-button class="refresh" (click)="refreshPage()" matTooltip="Refresh"><mat-icon>refresh</mat-icon></button>
         <button mat-stroked-button class="refresh" (click)="updateActivityDetails()"
           matTooltip="Edit"><mat-icon>edit</mat-icon></button>
         <button mat-stroked-button (click)="updateSelectedArchiveStatus()" class="refresh" matTooltip="Archive"><mat-icon>archive</mat-icon></button>
@@ -158,15 +158,27 @@
       <div class="d-flex">
         <div class="d-flex">
           <mat-icon> date_range</mat-icon>
-          <h5 matTooltip="" class="mx-2">{{ activityData?.dueDate | date :
-            "medium"
+          <h5 matTooltip="" class="mx-2">{{ activityData?.dueDate | date :"medium"
             }}
+            <button mat-button [matMenuTriggerFor]="dueDateFiltersMatMenu" class="date-icon"> <mat-icon>edit</mat-icon>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item >
+                 Due Date {{activityData?.dueDate | date :"medium"}}
+                </button>
+                <button mat-menu-item >Updated by</button>
+                <button mat-menu-item >
+                 Created At {{activityData?.createdAt| date :"medium"}}
+                </button>
+              </mat-menu>
+            </button>
+
+
             <button mat-button [matMenuTriggerFor]="menu" class="date-icon">
               <mat-icon>view_headline</mat-icon>
             </button>
           </h5>
         </div>
-        <mat-menu #menu="matMenu">
+        <mat-menu #dueDateFiltersMatMenu="matMenu">
           <button mat-menu-item (click)="dueDateSetter('noDueDate')">
             No Due Date
           </button>
@@ -189,9 +201,12 @@
         </mat-menu>
       </div>
       <hr>
-      <div class="d-flex ">
+      <div class="d-flex flex-wrap">
         <mat-icon>attach_file</mat-icon>
-        <h3 class="mx-2 text">No Files in this Activity</h3>
+        <h3 class="mx-2 text">{{activityData?.attachments?.length==0?'No Files in this Activity':'Files in this Activity'}}</h3>
+        <div *ngFor="let fileData of activityData?.attachments">
+        <mat-icon>insert_drive_file</mat-icon>{{fileData?.name}}{{fileData?.updatedAt| date :"medium"}}
+      </div>
       </div>
       <hr>
       <div class="d-flex">
@@ -200,10 +215,10 @@
       </div>
       <div>
         <div>
-          <strong>Created:</strong> Today 5:22 pm
+          <strong>Created:</strong> {{this.activityData?.createdAt | date :"medium"}}
         </div>
-        <div class="my-2">
-          <strong>Last Updated:</strong> Today 6:42 pm
+        <div class="my-2" *ngFor="let activityLog of ActivityTimeLogs">
+         <p> <strong>{{activityLog.status}}:</strong> {{activityLog.updatedAt | date :"medium"}}</p>
         </div>
       </div>
       <hr>
