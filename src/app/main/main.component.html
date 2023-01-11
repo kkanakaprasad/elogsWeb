@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-start ">
             <h4>Organisation:</h4>
             <mat-form-field appearance="outline">               
-                    <input class = 'p-2' [(ngModel)]="selected" placeholder="Find an Organisation" matInput type="text" (keyup)="filterOrganization($event)" [matAutocomplete]="auto"/>
+                    <input class = 'p-2' placeholder="Find an Organisation" matInput type="text" (keyup)="filterOrganization($event)" [matAutocomplete]="auto"/>
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleectedOrganization($event)">
                     <mat-option  *ngFor="let organization of searchedOrganizationList"
                         [value]="organization.organization" #matOption >
