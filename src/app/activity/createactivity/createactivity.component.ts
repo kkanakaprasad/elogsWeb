@@ -88,7 +88,7 @@ export class CreateactivityComponent implements OnInit {
       this.activityForm.controls['activitEntryType'].setValue(this.selectedActivityData.activitEntryType)
       this.activityForm.controls['activitySector'].setValue(this.selectedActivityData.activitySector)
       this.activityForm.controls['activityScope'].setValue(this.selectedActivityData.activityScope)
-      this.activityForm.controls['title'].setValue(this.selectedActivityData.title)
+      this.activityForm.controls['title'].setValue(this.selectedActivityData?.title)
       this.activityForm.controls['attachments'].setValue(this.selectedActivityData.attachments)
 
     })
