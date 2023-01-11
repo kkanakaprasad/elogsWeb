@@ -13,9 +13,8 @@ import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { Roles } from '../shared/enums/roles.enums';
 import { ActivityFiltersData } from './activity-filterData';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivityRowActions, Status, UserActivityRowActions } from './activity.constant';
-
-
+import {ActivityRowActions, Status, SuperAdminActivityRowActions } from './activity.constant';
+import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
 
 const today = new Date();
 const month = today.getMonth();
@@ -48,8 +47,8 @@ export class ActivityComponent implements OnInit {
   assign = ActivityFiltersData.assignedto;
   groupBy = ActivityFiltersData.groupby;
   sortBy = ActivityFiltersData.sortby;
-  activityRowActions=ActivityRowActions;
-  userActivityRowActions=UserActivityRowActions;
+  superAdminActivityRowActions=SuperAdminActivityRowActions;
+  userActivityRowActions=ActivityRowActions;
   dataSource: any;
   masterData: any;
   statusEnums = Status
@@ -57,6 +56,7 @@ export class ActivityComponent implements OnInit {
   filter = FILTER_CONSTANT;
   customPage = CUSTOMPAGE;
   isSuperAdmin: boolean = false;
+  logedInUserDetails : any;
   
   selectedTab = {
     tab: {
@@ -79,7 +79,7 @@ export class ActivityComponent implements OnInit {
     private activityService: ActivityService,
     private storageService: StorageService,
     private router: Router,
-    
+    private userDetailsService : UserDetailsService
   ) { }
 
   fromDate = new FormGroup({
@@ -95,7 +95,14 @@ export class ActivityComponent implements OnInit {
     this.getAllActivities();
     //this.onActivityRowActionClick();
     this.getAcivityMasterData();
-    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
+    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
+    this.getLogedinUserDetails();
+  }
+
+  getLogedinUserDetails(){
+    this.userDetailsService.getUserDetails().subscribe((res)=>{
+      this.logedInUserDetails = res;
+    })
   }
 
   downloadFile() {
@@ -169,7 +176,6 @@ export class ActivityComponent implements OnInit {
   }
 
   geographyChanged(event: any){
-
     if (event.checked) {
       this.filters.status.push(event.source.value);
     } else {
@@ -186,19 +192,19 @@ export class ActivityComponent implements OnInit {
     } else {
       let index = this.filters.types.findIndex((d: any) => d === event.source.value);
       this.filters.types.splice(index, 1);
-     
     }
   }
-  activityDetails(activityId:any){
-    console.log(activityId)
+
+  navigateToActivityDetails(activityId:any){
     this.router.navigate( [RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activityId}});
     
   }
 
-  generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED"){
-    this.activityRowActionByStatus =  this.activityRowActions[status];
-    this.userActivityRowActionByStatus=this.userActivityRowActions[status];
-
+  generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED",activity?:any){
+    this.activityRowActionByStatus =  this.superAdminActivityRowActions[status];
+    this.userActivityRowActionByStatus= this.userActivityRowActions.filter(action =>{
+      return action.displayCondition(activity,this.logedInUserDetails);
+    })
   }
 
   

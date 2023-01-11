@@ -2,7 +2,7 @@ export const Priority = ['NONE', 'LOW', 'MEDIUM', 'HIGH']
 export const Visibility = ['INTERNAL', 'EVERYONE']
 export const Status = ['NEW', 'INPROGRESS', 'REJECTED', 'REJECTED', 'RESOLVED'];
 
-export const ActivityRowActions = {
+export const SuperAdminActivityRowActions = {
     "NEW": [
         {
             title: 'Start',
@@ -121,50 +121,77 @@ export const ActivityRowActions = {
     ]
 }
 
-export const UserActivityRowActions = {
-    "NEW": [
-        {
-            title: 'Satrt',
-            icon: "play_circle_fill",
-        },
-        {
-            title: 'Resolve',
-            icon: "assistant_photo",
-        },
-        {
-            title: 'Reply',
-            icon: "reply",
-        },
-    ],
-    "INPROGRESS": [
 
-        {
-            title: 'Resolve',
-            icon: "assistant_photo",
-        },
-       
-        {
-            title: 'Reply',
-            icon: "reply",
-        },
-      
-    ],
-    "RESOLVED": [
-        {
-            title: 'Reject',
-            icon: "cancel",
-        },
-        {
-            title: 'Reply',
-            icon: "reply",
-        },
-    ],
-    "REJECTED": [
+export const ActivityRowActions = [
+    {
+        title: 'Start',
+        icon: "play_circle_fill",
+        action : 'INPROGRESS',
+        displayCondition : (activity:any,loggedInUserDetails:any) =>{
+            return (activity.status === 'NEW')
+        }
+    },
+    {
+        title: 'Resolve',
+        icon: "assistant_photo",
+        action : 'RESOLVE',
+        displayCondition : (activity:any,loggedInUserDetails:any) =>{
+            return (activity.status === 'INPROGRESS' || activity.status === 'NEW' || activity.createdBy === loggedInUserDetails._id || loggedInUserDetails.organization.includes(activity.assignTo))
+        }
+    },
+    {
+        title: 'Reject',
+        icon: "cancel",
+        action : 'REJECT',
+        displayCondition : (activity:any,loggedInUserDetails:any) =>{
+            return ((activity.status === 'NEW' && activity.createdBy === loggedInUserDetails._id ) || 
+                (activity.status === 'INPROGRESS' || activity.createdBy === loggedInUserDetails._id || loggedInUserDetails.organization.includes(activity.assignTo)) || 
+                (activity.status === 'RESOLVED' && activity.createdBy === loggedInUserDetails._id ))
+        }
+    },
+    {
+        title: 'Reply',
+        icon: "reply",
+        action: 'REPLAY',
+        displayCondition : (activity:any,loggedInUserDetails:any) =>{
+            return (activity.status !== 'REJECTED')
+        }
+    },
+    {
+        title: 'Edit',
+        icon: "edit",
+        action :'EDIT',
+        displayCondition : (activity:any,loggedInUserDetails:any) =>{
+            return (activity.status === 'NEW' && activity.createdBy === loggedInUserDetails._id)
+        }
+    },
+    {
+        title: 'Move to Organization',
+        icon: "skip_next",
+        action : "MOVE_TO_ORGANIZATION",
+        displayCondition : (activity:any,loggedInUserDetails:any) =>{
+            return (activity.createdBy === loggedInUserDetails._id && (activity.status === 'NEW' || activity.status === 'INPROGRESS'))
+        }
+    }, 
+    {
+        title: 'Archive',
+        icon: "archive",
+        action : 'ARCHIVE',
+        displayCondition : (activity:any,loggedInUserDetails:any) =>{
+            return (activity.createdBy === loggedInUserDetails._id && (activity.status === 'NEW' || activity.status === 'INPROGRESS'))
+        }
+    },
+    {
+        title: 'Delete',
+        icon: "delete_sweep",
+        action : 'DELETE',
+        displayCondition : (activity:any,loggedInUserDetails:any) =>{
+            return ((activity.status === 'NEW' && activity.createdBy === loggedInUserDetails._id))
+        }
+    }
+]
 
-        {
-            title: 'Reply',
-            icon: "reply",
-        },
-    ],
-}
+
+
+
 
