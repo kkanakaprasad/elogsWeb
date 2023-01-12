@@ -108,19 +108,13 @@ export class ActivityDetailsComponent implements OnInit {
       this.getUserById()
       this.getLogedInUserDetails()
       this.ActivityTimeLogs=this.activityData?.statusLog
-      console.log(this.activityData)
-      console.log(this.selectedActivityAssignedTo)
-      console.log(this.activityData?.createdByOrganization==this.activityData?.organizationData[0]?._id)
-
     })
   }
 
   getLogedInUserDetails(){
     this.userDetailsService.getUserDetails().subscribe((res)=>{
       this.logedInUserDetails=res
-      console.log(res)
       this.isAssignee=res?.organization?.includes(this.activityData?.assignTo)
-      console.log(this.isAssignee)
     })
   }
 
@@ -424,6 +418,10 @@ export class ActivityDetailsComponent implements OnInit {
        refreshPage(){
         this.getActivityDetailsById()
        }
+       navigateToActivityListPage(){
+        this.router.navigate([RouteConstants.ACTIVITY])
+       }
+      
     }
     
         

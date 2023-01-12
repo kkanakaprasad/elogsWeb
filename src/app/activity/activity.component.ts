@@ -182,7 +182,6 @@ export class ActivityComponent implements OnInit {
     }
   }
   activityDetails(activityId:any){
-    console.log(activityId)
     this.router.navigate( [RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activityId}});
   }
   }
