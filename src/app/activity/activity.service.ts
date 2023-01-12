@@ -49,5 +49,8 @@ updateActivity(activityId:string,payload:any): Observable<any>{
 updateActivityStatus(activityId:string,payload:any): Observable<any>{
   return this.httpDataService.put(`activity/update/activityStatus/${activityId}`,payload)
  }
+updateActivityDueDate(activityId:string,payload:any): Observable<any>{
+  return this.httpDataService.put(`activity/update/dueDate/${activityId}`,payload)
+ }
  
 }
