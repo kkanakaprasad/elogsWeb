@@ -8,10 +8,10 @@
 <mat-stepper [linear]="isLinear" #stepper>
     <mat-step [stepControl]="uploadFileForm">
         <ng-template matStepLabel>Upload File</ng-template>
-        <div class="d-flex justify-content-between">
-            <div class="border">
-                <div class="d-flex flex-column">
-                    <div class="d-flex justify-content-between">
+        <div class="uploadfile-container">
+            <div>
+                <div class=" org-container d-flex flex-column">
+                    <div class="org-input d-flex  ">
                         <h4>Organisation:</h4>
                         <mat-form-field appearance="outline">
                             <mat-label>select organization</mat-label>
@@ -24,24 +24,24 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <h4>Upload your CSV file</h4>
+                    <h4 class="m-auto">Upload your CSV file</h4>
                     <hr>
-                    <div class="d-flex justify-content-start ">
+                    <div class="d-flex justify-content-start align-items-center p-2 ">
                         <input id="my-file-selector" type="file" accept=".csv" (change)="uploadCsvFile($event)"
                             name="Choose file">
                         <small><b>2 MB</b> or <b>1,000</b> rows maximum size</small>
                     </div><br>
-                    <div>
+                    <div class="m-auto">
                         <button mat-raised-button matStepperNext color="primary"
                             [disabled]="csvFile.length==0">Continue</button>
                     </div>
                 </div>
             </div><br>
-            <div class="border">
+            <div class="csvhelp-container">
                 <div class="d-flex flex-column">
                     <h2>CSV File</h2>
                     <hr>
-                    <div class="d-flex justify-content-start ">
+                    <div class="download-link d-flex justify-content-start">
                         <u><a href="https://elogs.cxipl.com/projects/download_sample_csvfile">Download the
                                 sample file</a></u><br>
                         <p>to see what you can import</p>
