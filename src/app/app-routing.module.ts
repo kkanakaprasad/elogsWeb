@@ -91,6 +91,14 @@ const routes: Routes = [
         },
         loadChildren:()=> import('./documents/documents.module').then(m=>m.DocumentsModule),
 
+      },
+
+      {
+        path:RouteConstants.MOVE_TO_ORGANIZATION,
+        data:{
+          roles:[Roles.SuperAdmin,Roles.User]
+        },
+        loadChildren:()=> import('./activity/activity.module').then(m=>m.ActivityModule),
       }
       
       
