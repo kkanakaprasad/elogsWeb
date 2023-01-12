@@ -13,24 +13,30 @@ import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { Roles } from '../shared/enums/roles.enums';
 import { ActivityFiltersData } from './activity-filterData';
 import { FormControl, FormGroup } from '@angular/forms';
-
+import { ActivityRowActions, Status, SuperAdminActivityRowActions } from './activity.constant';
+import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
+import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
+import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
+
 
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
   styleUrls: ['./activity.component.scss']
 })
+
+
 export class ActivityComponent implements OnInit {
 
-
+  activityId = '';
   groupby = ['Due Date', 'Status', 'Priority', 'Assigned to']
   sortby = ['Tittle', 'Activity#', 'Due Date', 'Assigned to']
-  displayedColumns = ['select', 'Activity', 'Title', 'Priority', 'Duedate','actions']
-
+  displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions']
+  currentStatus = Status
   createddates = ActivityFiltersData.createddate;
   duedates = ActivityFiltersData.createddate;
   statuses = ActivityFiltersData.status;
@@ -43,17 +49,25 @@ export class ActivityComponent implements OnInit {
   assign = ActivityFiltersData.assignedto;
   groupBy = ActivityFiltersData.groupby;
   sortBy = ActivityFiltersData.sortby;
+  superAdminActivityRowActions = SuperAdminActivityRowActions;
+  userActivityRowActions = ActivityRowActions;
   dataSource: any;
   masterData: any;
+  statusEnums = Status
   public activitylist: any = [];
   filter = FILTER_CONSTANT;
   customPage = CUSTOMPAGE;
   isSuperAdmin: boolean = false;
+  logedInUserDetails: any;
+  selectedActivtyForRowActions: any;
+
   selectedTab = {
     tab: {
       textLabel: FILTER_CONSTANT.IS_ACTIVE
     }
   };
+  activityRowActionByStatus: any;
+  userActivityRowActionByStatus: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -67,7 +81,10 @@ export class ActivityComponent implements OnInit {
   constructor(
     private activityService: ActivityService,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    private userDetailsService: UserDetailsService,
+    private alertpopupService: AlertpopupService,
+    private confirmationDialogService: ConfirmationDialogService
   ) { }
 
   fromDate = new FormGroup({
@@ -82,7 +99,14 @@ export class ActivityComponent implements OnInit {
   ngOnInit(): void {
     this.getAllActivities();
     this.getAcivityMasterData();
-    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
+    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
+    this.getLogedinUserDetails();
+  }
+
+  getLogedinUserDetails() {
+    this.userDetailsService.getUserDetails().subscribe((res) => {
+      this.logedInUserDetails = res;
+    })
   }
 
   downloadFile() {
@@ -112,18 +136,15 @@ export class ActivityComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
+
   getAllActivities() {
     this.activityService.getAllActivities().subscribe((res) => {
       this.dataSource = new MatTableDataSource(res.data)
       this.dataSource.paginator = this.paginator;
-
-      // this.dataSource.sort = this.sort;
-      // const sortState: Sort = { active: 'Title', direction: 'desc' };
-      // this.sort.active = sortState.active;
-      // this.sort.direction = sortState.direction;
-      // this.sort.sortChange.emit(sortState);
+    
     })
   }
+
   ngAfterViewInit() {
     if (this.dataSource) {
       this.dataSource.paginator = this.paginator;
@@ -144,8 +165,6 @@ export class ActivityComponent implements OnInit {
     this.activityService.getActivityMastarData().subscribe((res) => {
       if (res.data) {
         this.masterData = res.data;
-       
-
       }
     })
   }
@@ -157,33 +176,129 @@ export class ActivityComponent implements OnInit {
       let index = this.filters.entryType.findIndex((d: any) => d === event.source.value);
       this.filters.entryType.splice(index, 1);
     }
-    console.log(this.filters);
   }
 
-  geographyChanged(event: any){
-
+  geographyChanged(event: any) {
     if (event.checked) {
       this.filters.status.push(event.source.value);
     } else {
       let index = this.filters.status.findIndex((d: any) => d === event.source.value);
       this.filters.status.splice(index, 1);
-    
+
     }
-    console.log(this.filters);
   }
 
-  typeChanged(event: any){
+  typeChanged(event: any) {
     if (event.checked) {
       this.filters.types.push(event.source.value);
     } else {
       let index = this.filters.types.findIndex((d: any) => d === event.source.value);
       this.filters.types.splice(index, 1);
-     
     }
   }
-  activityDetails(activityId:any){
-    this.router.navigate( [RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activityId}});
+
+  navigateToActivityDetails(activityId: any) {
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activityId } });
+
   }
+
+  generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED", activity?: any) {
+    this.selectedActivtyForRowActions = activity;
+    this.activityRowActionByStatus = this.superAdminActivityRowActions[status];
+    this.userActivityRowActionByStatus = this.userActivityRowActions.filter(action => {
+      return action.displayCondition(activity, this.logedInUserDetails);
+    })
   }
+
+  onActivityRowActionClick(action: string) {
+    switch (action) {
+      case 'NEW' :
+        this.updateActivityStatus(action);
+        break;
+      case 'INPROGRESS':
+        this.updateActivityStatus(action);
+        break;
+      case 'RESOLVED':
+        this.updateActivityStatus(action);
+        break;
+      case 'REJECTED':
+        this.updateActivityStatus(action);
+        break;
+      case 'REPLAY':
+        this.navigateToActivityDetails(this.selectedActivtyForRowActions._id);
+        break;
+      case 'ARCHIVE':
+        this.updateArchivestatus();
+        break;
+      case 'DELETE':
+        this.deleteActivityByActivityId();
+        break;
+      default:
+        break;
+    }
+
+  }
+
+  updateActivityStatus(status: string) {
+
+    this.confirmationDialogService.open({
+      message: `Are you sure to change status to ${status}`
+    }).afterClosed().subscribe((res) => {
+      this.activityService.updateActivityStatus(this.selectedActivtyForRowActions._id, { status: status }).subscribe((res) => {
+        this.alertpopupService.open({
+          message: 'Activity Status Updated Successfully',
+          action: 'ok'
+        });
+        this.getAllActivities();
+      })
+    },(error)=>{
+      this.alertpopupService.open({
+        message: error.message?error.message : "Unable to update Activity status",
+        action: 'ok'
+      });
+    })
+  }
+  
+
+  updateArchivestatus() {
+    this.confirmationDialogService.open({
+      message: `Are you sure to Archive the activity`
+    }).afterClosed().subscribe((res) => {
+      this.activityService.updateArchivestatus(this.selectedActivtyForRowActions._id, { isArchive: true }).subscribe((res) => {
+        this.alertpopupService.open({
+          message: 'Activity Archived Successfully',
+          action: 'ok'
+        });
+        this.getAllActivities();
+      })
+    },(error)=>{
+      this.alertpopupService.open({
+        message: error.message?error.message : "Unable to archive Activity status",
+        action: 'ok'
+      });
+    })
+  }
+
+  deleteActivityByActivityId() {
+    this.confirmationDialogService.open({
+      message: `Are you sure to Delete activity`
+    }).afterClosed().subscribe((res) => {
+      this.activityService.deleteSelectedActivity(this.selectedActivtyForRowActions._id).subscribe((res) => {
+        this.alertpopupService.open({
+          message: 'Activity Deleted Successfully',
+          action: 'ok'
+        });
+        this.getAllActivities();
+      })
+    },(error)=>{
+      this.alertpopupService.open({
+        message: error.message?error.message : "Unable to delete Activity status",
+        action: 'ok'
+      });
+    })
+  }
+
+}
+  
 
 

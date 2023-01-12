@@ -49,3 +49,29 @@ td {
 .blue-color {
   color:blue;
 }
+
+.new {
+  height: 19px;
+  width: fit-content;
+  background-color: #f19a91;
+  padding:5px;
+  color:white;
+  text-align:center;
+  padding: 4px 9px;
+}
+
+.in-progress {
+  @extend .new;
+  background-color: #8dc2f8;
+}
+
+.not-admissible {
+  @extend .new;
+  background-color: #8ad6a3;
+}
+
+.resolved {
+  @extend .new;
+  background-color: #f3c788;
+}
+
