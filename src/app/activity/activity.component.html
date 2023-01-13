@@ -22,12 +22,13 @@
   </mat-menu>
 
   <mat-menu #createddate="matMenu">
-    <mat-checkbox class="example-margin" [formControl]="createdDate" (click)="$event.stopPropagation();"
-      *ngFor="let option of activityFiltersData.createddate" (change)="filterActivityListData('createdDate',$event)"
-      value="{{option.key}}">
-      {{option.DisplayName}}
-    </mat-checkbox>
-    <mat-form-field appearance="fill" (click)="$event.stopPropagation();" [ngStyle]="{width : '180px'}">
+    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" (click)="$event.stopPropagation();">
+      <mat-radio-button class="example-radio-button" *ngFor="let option of activityFiltersData.createddate"
+        [value]="option.key" (change)="filterActivityListData('createdDate',$event)">
+        {{option.DisplayName}}
+      </mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field appearance="fill" (click)="$event.stopPropagation();" [ngStyle]="{width : '180px'}" *ngIf="isShowCustomCreatedDate">
       <mat-label>Enter date</mat-label>
       <mat-date-range-input [formGroup]="customCreatedDate" [rangePicker]="picker">
         <input matStartDate formControlName="fromDate" placeholder="Start date">
@@ -45,11 +46,11 @@
     <div (click)="$event.stopPropagation();">
       <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
         <mat-radio-button class="example-radio-button" *ngFor="let option of activityFiltersData.duedate"
-          [value]="option">
+          [value]="option.key" (change)="filterActivityListData('dueDate',$event)">
           {{option.DisplayName}}
         </mat-radio-button>
       </mat-radio-group>
-      <mat-form-field appearance="fill" (click)="$event.stopPropagation();" [ngStyle]="{width : '180px'}">
+      <mat-form-field appearance="fill" (click)="$event.stopPropagation();" [ngStyle]="{width : '180px'}" *ngIf="isShowCustomDueDate">
         <mat-label>Enter date</mat-label>
         <mat-date-range-input [formGroup]="customDueDate" [rangePicker]="picker1">
           <input matStartDate formControlName="fromDate" placeholder="Start date">
@@ -65,8 +66,8 @@
   </mat-menu>
   <mat-menu #status="matMenu">
     <div (click)="$event.stopPropagation();" *ngFor="let option of activityFiltersData.status">
-      <section class="example-section">
-        <mat-checkbox class="example-margin">
+      <section class="example-section" >
+        <mat-checkbox class="example-margin" [value]="option.key" (change)="activityListFilterOnChanged($event,'status')">
           {{option.DisplayName}}
         </mat-checkbox>
       </section>
@@ -75,7 +76,7 @@
   <mat-menu #types="matMenu">
     <div (click)="$event.stopPropagation();">
       <section class="example-section" *ngFor="let option of masterData?.activityTypesData">
-        <mat-checkbox class="example-margin" value={{option._id}} (change)="typeChanged($event)">
+        <mat-checkbox class="example-margin" value={{option._id}} (change)="activityListFilterOnChanged($event,'types')">
           {{option.name}}
         </mat-checkbox>
       </section>
@@ -84,7 +85,7 @@
   <mat-menu #entrytype="matMenu">
     <div (click)="$event.stopPropagation();">
       <section class="example-section" *ngFor="let option of masterData?.activityEntryTypesData">
-        <mat-checkbox class="example-margin" value={{option._id}} (change)="entryTypeChanged($event)">
+        <mat-checkbox class="example-margin" value={{option._id}} (change)="activityListFilterOnChanged($event,'entryType')">
           {{option.name}}
         </mat-checkbox>
       </section>
@@ -93,7 +94,7 @@
   <mat-menu #geography="matMenu">
     <div (click)="$event.stopPropagation();">
       <section class="example-section" *ngFor="let option of masterData?.activitySectorsData">
-        <mat-checkbox class="example-margin" value={{option._id}} (change)="geographyChanged($event)">
+        <mat-checkbox class="example-margin" value={{option._id}} (change)="activityListFilterOnChanged($event,'sectors')">
           {{option.name}}
         </mat-checkbox>
       </section>
@@ -102,7 +103,7 @@
   <mat-menu #scope="matMenu">
     <div (click)="$event.stopPropagation();">
       <section class="example-section" *ngFor="let option of masterData?.activityScopesData">
-        <mat-checkbox class="example-margin" value={{option._id}}>
+        <mat-checkbox class="example-margin" value={{option._id}} (change)="activityListFilterOnChanged($event,'scope')">
           {{option.name}}
         </mat-checkbox>
       </section>
@@ -111,7 +112,7 @@
   <mat-menu #priority="matMenu">
     <div (click)="$event.stopPropagation();" *ngFor="let option of activityFiltersData.priority">
       <section class="example-section">
-        <mat-checkbox class="example-margin">
+        <mat-checkbox class="example-margin" value={{option.key}} (change)="activityListFilterOnChanged($event,'priority')">
           {{option.DisplayName}}
         </mat-checkbox>
       </section>
