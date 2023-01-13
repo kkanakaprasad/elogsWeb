@@ -149,8 +149,7 @@ export class CreateactivityComponent implements OnInit {
         attachments: this.filesListArray, 
         organization: this.selectedOrganizationValue, 
         priority: Priority[0] , 
-        status: Status[0], 
-        createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) 
+        status: Status[0],  
       }
       this.activityService.updateActivity(this.selectedActivityId, payload).subscribe(res => {
         this.alertpopupService.open({
@@ -174,7 +173,6 @@ export class CreateactivityComponent implements OnInit {
           priority: Priority[0], 
           status: Status[0], 
           description:this.descriptionOfTextEditor,
-          createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID),
         }
         
         this.activityService.postActivity(payload).subscribe((res) => {
