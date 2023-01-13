@@ -3,7 +3,7 @@
     <div class="col-md-9">
       <h2><div [innerHTML]="activityData?.description"></div></h2>
       <p>
-        Last updated by -- on {{ activityData?.createdAt | date : "medium" }}
+        Last updated on {{ activityData?.createdAt | date : "medium" }}
         <span *ngIf="activityData?.activityLog.length >= 1"
           ><mat-icon> chat</mat-icon
           >{{ activityData?.activityLog.length }}</span
@@ -107,7 +107,7 @@
                     <mat-icon class="mat-i">person_outline</mat-icon>
                   </div>
                   <div>
-                    Created by
+                    Created by {{activity.createdByUserName}}
                     <p>{{ activity.updatedAt | date : "medium" }}</p>
                   </div>                  
                   <span class="organization-title"
@@ -118,7 +118,7 @@
                     
                   </div>
                   <div>
-                    <p>Assigned To: </p>
+                    <p>Assigned To: {{ selectedActivityAssignedTo }} </p>
                   </div>
                 </div>
                 <hr />
@@ -334,8 +334,7 @@
         *ngIf="
           isAssignee &&
           activityData?.createdByOrganization !=
-            activityData?.organizationData[0]._id
-        "
+            activityData?.organizationData[0]._id && isSuperAdmin"
       >
         <div class="d-flex justify-content-start">
           <button
