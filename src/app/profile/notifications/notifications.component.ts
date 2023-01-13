@@ -64,4 +64,7 @@ export class NotificationsComponent implements OnInit, OnChanges {
       })
     }
   }
+  resetFormValues(){
+    this.notificationRepotsForm.reset()
+  }
 }

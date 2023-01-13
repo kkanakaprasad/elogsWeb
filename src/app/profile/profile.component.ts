@@ -123,8 +123,11 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.profileForm.value);
     this.createProfile();
+  }
+
+  resetFormValues(){
+    this.profileForm.reset()
   }
 
 }
