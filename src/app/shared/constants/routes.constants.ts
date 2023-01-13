@@ -10,5 +10,4 @@ export const RouteConstants = {
     COMPANY_SETTINGS : 'company-settings',
     ARCHIVE:'archive',
     DOCUMENTS:'documents',
-    MOVE_TO_ORGANIZATION:'move-to-organization'
-}
+   }

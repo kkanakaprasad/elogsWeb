@@ -15,8 +15,7 @@ const routes: Routes = [
   { path: 'create', component: CreateactivityComponent },
   {
     path: "details", component:ActivityDetailsComponent
-  },
-  {path:'move',component:MoveToOrganizationPopUpComponent}
+  }
 ];
 
 
