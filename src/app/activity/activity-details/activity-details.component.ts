@@ -156,6 +156,7 @@ export class ActivityDetailsComponent implements OnInit {
         action: 'ok'
       })
       this.getActivityDetailsById()
+      this.activityLogForm?.reset()
     }, (error) => {
       this.alertpopupService.open({
         message: error.message ? error.message : "something went wrong!",
