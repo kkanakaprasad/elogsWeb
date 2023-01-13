@@ -1,7 +1,8 @@
+<button (click)="navigateToPreviousRoute()"><mat-icon>keyboard_return</mat-icon></button>
 <div class="row container">
   <div class="row">
     <div class="col-md-9">
-      <h2><div [innerHTML]="activityData?.description"></div></h2>
+      <h2>{{activityData?.title | titlecase}}</h2>
       <p>
         Last updated on {{ activityData?.createdAt | date : "medium" }}
         <span *ngIf="activityData?.activityLog.length >= 1"
@@ -28,11 +29,11 @@
               </tr>
               <tr>
                 <td>Priority:</td>
-                <td>{{ activityData?.priority | titlecase }}</td>
+                <td [class]="statusClass(activityData?.priority)">{{ activityData?.priority | titlecase }}</td>
               </tr>
               <tr>
                 <td>Status:</td>
-                <td>{{ activityData?.status | titlecase }}</td>
+                <td >{{ activityData?.status | titlecase }}</td>
               </tr>
             </tbody>
           </table>
@@ -46,9 +47,13 @@
               </tr>
               <tr>
                 <td>Ministry/Department:</td>
-                <td *ngFor="let ministry of organizationsInvolved">
-                  {{ ministry?.organization }}
-                </td>
+                
+                <!-- <td>
+                  <p *ngFor="let ministry of organizationsInvolved">{{ ministry.organization }}</p>
+                  </td> -->
+                  <td>
+                  {{ ministryName }}
+                  </td>
               </tr>
               <tr>
                 <td>Organization:</td>
@@ -91,7 +96,7 @@
                   <mat-icon *ngIf="activityData?.attachments?.length>=1">attach_file</mat-icon>
                   <p *ngFor="let attachments of activityData?.attachments">
                     <mat-icon>insert_drive_file</mat-icon
-                    >{{ attachments.name }} {{ attachments.size }}
+                    >{{ attachments?.name }}  {{ attachments?.size/1024 | number:'.2-2' }} Kb
                   </p>
                 </div>
               </mat-card-content>
@@ -128,7 +133,7 @@
                 
                     <div *ngFor="let attachment of activity?.attachments">
                       <mat-icon>insert_drive_file</mat-icon
-                      >{{ attachment?.name }} {{ attachment?.size }}
+                      >{{ attachment?.name }} {{ attachment?.size/1024 | number:'.2-2' }} Kb
                     </div>
                   </div>
                 
@@ -207,10 +212,10 @@
             </div>
 
             <div class="d-flex justify-content-end align-items-center">
-              <button mat-raised-button color="primary" type="submit" >
+              <button  type='button' (click)="resetActivityLogForm()" mat-raised-button >Cancel</button>
+              <button mat-raised-button color="primary" type="submit" [disabled]="description === '' " >
                 Post
               </button>
-              <button  type='button' (click)="navigateToActivityListPage()" mat-raised-button >Cancel</button>
             </div>
           </form>
         </div>
@@ -263,7 +268,7 @@
             (click)="updateStatusOfSelectedActivity('Resolve')"
             matTooltip="Resolve"
           >
-            <mat-icon>timeline</mat-icon>
+            <mat-icon>assistant_photo</mat-icon>
           </button>
           <button
             mat-stroked-button
@@ -372,7 +377,7 @@
         <div class="d-flex">
           <mat-icon> date_range</mat-icon>
           <h5 matTooltip="" class="mx-2">
-            {{ activityData?.dueDate | date : "medium" }}
+            {{ activityData?.dueDate ==='' ? "No DueDate" : activityData?.dueDate | date : "medium" }}
             <button
               mat-button
               [matMenuTriggerFor]="dueDateFiltersMatMenu"
@@ -383,7 +388,7 @@
                 <button mat-menu-item>
                   Due Date {{ activityData?.dueDate | date : "medium" }}
                 </button>
-                <button mat-menu-item>Updated by</button>
+                <button mat-menu-item>Updated by{{activityData?.updatedBy}}</button>
                 <button mat-menu-item>
                   Created At {{ activityData?.createdAt | date : "medium" }}
                 </button>
@@ -435,7 +440,7 @@
         </h3>
         <div *ngFor="let fileData of activityData?.attachments">
           <mat-icon>insert_drive_file</mat-icon>{{ fileData?.name
-          }}{{ fileData?.updatedAt | date : "medium" }}
+          }} {{fileData?.size /1024 | number:'.2-2'}} Kb  {{ fileData?.updatedAt | date : "medium" }}
         </div>
       </div>
       <hr />

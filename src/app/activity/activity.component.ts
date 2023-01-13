@@ -33,22 +33,9 @@ const year = today.getFullYear();
 export class ActivityComponent implements OnInit {
 
   activityId = '';
-  groupby = ['Due Date', 'Status', 'Priority', 'Assigned to']
-  sortby = ['Tittle', 'Activity#', 'Due Date', 'Assigned to']
-  displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions']
+  displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions'];
+  activityFiltersData = ActivityFiltersData;
   currentStatus = Status
-  createddates = ActivityFiltersData.createddate;
-  duedates = ActivityFiltersData.createddate;
-  statuses = ActivityFiltersData.status;
-  type = ActivityFiltersData.types;
-  entryTypes = ActivityFiltersData.entrytype;
-  geographys = ActivityFiltersData.geography;
-  scopes = ActivityFiltersData.scope;
-  priorities = ActivityFiltersData.priority;
-  created = ActivityFiltersData.createdby;
-  assign = ActivityFiltersData.assignedto;
-  groupBy = ActivityFiltersData.groupby;
-  sortBy = ActivityFiltersData.sortby;
   superAdminActivityRowActions = SuperAdminActivityRowActions;
   userActivityRowActions = ActivityRowActions;
   dataSource: any;
@@ -60,22 +47,41 @@ export class ActivityComponent implements OnInit {
   isSuperAdmin: boolean = false;
   logedInUserDetails: any;
   selectedActivtyForRowActions: any;
-
-  selectedTab = {
-    tab: {
-      textLabel: FILTER_CONSTANT.IS_ACTIVE
-    }
-  };
   activityRowActionByStatus: any;
   userActivityRowActionByStatus: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  isShowCustomCreatedDate: boolean = false;
+  isShowCustomDueDate: boolean = false;
 
   selection: any = new SelectionModel(true, []);
   filters: any = {
     types: [],
     status: [],
-    entryType: []
+    entryType: [],
+    scope : [],
+    priority : [],
+    sectors : []
+  }
+
+  customCreatedDate = new FormGroup({
+    fromDate: new FormControl<Date | null>(null),
+    toDate: new FormControl<Date | null>(null),
+  });
+
+  customDueDate = new FormGroup({
+    fromDate: new FormControl<Date | null>(null),
+    toDate: new FormControl<Date | null>(null),
+  });
+
+  createdDate = new FormControl();
+  dueDte = new FormControl();
+
+  activitySearchCriteriaPayload: any = {
+    pageNumber: 0,
+    pageSize: 20,
+    sortField: "",
+    sortOrder: 0,
   }
 
   constructor(
@@ -87,20 +93,40 @@ export class ActivityComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService
   ) { }
 
-  fromDate = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
-  });
-  toDate = new FormGroup({
-    start: new FormControl(new Date(year, month, 15)),
-    end: new FormControl(new Date(year, month, 19)),
-  });
-
   ngOnInit(): void {
     this.getAllActivities();
     this.getAcivityMasterData();
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.getLogedinUserDetails();
+    this.customCreatedDate.valueChanges.subscribe((res) => {
+      if (res.fromDate !== null && res.toDate !== null) {
+        this.activitySearchCriteriaPayload = {
+          ...this.activitySearchCriteriaPayload,
+          createdDate: {
+            unit: 'R',
+            range: {
+              from: res.fromDate?.toISOString(),
+              to: res.toDate?.toISOString()
+            }
+          }
+        }
+      }
+    });
+
+    this.customDueDate.valueChanges.subscribe((res) => {
+      if (res.fromDate !== null && res.toDate !== null) {
+        this.activitySearchCriteriaPayload = {
+          ...this.activitySearchCriteriaPayload,
+          dueDate: {
+            unit: 'R',
+            range: {
+              from: res.fromDate?.toISOString(),
+              to: res.toDate?.toISOString()
+            }
+          }
+        }
+      }
+    });
   }
 
   getLogedinUserDetails() {
@@ -141,7 +167,7 @@ export class ActivityComponent implements OnInit {
     this.activityService.getAllActivities().subscribe((res) => {
       this.dataSource = new MatTableDataSource(res.data)
       this.dataSource.paginator = this.paginator;
-    
+
     })
   }
 
@@ -169,37 +195,8 @@ export class ActivityComponent implements OnInit {
     })
   }
 
-  entryTypeChanged(event: any) {
-    if (event.checked) {
-      this.filters.entryType.push(event.source.value);
-    } else {
-      let index = this.filters.entryType.findIndex((d: any) => d === event.source.value);
-      this.filters.entryType.splice(index, 1);
-    }
-  }
-
-  geographyChanged(event: any) {
-    if (event.checked) {
-      this.filters.status.push(event.source.value);
-    } else {
-      let index = this.filters.status.findIndex((d: any) => d === event.source.value);
-      this.filters.status.splice(index, 1);
-
-    }
-  }
-
-  typeChanged(event: any) {
-    if (event.checked) {
-      this.filters.types.push(event.source.value);
-    } else {
-      let index = this.filters.types.findIndex((d: any) => d === event.source.value);
-      this.filters.types.splice(index, 1);
-    }
-  }
-
   navigateToActivityDetails(activityId: any) {
     this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activityId } });
-
   }
 
   generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED", activity?: any) {
@@ -212,7 +209,7 @@ export class ActivityComponent implements OnInit {
 
   onActivityRowActionClick(action: string) {
     switch (action) {
-      case 'NEW' :
+      case 'NEW':
         this.updateActivityStatus(action);
         break;
       case 'INPROGRESS':
@@ -244,36 +241,40 @@ export class ActivityComponent implements OnInit {
     this.confirmationDialogService.open({
       message: `Are you sure to change status to ${status}`
     }).afterClosed().subscribe((res) => {
-      this.activityService.updateActivityStatus(this.selectedActivtyForRowActions._id, { status: status }).subscribe((res) => {
-        this.alertpopupService.open({
-          message: 'Activity Status Updated Successfully',
-          action: 'ok'
-        });
-        this.getAllActivities();
-      })
-    },(error)=>{
+      if (res) {
+        this.activityService.updateActivityStatus(this.selectedActivtyForRowActions._id, { status: status }).subscribe((res) => {
+          this.alertpopupService.open({
+            message: 'Activity Status Updated Successfully',
+            action: 'ok'
+          });
+          this.getAllActivities();
+        })
+      }
+    }, (error) => {
       this.alertpopupService.open({
-        message: error.message?error.message : "Unable to update Activity status",
+        message: error.message ? error.message : "Unable to update Activity status",
         action: 'ok'
       });
     })
   }
-  
+
 
   updateArchivestatus() {
     this.confirmationDialogService.open({
       message: `Are you sure to Archive the activity`
     }).afterClosed().subscribe((res) => {
-      this.activityService.updateArchivestatus(this.selectedActivtyForRowActions._id, { isArchive: true }).subscribe((res) => {
-        this.alertpopupService.open({
-          message: 'Activity Archived Successfully',
-          action: 'ok'
-        });
-        this.getAllActivities();
-      })
-    },(error)=>{
+      if (res) {
+        this.activityService.updateArchivestatus(this.selectedActivtyForRowActions._id, { isArchive: true }).subscribe((res) => {
+          this.alertpopupService.open({
+            message: 'Activity Archived Successfully',
+            action: 'ok'
+          });
+          this.getAllActivities();
+        })
+      }
+    }, (error) => {
       this.alertpopupService.open({
-        message: error.message?error.message : "Unable to archive Activity status",
+        message: error.message ? error.message : "Unable to archive Activity status",
         action: 'ok'
       });
     })
@@ -283,22 +284,62 @@ export class ActivityComponent implements OnInit {
     this.confirmationDialogService.open({
       message: `Are you sure to Delete activity`
     }).afterClosed().subscribe((res) => {
-      this.activityService.deleteSelectedActivity(this.selectedActivtyForRowActions._id).subscribe((res) => {
-        this.alertpopupService.open({
-          message: 'Activity Deleted Successfully',
-          action: 'ok'
-        });
-        this.getAllActivities();
-      })
-    },(error)=>{
+      if (res) {
+        this.activityService.deleteSelectedActivity(this.selectedActivtyForRowActions._id).subscribe((res) => {
+          this.alertpopupService.open({
+            message: 'Activity Deleted Successfully',
+            action: 'ok'
+          });
+          this.getAllActivities();
+        })
+      }
+    }, (error) => {
       this.alertpopupService.open({
-        message: error.message?error.message : "Unable to delete Activity status",
+        message: error.message ? error.message : "Unable to delete Activity status",
         action: 'ok'
       });
     })
   }
 
+  filterActivityListData(controlName: string, event?: any) {
+    switch (controlName) {
+      case 'createdDate':
+        console.log(event?.source?.value)
+        const value = event?.source?.value;
+        if (value?.unit === "R") {
+          this.isShowCustomCreatedDate = true;
+        } else if(value === "ALL") {
+          this.activitySearchCriteriaPayload = {...this.activitySearchCriteriaPayload , createdDate : ''}
+        }else{
+          this.activitySearchCriteriaPayload = {...this.activitySearchCriteriaPayload , createdDate : value}
+        }
+        console.log(this.activitySearchCriteriaPayload);
+        break;
+      case 'dueDate' :
+        const dueDate = event?.source?.value;
+        if (dueDate === "R") {
+          this.isShowCustomDueDate = true;
+        } else if(dueDate === "ALL") {
+          this.activitySearchCriteriaPayload = {...this.activitySearchCriteriaPayload , dueDate : ''}
+        }else{
+          this.activitySearchCriteriaPayload = {...this.activitySearchCriteriaPayload , dueDate : dueDate}
+        }
+        break;
+    }
+  }
+
+  activityListFilterOnChanged(event : any , type : string){
+    if (event.checked) {
+      this.filters[type].push(event.source.value);
+    } else {
+      let index = this.filters[type].findIndex((d: any) => d === event.source.value);
+      this.filters[type].splice(index, 1);
+    }
+    this.activitySearchCriteriaPayload = {...this.activitySearchCriteriaPayload,...this.filters};
+    console.log(this.activitySearchCriteriaPayload)
+  }
+
 }
-  
+
 
 

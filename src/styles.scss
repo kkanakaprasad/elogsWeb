@@ -1582,3 +1582,44 @@ h6,
     }
   }
 }
+
+//status highlighters start
+
+.pending {
+	background-color: rgba(255, 152, 0, 0.12);
+    color: #f39c12;
+	border-radius:4px;
+	text-transform: uppercase;
+	padding: 7px 10px;
+	font-weight: 500;
+    font-size: 14px;
+}
+.accept {
+    background-color: rgba(15, 183, 107, 0.12);
+    color: #26af48;
+	border-radius:4px;
+	text-transform: uppercase;
+	padding: 7px 10px;
+	font-weight: 500;
+    font-size: 14px;
+}
+.confirm {
+	background-color: rgb(15 67 183 / 12%);
+    color: #263daf;
+	border-radius:4px;
+	text-transform: uppercase;
+	padding: 7px 10px;
+	font-weight: 500;
+    font-size: 14px;
+}
+.reject {
+    background-color: rgba(242, 17, 54, 0.12);
+    color: #e63c3c;
+	border-radius:4px;
+	text-transform: uppercase;
+	padding: 7px 10px;
+	font-weight: 500;
+    font-size: 14px;
+}
+
+//status highlighters end
