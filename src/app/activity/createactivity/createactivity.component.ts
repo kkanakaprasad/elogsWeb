@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Validators } from 'ngx-editor';
 import { forkJoin } from 'rxjs';
 import { OrganizationService } from 'src/app/organization/organization.service';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { RouteConstants } from 'src/app/shared/constants/routes.constants';
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { UserDetailsService } from 'src/app/shared/services/user-details-service/user-details.service';
@@ -49,7 +50,8 @@ export class CreateactivityComponent implements OnInit {
     private alertpopupService: AlertpopupService,
     private storageService: StorageService,
     private activatedRoute: ActivatedRoute,
-    private userDetailsService: UserDetailsService
+    private userDetailsService: UserDetailsService,
+    private router:Router
 
   ) {
     this.activatedRoute.queryParams.subscribe((res) => {
@@ -71,25 +73,25 @@ export class CreateactivityComponent implements OnInit {
 
   forkJoinResult() {
     forkJoin([this.organizations$, this.activityMasterData$, this.activity$]).subscribe(result => {
-      this.organizationsData = result[0].organizations;
-      const selectedOrganizations = result[0].organizations.filter((org: any) => {
-        return result[2].data[0].organizationData.find((o: any) => o._id === org._id)
+      this.organizationsData = result[0]?.organizations;
+      const selectedOrganizations = result[0]?.organizations.filter((org: any) => {
+        return result[2].data[0]?.organizationData.find((o: any) => o._id === org._id)
       })
 
-      this.activityTypesData = result[1].data.activityTypesData;
-      this.activityRelatedTypesData = result[1].data.activityRelatedTypesData;
-      this.activityEntryTypesData = result[1].data.activityEntryTypesData;
-      this.activitySectorsData = result[1].data.activitySectorsData;
-      this.activityScopesData = result[1].data.activityScopesData;
-      this.selectedActivityData = result[2].data[0];
-      this.activityForm.controls['activityType'].setValue(this.selectedActivityData.activityType)
-      this.activityForm.controls['activityRelatedTo'].setValue(this.selectedActivityData.activityRelatedTo)
+      this.activityTypesData = result[1]?.data.activityTypesData;
+      this.activityRelatedTypesData = result[1]?.data?.activityRelatedTypesData;
+      this.activityEntryTypesData = result[1]?.data?.activityEntryTypesData;
+      this.activitySectorsData = result[1]?.data?.activitySectorsData;
+      this.activityScopesData = result[1]?.data?.activityScopesData;
+      this.selectedActivityData = result[2]?.data[0];
+      this.activityForm.controls['activityType'].setValue(this.selectedActivityData?.activityType)
+      this.activityForm.controls['activityRelatedTo'].setValue(this.selectedActivityData?.activityRelatedTo)
       this.activityForm.controls['organization']?.setValue(selectedOrganizations)
-      this.activityForm.controls['activitEntryType'].setValue(this.selectedActivityData.activitEntryType)
-      this.activityForm.controls['activitySector'].setValue(this.selectedActivityData.activitySector)
-      this.activityForm.controls['activityScope'].setValue(this.selectedActivityData.activityScope)
+      this.activityForm.controls['activitEntryType'].setValue(this.selectedActivityData?.activitEntryType)
+      this.activityForm.controls['activitySector'].setValue(this.selectedActivityData?.activitySector)
+      this.activityForm.controls['activityScope'].setValue(this.selectedActivityData?.activityScope)
       this.activityForm.controls['title'].setValue(this.selectedActivityData?.title)
-      this.activityForm.controls['attachments'].setValue(this.selectedActivityData.attachments)
+      this.activityForm.controls['attachments'].setValue(this.selectedActivityData?.attachments)
 
     })
   }
@@ -100,8 +102,8 @@ export class CreateactivityComponent implements OnInit {
 
   getAllOrganization() {
     this.organizations$.subscribe((res) => {
-      this.organizationsData = res.organizations;
-      this.organizationList = res.organizations
+      this.organizationsData = res?.organizations;
+      this.organizationList = res?.organizations
     })
   }
 
@@ -111,11 +113,11 @@ export class CreateactivityComponent implements OnInit {
 
   getActivityMasterData() {
     this.activityService.getActivitiesMasterData().subscribe(res => {
-      this.activityTypesData = res.data.activityTypesData;
-      this.activityRelatedTypesData = res.data.activityRelatedTypesData;
-      this.activityEntryTypesData = res.data.activityEntryTypesData;
-      this.activitySectorsData = res.data.activitySectorsData;
-      this.activityScopesData = res.data.activityScopesData;
+      this.activityTypesData = res?.data?.activityTypesData;
+      this.activityRelatedTypesData = res?.data?.activityRelatedTypesData;
+      this.activityEntryTypesData = res?.data?.activityEntryTypesData;
+      this.activitySectorsData = res?.data?.activitySectorsData;
+      this.activityScopesData = res?.data?.activityScopesData;
     })
   }
 
@@ -180,6 +182,7 @@ export class CreateactivityComponent implements OnInit {
             message: res.message ? res.message : 'Activity Created Successfully',
             action: 'ok'
           })
+          this.router.navigate([RouteConstants.ACTIVITY])
 
         }, (error) => {
           this.alertpopupService.open({

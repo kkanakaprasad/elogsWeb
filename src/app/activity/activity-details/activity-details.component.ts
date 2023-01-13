@@ -5,7 +5,10 @@ import { OrganizationService } from 'src/app/organization/organization.service';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog/confirmation-dialog.service';
 import { RouteConstants } from 'src/app/shared/constants/routes.constants';
+import { Roles } from 'src/app/shared/enums/roles.enums';
+import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { CsvHelperService } from 'src/app/shared/services/csv-helper-service/csv-helper.service';
+import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { UserDetailsService } from 'src/app/shared/services/user-details-service/user-details.service';
 import { UserService } from 'src/app/user/user.service';
 import { Priority, Status, Visibility } from '../activity.constant';
@@ -24,7 +27,7 @@ export class ActivityDetailsComponent implements OnInit {
   visibility = Visibility
   status = Status
   organizationList: any;
-  filesListArray: any[] = [];
+  filesListArray: any[]  =[];
   description: string = '';
 
   selectedActivityEntryTypeId: any;
@@ -48,10 +51,14 @@ export class ActivityDetailsComponent implements OnInit {
   isArchive: any;
   activityType: any;
   selectedActivityTypeId: any;
-  ministries: any;
+  organizationsInvolved: any;
   activityReportedBy: any;
   selectedActivityAssignedTo: any;
   ActivityTimeLogs: any;
+  isSuperAdmin!: boolean;
+  logedInUserId: any;
+  logedInUserDetails: any;
+  isAssignee: any;
 
 
 
@@ -64,7 +71,9 @@ export class ActivityDetailsComponent implements OnInit {
     private alertpopupService: AlertpopupService,
     private confirmationDialogService: ConfirmationDialogService,
     private userService:UserService,
-    private csvHelperService:CsvHelperService
+    private csvHelperService:CsvHelperService,
+    private storageService:StorageService,
+    private userDetailsService:UserDetailsService
   ) {
     this.activatedRoute.queryParams.subscribe((res) => {
       this.selectedActivityId = res['aId'];
@@ -76,31 +85,38 @@ export class ActivityDetailsComponent implements OnInit {
     this.getActivityMasterData()
     this.getAllOrganizationsBySearchCriteria()
     this.genarateActivityLogForm()
+    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
+    this.logedInUserId= this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)
     
-
   }
+
 
   getActivityDetailsById() {
     this.activityService.getActivityById(this.selectedActivityId).subscribe(res => {
       this.activityData = res.data[0]
-      this.selectedActivityEntryTypeId = res.data[0].activitEntryType
-      this.selectedActivityRelatedTypeId = res.data[0].activityRelatedTo
-      this.selectedActivitySectorId = res.data[0].activitySector
-      this.selectedActivityScopeId = res.data[0].activityScope
-      this.selectedActivityCreatedById = res.data[0].createdBy
+      this.selectedActivityEntryTypeId = res.data[0]?.activitEntryType
+      this.selectedActivityRelatedTypeId = res.data[0]?.activityRelatedTo
+      this.selectedActivitySectorId = res.data[0]?.activitySector
+      this.selectedActivityScopeId = res.data[0]?.activityScope
+      this.selectedActivityCreatedById = res.data[0]?.createdBy
       this.organizationCreatedBy = this.activityData?.createdByOrganizationData[0]?.organization
       this.activityLogData = this.activityData?.activityLog
       this.isArchive = this.activityData?.isArchive
       this.selectedActivityTypeId=this.activityData?.activityType
-      this.ministries=this.activityData?.organizationData
-      this.selectedActivityAssignedTo=this.activityData?.organizationData.filter((organization:any)=>organization._id==this.activityData.assignTo).map((item: any) => item.organization)
+      this.organizationsInvolved=this.activityData?.organizationData
+      this.selectedActivityAssignedTo=this.activityData?.organizationData.filter((organization:any)=>organization._id==this.activityData?.assignTo).map((item: any) => item.organization)
       this.getUserById()
-      this.ActivityTimeLogs=this.activityData.statusLog
-      console.log(this.activityData)
-
+      this.getLogedInUserDetails()
+      this.ActivityTimeLogs=this.activityData?.statusLog
     })
   }
 
+  getLogedInUserDetails(){
+    this.userDetailsService.getUserDetails().subscribe((res)=>{
+      this.logedInUserDetails=res
+      this.isAssignee=res?.organization?.includes(this.activityData?.assignTo)
+    })
+  }
 
   getActivityMasterData() {
     this.activityService.getActivitiesMasterData().subscribe(res => {
@@ -114,7 +130,7 @@ export class ActivityDetailsComponent implements OnInit {
 
   getUserById(){
     this.userService.getUserById(this.activityData?.createdBy).subscribe(res=>{
-     this.activityReportedBy=res.existingUser.Name
+     this.activityReportedBy=res?.existingUser?.Name
     })
   }
 
@@ -131,14 +147,15 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log({ ...this.activityLogForm.value, attachments: this.filesListArray, message: this.description })
-    const payload = { ...this.activityLogForm.value, attachments: this.filesListArray, message: this.description }
+    const payload = { ...this.activityLogForm.value, 
+      attachments: this.filesListArray.length === 0 ? undefined :this.filesListArray , 
+      message: this.description }
     this.activityService.updateActivityLogById(this.selectedActivityId, payload).subscribe(res => {
       this.alertpopupService.open({
         message: res.message ? res.message : 'Activity Updated Successfully',
         action: 'ok'
       })
-
+      this.getActivityDetailsById()
     }, (error) => {
       this.alertpopupService.open({
         message: error.message ? error.message : "something went wrong!",
@@ -207,7 +224,21 @@ export class ActivityDetailsComponent implements OnInit {
       this.selectedDate = selectedOptionalDate.value
 
     }
-  }
+   
+    this.activityService.updateActivityDueDate(this.selectedActivityId,{dueDate:this.selectedDate}).subscribe(res=>{
+      this.alertpopupService.open({
+        message: res.message,
+        action: 'ok'
+      })
+      this.getActivityDetailsById()
+    }, (error) => {
+      this.alertpopupService.open({
+        message: "Faild to create Organization! Please try again ",
+        action: 'ok'
+      })
+     }) 
+    }
+  
   updateSelectedArchiveStatus() {
     const payload = {
       isArchive: true
@@ -221,7 +252,7 @@ export class ActivityDetailsComponent implements OnInit {
             message: res.message,
             action: 'ok'
           })
-          this.router.navigate([RouteConstants.ACTIVITY])
+          this.getActivityDetailsById()
         }, (error) => {
           this.alertpopupService.open({
             message: "Faild to create Organization! Please try again ",
@@ -243,7 +274,7 @@ export class ActivityDetailsComponent implements OnInit {
                 message: res.message,
                 action: 'ok'
               })
-              this.router.navigate([RouteConstants.ACTIVITY])
+               this.getActivityDetailsById()
             }, (error) => {
               this.alertpopupService.open({
                 message: "Faild to create Organization! Please try again ",
@@ -274,7 +305,7 @@ export class ActivityDetailsComponent implements OnInit {
                 message: res.message,
                 action: 'ok'
               })
-              this.router.navigate([RouteConstants.ACTIVITY])
+              this.getActivityDetailsById()
             }, (error) => {
               this.alertpopupService.open({
                 message: "Faild to create Organization! Please try again ",
@@ -296,7 +327,7 @@ export class ActivityDetailsComponent implements OnInit {
           type:this.activityType[0],
           sector:this.activitySectorsData[0],
           entryType:this.activityEntryType[0],
-          ministry:this.ministries,
+          ministry:this.organizationsInvolved,
           Scope:this.ActivityScopeData[0],
           relatedTo:this.activityRelatedTypesData[0],
           categoryMappedTo:"",
@@ -387,6 +418,10 @@ export class ActivityDetailsComponent implements OnInit {
        refreshPage(){
         this.getActivityDetailsById()
        }
+       navigateToActivityListPage(){
+        this.router.navigate([RouteConstants.ACTIVITY])
+       }
+      
     }
     
         
