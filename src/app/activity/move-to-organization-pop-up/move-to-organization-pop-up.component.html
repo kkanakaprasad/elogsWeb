@@ -1,0 +1,48 @@
+<ng-container *ngIf="isSuperAdmin">
+    <div class="main-panel" id="main">
+        <div class="d-flex justify-content-start ">
+            <h4>Organisation:</h4>
+            <mat-form-field appearance="outline">
+                <input class='p-2' placeholder="Find an Organisation" matInput type="text"
+                    (keyup)="filterOrganization($event)" [matAutocomplete]="auto" />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleectedOrganization($event)">
+                    <mat-option *ngFor="let organization of searchedOrganizationList"
+                        [value]="organization.organization" #matOption>
+                        {{organization.organization}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+        <button mat-raised-button class="btn">
+            MOVE
+        </button>
+        <button mat-raised-button class="btn">
+            Cancel
+        </button>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="isSuperAdmin===false">
+    <div class="main-panel" id="main">
+        <div class="d-flex justify-content-start ">
+            <h4>Organisation:</h4>
+            <mat-form-field appearance="outline">
+                <input class='p-2' placeholder="Find an Organisation" matInput type="text"
+                    (keyup)="filterOrganization($event)" [matAutocomplete]="auto" />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleectedOrganization($event)">
+                    <mat-option *ngFor="let organization of logedInUserOrganizationData"
+                        [value]="organization.organization" #matOption>
+                        {{organization.organization}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+        <button mat-raised-button class="btn" (click)="selectedOrganization($event)">
+            MOVE
+        </button>
+        <button mat-raised-button class="btn">
+            Cancel
+        </button>
+
+    </div>
+</ng-container>
