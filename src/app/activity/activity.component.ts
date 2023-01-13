@@ -230,6 +230,11 @@ export class ActivityComponent implements OnInit {
       case 'DELETE':
         this.deleteActivityByActivityId();
         break;
+      case 'MOVE_TO_ORGANIZATION':
+        this.activityService.openMoveToOrganizationPopup(this.selectedActivtyForRowActions._id).afterClosed().subscribe((res)=>{
+          console.log(res);
+        })
+        break;
       default:
         break;
     }

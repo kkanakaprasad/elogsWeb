@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CompanySettingsService } from 'src/app/company-settings/company-settings.service';
-import { OrganizationSearchCriteria } from 'src/app/organization/organization.interface';
 import { OrganizationService } from 'src/app/organization/organization.service';
+import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog/confirmation-dialog.service';
 import { Roles } from 'src/app/shared/enums/roles.enums';
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
-import { SelectedOrganizationService } from 'src/app/shared/services/selected-organizions/selected-organization.service';
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { ActivityService } from '../activity.service';
 
@@ -21,26 +20,32 @@ export class MoveToOrganizationPopUpComponent implements OnInit {
   organizationsList: any = [];
   searchedOrganizationList: any = [];
   isSuperAdmin: boolean = false;
-  //logedInRole = '';
-  logedInUserId:any;
+  logedInUserId: any;
   logedInUserOrganizationData: any;
+  selectedActivityId : string = '';
 
 
   constructor(
     private activityService: ActivityService,
-    private selectedOrganizationService: SelectedOrganizationService,
     private organizationService: OrganizationService,
     private storageService: StorageService,
-    private matDialog: MatDialog,
-    private companySettingsService: CompanySettingsService
-  ) { }
+    private companySettingsService: CompanySettingsService,
+    public confirmationPopup : ConfirmationDialogService,
+    public alertPopupService : AlertpopupService,
+    public dialogref: MatDialogRef<MoveToOrganizationPopUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: string
+  ) { 
+    this.selectedActivityId = data
+  }
 
   ngOnInit(): void {
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
-    //this.logedInRole = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE);
-    this.logedInUserId= this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)
-    this.getAllOrganizations();
-    this.getOrganizationsSearchCriteria()
+    this.logedInUserId = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID);
+    if(this.isSuperAdmin){
+      this.getAllOrganizations();
+    }else{
+      this.getOrganizationsSearchCriteria();
+    }
   }
 
   getAllOrganizations() {
@@ -50,51 +55,59 @@ export class MoveToOrganizationPopUpComponent implements OnInit {
     })
   }
 
-  seleectedOrganization(event: MatAutocompleteSelectedEvent) {
-
-    this.selectOrganization = event.option.value;
-    this.selectedOrganizationService.setSelectedOrganization(this.selectOrganization);
-  }
-
   filterOrganization(event: any) {
     if (event.target.value) {
       const search = new SearchPipe();
       this.searchedOrganizationList = search.transform(this.organizationsList, event.target.value, 'organization');
-
     } else {
       this.organizationsList;
     }
   }
 
-  openMoveToOrganizationPopup() {
-
-    return this.matDialog.open(MoveToOrganizationPopUpComponent, {width: '500px' })
-  }
-
   getOrganizationsSearchCriteria() {
-    
-      const payload = {
-        pageNumber: 0,
-        pageSize: 0,
-        sortField: "",
-        sortOrder: 0,
-        type: "",
-        role:"",
-        userSearch:"",
-        organizationId:"",
-        organization:"",
-        organizationSerach:"",
-        userId: this.logedInUserId,
-      }
-  
+    const payload = {
+      pageNumber: 0,
+      pageSize: 0,
+      sortField: "",
+      sortOrder: 0,
+      type: "",
+      role: "",
+      userSearch: "",
+      organizationId: "",
+      organization: "",
+      organizationSerach: "",
+      userId: this.logedInUserId,
+    }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
-     
-      this.logedInUserOrganizationData=res.data.organizations
-      console.log(this.logedInUserOrganizationData);
+      this.organizationsList = res.data.organizations;
+      this.searchedOrganizationList = res.data.organizations;
     })
   }
 
-  selectedOrganization(value:any){
-    console.log(value);
+  optionSelected(event:any){
+    this.selectOrganization = event;
+  }
+
+  selectedOrganization(){
+    this.confirmationPopup.open({
+      message :`Are sure to move activity to ${this.selectOrganization.organization}`
+    }).afterClosed().subscribe((res)=>{
+      if(res){
+        this.activityService.updateActivityOrganization({
+          organzation : this.selectOrganization._id,
+          activityId : this.selectedActivityId
+        }).subscribe((res)=>{
+            this.alertPopupService.open({
+              message: 'Activity Updated Successfully',
+              action: 'ok'
+            })
+        },(error)=>{
+          this.alertPopupService.open({
+            message: error.message ?error.message : 'Unable to move organization to this activity',
+            action: 'ok'
+          })
+        })
+      }
+    })
   }
 }
