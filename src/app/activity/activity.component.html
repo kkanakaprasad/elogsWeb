@@ -6,7 +6,7 @@
       <mat-icon>file_download</mat-icon>
     </div>
   </span>
-  <button mat-button [matMenuTriggerFor]="filters" matTooltip="Filters" >
+  <button mat-button [matMenuTriggerFor]="filters" matTooltip="Filters">
     Filters <mat-icon> filter_alt</mat-icon></button>
   <mat-menu #filters="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="createddate">Created Date</button>
@@ -19,38 +19,52 @@
     <button mat-menu-item [matMenuTriggerFor]="priority">Priority</button>
     <button mat-menu-item [matMenuTriggerFor]="createdby">Created by</button>
     <button mat-menu-item [matMenuTriggerFor]="assignto">Assigned to</button>
-
   </mat-menu>
+
   <mat-menu #createddate="matMenu">
-    <div (click)="$event.stopPropagation();" *ngFor="let option of createddates">
-      <section class="example-section">
-        <mat-checkbox class="example-margin">
-          {{option.DisplayName}}
-        </mat-checkbox>
-      </section>
-    </div>
+    <mat-checkbox class="example-margin" [formControl]="createdDate" (click)="$event.stopPropagation();"
+      *ngFor="let option of activityFiltersData.createddate" (change)="filterActivityListData('createdDate',$event)"
+      value="{{option.key}}">
+      {{option.DisplayName}}
+    </mat-checkbox>
+    <mat-form-field appearance="fill" (click)="$event.stopPropagation();" [ngStyle]="{width : '180px'}">
+      <mat-label>Enter date</mat-label>
+      <mat-date-range-input [formGroup]="customCreatedDate" [rangePicker]="picker">
+        <input matStartDate formControlName="fromDate" placeholder="Start date">
+        <input matEndDate formControlName="toDate" placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      <mat-error *ngIf="customCreatedDate.controls.fromDate.hasError('matStartDateInvalid')">Invalid start
+        date</mat-error>
+      <mat-error *ngIf="customCreatedDate.controls.toDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+    </mat-form-field>
   </mat-menu>
   <mat-menu #duedate="matMenu">
     <div (click)="$event.stopPropagation();">
       <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
-        <mat-radio-button class="example-radio-button" *ngFor="let option of duedates" [value]="option">
+        <mat-radio-button class="example-radio-button" *ngFor="let option of activityFiltersData.duedate"
+          [value]="option">
           {{option.DisplayName}}
         </mat-radio-button>
       </mat-radio-group>
-      <mat-label>From Date</mat-label>
-      <mat-label>To Date</mat-label>
-      <mat-date-range-input [formGroup]="fromDate" [rangePicker]="campaignOnePicker"
-        [comparisonStart]="toDate.value.start" [comparisonEnd]="toDate.value.end">
-        <input matStartDate placeholder="Start date" formControlName="start">
-        <input matEndDate placeholder="End date" formControlName="end">
-      </mat-date-range-input>
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-      <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+      <mat-form-field appearance="fill" (click)="$event.stopPropagation();" [ngStyle]="{width : '180px'}">
+        <mat-label>Enter date</mat-label>
+        <mat-date-range-input [formGroup]="customDueDate" [rangePicker]="picker1">
+          <input matStartDate formControlName="fromDate" placeholder="Start date">
+          <input matEndDate formControlName="toDate" placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker1></mat-date-range-picker>
+        <mat-error *ngIf="customDueDate.controls.fromDate.hasError('matStartDateInvalid')">Invalid start
+          date</mat-error>
+        <mat-error *ngIf="customDueDate.controls.toDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+      </mat-form-field>
     </div>
   </mat-menu>
   <mat-menu #status="matMenu">
-    <div (click)="$event.stopPropagation();" *ngFor="let option of statuses">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of activityFiltersData.status">
       <section class="example-section">
         <mat-checkbox class="example-margin">
           {{option.DisplayName}}
@@ -95,7 +109,7 @@
     </div>
   </mat-menu>
   <mat-menu #priority="matMenu">
-    <div (click)="$event.stopPropagation();" *ngFor="let option of priorities">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of activityFiltersData.priority">
       <section class="example-section">
         <mat-checkbox class="example-margin">
           {{option.DisplayName}}
@@ -104,7 +118,7 @@
     </div>
   </mat-menu>
   <mat-menu #createdby="matMenu">
-    <div (click)="$event.stopPropagation();" *ngFor="let option of created">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of activityFiltersData.createdby">
       <section class="example-section">
         <mat-checkbox class="example-margin">
           {{option}}
@@ -113,7 +127,7 @@
     </div>
   </mat-menu>
   <mat-menu #assignto="matMenu">
-    <div (click)="$event.stopPropagation();" *ngFor="let option of assign">
+    <div (click)="$event.stopPropagation();" *ngFor="let option of activityFiltersData.assignedto">
       <section class="example-section">
         <mat-checkbox class="example-margin">
           {{option}}
@@ -126,7 +140,7 @@
   <button mat-button [matMenuTriggerFor]="groupBymenu" matTooltip="Group By">Group By
     <mat-icon>filter_list</mat-icon></button>
   <mat-menu #groupBymenu="matMenu">
-    <mat-option *ngFor="let option of groupBy">
+    <mat-option *ngFor="let option of activityFiltersData.groupBy">
       {{option.DisplayName}}
     </mat-option>
   </mat-menu>
@@ -134,7 +148,7 @@
   <button mat-button [matMenuTriggerFor]="sortby" matTooltip="Sort By">
     Sort By<mat-icon>sort</mat-icon></button>
   <mat-menu #sortby="matMenu">
-    <mat-option *ngFor="let option of sortBy">
+    <mat-option *ngFor="let option of activityFiltersData.sortBy">
       {{option.DisplayName}}
     </mat-option>
   </mat-menu>
@@ -144,40 +158,32 @@
 <mat-tab-group>
   <mat-tab>
     <ng-template mat-tab-label>
-     
-        <mat-icon>assignment</mat-icon>
-        All Tasks
-      
+      <mat-icon>assignment</mat-icon>
+      All Tasks
     </ng-template>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
-    
-        <mat-icon>assignment_ind</mat-icon>
-        My Tasks
-      
+      <mat-icon>assignment_ind</mat-icon>
+      My Tasks
     </ng-template>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
-    
-        <mat-icon>hourglass_empty</mat-icon>
-        Overdue
-     
+      <mat-icon>hourglass_empty</mat-icon>
+      Overdue
     </ng-template>
   </mat-tab>
   <div *ngIf="isSuperAdmin">
     <mat-tab>
       <ng-template mat-tab-label>
-       
-          <mat-icon>wb_incandescent</mat-icon>
-          High Priority
-       
+        <mat-icon>wb_incandescent</mat-icon>
+        High Priority
       </ng-template>
     </mat-tab>
   </div>
 </mat-tab-group>
-<!-- <router-outlet></router-outlet> -->
+
 <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
   class="mat-elevation-z8 userTable">
   <ng-container matColumnDef="select">
@@ -233,7 +239,8 @@
   </ng-container>
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> actions </th>
-    <td mat-cell *matCellDef="let element"> <button (click)="navigateToActivityDetails(element._id)">details</button> </td>
+    <td mat-cell *matCellDef="let element"> <button (click)="navigateToActivityDetails(element._id)">details</button>
+    </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -247,15 +254,17 @@
 
 <mat-menu #menu="matMenu">
   <ng-container *ngIf="isSuperAdmin">
-  <button *ngFor="let action of activityRowActionByStatus" mat-menu-item (click)="onActivityRowActionClick(action.action)">
-    <mat-icon>{{action.icon}}</mat-icon>
-    <span>{{action.title}}</span>
-  </button>
-</ng-container>
-<ng-container *ngIf="isSuperAdmin===false">
-  <button *ngFor="let action of userActivityRowActionByStatus" mat-menu-item (click)="onActivityRowActionClick(action.action)">
-    <mat-icon>{{action.icon}}</mat-icon>
-    <span>{{action.title}}</span>
-  </button>
-</ng-container>
+    <button *ngFor="let action of activityRowActionByStatus" mat-menu-item
+      (click)="onActivityRowActionClick(action.action)">
+      <mat-icon>{{action.icon}}</mat-icon>
+      <span>{{action.title}}</span>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="isSuperAdmin===false">
+    <button *ngFor="let action of userActivityRowActionByStatus" mat-menu-item
+      (click)="onActivityRowActionClick(action.action)">
+      <mat-icon>{{action.icon}}</mat-icon>
+      <span>{{action.title}}</span>
+    </button>
+  </ng-container>
 </mat-menu>

@@ -33,22 +33,9 @@ const year = today.getFullYear();
 export class ActivityComponent implements OnInit {
 
   activityId = '';
-  groupby = ['Due Date', 'Status', 'Priority', 'Assigned to']
-  sortby = ['Tittle', 'Activity#', 'Due Date', 'Assigned to']
-  displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions']
+  displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions'];
+  activityFiltersData = ActivityFiltersData;
   currentStatus = Status
-  createddates = ActivityFiltersData.createddate;
-  duedates = ActivityFiltersData.createddate;
-  statuses = ActivityFiltersData.status;
-  type = ActivityFiltersData.types;
-  entryTypes = ActivityFiltersData.entrytype;
-  geographys = ActivityFiltersData.geography;
-  scopes = ActivityFiltersData.scope;
-  priorities = ActivityFiltersData.priority;
-  created = ActivityFiltersData.createdby;
-  assign = ActivityFiltersData.assignedto;
-  groupBy = ActivityFiltersData.groupby;
-  sortBy = ActivityFiltersData.sortby;
   superAdminActivityRowActions = SuperAdminActivityRowActions;
   userActivityRowActions = ActivityRowActions;
   dataSource: any;
@@ -60,12 +47,6 @@ export class ActivityComponent implements OnInit {
   isSuperAdmin: boolean = false;
   logedInUserDetails: any;
   selectedActivtyForRowActions: any;
-
-  selectedTab = {
-    tab: {
-      textLabel: FILTER_CONSTANT.IS_ACTIVE
-    }
-  };
   activityRowActionByStatus: any;
   userActivityRowActionByStatus: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -78,6 +59,26 @@ export class ActivityComponent implements OnInit {
     entryType: []
   }
 
+  customCreatedDate = new FormGroup({
+    fromDate: new FormControl<Date | null>(null),
+    toDate: new FormControl<Date | null>(null),
+  });
+  
+  customDueDate = new FormGroup({
+    fromDate: new FormControl<Date | null>(null),
+    toDate: new FormControl<Date | null>(null),
+  });
+
+  createdDate = new FormControl();
+  dueDte = new FormControl();
+
+  activitySearchCriteriaPayload = {
+    pageNumber: 0,
+    pageSize: 20,
+    sortField: "",
+    sortOrder: 0,
+  }
+
   constructor(
     private activityService: ActivityService,
     private storageService: StorageService,
@@ -87,20 +88,22 @@ export class ActivityComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService
   ) { }
 
-  fromDate = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
-  });
-  toDate = new FormGroup({
-    start: new FormControl(new Date(year, month, 15)),
-    end: new FormControl(new Date(year, month, 19)),
-  });
-
   ngOnInit(): void {
     this.getAllActivities();
     this.getAcivityMasterData();
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.getLogedinUserDetails();
+    this.customCreatedDate.valueChanges.subscribe((res)=>{
+      if(res.fromDate !== null && res.toDate !== null){
+        console.log(res.fromDate?.toISOString(),res.toDate?.toISOString())
+      }
+    });
+
+    this.customDueDate.valueChanges.subscribe((res)=>{
+      if(res.fromDate !== null && res.toDate !== null){
+        console.log(res.fromDate?.toISOString(),res.toDate?.toISOString())
+      }
+    });
   }
 
   getLogedinUserDetails() {
@@ -296,6 +299,12 @@ export class ActivityComponent implements OnInit {
         action: 'ok'
       });
     })
+  }
+
+  filterActivityListData(controlName:string,event?:any){
+    if(controlName === 'createdDate'){
+      console.log(event.source);
+    }
   }
 
 }
