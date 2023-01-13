@@ -12,6 +12,7 @@ import { HeaderComponent } from './header/header.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpInterceptorInterceptor } from './shared/Interceptors/http-interceptor.interceptor';
+import { BreadcrumbComponent } from './main/breadcrumb/breadcrumb.component';
 
 
 
@@ -26,10 +27,7 @@ import { HttpInterceptorInterceptor } from './shared/Interceptors/http-intercept
     LoginComponent,
     HeaderComponent,
     SideNavComponent,
-   
-   
-    
-  ],
+    BreadcrumbComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

@@ -11,43 +11,17 @@ import { SelectedOrganizationService } from '../shared/services/selected-organiz
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  organizationsList: any = [];
-  searchedOrganizationList: any = [];
-  selectOrganization: any;
-  @ViewChild('matAutocomplete') matAutocomplete!: MatAutocomplete;
+  
   //Reference Variable //variable Name //Type
  
 
-  constructor(private companySettingsService: CompanySettingsService,
-              private selectedOrganizationService: SelectedOrganizationService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.getAllOrganizations()
+   
   }
 
 
-  getAllOrganizations() {
-    this.companySettingsService.getAllOrganizations().subscribe((res) => {
-      this.organizationsList = res.organizations
-      this.searchedOrganizationList = res.organizations    
-    })
-  }
-
-
-  filterOrganization(event: any) {
-    if (event.target.value) {
-      const search = new SearchPipe();
-      this.searchedOrganizationList = search.transform(this.organizationsList, event.target.value, 'organization');
-
-    } else {
-      this.organizationsList;
-    }
-  }
-
-  seleectedOrganization(event: MatAutocompleteSelectedEvent) {
-
-    this.selectOrganization = event.option.value;
-    this.selectedOrganizationService.setSelectedOrganization(this.selectOrganization);    
-  }
+  
 
 }
