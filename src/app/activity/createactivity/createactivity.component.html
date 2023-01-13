@@ -9,27 +9,21 @@
         <mat-form-field appearance="outline">
           <mat-label>organizations</mat-label>
           <mat-select formControlName="createdByOrganization">
-            <mat-option
-              *ngFor="let organization of userDetails?.organizationsdata"
-              [value]="organization._id"
-              >{{ organization.organization }}</mat-option
-            >
+            <mat-option *ngFor="let organization of userDetails?.organizationsdata" [value]="organization._id">{{
+              organization.organization }}</mat-option>
           </mat-select>
         </mat-form-field>
       </ng-container>
       <ng-container *ngIf="userDetails?.organizationsdata?.length === 1">
-        <h3>{{ userDetails?.Name}}</h3>
+        <h3>Organization : <strong>{{ userDetails?.Name}}</strong></h3>
       </ng-container>
     </div>
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Type</mat-label>
         <mat-select formControlName="activityType">
-          <mat-option
-            *ngFor="let activityTypesData of activityTypesData"
-            [value]="activityTypesData._id"
-            >{{ activityTypesData?.name }}</mat-option
-          >
+          <mat-option *ngFor="let activityTypesData of activityTypesData" [value]="activityTypesData._id">{{
+            activityTypesData?.name }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -38,24 +32,16 @@
         <mat-form-field appearance="outline">
           <mat-label>Related To</mat-label>
           <mat-select formControlName="activityRelatedTo">
-            <mat-option
-              *ngFor="let activityRelatedTypesData of activityRelatedTypesData"
-              [value]="activityRelatedTypesData._id"
-              >{{ activityRelatedTypesData?.name }}</mat-option
-            >
+            <mat-option *ngFor="let activityRelatedTypesData of activityRelatedTypesData"
+              [value]="activityRelatedTypesData._id">{{ activityRelatedTypesData?.name }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div>
-        <mat-chip-list
-          ><mat-chip
-            *ngFor="
+        <mat-chip-list><mat-chip *ngFor="
               let item of activityForm.get('organization')?.value;
               let i = index
-            "
-            [removable]="removable"
-            (removed)="removeChip(i)"
-          >
+            " [removable]="removable" (removed)="removeChip(i)">
             {{ item?.organization }}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
@@ -65,11 +51,8 @@
         <mat-form-field appearance="outline" class="w-100-per">
           <mat-label>Ministry/Department</mat-label>
           <mat-select multiple="multiple" formControlName="organization">
-            <mat-option
-              *ngFor="let organization of organizationsData"
-              [value]="organization"
-              >{{ organization?.organization }}</mat-option
-            >
+            <mat-option *ngFor="let organization of organizationsData" [value]="organization">{{
+              organization?.organization }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -79,11 +62,8 @@
       <mat-form-field appearance="outline">
         <mat-label>Entry Type</mat-label>
         <mat-select formControlName="activitEntryType">
-          <mat-option
-            *ngFor="let activityEntryTypesData of activityEntryTypesData"
-            [value]="activityEntryTypesData._id"
-            >{{ activityEntryTypesData.name }}</mat-option
-          >
+          <mat-option *ngFor="let activityEntryTypesData of activityEntryTypesData"
+            [value]="activityEntryTypesData._id">{{ activityEntryTypesData.name }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -92,11 +72,8 @@
         <mat-form-field appearance="outline">
           <mat-label>Sector</mat-label>
           <mat-select formControlName="activitySector">
-            <mat-option
-              *ngFor="let activitySectorsData of activitySectorsData"
-              [value]="activitySectorsData._id"
-              >{{ activitySectorsData.name }}</mat-option
-            >
+            <mat-option *ngFor="let activitySectorsData of activitySectorsData" [value]="activitySectorsData._id">{{
+              activitySectorsData.name }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -104,11 +81,8 @@
         <mat-form-field appearance="outline">
           <mat-label>Scope</mat-label>
           <mat-select formControlName="activityScope">
-            <mat-option
-              *ngFor="let activityScopesData of activityScopesData"
-              [value]="activityScopesData._id"
-              >{{ activityScopesData.name }}</mat-option
-            >
+            <mat-option *ngFor="let activityScopesData of activityScopesData" [value]="activityScopesData._id">{{
+              activityScopesData.name }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -117,13 +91,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Title</mat-label>
         <div class="col-12">
-          <input
-            matInput
-            placeholder="Add an activity here & hit enter..."
-            input
-            type="text"
-            formControlName="title"
-          />
+          <input matInput placeholder="Add an activity here & hit enter..." input type="text" formControlName="title" />
         </div>
       </mat-form-field>
     </div>
@@ -133,6 +101,8 @@
     <div>
       <app-fileuploader (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
     </div>
-    <button mat-raised-button color="primary" type="submit" [disabled]="descriptionOfTextEditor==''">Submit</button>
+    <div class="d-flex justify-content-end">
+      <button mat-raised-button color="primary" type="submit" [disabled]="activityForm.invalid">Submit</button>
+    </div>
   </form>
 </div>
