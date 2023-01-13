@@ -2,7 +2,7 @@
 <div class="row container">
   <div class="row">
     <div class="col-md-9">
-      <h2><div [innerHTML]="activityData?.description"></div></h2>
+      <h2>{{activityData?.title | titlecase}}</h2>
       <p>
         Last updated on {{ activityData?.createdAt | date : "medium" }}
         <span *ngIf="activityData?.activityLog.length >= 1"
@@ -48,11 +48,12 @@
               <tr>
                 <td>Ministry/Department:</td>
                 
-                <!-- for future use
-                  <td *ngFor="let ministry of organizationsInvolved"> -->
+                <!-- <td>
+                  <p *ngFor="let ministry of organizationsInvolved">{{ ministry.organization }}</p>
+                  </td> -->
                   <td>
                   {{ ministryName }}
-                </td>
+                  </td>
               </tr>
               <tr>
                 <td>Organization:</td>
