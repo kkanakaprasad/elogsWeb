@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ActivityRoutingModule } from './activity-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { CreateactivityComponent } from './createactivity/createactivity.component';
 import { ActivityComponent } from './activity.component';
@@ -23,8 +23,8 @@ import { MoveToOrganizationPopUpComponent } from './move-to-organization-pop-up/
     CommonModule,
     ActivityRoutingModule,
     ReactiveFormsModule,
-    SharedModule
-
+    SharedModule,
+    FormsModule
   ]
 })
 export class ActivityModule { }
