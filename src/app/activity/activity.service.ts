@@ -67,4 +67,8 @@ export class ActivityService {
   updateActivityOrganization(payload: { organzation: string, activityId: string }): Observable<any>{
     return this.httpDataService.put(`activity/update/moveOrganization`, payload)
   }
+
+  getActivitiesSearchCriteria(payload : any): Observable<any>{
+    return this.httpDataService.post(`activity/activitysearch`, payload);
+  }
 }

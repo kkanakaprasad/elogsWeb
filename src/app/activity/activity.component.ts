@@ -84,6 +84,8 @@ export class ActivityComponent implements OnInit {
     sortOrder: 0,
   }
 
+  showFilteredChips : any = [];
+
   constructor(
     private activityService: ActivityService,
     private storageService: StorageService,
@@ -94,7 +96,8 @@ export class ActivityComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAllActivities();
+    this.getActivitiesSearchCriteria();
+    // this.getAllActivities();
     this.getAcivityMasterData();
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.getLogedinUserDetails();
@@ -103,13 +106,11 @@ export class ActivityComponent implements OnInit {
         this.activitySearchCriteriaPayload = {
           ...this.activitySearchCriteriaPayload,
           createdDate: {
-            unit: 'R',
-            range: {
-              from: res.fromDate?.toISOString(),
-              to: res.toDate?.toISOString()
-            }
+            fromDate: res.fromDate?.toISOString(),
+            toDate: res.toDate?.toISOString()
           }
         }
+        this.getActivitiesSearchCriteria();
       }
     });
 
@@ -118,15 +119,21 @@ export class ActivityComponent implements OnInit {
         this.activitySearchCriteriaPayload = {
           ...this.activitySearchCriteriaPayload,
           dueDate: {
-            unit: 'R',
-            range: {
-              from: res.fromDate?.toISOString(),
-              to: res.toDate?.toISOString()
-            }
+            fromDate: res.fromDate?.toISOString(),
+            toDate: res.toDate?.toISOString()
           }
         }
       }
+      this.getActivitiesSearchCriteria();
     });
+  }
+
+  getActivitiesSearchCriteria(){
+    this.activityService.getActivitiesSearchCriteria(this.activitySearchCriteriaPayload).subscribe((res)=>{
+      console.log(res[0].schedules);
+      this.dataSource = new MatTableDataSource(res[0].schedules)
+      this.dataSource.paginator = this.paginator;
+    })
   }
 
   getLogedinUserDetails() {
@@ -327,13 +334,14 @@ export class ActivityComponent implements OnInit {
         } else if(dueDate === "ALL") {
           this.activitySearchCriteriaPayload = {...this.activitySearchCriteriaPayload , dueDate : ''}
         }else{
-          this.activitySearchCriteriaPayload = {...this.activitySearchCriteriaPayload , dueDate : dueDate}
+          this.activitySearchCriteriaPayload = {...this.activitySearchCriteriaPayload , dueDate : {customString : dueDate}}
         }
         break;
     }
   }
 
   activityListFilterOnChanged(event : any , type : string){
+    console.log(event, type); 
     if (event.checked) {
       this.filters[type].push(event.source.value);
     } else {
@@ -341,7 +349,16 @@ export class ActivityComponent implements OnInit {
       this.filters[type].splice(index, 1);
     }
     this.activitySearchCriteriaPayload = {...this.activitySearchCriteriaPayload,...this.filters};
-    console.log(this.activitySearchCriteriaPayload)
+    console.log(this.activitySearchCriteriaPayload);
+    this.getActivitiesSearchCriteria();
+    this.showFilteredChips = [...this.activitySearchCriteriaPayload.types,
+      ...this.activitySearchCriteriaPayload.status,
+      ...this.activitySearchCriteriaPayload.entryType,
+      ...this.activitySearchCriteriaPayload.scope,
+      ...this.activitySearchCriteriaPayload.priority,
+      ...this.activitySearchCriteriaPayload.sectors,]
+
+    console.log(this.showFilteredChips);
   }
 
 }
