@@ -30,11 +30,12 @@
             Email is <strong>required</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" >
           <mat-label>Organization to be assigned</mat-label>
-          <mat-select  multiple  formControlName="organization">
-            <mat-option *ngFor="let Organization of organizationList" [value]="Organization._id"> {{Organization.organization}}</mat-option>
-  </mat-select>
+        <mat-select  multiple  formControlName="organization">
+          <input class = 'p-2' placeholder="enter text" matInput type="text" (keyup)="filterOrganization($event)"/>
+          <mat-option *ngFor="let Organization of searchedOrganizationList"  (optionSelected)="seleectedOrganization($event)" [value]="Organization._id"> {{Organization.organization}}</mat-option>
+</mat-select>
         </mat-form-field>
       </div>
       <div>

@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ActivityRoutingModule } from './activity-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { CreateactivityComponent } from './createactivity/createactivity.component';
 import { ActivityComponent } from './activity.component';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
+import { MoveToOrganizationPopUpComponent } from './move-to-organization-pop-up/move-to-organization-pop-up.component';
 
 
 
@@ -16,13 +17,14 @@ import { ActivityDetailsComponent } from './activity-details/activity-details.co
     CreateactivityComponent,
     ActivityComponent,
     ActivityDetailsComponent,
+    MoveToOrganizationPopUpComponent,
   ],
   imports: [
     CommonModule,
     ActivityRoutingModule,
     ReactiveFormsModule,
-    SharedModule
-
+    SharedModule,
+    FormsModule
   ]
 })
 export class ActivityModule { }

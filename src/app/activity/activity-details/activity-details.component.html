@@ -2,13 +2,11 @@
 <div class="row container">
   <div class="row">
     <div class="col-md-9">
-      <h2><div [innerHTML]="activityData?.description"></div></h2>
+      <h2>{{activityData?.title | titlecase}}</h2>
       <p>
         Last updated on {{ activityData?.createdAt | date : "medium" }}
-        <span *ngIf="activityData?.activityLog.length >= 1"
-          ><mat-icon> chat</mat-icon
-          >{{ activityData?.activityLog.length }}</span
-        >
+        <span *ngIf="activityData?.activityLog.length >= 1"><mat-icon> chat</mat-icon>{{
+          activityData?.activityLog.length }}</span>
       </p>
       <hr />
       <div class="row">
@@ -33,7 +31,7 @@
               </tr>
               <tr>
                 <td>Status:</td>
-                <td >{{ activityData?.status | titlecase }}</td>
+                <td>{{ activityData?.status | titlecase }}</td>
               </tr>
             </tbody>
           </table>
@@ -47,10 +45,11 @@
               </tr>
               <tr>
                 <td>Ministry/Department:</td>
-                
-                <!-- for future use
-                  <td *ngFor="let ministry of organizationsInvolved"> -->
-                  <td>
+
+                <!-- <td>
+                  <p *ngFor="let ministry of organizationsInvolved">{{ ministry.organization }}</p>
+                  </td> -->
+                <td>
                   {{ ministryName }}
                 </td>
               </tr>
@@ -94,8 +93,8 @@
                 <div class="d-flex">
                   <mat-icon *ngIf="activityData?.attachments?.length>=1">attach_file</mat-icon>
                   <p *ngFor="let attachments of activityData?.attachments">
-                    <mat-icon>insert_drive_file</mat-icon
-                    >{{ attachments?.name }}  {{ attachments?.size/1024 | number:'.2-2' }} Kb
+                    <mat-icon>insert_drive_file</mat-icon>{{ attachments?.name }} {{ attachments?.size/1024 |
+                    number:'.2-2' }} Kb
                   </p>
                 </div>
               </mat-card-content>
@@ -113,13 +112,11 @@
                   <div>
                     Created by {{activity.createdByUserName}}
                     <p>{{ activity.updatedAt | date : "medium" }}</p>
-                  </div>                  
-                  <span class="organization-title"
-                    ><strong>{{ activity.title | titlecase }}</strong></span
-                  >
+                  </div>
+                  <span class="organization-title"><strong>{{ activity.title | titlecase }}</strong></span>
                   <div>
                     <p>Status: {{activity.status| titlecase}}</p>
-                    
+
                   </div>
                   <div>
                     <p>Assigned To: {{ selectedActivityAssignedTo }} </p>
@@ -129,23 +126,20 @@
                 <div [innerHTML]="activity.message"></div>
                 <div class="d-flex">
                   <mat-icon *ngIf="activity?.attachments?.length>=1">attach_file</mat-icon>
-                
-                    <div *ngFor="let attachment of activity?.attachments">
-                      <mat-icon>insert_drive_file</mat-icon
-                      >{{ attachment?.name }} {{ attachment?.size/1024 | number:'.2-2' }} Kb
-                    </div>
+
+                  <div *ngFor="let attachment of activity?.attachments">
+                    <mat-icon>insert_drive_file</mat-icon>{{ attachment?.name }} {{ attachment?.size/1024 |
+                    number:'.2-2' }} Kb
                   </div>
-                
+                </div>
+
               </mat-card-content>
             </mat-card>
           </div>
           <form [formGroup]="activityLogForm" (ngSubmit)="onSubmit()">
             <div>
               <label> Write your Reply: </label>
-              <app-rich-text-editor
-                value=""
-                (updatedDescription)="updatedDescription($event)"
-              ></app-rich-text-editor>
+              <app-rich-text-editor value="" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
             </div>
             <mat-form-field appearance="outline">
               <mat-label>Status: </mat-label>
@@ -160,35 +154,19 @@
               <div class="row mb-3">
                 <mat-label class="col-sm-3 col-form-label">Priority:</mat-label>
                 <div class="col-sm-8">
-                  <mat-radio-button [value]="Priority[0]"
-                    >None</mat-radio-button
-                  >
+                  <mat-radio-button [value]="Priority[0]">None</mat-radio-button>
                   <mat-radio-button [value]="Priority[1]">Low</mat-radio-button>
-                  <mat-radio-button [value]="Priority[2]"
-                    >Medium</mat-radio-button
-                  >
-                  <mat-radio-button [value]="Priority[3]"
-                    >High</mat-radio-button
-                  >
+                  <mat-radio-button [value]="Priority[2]">Medium</mat-radio-button>
+                  <mat-radio-button [value]="Priority[3]">High</mat-radio-button>
                 </div>
               </div>
             </mat-radio-group>
-            <mat-radio-group
-              aria-label
-              formControlName="visibility"
-              layout="row"
-            >
+            <mat-radio-group aria-label formControlName="visibility" layout="row">
               <div class="row mb-3">
-                <mat-label class="col-sm-3 col-form-label"
-                  >Visibility:</mat-label
-                >
+                <mat-label class="col-sm-3 col-form-label">Visibility:</mat-label>
                 <div class="col-sm-8">
-                  <mat-radio-button [value]="visibility[0]"
-                    >Internal</mat-radio-button
-                  >
-                  <mat-radio-button [value]="visibility[1]"
-                    >Everyone</mat-radio-button
-                  >
+                  <mat-radio-button [value]="visibility[0]">Internal</mat-radio-button>
+                  <mat-radio-button [value]="visibility[1]">Everyone</mat-radio-button>
                 </div>
               </div>
             </mat-radio-group>
@@ -196,23 +174,17 @@
             <mat-form-field appearance="outline">
               <mat-label>Assign to</mat-label>
               <mat-select formControlName="assignTo">
-                <mat-option
-                  *ngFor="let Organization of organizationList"
-                  [value]="Organization._id"
-                >
-                  {{ Organization.organization }}</mat-option
-                >
+                <mat-option *ngFor="let Organization of organizationList" [value]="Organization._id">
+                  {{ Organization.organization }}</mat-option>
               </mat-select>
             </mat-form-field>
             <div>
-              <app-fileuploader
-                (updatedFilesDescription)="updatedFilesDescription($event)"
-              ></app-fileuploader>
+              <app-fileuploader (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
             </div>
 
             <div class="d-flex justify-content-end align-items-center">
-              <button  type='button' (click)="resetActivityLogForm()" mat-raised-button >Cancel</button>
-              <button mat-raised-button color="primary" type="submit" [disabled]="description === '' " >
+              <button type='button' (click)="resetActivityLogForm()" mat-raised-button>Cancel</button>
+              <button mat-raised-button color="primary" type="submit" [disabled]="description === '' ">
                 Post
               </button>
             </div>
@@ -224,137 +196,67 @@
     <div class="col-md-3 kit">
       <ng-container *ngIf="isSuperAdmin">
         <div class="d-flex justify-content-start">
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="refreshPage()"
-            matTooltip="Reload"
-          >
+          <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
             <mat-icon>refresh</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="updateActivityDetails()"
-            matTooltip="Edit"
-            *ngIf="this.activityData?.status === 'NEW'"
-          >
+          <button mat-stroked-button class="padding" (click)="updateActivityDetails()" matTooltip="Edit"
+            *ngIf="this.activityData?.status === 'NEW'">
             <mat-icon>edit</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="updateSelectedArchiveStatus()"
-            matTooltip="Archive"
-          >
+          <button mat-stroked-button class="padding" (click)="updateSelectedArchiveStatus()" matTooltip="Archive">
             <mat-icon>archive</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="deleteSelectedActivity()"
-            matTooltip="Delete"
-          >
+          <button mat-stroked-button class="padding" (click)="deleteSelectedActivity()" matTooltip="Delete">
             <mat-icon>delete</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            *ngIf="
+          <button mat-stroked-button class="padding" *ngIf="
               this.activityData?.status === 'NEW' ||
               this.activityData?.status === 'INPROGRESS'
-            "
-            (click)="updateStatusOfSelectedActivity('Resolve')"
-            matTooltip="Resolve"
-          >
+            " (click)="updateStatusOfSelectedActivity('Resolve')" matTooltip="Resolve">
             <mat-icon>assistant_photo</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            *ngIf="this.activityData?.status === 'REJECTED' ? false : true"
-            (click)="updateStatusOfSelectedActivity('Reject')"
-            matTooltip="Reject"
-          >
+          <button mat-stroked-button class="padding" *ngIf="this.activityData?.status === 'REJECTED' ? false : true"
+            (click)="updateStatusOfSelectedActivity('Reject')" matTooltip="Reject">
             <mat-icon>checkmark</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="downloadActivity()"
-            matTooltip="Download"
-          >
+          <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
             <mat-icon>download</mat-icon>
           </button>
         </div>
       </ng-container>
       <ng-container *ngIf="logedInUserId == selectedActivityCreatedById">
         <div class="d-flex justify-content-start">
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="refreshPage()"
-            matTooltip="Refresh"
-          >
+          <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Refresh">
             <mat-icon>refresh</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            *ngIf="
+          <button mat-stroked-button class="padding" *ngIf="
               this.activityData?.status === 'NEW' ||
               this.activityData?.status === 'INPROGRESS' ||
               this.activityData?.status === 'REJECTED'
-            "
-            (click)="updateSelectedArchiveStatus()"
-            matTooltip="Archive"
-          >
+            " (click)="updateSelectedArchiveStatus()" matTooltip="Archive">
             <mat-icon>archive</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            *ngIf="
+          <button mat-stroked-button class="padding" *ngIf="
               this.activityData?.status === 'NEW' ||
               this.activityData?.status === 'REJECTED'
-            "
-            (click)="deleteSelectedActivity()"
-            matTooltip="Delete"
-          >
+            " (click)="deleteSelectedActivity()" matTooltip="Delete">
             <mat-icon>delete</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="downloadActivity()"
-            matTooltip="Download"
-          >
+          <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
             <mat-icon>download</mat-icon>
           </button>
         </div>
       </ng-container>
 
-      <ng-container
-        *ngIf="
+      <ng-container *ngIf="
           isAssignee &&
           activityData?.createdByOrganization !=
-            activityData?.organizationData[0]._id && isSuperAdmin"
-      >
+            activityData?.organizationData[0]._id && isSuperAdmin">
         <div class="d-flex justify-content-start">
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="refreshPage()"
-            matTooltip="Reload"
-          >
+          <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
             <mat-icon>refresh</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="downloadActivity()"
-            matTooltip="Download"
-          >
+          <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
             <mat-icon>download</mat-icon>
           </button>
         </div>
@@ -375,28 +277,22 @@
       <div class="d-flex">
         <div class="d-flex">
           <mat-icon> date_range</mat-icon>
-          <h5 matTooltip="" class="mx-2">
-            {{ activityData?.dueDate ==='' ? "No DueDate" : activityData?.dueDate | date : "medium" }}
-            <button
-              mat-button
-              [matMenuTriggerFor]="dueDateFiltersMatMenu"
-              class="date-icon"
-            >
-              <mat-icon>edit</mat-icon>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item>
-                  Due Date {{ activityData?.dueDate | date : "medium" }}
-                </button>
-                <button mat-menu-item>Updated by{{activityData?.updatedBy}}</button>
-                <button mat-menu-item>
-                  Created At {{ activityData?.createdAt | date : "medium" }}
-                </button>
-              </mat-menu>
-            </button>
-            <button mat-button [matMenuTriggerFor]="menu" class="date-icon">
-              <mat-icon>view_headline</mat-icon>
-            </button>
-          </h5>
+          <h4>{{ !activityData?.dueDate ? "No DueDate" : activityData?.dueDate | date : "medium" }}</h4>
+          <button mat-button [matMenuTriggerFor]="dueDateFiltersMatMenu" class="date-icon">
+            <mat-icon>edit</mat-icon>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                Due Date {{ activityData?.dueDate | date : "medium" }}
+              </button>
+              <button mat-menu-item>Updated by{{activityData?.updatedBy}}</button>
+              <button mat-menu-item>
+                Created At {{ activityData?.createdAt | date : "medium" }}
+              </button>
+            </mat-menu>
+          </button>
+          <button mat-button [matMenuTriggerFor]="menu" class="date-icon">
+            <mat-icon>view_headline</mat-icon>
+          </button>
         </div>
         <mat-menu #dueDateFiltersMatMenu="matMenu">
           <button mat-menu-item (click)="dueDateSetter('noDueDate')">
@@ -415,15 +311,8 @@
           </button>
 
           <mat-label>Choose a date</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            (dateChange)="dueDateSetter('custom', $event)"
-          />
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
+          <input matInput [matDatepicker]="picker" (dateChange)="dueDateSetter('custom', $event)" />
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-menu>
       </div>
@@ -432,14 +321,14 @@
         <mat-icon>attach_file</mat-icon>
         <h3 class="mx-2 text">
           {{
-            activityData?.attachments?.length == 0
-              ? "No Files in this Activity"
-              : "Files in this Activity"
+          activityData?.attachments?.length == 0
+          ? "No Files in this Activity"
+          : "Files in this Activity"
           }}
         </h3>
         <div *ngFor="let fileData of activityData?.attachments">
           <mat-icon>insert_drive_file</mat-icon>{{ fileData?.name
-          }} {{fileData?.size /1024 | number:'.2-2'}} Kb  {{ fileData?.updatedAt | date : "medium" }}
+          }} {{fileData?.size /1024 | number:'.2-2'}} Kb {{ fileData?.updatedAt | date : "medium" }}
         </div>
       </div>
       <hr />
@@ -466,9 +355,7 @@
       </div>
       <div class=" d-flex" *ngFor="let ministry of organizationsInvolved">
         <span class="img-span d-flex align-items-center justify-content-center">
-          <mat-icon class="mat-i" matTooltip="{{ ministry.organization }}"
-            >person_outline</mat-icon
-          >
+          <mat-icon class="mat-i" matTooltip="{{ ministry.organization }}">person_outline</mat-icon>
         </span>
       </div>
     </div>
