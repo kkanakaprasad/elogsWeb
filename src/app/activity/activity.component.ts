@@ -139,7 +139,7 @@ export class ActivityComponent implements OnInit {
 
   getAllActivities() {
     this.activityService.getAllActivities().subscribe((res) => {
-      this.dataSource = new MatTableDataSource(res.data)
+      this.dataSource = new MatTableDataSource(res?.data)
       this.dataSource.paginator = this.paginator;
     
     })

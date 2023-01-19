@@ -20,7 +20,7 @@ export class ActivityService {
   createActivity(payload: any): Observable<any> {
     return this.httpDataService.post('activity-type', payload);
   }
-
+ 
   postActivity(payload: any): Observable<any> {
     return this.httpDataService.post('activity', payload)
   }
@@ -31,8 +31,8 @@ export class ActivityService {
 
   getActivityById(activityId: string): Observable<any> {
     return this.httpDataService.get(`activity/${activityId}`)
-
   }
+
   updateActivity(activityId: string, payload: any): Observable<any> {
     return this.httpDataService.put(`activity/${activityId}`, payload)
   }
@@ -55,5 +55,15 @@ export class ActivityService {
   updateActivityDueDate(activityId:string,payload:any): Observable<any>{
     return this.httpDataService.put(`activity/update/dueDate/${activityId}`,payload)
    }
+
+//dashboard
+
+   postDashBoardActivityMetrics(payload: any): Observable<any> {
+    return this.httpDataService.post('activity/dashboard/getDashBoardActivityMetrics', payload);
+  }
+
+  getDashBoardDueDateMetrics(): Observable<any> {
+    return this.httpDataService.get(`activity/dashboard/getDashBoardDueDateMetrics`)
+  }
 
 }
