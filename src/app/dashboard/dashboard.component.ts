@@ -10,6 +10,8 @@ import { AddNewUserService } from '../user/add-new-user/add-new-user.service';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { Roles } from '../shared/enums/roles.enums';
 import { ActivityService } from '../activity/activity.service';
+import { UserSearchCriteria } from '../user/user-list/user-Interface';
+import { UserService } from '../user/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +29,9 @@ export class DashboardComponent implements OnInit {
   dueDateDashBoarData: any;
   relatedToMetricsData: any;
   totalRelatedToMetricsData: any;
+  logedinUserDetails: any;
+  userMetricsCount: any;
+  organizationsMetricsCount: any;
 
   constructor(private matDialog: MatDialog,
     private organizationService:OrganizationService,
@@ -35,6 +40,7 @@ export class DashboardComponent implements OnInit {
     private router : Router,
     private addNewUserService :AddNewUserService,
     private activityService :ActivityService,
+    private userService :UserService,
     ) { }
 
   ngOnInit(): void {
@@ -45,6 +51,9 @@ export class DashboardComponent implements OnInit {
         })
     this.getDashBoardDueDateMetrics()
     this.getDashBoardRelatedToMetrics()
+    this.userDetails()
+    this.getUserMetricsForDashBoard()
+    this.getOrganizationsMetricsForDashBoard()
   }
   openDialog() {
     this.organizationService.openCreateOrganizatioPopup()
@@ -116,6 +125,33 @@ export class DashboardComponent implements OnInit {
       this.relatedToMetricsData=res[0]
     })
   }
-  
+
+  userDetails() {
+    const payload :UserSearchCriteria = {
+      pageNumber: 0,
+      pageSize: 10,
+      sortField: '',
+      sortOrder: 0,
+      type: '',
+      role: '',
+      userId: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID),
+      user: ''
+    }
+    this.userService.userSearchCriteria(payload).subscribe((res: any) => {
+      this.logedinUserDetails = res.data.users[0];
+    })
+  }
+
+  getUserMetricsForDashBoard(){
+    this.activityService.getUserMetricsForDashBoard().subscribe(res=>{
+      this.userMetricsCount=res[0]
+    })
+  }
+
+  getOrganizationsMetricsForDashBoard(){
+    this.activityService.getOrganizationsMetricsForDashBoard().subscribe(res=>{
+      this.organizationsMetricsCount=res?.data[0]
+    })
+  }
 
 }

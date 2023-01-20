@@ -97,7 +97,7 @@ export class ActivityComponent implements OnInit {
 
   ngOnInit(): void {
     this.getActivitiesSearchCriteria();
-    // this.getAllActivities();
+    this.getAllActivities();
     this.getAcivityMasterData();
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.getLogedinUserDetails();
@@ -130,7 +130,6 @@ export class ActivityComponent implements OnInit {
 
   getActivitiesSearchCriteria(){
     this.activityService.getActivitiesSearchCriteria(this.activitySearchCriteriaPayload).subscribe((res)=>{
-      console.log(res[0].schedules);
       this.dataSource = new MatTableDataSource(res[0].schedules)
       this.dataSource.paginator = this.paginator;
     })
@@ -172,7 +171,8 @@ export class ActivityComponent implements OnInit {
 
   getAllActivities() {
     this.activityService.getAllActivities().subscribe((res) => {
-      this.dataSource = new MatTableDataSource(res?.data)
+      this.dataSource = new MatTableDataSource(res?.data.reverse())
+      console.log(res?.data)
       this.dataSource.paginator = this.paginator;
 
     })

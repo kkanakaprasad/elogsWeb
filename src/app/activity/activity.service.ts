@@ -80,7 +80,16 @@ export class ActivityService {
   getDashBoardDueDateMetrics(): Observable<any> {
     return this.httpDataService.get(`activity/dashboard/getDashBoardDueDateMetrics`)
   }
+
   getDashBoardRelatedToMetrics(): Observable<any> {
     return this.httpDataService.get(`activity/dashboard/getDashBoardRelatedToMetricsMetrics`)
+  }
+
+  getUserMetricsForDashBoard(): Observable<any> {
+    return this.httpDataService.get(`user/dashboard/getUserMetrics`)
+  }
+
+  getOrganizationsMetricsForDashBoard(): Observable<any> {
+    return this.httpDataService.get(`organizations/dashboard/metrics`)
   }
 }

@@ -1,5 +1,5 @@
 <div class="alert alert-primary alert-dismissible fade show welcome-msg" role="alert">
-  Hi<strong> {{userRole}}</strong>, Welcome to Dashboard.
+  Hi<strong> {{logedinUserDetails?.Name}}</strong>, Welcome to Dashboard.
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 <section class="section dashboard">
@@ -170,7 +170,7 @@
             <div class="card-body user-metrics">
                   <div class="active-users">
                     <span>Active</span>
-                    <h4>9</h4>
+                    <h4>{{userMetricsCount?.active}}</h4>
                   </div>
                   <div class="inactive-users">
                     <span>Inactive</span>
@@ -178,11 +178,11 @@
                   </div>
                   <div class="mapped-users">
                     <span>In more than one organization</span>
-                    <h4>4</h4>
+                    <h4>{{userMetricsCount?.moreThanOneOrg}}</h4>
                   </div>
                   <div class="recent-users">
                     <span>Active in 24hrs</span>
-                    <h4>4</h4>
+                    <h4>{{userMetricsCount?.activeLast24Hours}}</h4>
                   </div>
             </div>
           </div>
@@ -196,19 +196,19 @@
               <div class="row organization">
                 <div class="col-md-3">
                   <div class="h-100">
-                    <h3>43</h3>
+                    <h3>{{organizationsMetricsCount?.active}}</h3>
                     <h6>Active</h6>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="h-100">
-                    <h3>1</h3>
+                    <h3>{{organizationsMetricsCount?.activeInLast24Hours}}</h3>
                     <h6>Inactive</h6>
                   </div>
                 </div>
                 <div class="col-md-5 h-100">
                   <div class="h-100">
-                    <h3>43</h3>
+                    <h3>{{organizationsMetricsCount?.inActive}}</h3>
                     <h6>Active in 24hrs</h6>
                   </div>
                 </div>
