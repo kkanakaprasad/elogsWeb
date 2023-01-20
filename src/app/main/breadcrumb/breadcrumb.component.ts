@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { ActivityFiltersData } from 'src/app/activity/activity-filterData';
 import { CompanySettingsService } from 'src/app/company-settings/company-settings.service';
 import { OrganizationService } from 'src/app/organization/organization.service';
 import { RouteConstants } from 'src/app/shared/constants/routes.constants';
@@ -24,6 +25,7 @@ export class BreadcrumbComponent implements OnInit {
   currentRoute: any;
   isSuperAdmin!: boolean;
   logedInUserId: any;
+  activityFiltersData=ActivityFiltersData
 
   constructor(private router: Router,
     private selectedOrganizationService: SelectedOrganizationService,

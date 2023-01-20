@@ -40,7 +40,8 @@
   </div>
 </ng-container>
 
-<div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-start " >
+<div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-between "  >
+	<div class="d-flex">
 	<div class="p-2">
 	  <mat-icon (click)="navigateToDashboard()">home</mat-icon> <span> > Activities ></span>
 	</div>
@@ -73,6 +74,16 @@
 		</mat-form-field>
 	  </div>
 	</ng-container>
+</div>
+
+	<div >
+		<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+			<mat-button-toggle value="">{{activityFiltersData.status[2].DisplayName}}</mat-button-toggle>
+			<mat-button-toggle value="">{{activityFiltersData.status[3].DisplayName}}</mat-button-toggle>
+			<mat-button-toggle value="">{{activityFiltersData.status[4].DisplayName}}</mat-button-toggle>
+			<mat-button-toggle value="">{{activityFiltersData.status[1].DisplayName}}</mat-button-toggle>
+		  </mat-button-toggle-group>
+	</div>
   </div>
 
 
