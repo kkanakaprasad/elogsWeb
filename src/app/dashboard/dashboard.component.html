@@ -98,26 +98,26 @@
               <div class="row">
                 <div class="col-md-6 mb-3 related">
                   <div class="bg-primary h-100">
-                    <h6>Others<span>(0 %)</span></h6>
-                    <h3>0</h3>
+                    <h6>Others<span></span>(0)</h6>
+                    <h3>{{relatedToMetricsData?.others?.length==0 ? 0 : relatedToMetricsData?.others[0]?.others}}</h3>
                   </div>
                 </div>
                 <div class="col-md-6 mb-3 related">
                     <div class="bg-success h-100">
                       <h6>Multiple Ministries / Departments<span>(19.05  %)</span></h6>
-                      <h3>12</h3>
+                      <h3>{{ relatedToMetricsData?.multiMinistry?.length==0 ? 0 :relatedToMetricsData?.multiMinistry[0]?.multiMinistry}}</h3>
                     </div>
                 </div>
                 <div class="col-md-6 related">
                   <div class="bg-warning h-100">
                     <h6>Single Ministry / Department<span>(14.29  %)</span></h6>
-                    <h3>9</h3>
+                    <h3>{{ relatedToMetricsData?.singleMinistry?.length==0 ? 0 : relatedToMetricsData?.singleMinistry[0]?.singleMinistry}}</h3>
                   </div>
                 </div>
                 <div class="col-md-6 related">
                   <div class="bg-danger h-100">
                     <h6>None<span>(66.67  %)</span></h6>
-                    <h3>42</h3>
+                    <h3>{{relatedToMetricsData?.none?.length==0 ? 0 :relatedToMetricsData?.none[0]?.none}}</h3>
                   </div>
                 </div>
             </div>

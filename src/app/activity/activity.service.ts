@@ -80,4 +80,7 @@ export class ActivityService {
   getDashBoardDueDateMetrics(): Observable<any> {
     return this.httpDataService.get(`activity/dashboard/getDashBoardDueDateMetrics`)
   }
+  getDashBoardRelatedToMetrics(): Observable<any> {
+    return this.httpDataService.get(`activity/dashboard/getDashBoardRelatedToMetricsMetrics`)
+  }
 }

@@ -25,6 +25,8 @@ export class DashboardComponent implements OnInit {
   selectedEndDate: any;
   dashboardMetricsCount: any;
   dueDateDashBoarData: any;
+  relatedToMetricsData: any;
+  totalRelatedToMetricsData: any;
 
   constructor(private matDialog: MatDialog,
     private organizationService:OrganizationService,
@@ -42,6 +44,7 @@ export class DashboardComponent implements OnInit {
       this.dashboardMetricsCount=res[0]
         })
     this.getDashBoardDueDateMetrics()
+    this.getDashBoardRelatedToMetrics()
   }
   openDialog() {
     this.organizationService.openCreateOrganizatioPopup()
@@ -82,31 +85,35 @@ export class DashboardComponent implements OnInit {
     }
     this.activityService.postDashBoardActivityMetrics(payload).subscribe(res => {
       this.dashboardMetricsCount=res[0]
-  console.log(res[0])
+  // console.log(res[0])
     })
   }
   startDateSetter( selectedOptionalDate?: any) { 
       this.selectedStartDate = selectedOptionalDate.value
-    console.log(this.selectedStartDate)
     this.postDashBoardActivityMetrics()
     
   }
   endDateSetter(selectedOptionalDate?: any) {
       this.selectedEndDate = selectedOptionalDate.value
-      console.log(this.selectedEndDate)
       this.postDashBoardActivityMetrics()
    
   }
   selectedActivityType(event:any){
-    console.log(event.value)
     this.selectedActivityId=event.value
     this.postDashBoardActivityMetrics()
   }
 
   getDashBoardDueDateMetrics(){
     this.activityService.getDashBoardDueDateMetrics().subscribe(res=>{
-      console.log(res)
+      // console.log(res)
       this.dueDateDashBoarData=res[0]
+    })
+  }
+
+  getDashBoardRelatedToMetrics(){
+    this.activityService.getDashBoardRelatedToMetrics().subscribe(res=>{
+      // console.log(res)
+      this.relatedToMetricsData=res[0]
     })
   }
   
