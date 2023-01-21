@@ -159,10 +159,4 @@ export class AddNewUserComponent implements OnInit {
       this.organizationList;
     }
   }
-
-  seleectedOrganization(event: any) {
-    this.selectOrganization = event.option.value;
-    this.selectedOrganizationService.setSelectedOrganization(this.selectOrganization);    
-  }
-
 }
