@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
     this.userRole = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE);
     this.getActivityMasterData()
     this.dashboardService.postDashBoardActivityMetrics({}).subscribe(res => {
-      this.dashboardMetricsCount=res[0]
+      this.dashboardMetricsCount=res.data[0]
         })
     this.getDashBoardDueDateMetrics()
     this.getDashBoardRelatedToMetrics()
@@ -96,8 +96,7 @@ export class DashboardComponent implements OnInit {
       type:this.selectedActivityId
     }
     this.dashboardService.postDashBoardActivityMetrics(payload).subscribe(res => {
-      this.dashboardMetricsCount=res[0]
-  // console.log(res[0])
+      this.dashboardMetricsCount=res.data[0]
     })
   }
   startDateSetter( selectedOptionalDate?: any) { 
@@ -124,8 +123,9 @@ export class DashboardComponent implements OnInit {
 
   getDashBoardRelatedToMetrics(){
     this.dashboardService.getDashBoardRelatedToMetrics().subscribe(res=>{
-      this.relatedToMetricsData=res[0]
+      this.relatedToMetricsData=res.data[0]
       console.log(this.relatedToMetricsData)
+      console.log(res)
     })
   }
 
