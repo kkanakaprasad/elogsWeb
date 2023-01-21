@@ -1,11 +1,8 @@
-<div></div>
-<div class="text-end">
-  <span>
-    <div class="btn btn-secondary mx-1" (click)="downloadFile()" matTooltip="Download">
+<div class="text-end activity_actions mb-2">
+    <button mat-button class="" (click)="downloadFile()" matTooltip="Download">
       <i class="icon-taskdownl"></i>
-      <mat-icon>file_download</mat-icon>
-    </div>
-  </span>
+      Download <mat-icon>file_download</mat-icon>
+    </button>
   <button mat-button [matMenuTriggerFor]="filters" matTooltip="Filters">
     Filters <mat-icon> filter_alt</mat-icon></button>
   <mat-menu #filters="matMenu">
@@ -156,7 +153,7 @@
 </div>
 
 
-<mat-tab-group>
+<mat-tab-group class="activities-list">
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon>assignment</mat-icon>
@@ -207,7 +204,11 @@
   <ng-container matColumnDef="Status">
     <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
 
-    <td mat-cell *matCellDef="let element"> {{element.status | titlecase}} </td>
+    <td mat-cell *matCellDef="let element">
+      <span class="badge" [ngClass]="{'bg-danger': element?.status.toLowerCase() == 'rejected',
+      'bg-success': element?.status.toLowerCase() == 'resolved',
+      'bg-dark': element?.status.toLowerCase() == 'inprogress',
+      'bg-primary': element?.status.toLowerCase() == 'new'}">{{element?.status | titlecase}}</span>  </td>
   </ng-container>
 
   <ng-container matColumnDef="Activity">
