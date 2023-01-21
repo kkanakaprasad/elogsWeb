@@ -1792,3 +1792,22 @@ h6,
     min-width: auto;
   }
 }
+.home-icon{
+  font-size: 30px;
+  width: 30px !important;
+}
+.breadcrumb-find{
+  .mat-form-field{
+    min-width: 250px;
+  }
+  .mat-form-field-label-wrapper{
+    padding-top: 0;
+    .mat-form-field-label{
+      padding-left: 10px;
+    }
+  }
+  .mat-form-field-wrapper{
+    .input.mat-input-element{
+    }
+  }
+}

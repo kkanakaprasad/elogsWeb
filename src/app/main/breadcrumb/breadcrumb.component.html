@@ -1,12 +1,12 @@
 <div *ngIf="currentRoute == '/dashboard'" class="d-flex justify-content-start align-items-center">
 	<div class="p-2">
-		<mat-icon (click)="navigateToDashboard()">home</mat-icon> <span> > Dashboard ></span>
+		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Dashboard ></span>
 	</div>
 	<ng-container *ngIf="organizationsList.length==1">
 		<div>{{organizationsList[0].organization}}</div>
 	</ng-container>
 	<ng-container *ngIf="organizationsList.length>1">
-		<div>
+		<div class="breadcrumb-find">
 			<mat-form-field>
 				<input class="p-2" placeholder="Find an Organisation" matInput type="text"
 					(keyup)="filterOrganization($event)" [matAutocomplete]="auto" />
@@ -31,13 +31,13 @@
 <div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-between ">
 	<div class="d-flex">
 		<div class="p-2">
-			<mat-icon (click)="navigateToDashboard()">home</mat-icon> <span> > Activities ></span>
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Activities ></span>
 		</div>
 		<ng-container *ngIf="organizationsList.length==1">
 			<div>{{organizationsList[0].organization}}</div>
 		</ng-container>
 		<ng-container *ngIf="organizationsList.length>1">
-			<div>
+			<div class="breadcrumb-find">
 				<mat-form-field>
 					<input class="p-2" placeholder="Find an Organisation" matInput type="text"
 						(keyup)="filterOrganization($event)" [matAutocomplete]="auto" />
@@ -63,13 +63,13 @@
 
 <div *ngIf="currentRoute == '/documents'" class="d-flex justify-content-start ">
 	<div class="p-2">
-		<mat-icon (click)="navigateToDashboard()">home</mat-icon> <span> > Documents ></span>
+		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Documents ></span>
 	</div>
 	<ng-container *ngIf="organizationsList.length==1">
 		<div>{{organizationsList[0].organization}}</div>
 	</ng-container>
 	<ng-container *ngIf="organizationsList.length>1">
-		<div>
+		<div class="breadcrumb-find">
 			<mat-form-field>
 				<input class="p-2" placeholder="Find an Organisation" matInput type="text"
 					(keyup)="filterOrganization($event)" [matAutocomplete]="auto" />
@@ -88,19 +88,19 @@
 
 <ng-container *ngIf="currentRoute == '/user-list'">
 	<p>
-		<mat-icon (click)="navigateToDashboard()">home</mat-icon> > Users > Manage
+		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Users > Manage
 	</p>
 </ng-container>
 
 <ng-container *ngIf="currentRoute == '/company-settings'">
 	<p>
-		<mat-icon (click)="navigateToDashboard()">home</mat-icon> > Company Settings
+		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Company Settings
 		> My Company
 	</p>
 </ng-container>
 
 <ng-container *ngIf="currentRoute == '/archive'">
 	<p>
-		<mat-icon (click)="navigateToDashboard()">home</mat-icon> > Archive > Tasks
+		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Archive > Tasks
 	</p>
 </ng-container>
