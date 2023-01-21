@@ -39,7 +39,7 @@ export class OrganizationListComponent implements OnInit {
   associationsMetricsCount: number=0  ;
   ministriesMetricsCount: number=0;
   inActiveMetricsCount: number=0;
- 
+  showActionBtn:boolean = true;
   constructor(private organizationService: OrganizationService,
     private masterDataService: MasterDataService,
     private addUserPopUpService: AddUserPopUpService,
@@ -182,7 +182,7 @@ export class OrganizationListComponent implements OnInit {
               message: res.message,
               action: 'ok'
             })
-          
+
             this.getAllOrganizationsSearchCriteria();
 
           }
@@ -197,6 +197,10 @@ export class OrganizationListComponent implements OnInit {
       }
     })
 
+  }
+
+  openActionBtn(){
+    this.showActionBtn = !this.showActionBtn
   }
 
   removeOrganization(organizationId: string, organizationName: string) {
