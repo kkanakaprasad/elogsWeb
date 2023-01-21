@@ -11,6 +11,7 @@ import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 import { SelectedOrganizationService } from 'src/app/shared/services/selected-organizions/selected-organization.service';
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
+import { BreadcrumbService } from './breadcrumb.service';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -30,7 +31,8 @@ export class BreadcrumbComponent implements OnInit {
   constructor(private router: Router,
     private selectedOrganizationService: SelectedOrganizationService,
     private storageService :StorageService,
-    private organizationService:OrganizationService
+    private organizationService:OrganizationService,
+    private breadcrumbService : BreadcrumbService
   ) {
     router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
       this.currentRoute = event.url
@@ -98,5 +100,8 @@ export class BreadcrumbComponent implements OnInit {
 
     this.selectOrganization = event.option.value;
     this.selectedOrganizationService.setSelectedOrganization(this.selectOrganization);
+  }
+  selectedActivitiesStatus(data:any){
+    this.breadcrumbService.setSelectedActivityStatus(data);
   }
 }
