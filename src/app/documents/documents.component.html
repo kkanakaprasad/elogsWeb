@@ -9,7 +9,7 @@
     <ng-container matColumnDef="FileName">
         <th mat-header-cell *matHeaderCellDef> FileName </th>
     </ng-container>
-    <!-- Status Column --> 
+    <!-- Status Column -->
     <ng-container matColumnDef="Size">
         <th mat-header-cell *matHeaderCellDef> Size </th>
     </ng-container>
@@ -17,8 +17,8 @@
     <ng-container matColumnDef="Organisation">
         <th mat-header-cell *matHeaderCellDef> Organisation </th>
     </ng-container>
-            
-    
+
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
 

@@ -1,11 +1,10 @@
 .container {
-    width: 450px;
-    height: 200px;
     padding: 2rem;
     text-align: center;
     border: dashed 1px #979797;
     position: relative;
     margin: 0 auto;
+    background-color: #fff;
 }
     input {
       opacity: 0;
@@ -15,33 +14,32 @@
       height: 100%;
       top: 0;
       left: 0;
+      cursor: pointer;
     }
-  
+
     label {
       color: white;
-      width: 183px;
-      height: 44px;
       border-radius: 21.5px;
       background-color: #db202f;
       padding: 8px 16px;
     }
-  
+
     h3 {
       font-size: 20px;
       font-weight: 600;
       color: #38424c;
     }
-  
-  
+
+
   .fileover {
     animation: shake 1s;
     animation-iteration-count: infinite;
   }
-  
+
   .files-list {
     margin-top: 1.5rem;
   }
-  
+
     .single-file {
       display: flex;
       padding: 0.5rem;
@@ -49,25 +47,26 @@
       align-items: center;
       border: dashed 1px #979797;
       margin-bottom: 1rem;
+      background-color: #fff;
     }
       .delete {
         display: flex;
         margin-left: 0.5rem;
         cursor: pointer;
         align-self: flex-end;
-  
-  
+
+
       display: flex;
       flex-grow: 1;
       }
-  
+
       .name {
         font-size: 14px;
         font-weight: 500;
         color: #353f4a;
         margin: 0;
       }
-  
+
       .size {
         font-size: 12px;
         font-weight: 500;
@@ -75,9 +74,8 @@
         margin: 0;
         margin-bottom: 0.25rem;
       }
-  
+
       .info {
         width: 100%
       }
-    
-  
+

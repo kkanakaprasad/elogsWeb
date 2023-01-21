@@ -9,18 +9,18 @@ export const ActivityFiltersData = {
 
     createddate: [{ DisplayName: 'AnyTime', key: 'ALL' }, {
         DisplayName: 'PastHour', key: {
-            unit: 'H',
+            unit: 'h',
             quantity: 1
         }
     },
     {
         DisplayName: 'Past 24 hours', key: {
-            unit: 'H',
+            unit: 'h',
             quantity: 24
         }
     }, {
         DisplayName: 'Past Week', key: {
-            unit: 'W',
+            unit: 'w',
             quantity: 1
         }
     },
@@ -31,7 +31,7 @@ export const ActivityFiltersData = {
         }
     }, {
         DisplayName: 'Past Year', key: {
-            unit: 'Y',
+            unit: 'y',
             quantity: 1
         }
     },
