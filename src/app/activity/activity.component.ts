@@ -158,7 +158,7 @@ export class ActivityComponent implements OnInit {
       payload = res;
     });
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
-      this.dataSource = new MatTableDataSource(res[0].schedules)
+      this.dataSource = new MatTableDataSource(res.data[0].activities)
       this.dataSource.paginator = this.paginator;
     })
   }
