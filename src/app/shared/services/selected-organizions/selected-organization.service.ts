@@ -9,7 +9,7 @@ export class SelectedOrganizationService {
 
   constructor() { }
 
-  private selectedOrganization : BehaviorSubject<any> = new BehaviorSubject({});
+  private selectedOrganization : BehaviorSubject<any> = new BehaviorSubject([]);
 
   public getSelectedOrganization():Observable<any>{
     return this.selectedOrganization

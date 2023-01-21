@@ -13,6 +13,7 @@ import { ActivityService } from '../activity/activity.service';
 import { UserSearchCriteria } from '../user/user-list/user-Interface';
 import { UserService } from '../user/user.service';
 import { DashboardService } from './dashboard.service';
+import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,6 +34,7 @@ export class DashboardComponent implements OnInit {
   logedinUserDetails: any;
   userMetricsCount: any;
   organizationsMetricsCount: any;
+  selectedOrganizationIds: any;
   
 
   constructor(
@@ -43,20 +45,28 @@ export class DashboardComponent implements OnInit {
     private addNewUserService :AddNewUserService,
     private activityService :ActivityService,
     private userService :UserService,
-    private dashboardService :DashboardService
+    private dashboardService :DashboardService,
+    private selectedOrganizationService:SelectedOrganizationService
     ) { }
 
   ngOnInit(): void {
+    this.selectedOrganizationService.getSelectedOrganization().subscribe((res)=>{
+      console.log(res);
+      this.selectedOrganizationIds=res;
+      this.postDashBoardDueDateMetrics();
+      this.postDashBoardRelatedToMetrics();
+      this.postDashBoardActivityMetrics()
+    })
     this.userRole = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE);
     this.getActivityMasterData()
     this.dashboardService.postDashBoardActivityMetrics({}).subscribe(res => {
       this.dashboardMetricsCount=res.data[0]
         })
-    this.getDashBoardDueDateMetrics()
-    this.getDashBoardRelatedToMetrics()
+    this.postDashBoardDueDateMetrics()
+    this.postDashBoardRelatedToMetrics()
     this.userDetails()
     this.getUserMetricsForDashBoard()
-    this.getOrganizationsMetricsForDashBoard()
+    this.getOrganizationsMetricsForDashBoard();
   }
   openDialog() {
     this.organizationService.openCreateOrganizatioPopup()
@@ -89,6 +99,7 @@ export class DashboardComponent implements OnInit {
 
   postDashBoardActivityMetrics() {
     const payload={
+      organizations:this.selectedOrganizationIds,
       dateRange: {
         fromDate:this.selectedStartDate ,
         toDate: this.selectedEndDate
@@ -114,15 +125,15 @@ export class DashboardComponent implements OnInit {
     this.postDashBoardActivityMetrics()
   }
 
-  getDashBoardDueDateMetrics(){
-    this.dashboardService.getDashBoardDueDateMetrics().subscribe(res=>{
-      // console.log(res)
-      this.dueDateDashBoarData=res[0]
+  postDashBoardDueDateMetrics(){
+    this.dashboardService.postDashBoardDueDateMetrics({organizations:this.selectedOrganizationIds}).subscribe(res=>{
+      console.log(res)
+      this.dueDateDashBoarData=res.data[0]
     })
   }
 
-  getDashBoardRelatedToMetrics(){
-    this.dashboardService.getDashBoardRelatedToMetrics().subscribe(res=>{
+  postDashBoardRelatedToMetrics(){
+    this.dashboardService.postDashBoardRelatedToMetrics({organizations:this.selectedOrganizationIds}).subscribe(res=>{
       this.relatedToMetricsData=res.data[0]
       console.log(this.relatedToMetricsData)
       console.log(res)

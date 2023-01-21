@@ -26,13 +26,13 @@ export class BreadcrumbComponent implements OnInit {
   currentRoute: any;
   isSuperAdmin!: boolean;
   logedInUserId: any;
-  activityFiltersData=ActivityFiltersData
+  activityFiltersData = ActivityFiltersData
 
   constructor(private router: Router,
     private selectedOrganizationService: SelectedOrganizationService,
-    private storageService :StorageService,
-    private organizationService:OrganizationService,
-    private breadcrumbService : BreadcrumbService
+    private storageService: StorageService,
+    private organizationService: OrganizationService,
+    private breadcrumbService: BreadcrumbService
   ) {
     router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
       this.currentRoute = event.url
@@ -48,24 +48,26 @@ export class BreadcrumbComponent implements OnInit {
     this.router.navigate([RouteConstants.DASHBOARD])
   }
 
-  getOrganizationsSearchCriteria(){
-    if(this.isSuperAdmin){
-    const organizationListPayload = {
-      pageNumber: 0,
-      pageSize: 50,
-      sortField: "",
-      sortOrder: 0,
-      type: "",
-      organization: "",
-      organizationId: "",
-      isActive: true,
-      userId: "",
-      userSearch: ""
-    }
-    this.organizationService.getOrganizationsSearchCriteria(organizationListPayload).subscribe(res=>{
-      this.organizationsList=res.data?.organizations
-      this.searchedOrganizationList=res?.data?.organizations
-    })}else{
+  getOrganizationsSearchCriteria() {
+    if (this.isSuperAdmin) {
+      const organizationListPayload = {
+        pageNumber: 0,
+        pageSize: 50,
+        sortField: "",
+        sortOrder: 0,
+        type: "",
+        organization: "",
+        organizationId: "",
+        isActive: true,
+        userId: "",
+        userSearch: ""
+      }
+      this.organizationService.getOrganizationsSearchCriteria(organizationListPayload).subscribe(res => {
+        this.organizationsList = res.data?.organizations
+        this.searchedOrganizationList = res?.data?.organizations
+        console.log(this.searchedOrganizationList)
+      })
+    } else {
       const organizationListPayload = {
         pageNumber: 0,
         pageSize: 50,
@@ -78,9 +80,15 @@ export class BreadcrumbComponent implements OnInit {
         userId: this.logedInUserId,
         userSearch: ""
       }
-      this.organizationService.getOrganizationsSearchCriteria(organizationListPayload).subscribe(res=>{
-        this.organizationsList=res?.data?.organizations
-        this.searchedOrganizationList=res?.data?.organizations
+      this.organizationService.getOrganizationsSearchCriteria(organizationListPayload).subscribe(res => {
+        this.organizationsList = res?.data?.organizations
+        this.searchedOrganizationList = res?.data?.organizations;
+        let selectedOrganizations: any;
+        selectedOrganizations = this.searchedOrganizationList.map((res: any) => {
+          return res._id;
+        })
+        this.selectedOrganizationService.setSelectedOrganization(selectedOrganizations);
+
       })
     }
   }
@@ -99,9 +107,29 @@ export class BreadcrumbComponent implements OnInit {
   seleectedOrganization(event: MatAutocompleteSelectedEvent) {
 
     this.selectOrganization = event.option.value;
-    this.selectedOrganizationService.setSelectedOrganization(this.selectOrganization);
+    if (event.option.value === 'all') {
+      if (this.isSuperAdmin) {
+        this.selectedOrganizationService.setSelectedOrganization([]);
+
+      } else {
+        let selectedOrganizations: any;
+        selectedOrganizations = this.searchedOrganizationList.map((res: any) => {
+          return res._id;
+        })
+        this.selectedOrganizationService.setSelectedOrganization(selectedOrganizations);
+
+      }
+    } else {
+      let object=this.searchedOrganizationList.filter((res:any)=>{
+        return res.organization === this.selectOrganization
+      }) 
+      // let index = this.searchedOrganizationList.findIndex((org:any)=>{
+      //   org.organization === this.selectOrganization;
+      // })
+      this.selectedOrganizationService.setSelectedOrganization([object[0]._id]);
+    }
   }
-  selectedActivitiesStatus(data:any){
+  selectedActivitiesStatus(data: any) {
     this.breadcrumbService.setSelectedActivityStatus(data);
   }
 }

@@ -14,12 +14,12 @@ export class DashboardService {
     return this.httpDataService.post('activity/dashboard/getDashBoardActivityMetrics', payload);
   }
 
-  getDashBoardDueDateMetrics(): Observable<any> {
-    return this.httpDataService.get(`activity/dashboard/getDashBoardDueDateMetrics`)
+  postDashBoardDueDateMetrics(payload:any): Observable<any> {
+    return this.httpDataService.post(`activity/dashboard/getDashBoardDueDateMetrics`,payload)
   }
 
-  getDashBoardRelatedToMetrics(): Observable<any> {
-    return this.httpDataService.get(`activity/dashboard/getDashBoardRelatedToMetricsMetrics`)
+  postDashBoardRelatedToMetrics(payload:any): Observable<any> {
+    return this.httpDataService.post(`activity/dashboard/getDashBoardRelatedToMetricsMetrics`,payload)
   }
 
   getUserMetricsForDashBoard(): Observable<any> {
