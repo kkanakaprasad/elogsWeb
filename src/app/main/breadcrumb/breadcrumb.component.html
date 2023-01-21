@@ -55,7 +55,7 @@
 	<div>
 		<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
 			<mat-button-toggle *ngFor="let status of activityFiltersData.status"
-				value="">{{status.DisplayName}}</mat-button-toggle>
+				(click)="selectedActivitiesStatus(status)">{{status.DisplayName}}</mat-button-toggle>
 		</mat-button-toggle-group>
 	</div>
 </div>
