@@ -12,6 +12,7 @@ import { Roles } from '../shared/enums/roles.enums';
 import { ActivityService } from '../activity/activity.service';
 import { UserSearchCriteria } from '../user/user-list/user-Interface';
 import { UserService } from '../user/user.service';
+import { DashboardService } from './dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -42,12 +43,13 @@ export class DashboardComponent implements OnInit {
     private addNewUserService :AddNewUserService,
     private activityService :ActivityService,
     private userService :UserService,
+    private dashboardService :DashboardService
     ) { }
 
   ngOnInit(): void {
     this.userRole = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE);
     this.getActivityMasterData()
-    this.activityService.postDashBoardActivityMetrics({}).subscribe(res => {
+    this.dashboardService.postDashBoardActivityMetrics({}).subscribe(res => {
       this.dashboardMetricsCount=res[0]
         })
     this.getDashBoardDueDateMetrics()
@@ -93,7 +95,7 @@ export class DashboardComponent implements OnInit {
       },
       type:this.selectedActivityId
     }
-    this.activityService.postDashBoardActivityMetrics(payload).subscribe(res => {
+    this.dashboardService.postDashBoardActivityMetrics(payload).subscribe(res => {
       this.dashboardMetricsCount=res[0]
   // console.log(res[0])
     })
@@ -114,14 +116,14 @@ export class DashboardComponent implements OnInit {
   }
 
   getDashBoardDueDateMetrics(){
-    this.activityService.getDashBoardDueDateMetrics().subscribe(res=>{
+    this.dashboardService.getDashBoardDueDateMetrics().subscribe(res=>{
       // console.log(res)
       this.dueDateDashBoarData=res[0]
     })
   }
 
   getDashBoardRelatedToMetrics(){
-    this.activityService.getDashBoardRelatedToMetrics().subscribe(res=>{
+    this.dashboardService.getDashBoardRelatedToMetrics().subscribe(res=>{
       // console.log(res)
       this.relatedToMetricsData=res[0]
     })
@@ -144,13 +146,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getUserMetricsForDashBoard(){
-    this.activityService.getUserMetricsForDashBoard().subscribe(res=>{
+    this.dashboardService.getUserMetricsForDashBoard().subscribe(res=>{
       this.userMetricsCount=res[0]
     })
   }
 
   getOrganizationsMetricsForDashBoard(){
-    this.activityService.getOrganizationsMetricsForDashBoard().subscribe(res=>{
+    this.dashboardService.getOrganizationsMetricsForDashBoard().subscribe(res=>{
       this.organizationsMetricsCount=res?.data[0]
     })
   }

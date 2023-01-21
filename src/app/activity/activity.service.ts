@@ -71,25 +71,5 @@ export class ActivityService {
   getActivitiesSearchCriteria(payload : any): Observable<any>{
     return this.httpDataService.post(`activity/activitysearch`, payload);
   }
-  //dashboard
 
-  postDashBoardActivityMetrics(payload: any): Observable<any> {
-    return this.httpDataService.post('activity/dashboard/getDashBoardActivityMetrics', payload);
-  }
-
-  getDashBoardDueDateMetrics(): Observable<any> {
-    return this.httpDataService.get(`activity/dashboard/getDashBoardDueDateMetrics`)
-  }
-
-  getDashBoardRelatedToMetrics(): Observable<any> {
-    return this.httpDataService.get(`activity/dashboard/getDashBoardRelatedToMetricsMetrics`)
-  }
-
-  getUserMetricsForDashBoard(): Observable<any> {
-    return this.httpDataService.get(`user/dashboard/getUserMetrics`)
-  }
-
-  getOrganizationsMetricsForDashBoard(): Observable<any> {
-    return this.httpDataService.get(`organizations/dashboard/metrics`)
-  }
 }
