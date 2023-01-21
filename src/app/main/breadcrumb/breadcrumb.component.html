@@ -1,3 +1,4 @@
+<div class="mb-2">
 <div *ngIf="currentRoute == '/dashboard'" class="d-flex justify-content-start align-items-center">
 	<div class="p-2">
 		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Dashboard ></span>
@@ -23,7 +24,7 @@
 
 <ng-container *ngIf="currentRoute == '/organization-list'">
 	<div>
-		<mat-icon (click)="navigateToDashboard()">home</mat-icon> > Organizations >
+		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Organizations >
 		Manage
 	</div>
 </ng-container>
@@ -104,3 +105,4 @@
 		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Archive > Tasks
 	</p>
 </ng-container>
+</div>
