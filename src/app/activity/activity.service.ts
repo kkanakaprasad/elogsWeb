@@ -23,7 +23,7 @@ export class ActivityService {
   createActivity(payload: any): Observable<any> {
     return this.httpDataService.post('activity-type', payload);
   }
-
+ 
   postActivity(payload: any): Observable<any> {
     return this.httpDataService.post('activity', payload)
   }
@@ -34,8 +34,8 @@ export class ActivityService {
 
   getActivityById(activityId: string): Observable<any> {
     return this.httpDataService.get(`activity/${activityId}`)
-
   }
+
   updateActivity(activityId: string, payload: any): Observable<any> {
     return this.httpDataService.put(`activity/${activityId}`, payload)
   }
@@ -71,4 +71,5 @@ export class ActivityService {
   getActivitiesSearchCriteria(payload : any): Observable<any>{
     return this.httpDataService.post(`activity/activitysearch`, payload);
   }
+
 }

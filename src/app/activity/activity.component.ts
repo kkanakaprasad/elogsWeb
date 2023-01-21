@@ -346,14 +346,13 @@ export class ActivityComponent implements OnInit {
   }
 
   filterActivityListData(controlName: string, event: any, chipValue: string) {
-    console.log(controlName, event, chipValue);
+    let data: any;
+    this.activitySearchCriteriaPayload.subscribe((res) => {
+      data = res;
+    });
     switch (controlName) {
       case 'createdDate':
         const value = event?.source?.value;
-        let data: any;
-        this.activitySearchCriteriaPayload.subscribe((res) => {
-          data = res;
-        });
         if (value?.unit === "R") {
           this.isShowCustomCreatedDate = true;
         } else if (value === "ALL") {
