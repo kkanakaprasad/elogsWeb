@@ -1771,3 +1771,23 @@ h6,
     }
   }
 }
+
+.mat-chip.mat-standard-chip{
+  font-weight: 400;
+  text-transform: capitalize;
+  background: #e4eff6bd;
+  border: 1px solid #ddd;
+}
+
+.date_ragne {
+  h3{
+    font-size: 14px;
+  }
+  button{
+    background: none;
+    padding: 0;
+    line-height: 20px;
+    margin-right: 0;
+    min-width: auto;
+  }
+}
