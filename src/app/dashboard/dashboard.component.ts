@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
   organizationsMetricsCount: any;
   
 
-  constructor(private matDialog: MatDialog,
+  constructor(
     private organizationService:OrganizationService,
     private storageService: StorageService,
     private confirmationDialogService :ConfirmationDialogService,
@@ -124,8 +124,8 @@ export class DashboardComponent implements OnInit {
 
   getDashBoardRelatedToMetrics(){
     this.dashboardService.getDashBoardRelatedToMetrics().subscribe(res=>{
-      // console.log(res)
       this.relatedToMetricsData=res[0]
+      console.log(this.relatedToMetricsData)
     })
   }
 

@@ -48,7 +48,6 @@ export class FileuploaderComponent implements OnInit {
   prepareFilesList(files: Array<any>) {
     
     for (const item of files) {
-      console.log(item)
       if(item.type=='image/jpeg'||item.type=='text/plain'||item.type=='application/vnd.openxmlformats-officedocument.wordprocessingml.document'||item.type=='image/png'||item.type=='application/vnd.openxmlformats-officedocument.presentationml.presentation'||item.type=='application/pdf'||item.type=='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && item.size<=262144000){
         this.files.push(item);
       }else{
