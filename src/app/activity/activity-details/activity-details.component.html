@@ -213,91 +213,95 @@
     </div>
     </div>
     <div class="col-md-3 active_right_panel">
-      <ng-container *ngIf="isSuperAdmin">
-        <div class="d-flex justify-content-start">
-          <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
-            <mat-icon>refresh</mat-icon>
-          </button>
-          <button mat-stroked-button class="padding" (click)="updateActivityDetails()" matTooltip="Edit"
-            *ngIf="this.activityData?.status === 'NEW'">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-stroked-button class="padding" (click)="updateSelectedArchiveStatus()" matTooltip="Archive">
-            <mat-icon>archive</mat-icon>
-          </button>
-          <button mat-stroked-button class="padding" (click)="deleteSelectedActivity()" matTooltip="Delete">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button mat-stroked-button class="padding" *ngIf="
-              this.activityData?.status === 'NEW' ||
-              this.activityData?.status === 'INPROGRESS'
-            " (click)="updateStatusOfSelectedActivity('Resolve')" matTooltip="Resolve">
-            <mat-icon>assistant_photo</mat-icon>
-          </button>
-          <button mat-stroked-button class="padding" *ngIf="this.activityData?.status === 'REJECTED' ? false : true"
-            (click)="updateStatusOfSelectedActivity('Reject')" matTooltip="Reject">
-            <mat-icon>checkmark</mat-icon>
-          </button>
-          <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
-            <mat-icon>download</mat-icon>
-          </button>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="logedInUserId == selectedActivityCreatedById">
-        <div class="d-flex justify-content-start">
-          <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Refresh">
-            <mat-icon>refresh</mat-icon>
-          </button>
-          <button mat-stroked-button class="padding" *ngIf="
-              this.activityData?.status === 'NEW' ||
-              this.activityData?.status === 'INPROGRESS' ||
-              this.activityData?.status === 'REJECTED'
-            " (click)="updateSelectedArchiveStatus()" matTooltip="Archive">
-            <mat-icon>archive</mat-icon>
-          </button>
-          <button mat-stroked-button class="padding" *ngIf="
-              this.activityData?.status === 'NEW' ||
-              this.activityData?.status === 'REJECTED'
-            " (click)="deleteSelectedActivity()" matTooltip="Delete">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
-            <mat-icon>download</mat-icon>
-          </button>
-        </div>
-      </ng-container>
+      <div class="activity_widget">
+        <ng-container *ngIf="isSuperAdmin">
+          <div class="d-flex justify-content-start">
+            <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="updateActivityDetails()" matTooltip="Edit"
+              *ngIf="this.activityData?.status === 'NEW'">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="updateSelectedArchiveStatus()" matTooltip="Archive">
+              <mat-icon>archive</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="deleteSelectedActivity()" matTooltip="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" *ngIf="
+                this.activityData?.status === 'NEW' ||
+                this.activityData?.status === 'INPROGRESS'
+              " (click)="updateStatusOfSelectedActivity('Resolve')" matTooltip="Resolve">
+              <mat-icon>assistant_photo</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" *ngIf="this.activityData?.status === 'REJECTED' ? false : true"
+              (click)="updateStatusOfSelectedActivity('Reject')" matTooltip="Reject">
+              <mat-icon>checkmark</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
+              <mat-icon>download</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="logedInUserId == selectedActivityCreatedById && !isSuperAdmin">
+          <div class="d-flex justify-content-start">
+            <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Refresh">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" *ngIf="
+                this.activityData?.status === 'NEW' ||
+                this.activityData?.status === 'INPROGRESS' ||
+                this.activityData?.status === 'REJECTED'
+              " (click)="updateSelectedArchiveStatus()" matTooltip="Archive">
+              <mat-icon>archive</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" *ngIf="
+                this.activityData?.status === 'NEW' ||
+                this.activityData?.status === 'REJECTED'
+              " (click)="deleteSelectedActivity()" matTooltip="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
+              <mat-icon>download</mat-icon>
+            </button>
+          </div>
+        </ng-container>
 
-      <ng-container *ngIf="
-          isAssignee &&
-          activityData?.createdByOrganization !=
-            activityData?.organizationData[0]._id && isSuperAdmin">
-        <div class="d-flex justify-content-start">
-          <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
-            <mat-icon>refresh</mat-icon>
-          </button>
-          <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
-            <mat-icon>download</mat-icon>
-          </button>
-        </div>
-      </ng-container>
-
+        <ng-container *ngIf="
+            isAssignee &&
+            activityData?.createdByOrganization !=
+              activityData?.organizationData[0]._id && !isSuperAdmin">
+          <div class="d-flex justify-content-start">
+            <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
+              <mat-icon>download</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+      </div>
       <div class="activity_widget">
       <div class="d-flex align-items-center">
         <mat-icon class="mat-Icon">folder_shared</mat-icon>
-        <h3 class="quick-action" data-toggle="dropdown">Assigned To</h3>
+        <h3 class="quick-action mb-0" data-toggle="dropdown">Assigned To</h3>
       </div>
-      <div class="d-flex">
+      <div class="d-flex align-items-center">
         <div>
           <mat-icon class="mat-i">account_circle</mat-icon>
         </div>
-        <strong> {{ selectedActivityAssignedTo }}</strong>
+        <div> <span>{{ selectedActivityAssignedTo }} </span> </div>
       </div>
-    </div>
+      </div>
 
-      <div class="activity_widget">
-        <div class="d-flex">
-          <mat-icon> date_range</mat-icon>
-          <h3>{{ !activityData?.dueDate ? "No DueDate" : activityData?.dueDate | date : "medium" }}</h3>
+      <div class="activity_widget date_ragne">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex">
+            <mat-icon> date_range</mat-icon>
+            <h3>{{ !activityData?.dueDate ? "No DueDate" : activityData?.dueDate | date : "medium" }}</h3>
+         </div>
+         <div>
           <button mat-button [matMenuTriggerFor]="dueDateFiltersMatMenu">
             <mat-icon>edit</mat-icon>
             <mat-menu #menu="matMenu">
@@ -313,6 +317,7 @@
           <button mat-button [matMenuTriggerFor]="menu">
             <mat-icon>view_headline</mat-icon>
           </button>
+        </div>
         </div>
         <mat-menu #dueDateFiltersMatMenu="matMenu">
           <button mat-menu-item (click)="dueDateSetter('noDueDate')">

@@ -51,9 +51,9 @@ export const ActivityFiltersData = {
 
     ],
 
-    status: [{ DisplayName: 'Not Admissible', key: 'REJECTED', selected: false }, { DisplayName: 'New', key: 'NEW', selected: false },
+    status: [ { DisplayName: 'New', key: 'NEW', selected: false },
     { DisplayName: 'In Progress', key: 'INPROGRESS', selected: false }, { DisplayName: 'Resolved', key: 'RESOLVED', selected: false },
-
+    { DisplayName: 'Not Admissible', key: 'REJECTED', selected: false }
     ],
 
     priority: [{ DisplayName: 'None', key: 'NONE', selected: false }, { DisplayName: 'Low', key: 'LOW', selected: false },

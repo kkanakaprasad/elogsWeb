@@ -18,6 +18,7 @@ import { UserDetailsService } from '../shared/services/user-details-service/user
 import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
 import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 import { BehaviorSubject } from 'rxjs';
+import { BreadcrumbService } from '../main/breadcrumb/breadcrumb.service';
 
 const today = new Date();
 const month = today.getMonth();
@@ -105,7 +106,8 @@ export class ActivityComponent implements OnInit {
     private userDetailsService: UserDetailsService,
     private alertpopupService: AlertpopupService,
     private confirmationDialogService: ConfirmationDialogService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private breadcrumbService: BreadcrumbService
   ) { }
 
   ngOnInit(): void {
@@ -147,9 +149,18 @@ export class ActivityComponent implements OnInit {
       }
     });
 
+    this.breadcrumbService.getSelectedActivitiesStatus().subscribe((res: any) => {
+      if (res && res.key) {
+        res.selected = true;
+        this.activityListFilterOnChanged({}, 'status', res);
+      }
+    })
+
     this.activitySearchCriteriaPayload.subscribe((res) => {
       this.getActivitiesSearchCriteria()
-    })
+    });
+
+
   }
 
   getActivitiesSearchCriteria() {
@@ -457,6 +468,14 @@ export class ActivityComponent implements OnInit {
         this.dueDateChipValue = '';
         break;
     }
+  }
+
+  sortActivityListData(selectedOption: any) {
+    let data: any;
+    this.activitySearchCriteriaPayload.subscribe((res) => {
+      data = res;
+    });
+    this.activitySearchCriteriaPayload.next({ ...data, sortField: selectedOption.key });
   }
 
 
