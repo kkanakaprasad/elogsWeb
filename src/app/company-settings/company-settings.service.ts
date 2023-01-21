@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpDataService } from '../shared/services/http-service/http-service.service';
 import { NewCategoryPopUpComponent } from './category/new-category-pop-up/new-category-pop-up.component';
 import { CreateActivityType, UpdateActivityType } from './category/category.interface';
@@ -11,7 +11,21 @@ import { ExportsTasksComponent } from './import-export/exports-tasks/exports-tas
 })
 export class CompanySettingsService {
 
+  private selectedOrganization : BehaviorSubject<any> = new BehaviorSubject({});
+
   constructor(private httpDataService:HttpDataService,  private matDialog:MatDialog ) { }
+
+  createCompanySettings(payload: any): Observable<any> {
+    return this.httpDataService.post(`companySettings`, payload);
+  }
+  
+  updateCompanySettings(companySettingsId: string, payload: any): Observable<any> {
+    return this.httpDataService.put(`companySettings/${companySettingsId}`, payload);
+  }
+
+  getCompanySettings(): Observable<any> {
+    return this.httpDataService.get('companySettings');
+  }
 
   getAllOrganizations(): Observable<any>{
     return this.httpDataService.get(`organizations`)
