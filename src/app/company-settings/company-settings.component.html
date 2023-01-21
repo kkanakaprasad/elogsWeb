@@ -7,17 +7,18 @@
 
         </ng-template>
         <div class="text-center">
+            <form [formGroup]="companySettingsForm" (ngSubmit)="onUpdate()">
             <div class="d-flex justify-content-start ">
-                <p>Name:</p>
                 <mat-form-field appearance="outline">
-                    <mat-label>SIG - Logistics Division (MoCI)</mat-label>
-                    <input matInput value="SIG - Logistics Division (MoCI)">
+                    <mat-label>Company Name</mat-label>
+                    <input matInput input type="text" formControlName="name" />
                 </mat-form-field><br>
             </div>
             <div class="d-flex justify-content-center">
                 <button mat-button>Cancel</button><br>
-                <button type="button" class="btn btn-success">Update</button>
+                <button type="submit" class="btn btn-success">Update</button>
             </div>
+        </form>
         </div>
     </mat-tab>
 

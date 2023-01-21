@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CompanySettingsService } from '../company-settings/company-settings.service';
 import { OrganizationService } from '../organization/organization.service';
 import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 import { RouteConstants } from '../shared/constants/routes.constants';
 import { Roles } from '../shared/enums/roles.enums';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
+import { EventCommunicationsService } from '../shared/services/event-communications.service';
 import { StorageService } from '../shared/services/storage-service/storage.service';
 import { UserDetails } from '../shared/services/user-details-service/user-details.interface';
 import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
@@ -25,6 +27,7 @@ export class HeaderComponent implements OnInit {
     roles: ['']
   }
   isSuperAdmin: boolean = false;
+  companyName = '';
 
   constructor(private organizationService: OrganizationService,
     private storageService: StorageService,
@@ -32,15 +35,23 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private addNewUserService: AddNewUserService,
     private userService: UserService,
+    private eventCommunicationsService: EventCommunicationsService,
+    private companySettingsService: CompanySettingsService,
     private userDetailsService: UserDetailsService) { }
 
   ngOnInit(): void {
     this.userDetails();
-    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
+    this.companySettingsService.getCompanySettings().subscribe((res) => {
+      this.companyName = res.companySettings[0].name;
+    }); 
+    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
+    this.eventCommunicationsService.on("RELOAD_NAME").subscribe((data) => {
+       this.companyName = data;
+      });
   }
 
   userDetails() {
-    const payload :UserSearchCriteria = {
+    const payload: UserSearchCriteria = {
       pageNumber: 0,
       pageSize: 10,
       sortField: '',
@@ -96,13 +107,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([RouteConstants.PROFILE])
   }
 
-  navigateTomyCompany(){
+  navigateTomyCompany() {
     this.router.navigate([RouteConstants.COMPANY_SETTINGS])
   }
-  navigateToimportandexport(){
+  navigateToimportandexport() {
     this.router.navigate([RouteConstants.COMPANY_SETTINGS])
   }
-  navigateTocatageory(){
+  navigateTocatageory() {
     this.router.navigate([RouteConstants.COMPANY_SETTINGS])
   }
 }
