@@ -244,7 +244,7 @@
             </button>
           </div>
         </ng-container>
-        <ng-container *ngIf="logedInUserId == selectedActivityCreatedById">
+        <ng-container *ngIf="logedInUserId == selectedActivityCreatedById && !isSuperAdmin">
           <div class="d-flex justify-content-start">
             <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Refresh">
               <mat-icon>refresh</mat-icon>
@@ -271,7 +271,7 @@
         <ng-container *ngIf="
             isAssignee &&
             activityData?.createdByOrganization !=
-              activityData?.organizationData[0]._id && isSuperAdmin">
+              activityData?.organizationData[0]._id && !isSuperAdmin">
           <div class="d-flex justify-content-start">
             <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
               <mat-icon>refresh</mat-icon>

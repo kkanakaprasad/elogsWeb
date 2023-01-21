@@ -100,33 +100,10 @@
       <button mat-button [matMenuTriggerFor]="sortby" matTooltip="Sort By">
         Sort By<mat-icon>sort</mat-icon></button>
       <mat-menu #sortby="matMenu">
-        <mat-option *ngFor="let option of activityFiltersData.sortBy">
+        <mat-option *ngFor="let option of activityFiltersData.sortBy" (click)="sortActivityListData(option)">
           {{option.DisplayName}}
         </mat-option>
       </mat-menu>
-
-        <!-- <div>
-          <span>
-            <div class="btn btn-secondary mx-1" (click)="downloadFile()" matTooltip="Download">
-              <i class="icon-taskdownl"></i>
-              <mat-icon>file_download</mat-icon>
-            </div>
-          </span>
-          <button mat-button [matMenuTriggerFor]="filters" matTooltip="Filters">
-            Filters <mat-icon> filter_alt</mat-icon></button>
-          <mat-menu #filters="matMenu">
-            <button mat-menu-item [matMenuTriggerFor]="createddate">Created Date</button>
-            <button mat-menu-item [matMenuTriggerFor]="duedate">Due Date</button>
-            <button mat-menu-item [matMenuTriggerFor]="status">Status</button>
-            <button mat-menu-item [matMenuTriggerFor]="types">Types</button>
-            <button mat-menu-item [matMenuTriggerFor]="entrytype">Entry Type</button>
-            <button mat-menu-item [matMenuTriggerFor]="geography">Geography</button>
-            <button mat-menu-item [matMenuTriggerFor]="scope">Scope</button>
-            <button mat-menu-item [matMenuTriggerFor]="priority">Priority</button>
-            <button mat-menu-item [matMenuTriggerFor]="createdby">Created by</button>
-            <button mat-menu-item [matMenuTriggerFor]="assignto">Assigned to</button>
-          </mat-menu>
-        </div> -->
       </div>
     </div>
 
@@ -348,7 +325,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Activity </th>
 
     <td mat-cell *matCellDef="let element" class="cursor" (click)="navigateToActivityDetails(element._id)">
-      {{element.activityType}} </td>
+      {{element.createdByOrganization[0].shortName}} </td>
   </ng-container>
 
   <!-- Name Column -->
@@ -372,7 +349,7 @@
 
   <ng-container matColumnDef="Assignto">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Assignto </th>
-    <td mat-cell *matCellDef="let element"> {{element?.assignto}} </td>
+    <td mat-cell *matCellDef="let element"> {{element?.assignTo[0]?.organization}} </td>
   </ng-container>
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> actions </th>
@@ -383,6 +360,12 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<div *ngIf="dataSource?.filteredData?.length === 0">   
+  <mat-card class="technologyMatCard">
+      No Activities found
+  </mat-card>
+</div>
 
 
 <mat-paginator #paginator [pageSize]="customPage.pageSize" [length]="activitylist.length"
