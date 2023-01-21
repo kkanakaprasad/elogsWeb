@@ -35,13 +35,15 @@ export const ActivityFiltersData = {
             quantity: 1
         }
     },
-    { DisplayName: 'Custom Range', key: {
-        unit : 'R',
-        range : {
-            from :'',
-            to : ''
+    {
+        DisplayName: 'Custom Range', key: {
+            unit: 'R',
+            range: {
+                from: '',
+                to: ''
+            }
         }
-    } },
+    },
     ],
 
     duedate: [{ DisplayName: 'Any Time', key: 'ALL' }, { DisplayName: 'OverDue', key: 'OVERDUE' },
@@ -49,13 +51,13 @@ export const ActivityFiltersData = {
 
     ],
 
-    status: [{ DisplayName: 'All', key: 'ALL' }, { DisplayName: 'Not Admissible', key: 'REJECTED' }, { DisplayName: 'New', key: 'NEW' },
-    { DisplayName: 'In Progress', key: 'INPROGRESS' }, { DisplayName: 'Resolved', key: 'RESOLVED' },
+    status: [{ DisplayName: 'Not Admissible', key: 'REJECTED', selected: false }, { DisplayName: 'New', key: 'NEW', selected: false },
+    { DisplayName: 'In Progress', key: 'INPROGRESS', selected: false }, { DisplayName: 'Resolved', key: 'RESOLVED', selected: false },
 
     ],
 
-    priority: [{ DisplayName: 'None', key: 'NONE' }, { DisplayName: 'Low', key: 'LOW' },
-    { DisplayName: 'Medium', key: 'MEDIUM' }, { DisplayName: 'High', key: 'HIGH' }
+    priority: [{ DisplayName: 'None', key: 'NONE', selected: false }, { DisplayName: 'Low', key: 'LOW', selected: false },
+    { DisplayName: 'Medium', key: 'MEDIUM', selected: false }, { DisplayName: 'High', key: 'HIGH', selected: false }
     ],
 
     createdby: [],
