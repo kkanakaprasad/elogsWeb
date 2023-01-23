@@ -91,7 +91,6 @@ export class CreateactivityComponent implements OnInit {
       this.activityForm.controls['activitySector'].setValue(this.selectedActivityData?.activitySector)
       this.activityForm.controls['activityScope'].setValue(this.selectedActivityData?.activityScope)
       this.activityForm.controls['title'].setValue(this.selectedActivityData?.title)
-      this.activityForm.controls['attachments'].setValue(this.selectedActivityData?.attachments)
 
     })
   }
@@ -130,8 +129,6 @@ export class CreateactivityComponent implements OnInit {
       activitySector: ['', Validators.required],
       activityScope: ['', Validators.required],
       title: ['', Validators.required],
-      description: ['', Validators.required],
-      attachments: ['', Validators.required],
       createdByOrganization: ['', Validators.required]
     })
 
@@ -149,8 +146,7 @@ export class CreateactivityComponent implements OnInit {
         attachments: this.filesListArray, 
         organization: this.selectedOrganizationValue, 
         priority: Priority[0] , 
-        status: Status[0], 
-        createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) 
+        status: Status[0],  
       }
       this.activityService.updateActivity(this.selectedActivityId, payload).subscribe(res => {
         this.alertpopupService.open({
@@ -174,7 +170,6 @@ export class CreateactivityComponent implements OnInit {
           priority: Priority[0], 
           status: Status[0], 
           description:this.descriptionOfTextEditor,
-          createdBy: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID),
         }
         
         this.activityService.postActivity(payload).subscribe((res) => {

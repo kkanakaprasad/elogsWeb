@@ -5,6 +5,8 @@ import { OrganizationService } from 'src/app/organization/organization.service';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
 import { REG_EXP_PATTERNS } from 'src/app/shared/enums/regex-pattern.enum';
 import { Roles } from 'src/app/shared/enums/roles.enums';
+import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
+import { SelectedOrganizationService } from 'src/app/shared/services/selected-organizions/selected-organization.service';
 import { UserSearchCriteria } from '../user-list/user-Interface';
 import { UserService } from '../user.service';
 
@@ -22,13 +24,16 @@ export class AddNewUserComponent implements OnInit {
   organizationsData: any;
   isUserEdit: boolean = false;
   userDetails: any;
+  searchedOrganizationList: any = [];
+  selectOrganization: any;
 
   constructor(private formBuilder: FormBuilder,
     private organizationService: OrganizationService,
     private userService: UserService,
     private alertpopupService: AlertpopupService,
-    public dialogref: MatDialogRef<AddNewUserComponent>,
-    @Inject(MAT_DIALOG_DATA) public userId: string
+    public dialogref: MatDialogRef<AddNewUserComponent>,     
+    @Inject(MAT_DIALOG_DATA) public userId: string,
+    private selectedOrganizationService: SelectedOrganizationService
   ) {
   }
 
@@ -41,11 +46,10 @@ export class AddNewUserComponent implements OnInit {
     }
     this.generateAddNewUserForm();
     this.getAllOrganization()
-
     this.addNewUserForm.controls['organization'].valueChanges.subscribe((res:any)=>{
       this.filterData(res);
     })
-
+    
   }
 
   userDetailsById() {
@@ -132,7 +136,6 @@ export class AddNewUserComponent implements OnInit {
         this.alertpopupService.open({
           message: error.message ? error.message : "something went wrong!",
           action: "ok"
-
         });
       });
     }
@@ -141,9 +144,19 @@ export class AddNewUserComponent implements OnInit {
   getAllOrganization() {
     this.organizationService.getAllOrganizations().subscribe((res) => {
       this.organizationsData = res;
-      this.organizationList = res.organizations
-    })
+      this.organizationList = res.organizations;
+      this.searchedOrganizationList = res.organizations
 
+    })
   }
 
+
+  filterOrganization(event: any) {
+    if (event.target.value) {
+      const search = new SearchPipe();
+      this.searchedOrganizationList = search.transform(this.organizationList, event.target.value, 'organization');
+    } else {
+      this.organizationList;
+    }
+  }
 }

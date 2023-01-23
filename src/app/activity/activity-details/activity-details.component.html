@@ -1,17 +1,16 @@
-<div class="row container">
-  <div class="row">
+<button class="btn btn-primary btn-sm" (click)="navigateToPreviousRoute()"><mat-icon>keyboard_return</mat-icon></button>
+<div class="row">
     <div class="col-md-9">
-      <h2><div [innerHTML]="activityData?.description"></div></h2>
+      <div class="activity-data">
+        <h2>{{activityData?.title | titlecase}}</h2>
       <p>
-        Last updated by -- on {{ activityData?.createdAt | date : "medium" }}
-        <span *ngIf="activityData?.activityLog.length >= 1"
-          ><mat-icon> chat</mat-icon
-          >{{ activityData?.activityLog.length }}</span
-        >
+        Last updated on {{ activityData?.createdAt | date : "medium" }}
+        <span *ngIf="activityData?.activityLog.length >= 1"><mat-icon> chat</mat-icon>{{
+          activityData?.activityLog.length }}</span>
       </p>
-      <hr />
+
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <table class="table table-borderless">
             <tbody>
               <tr>
@@ -28,7 +27,7 @@
               </tr>
               <tr>
                 <td>Priority:</td>
-                <td>{{ activityData?.priority | titlecase }}</td>
+                <td [class]="statusClass(activityData?.priority)">{{ activityData?.priority | titlecase }}</td>
               </tr>
               <tr>
                 <td>Status:</td>
@@ -37,7 +36,7 @@
             </tbody>
           </table>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <table class="table table-borderless">
             <tbody>
               <tr>
@@ -46,8 +45,12 @@
               </tr>
               <tr>
                 <td>Ministry/Department:</td>
-                <td *ngFor="let ministry of organizationsInvolved">
-                  {{ ministry?.organization }}
+
+                <!-- <td>
+                  <p *ngFor="let ministry of organizationsInvolved">{{ ministry.organization }}</p>
+                  </td> -->
+                <td>
+                  {{ ministryName }}
                 </td>
               </tr>
               <tr>
@@ -57,7 +60,7 @@
             </tbody>
           </table>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <table class="table table-borderless">
             <tbody>
               <tr>
@@ -74,326 +77,247 @@
 
         <div>
           <div class="col-md-12 my-2">
-            <mat-card>
-              <mat-card-content>
+            <div class="activity_card">
                 <div class="d-flex">
-                  <div class="img-span d-flex">
-                    <mat-icon class="mat-i">person_outline</mat-icon>
+                  <div class="d-flex">
+                    <mat-icon class="mat-i">account_circle</mat-icon>
                   </div>
-                  <div>
+                  <div class="card-created">
                     Created by <strong>{{ activityReportedBy }}</strong>
                     <p>{{ activityData?.createdAt | date : "medium" }}</p>
                   </div>
                 </div>
-                <hr />
+
                 <div [innerHTML]="activityData?.description"></div>
                 <div class="d-flex">
                   <mat-icon *ngIf="activityData?.attachments?.length>=1">attach_file</mat-icon>
-                  <p *ngFor="let attachments of activityData?.attachments">
-                    <mat-icon>insert_drive_file</mat-icon
-                    >{{ attachments.name }} {{ attachments.size }}
-                  </p>
+                  <div>
+                    <p *ngFor="let attachments of activityData?.attachments">
+                      <mat-icon>insert_drive_file</mat-icon>{{ attachments?.name }} {{ attachments?.size/1024 |
+                      number:'.2-2' }} Kb
+                    </p>
+                  </div>
                 </div>
-              </mat-card-content>
-            </mat-card>
+
           </div>
 
           <div class="col-md-12 my-2" *ngFor="let activity of activityLogData;let i = index">
-            <mat-card>
-              <mat-card-content>
+
+            <div class="activity_card">
                 <div class="d-flex justify-content-between">
-                  <div>{{i+1}}</div>
-                  <div class="img-span d-flex">
-                    <mat-icon class="mat-i">person_outline</mat-icon>
+                  <div class="d-flex">
+                    <mat-icon class="mat-i">account_circle</mat-icon>
+                    <div class="card-created">
+                      Created by {{activity.createdByUserName}}
+                      <p>{{ activity.updatedAt | date : "medium" }}</p>
+                    </div>
                   </div>
-                  <div>
-                    Created by
-                    <p>{{ activity.updatedAt | date : "medium" }}</p>
-                  </div>                  
-                  <span class="organization-title"
-                    ><strong>{{ activity.title | titlecase }}</strong></span
-                  >
+
+                  <span class="organization-title"><strong>{{ activity.title | titlecase }}</strong></span>
                   <div>
                     <p>Status: {{activity.status| titlecase}}</p>
-                    
+
                   </div>
                   <div>
-                    <p>Assigned To: </p>
+                    <p>Assigned To: {{ selectedActivityAssignedTo }} </p>
                   </div>
                 </div>
-                <hr />
+
                 <div [innerHTML]="activity.message"></div>
                 <div class="d-flex">
                   <mat-icon *ngIf="activity?.attachments?.length>=1">attach_file</mat-icon>
-                
-                    <div *ngFor="let attachment of activity?.attachments">
-                      <mat-icon>insert_drive_file</mat-icon
-                      >{{ attachment?.name }} {{ attachment?.size }}
-                    </div>
-                  </div>
-                
-              </mat-card-content>
-            </mat-card>
+                  <div>
+                  <p *ngFor="let attachment of activity?.attachments">
+                    <mat-icon>insert_drive_file</mat-icon>{{ attachment?.name }} {{ attachment?.size/1024 |
+                    number:'.2-2' }} Kb
+                    </p>
+                </div>
+              </div>
+
+              </div>
           </div>
-          <form [formGroup]="activityLogForm" (ngSubmit)="onSubmit()">
-            <div>
-              <label> Write your Reply: </label>
-              <app-rich-text-editor
-                value=""
-                (updatedDescription)="updatedDescription($event)"
-              ></app-rich-text-editor>
-            </div>
-            <mat-form-field appearance="outline">
-              <mat-label>Status: </mat-label>
-              <mat-select formControlName="status">
-                <mat-option [value]="status[0]">New</mat-option>
-                <mat-option [value]="status[1]">In Progress</mat-option>
-                <mat-option [value]="status[2]">Not Admissible</mat-option>
-                <mat-option [value]="status[3]">Resolved</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-radio-group aria-label formControlName="priority" layout="row">
+          <div class="logform mt-4">
+            <form [formGroup]="activityLogForm" (ngSubmit)="onSubmit()">
               <div class="row mb-3">
-                <mat-label class="col-sm-3 col-form-label">Priority:</mat-label>
-                <div class="col-sm-8">
-                  <mat-radio-button [value]="Priority[0]"
-                    >None</mat-radio-button
-                  >
-                  <mat-radio-button [value]="Priority[1]">Low</mat-radio-button>
-                  <mat-radio-button [value]="Priority[2]"
-                    >Medium</mat-radio-button
-                  >
-                  <mat-radio-button [value]="Priority[3]"
-                    >High</mat-radio-button
-                  >
+                <label class="col-sm-3 col-form-label"> Write your Reply: </label>
+                <div class="col-sm-9">
+                  <app-rich-text-editor value="" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
                 </div>
               </div>
-            </mat-radio-group>
-            <mat-radio-group
-              aria-label
-              formControlName="visibility"
-              layout="row"
-            >
               <div class="row mb-3">
-                <mat-label class="col-sm-3 col-form-label"
-                  >Visibility:</mat-label
-                >
-                <div class="col-sm-8">
-                  <mat-radio-button [value]="visibility[0]"
-                    >Internal</mat-radio-button
-                  >
-                  <mat-radio-button [value]="visibility[1]"
-                    >Everyone</mat-radio-button
-                  >
+                <label class="col-sm-3 col-form-label"> Status: </label>
+                <div class="col-sm-9">
+                  <mat-form-field appearance="outline">
+                    <mat-select formControlName="status">
+                      <mat-option [value]="status[0]">New</mat-option>
+                      <mat-option [value]="status[1]">In Progress</mat-option>
+                      <mat-option [value]="status[2]">Not Admissible</mat-option>
+                      <mat-option [value]="status[3]">Resolved</mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
               </div>
-            </mat-radio-group>
+              <div class="row mb-3">
+                <label class="col-sm-3 col-form-label"> Priority: </label>
+                <div class="col-sm-9">
+                  <mat-radio-group aria-label formControlName="priority">
+                        <mat-radio-button [value]="Priority[0]">None</mat-radio-button>
+                        <mat-radio-button [value]="Priority[1]">Low</mat-radio-button>
+                        <mat-radio-button [value]="Priority[2]">Medium</mat-radio-button>
+                        <mat-radio-button [value]="Priority[3]">High</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Assign to</mat-label>
-              <mat-select formControlName="assignTo">
-                <mat-option
-                  *ngFor="let Organization of organizationList"
-                  [value]="Organization._id"
-                >
-                  {{ Organization.organization }}</mat-option
-                >
-              </mat-select>
-            </mat-form-field>
-            <div>
-              <app-fileuploader
-                (updatedFilesDescription)="updatedFilesDescription($event)"
-              ></app-fileuploader>
-            </div>
+              <div class="row mb-3">
+                <label class="col-sm-3 col-form-label"> Visibility: </label>
+                <div class="col-sm-9">
+                  <mat-radio-group aria-label formControlName="visibility" layout="row">
+                    <mat-radio-button [value]="visibility[0]">Internal</mat-radio-button>
+                    <mat-radio-button [value]="visibility[1]">Everyone</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
 
-            <div class="d-flex justify-content-end align-items-center">
-              <button mat-raised-button color="primary" type="submit" >
-                Post
-              </button>
-              <button  type='button' (click)="navigateToActivityListPage()" mat-raised-button >Cancel</button>
-            </div>
-          </form>
+              <div class="row mb-3">
+                <label class="col-sm-3 col-form-label"> Assign to </label>
+                <div class="col-sm-9">
+                  <mat-form-field appearance="outline">
+                    <mat-select formControlName="assignTo">
+                      <mat-option *ngFor="let Organization of organizationList" [value]="Organization._id">
+                        {{ Organization.organization }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label class="col-sm-3 col-form-label"> Attachments</label>
+              <div class="col-sm-9">
+                <app-fileuploader (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
+              </div>
+              </div>
+
+              <div class="d-flex justify-content-end align-items-center">
+                <button type='button' (click)="resetActivityLogForm()" mat-raised-button>Cancel</button>
+                <button mat-raised-button color="primary" type="submit" [disabled]="description === '' ">
+                  Post
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
+      </div>
+
     </div>
+    </div>
+    <div class="col-md-3 active_right_panel">
+      <div class="activity_widget">
+        <ng-container *ngIf="isSuperAdmin">
+          <div class="d-flex justify-content-start">
+            <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="updateActivityDetails()" matTooltip="Edit"
+              *ngIf="this.activityData?.status === 'NEW'">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="updateSelectedArchiveStatus()" matTooltip="Archive">
+              <mat-icon>archive</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="deleteSelectedActivity()" matTooltip="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" *ngIf="
+                this.activityData?.status === 'NEW' ||
+                this.activityData?.status === 'INPROGRESS'
+              " (click)="updateStatusOfSelectedActivity('Resolve')" matTooltip="Resolve">
+              <mat-icon>assistant_photo</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" *ngIf="this.activityData?.status === 'REJECTED' ? false : true"
+              (click)="updateStatusOfSelectedActivity('Reject')" matTooltip="Reject">
+              <mat-icon>checkmark</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
+              <mat-icon>download</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="logedInUserId == selectedActivityCreatedById && !isSuperAdmin">
+          <div class="d-flex justify-content-start">
+            <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Refresh">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" *ngIf="
+                this.activityData?.status === 'NEW' ||
+                this.activityData?.status === 'INPROGRESS' ||
+                this.activityData?.status === 'REJECTED'
+              " (click)="updateSelectedArchiveStatus()" matTooltip="Archive">
+              <mat-icon>archive</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" *ngIf="
+                this.activityData?.status === 'NEW' ||
+                this.activityData?.status === 'REJECTED'
+              " (click)="deleteSelectedActivity()" matTooltip="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
+              <mat-icon>download</mat-icon>
+            </button>
+          </div>
+        </ng-container>
 
-    <div class="col-md-3 kit">
-      <ng-container *ngIf="isSuperAdmin">
-        <div class="d-flex justify-content-start">
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="refreshPage()"
-            matTooltip="Reload"
-          >
-            <mat-icon>refresh</mat-icon>
-          </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="updateActivityDetails()"
-            matTooltip="Edit"
-            *ngIf="this.activityData?.status === 'NEW'"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="updateSelectedArchiveStatus()"
-            matTooltip="Archive"
-          >
-            <mat-icon>archive</mat-icon>
-          </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="deleteSelectedActivity()"
-            matTooltip="Delete"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            *ngIf="
-              this.activityData?.status === 'NEW' ||
-              this.activityData?.status === 'INPROGRESS'
-            "
-            (click)="updateStatusOfSelectedActivity('Resolve')"
-            matTooltip="Resolve"
-          >
-            <mat-icon>timeline</mat-icon>
-          </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            *ngIf="this.activityData?.status === 'REJECTED' ? false : true"
-            (click)="updateStatusOfSelectedActivity('Reject')"
-            matTooltip="Reject"
-          >
-            <mat-icon>checkmark</mat-icon>
-          </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="downloadActivity()"
-            matTooltip="Download"
-          >
-            <mat-icon>download</mat-icon>
-          </button>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="logedInUserId == selectedActivityCreatedById">
-        <div class="d-flex justify-content-start">
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="refreshPage()"
-            matTooltip="Refresh"
-          >
-            <mat-icon>refresh</mat-icon>
-          </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            *ngIf="
-              this.activityData?.status === 'NEW' ||
-              this.activityData?.status === 'INPROGRESS' ||
-              this.activityData?.status === 'REJECTED'
-            "
-            (click)="updateSelectedArchiveStatus()"
-            matTooltip="Archive"
-          >
-            <mat-icon>archive</mat-icon>
-          </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            *ngIf="
-              this.activityData?.status === 'NEW' ||
-              this.activityData?.status === 'REJECTED'
-            "
-            (click)="deleteSelectedActivity()"
-            matTooltip="Delete"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="downloadActivity()"
-            matTooltip="Download"
-          >
-            <mat-icon>download</mat-icon>
-          </button>
-        </div>
-      </ng-container>
-
-      <ng-container
-        *ngIf="
-          isAssignee &&
-          activityData?.createdByOrganization !=
-            activityData?.organizationData[0]._id
-        "
-      >
-        <div class="d-flex justify-content-start">
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="refreshPage()"
-            matTooltip="Reload"
-          >
-            <mat-icon>refresh</mat-icon>
-          </button>
-          <button
-            mat-stroked-button
-            class="padding"
-            (click)="downloadActivity()"
-            matTooltip="Download"
-          >
-            <mat-icon>download</mat-icon>
-          </button>
-        </div>
-      </ng-container>
-
-      <hr />
+        <ng-container *ngIf="
+            isAssignee &&
+            activityData?.createdByOrganization !=
+              activityData?.organizationData[0]._id && !isSuperAdmin">
+          <div class="d-flex justify-content-start">
+            <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
+              <mat-icon>download</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+      </div>
+      <div class="activity_widget">
       <div class="d-flex align-items-center">
         <mat-icon class="mat-Icon">folder_shared</mat-icon>
-        <h3 class="quick-action" data-toggle="dropdown">Assigned To</h3>
+        <h3 class="quick-action mb-0" data-toggle="dropdown">Assigned To</h3>
       </div>
-      <div class="d-flex">
-        <div class="img-span">
-          <mat-icon class="mat-i">person_outline</mat-icon>
+      <div class="d-flex align-items-center">
+        <div>
+          <mat-icon class="mat-i">account_circle</mat-icon>
         </div>
-        <strong> {{ selectedActivityAssignedTo }}</strong>
+        <div> <span>{{ selectedActivityAssignedTo }} </span> </div>
       </div>
-      <hr />
-      <div class="d-flex">
-        <div class="d-flex">
-          <mat-icon> date_range</mat-icon>
-          <h5 matTooltip="" class="mx-2">
-            {{ activityData?.dueDate | date : "medium" }}
-            <button
-              mat-button
-              [matMenuTriggerFor]="dueDateFiltersMatMenu"
-              class="date-icon"
-            >
-              <mat-icon>edit</mat-icon>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item>
-                  Due Date {{ activityData?.dueDate | date : "medium" }}
-                </button>
-                <button mat-menu-item>Updated by</button>
-                <button mat-menu-item>
-                  Created At {{ activityData?.createdAt | date : "medium" }}
-                </button>
-              </mat-menu>
-            </button>
-            <button mat-button [matMenuTriggerFor]="menu" class="date-icon">
-              <mat-icon>view_headline</mat-icon>
-            </button>
-          </h5>
+      </div>
+
+      <div class="activity_widget date_ragne">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex">
+            <mat-icon> date_range</mat-icon>
+            <h3>{{ !activityData?.dueDate ? "No DueDate" : activityData?.dueDate | date : "medium" }}</h3>
+         </div>
+         <div>
+          <button mat-button [matMenuTriggerFor]="dueDateFiltersMatMenu">
+            <mat-icon>edit</mat-icon>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                Due Date {{ activityData?.dueDate | date : "medium" }}
+              </button>
+              <button mat-menu-item>Updated by{{activityData?.updatedBy}}</button>
+              <button mat-menu-item>
+                Created At {{ activityData?.createdAt | date : "medium" }}
+              </button>
+            </mat-menu>
+          </button>
+          <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>view_headline</mat-icon>
+          </button>
+        </div>
         </div>
         <mat-menu #dueDateFiltersMatMenu="matMenu">
           <button mat-menu-item (click)="dueDateSetter('noDueDate')">
@@ -412,62 +336,65 @@
           </button>
 
           <mat-label>Choose a date</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            (dateChange)="dueDateSetter('custom', $event)"
-          />
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
+          <input matInput [matDatepicker]="picker" (dateChange)="dueDateSetter('custom', $event)" />
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-menu>
       </div>
-      <hr />
-      <div class="d-flex flex-wrap">
+
+      <div class="d-flex flex-wrap activity_widget">
         <mat-icon>attach_file</mat-icon>
-        <h3 class="mx-2 text">
+        <h3 class="">
           {{
-            activityData?.attachments?.length == 0
-              ? "No Files in this Activity"
-              : "Files in this Activity"
+          activityData?.attachments?.length == 0
+          ? "No Files in this Activity"
+          : "Files in this Activity"
           }}
         </h3>
         <div *ngFor="let fileData of activityData?.attachments">
-          <mat-icon>insert_drive_file</mat-icon>{{ fileData?.name
-          }}{{ fileData?.updatedAt | date : "medium" }}
+          <div class="file-data">
+            <div class="d-flex">
+              <mat-icon>insert_drive_file</mat-icon>
+              <span>{{ fileData?.name}} <small>{{fileData?.size /1024 | number:'.2-2'}} Kb</small> </span>
+            </div>
+            <p>{{ fileData?.updatedAt | date : "medium" }}</p>
+          </div>
         </div>
       </div>
-      <hr />
-      <div class="d-flex">
-        <mat-icon>timeline</mat-icon>
-        <h3 class="mx-3">Activities</h3>
-      </div>
-      <div>
+
+      <div class="activity_widget">
+        <div class="d-flex">
+          <mat-icon>timeline</mat-icon>
+          <h3 class="">Activities</h3>
+        </div>
         <div>
-          <strong>Created:</strong>
-          {{ this.activityData?.createdAt | date : "medium" }}
+          <div>
+            <span class="activity_status">Created:</span>
+            {{ this.activityData?.createdAt | date : "medium" }}
+          </div>
+          <div class="my-2" *ngFor="let activityLog of ActivityTimeLogs">
+            <p>
+              <span class="activity_status">{{ activityLog.status }}:</span>
+              {{ activityLog.updatedAt | date : "medium" }}
+            </p>
+          </div>
         </div>
-        <div class="my-2" *ngFor="let activityLog of ActivityTimeLogs">
-          <p>
-            <strong>{{ activityLog.status }}:</strong>
-            {{ activityLog.updatedAt | date : "medium" }}
-          </p>
+      </div>
+
+      <div class="activity_widget">
+        <div class="d-flex">
+          <mat-icon> supervised_user_circle</mat-icon>
+          <h3 class="">People Involved</h3>
         </div>
+        <div class="d-flex">
+          <div *ngFor="let ministry of organizationsInvolved">
+            <span class="d-flex align-items-center justify-content-center">
+              <mat-icon class="mat-i" matTooltip="{{ ministry.organization }}">account_circle</mat-icon>
+            </span>
+          </div>
       </div>
-      <hr />
-      <div class="d-flex">
-        <mat-icon> people</mat-icon>
-        <h3 class="mx-3">People Involved</h3>
+
       </div>
-      <div class=" d-flex" *ngFor="let ministry of organizationsInvolved">
-        <span class="img-span d-flex align-items-center justify-content-center">
-          <mat-icon class="mat-i" matTooltip="{{ ministry.organization }}"
-            >person_outline</mat-icon
-          >
-        </span>
-      </div>
+
     </div>
-  </div>
 </div>

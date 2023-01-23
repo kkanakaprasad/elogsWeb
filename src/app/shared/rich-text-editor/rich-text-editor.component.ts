@@ -34,7 +34,7 @@ export class RichTextEditorComponent implements OnInit, OnDestroy {
       .scrollIntoView()
       .exec();
     this.createformgroup();
-    this.richtextForm.controls['description'].valueChanges.subscribe((res)=>{
+    this.richtextForm?.controls['description']?.valueChanges.subscribe((res)=>{
       this.updatedDescription.emit(res);
     })
   }

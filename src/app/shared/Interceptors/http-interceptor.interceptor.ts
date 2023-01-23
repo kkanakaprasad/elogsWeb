@@ -21,7 +21,8 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
   ) { }
 
   handleError = (error: any) => {
-    if (error.status === 401) {
+    console.log(error);
+    if (error.status === 401 || error.statusCode === 401) {
       this.alertpopupService.open({
         message: 'UnAuthrized Please login again',
         action: 'ok'
@@ -37,12 +38,11 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const token = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ACCESS_TOKEN);
-
-    // if (token) {
-    //   request = request.clone({
-    //     headers: request.headers.set('Authorization', `Bearer ${token}`)
-    //   })
-    // }
+    if (token) {
+      request = request.clone({
+        headers: request.headers.set('Authorization', `Bearer ${token}`)
+      })
+    }
 
     return next.handle(request).pipe(
       catchError(this.handleError)

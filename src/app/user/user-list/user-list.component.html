@@ -5,43 +5,43 @@
   <mat-tab-group (selectedTabChange)="applyUserFilters($event)" class="mt-2 users_list">
     <mat-tab label={{filters.IS_ACTIVE}}>
       <ng-template mat-tab-label>
-        <a href="#" class="d-flex align-items-center">
+       
           <mat-icon>person_pin</mat-icon>
           Active ({{activeMetricsCount}})
-        </a>
+       
       </ng-template>
 
     </mat-tab>
 
     <mat-tab label={{filters.MY_PROFILE}}>
       <ng-template mat-tab-label>
-        <a href="#" class="d-flex align-items-center">
+        
           <mat-icon>person_outline</mat-icon>Admin (1)
-        </a>
+       
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.MINISTRIES}}>
       <ng-template mat-tab-label>
-        <a href="#" class="d-flex align-items-center">
+       
           <mat-icon>people</mat-icon>
           Ministry/Department({{ministriesMetricsCount}})
-        </a>
+      
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.ASSOCIATION}}>
       <ng-template mat-tab-label>
-        <a href="#" class="d-flex align-items-center">
+        
           <mat-icon>group_add</mat-icon>
           Association ({{associationsMetricsCount}})
-        </a>
+     
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.INACTIVE}}>
       <ng-template mat-tab-label>
-        <a href="#" class="d-flex align-items-center">
+       
           <mat-icon>not_interested</mat-icon>
           Inactive ({{inActiveMetricsCount}})
-        </a>
+      
       </ng-template>
 
     </mat-tab>

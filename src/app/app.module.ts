@@ -10,7 +10,9 @@ import { SharedModule } from './shared/shared.module';
 import { LoginComponent } from './login-page/login.component';
 import { HeaderComponent } from './header/header.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpInterceptorInterceptor } from './shared/Interceptors/http-interceptor.interceptor';
+import { BreadcrumbComponent } from './main/breadcrumb/breadcrumb.component';
 
 
 
@@ -25,10 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     HeaderComponent,
     SideNavComponent,
-   
-   
-    
-  ],
+    BreadcrumbComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -39,7 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
    
   ],
-  providers: [],
+  providers: [{provide:HTTP_INTERCEPTORS,useClass:HttpInterceptorInterceptor,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

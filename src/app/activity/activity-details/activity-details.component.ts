@@ -59,6 +59,7 @@ export class ActivityDetailsComponent implements OnInit {
   logedInUserId: any;
   logedInUserDetails: any;
   isAssignee: any;
+  ministryName: any;
 
 
 
@@ -94,6 +95,7 @@ export class ActivityDetailsComponent implements OnInit {
   getActivityDetailsById() {
     this.activityService.getActivityById(this.selectedActivityId).subscribe(res => {
       this.activityData = res.data[0]
+      console.log(this.activityData)
       this.selectedActivityEntryTypeId = res.data[0]?.activitEntryType
       this.selectedActivityRelatedTypeId = res.data[0]?.activityRelatedTo
       this.selectedActivitySectorId = res.data[0]?.activitySector
@@ -104,6 +106,7 @@ export class ActivityDetailsComponent implements OnInit {
       this.isArchive = this.activityData?.isArchive
       this.selectedActivityTypeId=this.activityData?.activityType
       this.organizationsInvolved=this.activityData?.organizationData
+      this.ministryName=this.activityData?.organizationData[0]?.organization
       this.selectedActivityAssignedTo=this.activityData?.organizationData.filter((organization:any)=>organization._id==this.activityData?.assignTo).map((item: any) => item.organization)
       this.getUserById()
       this.getLogedInUserDetails()
@@ -141,7 +144,6 @@ export class ActivityDetailsComponent implements OnInit {
       status: ['', [Validators.required]],
       assignTo: ['', [Validators.required]],
       attachments: ['', [Validators.required]],
-      message: ['', [Validators.required]],
 
     })
   }
@@ -156,6 +158,7 @@ export class ActivityDetailsComponent implements OnInit {
         action: 'ok'
       })
       this.getActivityDetailsById()
+      this.activityLogForm?.reset()
     }, (error) => {
       this.alertpopupService.open({
         message: error.message ? error.message : "something went wrong!",
@@ -295,7 +298,6 @@ export class ActivityDetailsComponent implements OnInit {
       const payload = {
         status:selectedActivity ,
       }
-      console.log(payload)
         this.confirmationDialogService.open({
           message: `Are you sure you want to ${currentStatus}`
         }).afterClosed().subscribe((res) => {
@@ -418,9 +420,20 @@ export class ActivityDetailsComponent implements OnInit {
        refreshPage(){
         this.getActivityDetailsById()
        }
-       navigateToActivityListPage(){
+
+       resetActivityLogForm(){
+        this.activityLogForm.reset()
+       }
+  
+       navigateToPreviousRoute(){
         this.router.navigate([RouteConstants.ACTIVITY])
        }
+
+       statusClass(status: string) {
+        return status === 'MEDIUM' ? 'confirm' 
+        : status === 'HIGH'  ? 'reject' 
+        :''
+      }
       
     }
     

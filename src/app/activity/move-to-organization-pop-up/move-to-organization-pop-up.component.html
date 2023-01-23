@@ -1,0 +1,24 @@
+<div class="elog-dialog">
+    <h1 class="user">Move Organization</h1>
+    <mat-dialog-content class="elog-dialog-body">
+        <mat-form-field appearance="outline" width="100%">
+            <input class='p-2' placeholder="Find an Organisation" matInput (keyup)="filterOrganization($event)"
+                [matAutocomplete]="auto" />
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let organization of searchedOrganizationList" [value]="organization.organization"
+                    #matOption (click)="optionSelected(organization)">
+                    {{organization.organization}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions class="d-flex justify-content-end p-1">
+        <button mat-button mat-dialog-close="true" [mat-dialog-close]="false">
+            Cancel
+        </button>
+        <button mat-dialog-close="true" [mat-dialog-close]="true" mat-raised-button color="primary"
+            (click)="selectedOrganization()">
+            MOVE
+        </button>
+    </mat-dialog-actions>
+</div>

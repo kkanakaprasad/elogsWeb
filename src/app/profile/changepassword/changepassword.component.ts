@@ -58,6 +58,7 @@ export class ChangepasswordComponent implements OnInit {
         action : 'Ok'
       });
       this.triggerProfile.emit();
+      this.changePasswordForm.reset()
     },(error) =>{
       this.alertpopupService.open({
         message : error.error.message ? error.error.message : 'Something went wrong! Please try Again',
@@ -77,4 +78,7 @@ export class ChangepasswordComponent implements OnInit {
     })
   }
 
+  resetForm(){
+    this.changePasswordForm.reset()
+  }
 }

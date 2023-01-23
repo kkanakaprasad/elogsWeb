@@ -66,7 +66,7 @@ export class EmailReportsComponent implements OnInit, OnChanges {
       })
     }
   }
-
-
-
+  resetFormValues(){
+    this.emailRepotsForm.reset()
+  }
 }

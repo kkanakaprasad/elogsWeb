@@ -1,5 +1,5 @@
 <div class="alert alert-primary alert-dismissible fade show welcome-msg" role="alert">
-  Hi<strong> {{userRole}}</strong>, Welcome to Dashboard.
+  Hi<strong> {{logedinUserDetails?.Name}}</strong>, Welcome to Dashboard.
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 <section class="section dashboard">
@@ -11,49 +11,77 @@
             <div class="card-header d-flex align-items-center justify-content-between">
               <h6 class="m-0">Activity <span>Metrics</span></h6>
               <div class="calendar-inputs">
-                <input type="text" class="form-control col-md-1" placeholder="08-01-2023" name="" id="">
-                <input type="text" class="form-control col-md-1" placeholder="To Date" name="" id="">
+               
+              
+                <input type="text" class="form-control col-md-1" placeholder="08-01-2023" name="" id=""  
+                matInput
+                [matDatepicker]="startDatePicker"
+                (dateChange)="startDateSetter( $event)"
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="startDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+                <input type="text" class="form-control col-md-1" placeholder="To Date" name="" id=""  matInput
+                [matDatepicker]="endDatePicker"
+                (dateChange)="endDateSetter( $event)"
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="endDatePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #endDatePicker></mat-datepicker>
               </div>
             </div>
             <div class="card-body">
               <div class="d-flex mb-3 justify-content-between">
-                <div class="total">Total <span>65</span></div>
-                <div>Type Button</div>
+                <div class="total">Total <span>{{dashboardMetricsCount?.total[0]?.total}}</span></div>
+                <div> <mat-form-field appearance="outline">
+                  <mat-label>Type</mat-label>
+                  <mat-select  (selectionChange)="selectedActivityType($event)">
+                    <mat-option
+                      *ngFor="let activityTypesData of activityTypesData"
+                      [value]="activityTypesData._id"
+                      >{{ activityTypesData?.name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field></div>
               </div>
               <div class="row">
                 <div class="col-md-6 activity mb-3">
                   <div class="brdr-primary">
                     <div class="d-inline-block">New</div>
-                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">23</div>
+                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">{{dashboardMetricsCount?.new?.length==0 ? 0: dashboardMetricsCount?.new[0]?.newCount}}</div>
                     <div class="percentage">
-                      (35.38 %)
+                      ({{(dashboardMetricsCount?.new?.length==0 ? 0: dashboardMetricsCount?.new[0]?.newCount)*100/(dashboardMetricsCount?.total[0]?.total)| number:'.2-2'}})
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 activity mb-3">
                   <div class="brdr-warning">
                     <div class="d-inline-block">In-Progress</div>
-                    <div class="d-inline-block float-right bg-warning-text fw-bold fs-5">30</div>
+                    <div class="d-inline-block float-right bg-warning-text fw-bold fs-5">{{dashboardMetricsCount?.inProgress?.length==0 ? 0 :dashboardMetricsCount?.inProgress[0]?.inProgressCount}}</div>
                     <div class="percentage">
-                      (46.15 %)
+                      ({{(dashboardMetricsCount?.inProgress?.length==0 ? 0 :dashboardMetricsCount?.inProgress[0]?.inProgressCount)*100/(dashboardMetricsCount?.total[0]?.total)| number:'.2-2'}})
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 activity">
                   <div class="brdr-success">
                     <div class="d-inline-block">Resolved</div>
-                    <div class="d-inline-block float-right bg-success-text fw-bold fs-5">12</div>
+                    <div class="d-inline-block float-right bg-success-text fw-bold fs-5">{{dashboardMetricsCount?.resolved?.length==0 ? 0 : dashboardMetricsCount?.resolved[0]?.resolvedCount}}</div>
                     <div class="percentage">
-                      (18.46 %)
+                      ({{(dashboardMetricsCount?.resolved?.length==0 ? 0 : dashboardMetricsCount?.resolved[0]?.resolvedCount)*100/(dashboardMetricsCount?.total[0]?.total)| number:'.2-2'}})
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 activity">
                   <div class="brdr-danger">
                     <div class="d-inline-block">Not Admissible</div>
-                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">0</div>
+                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">{{dashboardMetricsCount?.notAdmissible?.length==0 ? 0 :dashboardMetricsCount?.notAdmissible[0]?.notAdmissibleCount}}</div>
                     <div class="percentage">
-                      (0 %)
+                      ({{(dashboardMetricsCount?.notAdmissible?.length==0 ? 0 :dashboardMetricsCount?.notAdmissible[0]?.notAdmissibleCount)*100/(dashboardMetricsCount?.total[0]?.total)| number:'.2-2'}})
                     </div>
                   </div>
                 </div>
@@ -70,26 +98,27 @@
               <div class="row">
                 <div class="col-md-6 mb-3 related">
                   <div class="bg-primary h-100">
-                    <h6>Others<span>(0 %)</span></h6>
-                    <h3>0</h3>
+                    <h6>Others<span></span>(
+                      {{(relatedToMetricsData?.others?.length==0 ? 0 : relatedToMetricsData?.others[0]?.others)*100/(relatedToMetricsData?.total[0]?.total)| number:'.2-2'}})</h6>
+                    <h3>{{relatedToMetricsData?.others?.length==0 ? 0 : relatedToMetricsData?.others[0]?.others}}</h3>
                   </div>
                 </div>
                 <div class="col-md-6 mb-3 related">
                     <div class="bg-success h-100">
-                      <h6>Multiple Ministries / Departments<span>(19.05  %)</span></h6>
-                      <h3>12</h3>
+                      <h6>Multiple Ministries / Departments<span>({{ (relatedToMetricsData?.multiMinistry?.length==0 ? 0 :relatedToMetricsData?.multiMinistry[0]?.multiMinistry)*100/(relatedToMetricsData?.total[0]?.total)| number:'.2-2'}})</span></h6>
+                      <h3>{{ relatedToMetricsData?.multiMinistry?.length==0 ? 0 :relatedToMetricsData?.multiMinistry[0]?.multiMinistry}}</h3>
                     </div>
                 </div>
                 <div class="col-md-6 related">
                   <div class="bg-warning h-100">
-                    <h6>Single Ministry / Department<span>(14.29  %)</span></h6>
-                    <h3>9</h3>
+                    <h6>Single Ministry / Department<span>({{ (relatedToMetricsData?.singleMinistry?.length==0 ? 0 : relatedToMetricsData?.singleMinistry[0]?.singleMinistry)*100/(relatedToMetricsData?.total[0]?.total)| number:'.2-2'}})</span></h6>
+                    <h3>{{ relatedToMetricsData?.singleMinistry?.length==0 ? 0 : relatedToMetricsData?.singleMinistry[0]?.singleMinistry}}</h3>
                   </div>
                 </div>
                 <div class="col-md-6 related">
                   <div class="bg-danger h-100">
-                    <h6>None<span>(66.67  %)</span></h6>
-                    <h3>42</h3>
+                    <h6>None<span>({{(relatedToMetricsData?.none?.length==0 ? 0 :relatedToMetricsData?.none[0]?.none)*100/(relatedToMetricsData?.total[0]?.total)| number:'.2-2'}})</span></h6>
+                    <h3>{{relatedToMetricsData?.none?.length==0 ? 0 :relatedToMetricsData?.none[0]?.none}}</h3>
                   </div>
                 </div>
             </div>
@@ -106,25 +135,25 @@
           <div class="ontime">
             <div class="ontime-left">
                 <h5>On Time</h5>
-                <h4>34</h4>
+                <h4>{{dueDateDashBoarData?.OnTime?.length==0 ? 0 : dueDateDashBoarData?.OnTime[0]?.OnTime}}</h4>
             </div>
             <div class="ontime-right">
                 <h4>Overdue From</h4>
                 <div class="overdue d-flex justify-content-between">
                     <div>
-                        <div class="round-box" style="border-color: rgb(248, 187, 189)">2</div>
+                        <div class="round-box" style="border-color: rgb(248, 187, 189)">{{dueDateDashBoarData?.oneWeek?.length==0 ? 0 :dueDateDashBoarData?.oneWeek[0]?.oneWeek}}</div>
                         <h5 class="day-heading"> &lt; Week</h5>
                     </div>
                     <div>
-                        <div class="round-box" style="border-color: rgb(243, 141, 144)">4</div>
+                        <div class="round-box" style="border-color: rgb(243, 141, 144)">{{dueDateDashBoarData?.oneToTwoWeek?.length==0 ? 0:dueDateDashBoarData?.oneToTwoWeek[0]?.oneToTwoWeek}}</div>
                         <h5 class="day-heading">1 to 2 Weeks</h5>
                     </div>
                     <div>
-                        <div class="round-box" style="border-color: rgb(238, 95, 99)">1</div>
+                        <div class="round-box" style="border-color: rgb(238, 95, 99)">{{dueDateDashBoarData?.twoWeeksToOneMonth?.length==0 ? 0:dueDateDashBoarData?.twoWeeksToOneMonth[0]?.twoWeeksToOneMonth}}</div>
                         <h5 class="day-heading">2 Weeks - Month</h5>
                     </div>
                     <div>
-                        <div class="round-box" style="border-color: rgb(233, 49, 54)">32</div>
+                        <div class="round-box" style="border-color: rgb(233, 49, 54)">{{dueDateDashBoarData?.moreThanAMonth?.length==0 ? 0:dueDateDashBoarData?.moreThanAMonth[0]?.moreThanAMonth}}</div>
                         <h5 class="day-heading">&gt; Month</h5>
                     </div>
                 </div>
@@ -142,7 +171,7 @@
             <div class="card-body user-metrics">
                   <div class="active-users">
                     <span>Active</span>
-                    <h4>9</h4>
+                    <h4>{{userMetricsCount?.active}}</h4>
                   </div>
                   <div class="inactive-users">
                     <span>Inactive</span>
@@ -150,11 +179,11 @@
                   </div>
                   <div class="mapped-users">
                     <span>In more than one organization</span>
-                    <h4>4</h4>
+                    <h4>{{userMetricsCount?.moreThanOneOrg}}</h4>
                   </div>
                   <div class="recent-users">
                     <span>Active in 24hrs</span>
-                    <h4>4</h4>
+                    <h4>{{userMetricsCount?.activeLast24Hours}}</h4>
                   </div>
             </div>
           </div>
@@ -168,19 +197,19 @@
               <div class="row organization">
                 <div class="col-md-3">
                   <div class="h-100">
-                    <h3>43</h3>
+                    <h3>{{organizationsMetricsCount?.active}}</h3>
                     <h6>Active</h6>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="h-100">
-                    <h3>1</h3>
+                    <h3>{{organizationsMetricsCount?.activeInLast24Hours}}</h3>
                     <h6>Inactive</h6>
                   </div>
                 </div>
                 <div class="col-md-5 h-100">
                   <div class="h-100">
-                    <h3>43</h3>
+                    <h3>{{organizationsMetricsCount?.inActive}}</h3>
                     <h6>Active in 24hrs</h6>
                   </div>
                 </div>
