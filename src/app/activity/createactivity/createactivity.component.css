@@ -1,3 +1,45 @@
-.container{
-    background-color: white;
+.container {
+  background-color: white;
+}
+.create-activity {
+  padding: 0;
+  width: 80%;
+  border: 1px solid silver;
+}
+.create-activity-header {
+  background: #eeeeee;
+  border-bottom: 1px solid #dcdadb;
+  color:  #444444;
+  font-size: 22px;
+  font-weight: bold;
+  height: 55px;
+  padding: 11px 10px 0 10px;
+  margin-bottom: 15px;
+  gap: 5px;
+}
+
+.create-activity-form {
+    padding: 10px;
+}
+
+.input-field {
+    display: block;
+}
+
+.inline-inputs {
+    width: 50%;
+    padding-left: 5px;
+}
+
+.entry-type-input {
+  width: 50%;
+}
+
+.text-editor {
+    border: 1px solid black;
+    margin-bottom: 1rem;
+}
+
+.btn-submit{
+ text-align: center;
 }
