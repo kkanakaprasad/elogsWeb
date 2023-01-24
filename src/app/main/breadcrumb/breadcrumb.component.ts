@@ -29,15 +29,16 @@ export class BreadcrumbComponent implements OnInit {
   logedInUserId: any;
   activityFiltersData = ActivityFiltersData
   selectedOrganizationIds: any;
-  selectedActivityId:any;
+  selectedActivityId: any;
   dashboardMetricsCount: any;
+
 
   constructor(private router: Router,
     private selectedOrganizationService: SelectedOrganizationService,
     private storageService: StorageService,
     private organizationService: OrganizationService,
     private breadcrumbService: BreadcrumbService,
-    private dashboardService:DashboardService
+    private dashboardService: DashboardService
   ) {
     router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
       this.currentRoute = event.url
@@ -45,10 +46,16 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedOrganizationService.getSelectedOrganization().subscribe((res)=>{
+      console.log(res);
+      this.selectedOrganizationIds=res;
+      this.postActivityStatusMetricsCount();
+    })
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.logedInUserId = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID);
-    this.getOrganizationsSearchCriteria()
-    this.postActivityStatusMetricsCount()
+    this.getOrganizationsSearchCriteria();
+    this.postActivityStatusMetricsCount();
+
   }
   navigateToDashboard() {
     this.router.navigate([RouteConstants.DASHBOARD])
@@ -126,9 +133,9 @@ export class BreadcrumbComponent implements OnInit {
 
       }
     } else {
-      let object=this.searchedOrganizationList.filter((res:any)=>{
+      let object = this.searchedOrganizationList.filter((res: any) => {
         return res.organization === this.selectOrganization
-      }) 
+      })
       // let index = this.searchedOrganizationList.findIndex((org:any)=>{
       //   org.organization === this.selectOrganization;
       // })
@@ -141,13 +148,14 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   postActivityStatusMetricsCount() {
-    const payload={
-      organizations:this.selectedOrganizationIds,
-           type:this.selectedActivityId
+    const payload = {
+      organizations: this.selectedOrganizationIds,
     }
     this.dashboardService.postDashBoardActivityMetrics(payload).subscribe(res => {
-      this.dashboardMetricsCount=res.data[0]
+      this.dashboardMetricsCount = res.data[0]
       console.log(res);
     })
   }
+
+
 }
