@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { AlertpopupService } from '../alertPopup/alertpopup.service';
 
 @Component({
@@ -6,11 +6,11 @@ import { AlertpopupService } from '../alertPopup/alertpopup.service';
   templateUrl: './fileuploader.component.html',
   styleUrls: ['./fileuploader.component.css']
 })
-export class FileuploaderComponent implements OnInit {
+export class FileuploaderComponent implements OnInit,OnChanges {
   fileType: any;
   
   @Output() updatedFilesDescription = new EventEmitter<any>();
-
+  @Input() value:any=false;
   constructor(private alertpopupService :AlertpopupService) { }
 
   ngOnInit() {
@@ -22,6 +22,13 @@ export class FileuploaderComponent implements OnInit {
    */
   onFileDropped($event:any) {
     this.prepareFilesList($event);
+  }
+
+  ngOnChanges(changes : SimpleChanges){
+        console.log(changes,changes['value']);
+        if(changes['value'].currentValue === false){
+          this.files=[];
+        }
   }
 
   /**

@@ -60,7 +60,7 @@ export class ActivityDetailsComponent implements OnInit {
   logedInUserDetails: any;
   isAssignee: any;
   ministryName: any;
-
+  isFilesListArray: boolean=true;
 
 
   constructor(
@@ -128,6 +128,7 @@ export class ActivityDetailsComponent implements OnInit {
       this.activitySectorsData = res.data?.activitySectorsData.filter((sectorsData: any) => sectorsData._id == this.selectedActivitySectorId).map((item: any) => item.name)
       this.ActivityScopeData = res.data?.activityScopesData.filter((activityScopesData: any) => activityScopesData._id == this.selectedActivityScopeId).map((item: any) => item.name)
       this.activityType=res?.data?.activityTypesData.filter((activitytype: any) => activitytype._id == this.selectedActivityTypeId).map((item: any) => item.name)
+      console.log(this.ActivityScopeData)
     })
   }
 
@@ -159,6 +160,9 @@ export class ActivityDetailsComponent implements OnInit {
       })
       this.getActivityDetailsById()
       this.activityLogForm?.reset()
+      this.description=''
+      this.isFilesListArray=false
+
     }, (error) => {
       this.alertpopupService.open({
         message: error.message ? error.message : "something went wrong!",
@@ -320,18 +324,18 @@ export class ActivityDetailsComponent implements OnInit {
        downloadActivity(){
         const activityDataForDownload=[{
           title: this.activityData.title,
-          description:this.activityData.description,
+          description:this.activityData.description.replace(/<[^>]*>/g,""),
           status:this.activityData.status,
-          assignedTo:this.selectedActivityAssignedTo[0],
+          assignedTo:this.selectedActivityAssignedTo.toString(),
           dueDate:this.activityData.dueDate,
-          attachments:this.activityData.attachments,
+          attachments:this.activityData.attachments.length==0?"NO":this.activityData.attachments[0].name.toString(),
           priority:this.activityData.priority,
-          type:this.activityType[0],
-          sector:this.activitySectorsData[0],
-          entryType:this.activityEntryType[0],
-          ministry:this.organizationsInvolved,
-          Scope:this.ActivityScopeData[0],
-          relatedTo:this.activityRelatedTypesData[0],
+          type:this.activityType.toString(),
+          sector:this.activitySectorsData.toString(),
+          entryType:this.activityEntryType.toString(),
+          ministry:this.organizationsInvolved[0].organization,
+          scope:this.ActivityScopeData.toString(),
+          relatedTo:this.activityRelatedTypesData.toString(),
           categoryMappedTo:"",
           activityprogress:""
 
