@@ -111,6 +111,9 @@ export class ActivityDetailsComponent implements OnInit {
       this.getUserById()
       this.getLogedInUserDetails()
       this.ActivityTimeLogs=this.activityData?.statusLog
+      this.activityLogForm.controls['priority'].setValue(this.activityData?.priority)
+      this.activityLogForm.controls['status'].setValue(this.activityData?.status)
+      this.activityLogForm.controls['assignTo'].setValue(this.activityData?.assignTo)
     })
   }
 

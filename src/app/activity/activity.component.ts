@@ -19,6 +19,7 @@ import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
 import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 import { BehaviorSubject } from 'rxjs';
 import { BreadcrumbService } from '../main/breadcrumb/breadcrumb.service';
+import { CsvHelperService } from '../shared/services/csv-helper-service/csv-helper.service';
 
 const today = new Date();
 const month = today.getMonth();
@@ -107,7 +108,8 @@ export class ActivityComponent implements OnInit {
     private alertpopupService: AlertpopupService,
     private confirmationDialogService: ConfirmationDialogService,
     private formBuilder: FormBuilder,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private csvHelperService:CsvHelperService,
   ) { }
 
   ngOnInit(): void {
@@ -181,6 +183,46 @@ export class ActivityComponent implements OnInit {
   }
 
   downloadFile() {
+    let activityDownloadData:any []=[]
+    for(let i=0; i<this.dataSource.filteredData.length; i++){
+      const activityDataForDownload={
+        title: this.dataSource.filteredData[i].title,
+        description:this.dataSource.filteredData[i].description.replace(/<[^>]*>/g,""),
+        assignedTo:this.dataSource.filteredData[i].assignTo[0].organization,
+        dueDate:this.dataSource.filteredData[i].dueDate,
+        createdDate:this.dataSource.filteredData[i].createdAt
+      };
+      activityDownloadData.push(activityDataForDownload)
+    }
+    console.log(activityDownloadData)
+    const headersList :{propertyName : string, displayName : string}[] = [
+      {
+        propertyName : 'title',
+        displayName : 'Title'
+
+      },
+      {
+        propertyName : 'description',
+        displayName : 'Description'
+
+      },
+      {
+        propertyName : 'assignedTo',
+        displayName : 'Assigned To'
+
+      },
+      {
+        propertyName : 'dueDate',
+        displayName : 'Due Date'
+
+      },{
+        propertyName : 'createdDate',
+        displayName : 'Create Date'
+
+      },
+      
+    ]
+    this.csvHelperService.downloadFile(activityDownloadData,"activity details", headersList)
 
   }
   /** Whether the number of selected elements matches the total number of rows. */
