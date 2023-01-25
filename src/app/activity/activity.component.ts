@@ -20,6 +20,7 @@ import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirm
 import { BehaviorSubject } from 'rxjs';
 import { BreadcrumbService } from '../main/breadcrumb/breadcrumb.service';
 import { CsvHelperService } from '../shared/services/csv-helper-service/csv-helper.service';
+import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
 
 const today = new Date();
 const month = today.getMonth();
@@ -35,7 +36,6 @@ const year = today.getFullYear();
 
 export class ActivityComponent implements OnInit {
 
-  activityId = '';
   displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions'];
   activityFiltersData: any = ActivityFiltersData;
   currentStatus = Status
@@ -66,6 +66,7 @@ export class ActivityComponent implements OnInit {
     sectors: false
 
   }
+
 
   selection: any = new SelectionModel(true, []);
   filters: any = {
@@ -98,7 +99,8 @@ export class ActivityComponent implements OnInit {
     sortField: "",
     sortOrder: 0,
   });
-
+  selectedActivity:any;
+  selectedOrganizationIds:any;
 
   constructor(
     private activityService: ActivityService,
@@ -110,9 +112,11 @@ export class ActivityComponent implements OnInit {
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     private csvHelperService:CsvHelperService,
+   
   ) { }
 
   ngOnInit(): void {
+    
     this.getActivitiesSearchCriteria();
     this.getAcivityMasterData();
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
@@ -162,7 +166,6 @@ export class ActivityComponent implements OnInit {
       this.getActivitiesSearchCriteria()
     });
 
-
   }
 
   getActivitiesSearchCriteria() {
@@ -171,7 +174,7 @@ export class ActivityComponent implements OnInit {
       payload = res;
     });
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
-      this.dataSource = new MatTableDataSource(res.data[0].activities)
+      this.dataSource = new MatTableDataSource(res.data[0].activities.reverse())
       this.dataSource.paginator = this.paginator;
     })
   }
@@ -314,13 +317,16 @@ export class ActivityComponent implements OnInit {
         this.updateActivityStatus(action);
         break;
       case 'REPLAY':
-        this.navigateToActivityDetails(this.selectedActivtyForRowActions._id);
+        this.moveToActivityDetail();
         break;
       case 'ARCHIVE':
         this.updateArchivestatus();
         break;
       case 'DELETE':
         this.deleteActivityByActivityId();
+        break;
+      case 'EDIT':
+        this.editActivityByActivityId();
         break;
       case 'MOVE_TO_ORGANIZATION':
         this.activityService.openMoveToOrganizationPopup(this.selectedActivtyForRowActions._id).afterClosed().subscribe((res) => {
@@ -336,8 +342,9 @@ export class ActivityComponent implements OnInit {
   updateActivityStatus(status: string) {
 
     this.confirmationDialogService.open({
-      message: `Are you sure to change status to ${status}`
+      message: `Are you sure to change activity ${this.selectedActivtyForRowActions.title} to ${status}`
     }).afterClosed().subscribe((res) => {
+      console.log(res);
       if (res) {
         this.activityService.updateActivityStatus(this.selectedActivtyForRowActions._id, { status: status }).subscribe((res) => {
           this.alertpopupService.open({
@@ -353,12 +360,12 @@ export class ActivityComponent implements OnInit {
         action: 'ok'
       });
     })
-  }
 
+  }
 
   updateArchivestatus() {
     this.confirmationDialogService.open({
-      message: `Are you sure to Archive the activity`
+      message: `Are you sure to Archive the activity ${this.selectedActivtyForRowActions.title}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.activityService.updateArchivestatus(this.selectedActivtyForRowActions._id, { isArchive: true }).subscribe((res) => {
@@ -379,7 +386,7 @@ export class ActivityComponent implements OnInit {
 
   deleteActivityByActivityId() {
     this.confirmationDialogService.open({
-      message: `Are you sure to Delete activity`
+      message: `Are you sure to Delete activity ${this.selectedActivtyForRowActions.title}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.activityService.deleteSelectedActivity(this.selectedActivtyForRowActions._id).subscribe((res) => {
@@ -398,6 +405,15 @@ export class ActivityComponent implements OnInit {
     })
   }
 
+  editActivityByActivityId(){
+    this.router.navigate([RouteConstants.CREATEACTIVITY],{ queryParams: { aId: this.selectedActivtyForRowActions._id }})
+  }
+
+  moveToActivityDetail(){
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS]);
+  }
+
+ 
   filterActivityListData(controlName: string, event: any, chipValue: string) {
     let data: any;
     this.activitySearchCriteriaPayload.subscribe((res) => {

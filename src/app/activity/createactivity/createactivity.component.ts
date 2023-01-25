@@ -69,6 +69,9 @@ export class CreateactivityComponent implements OnInit {
       this.getAllOrganization();
       this.getActivityMasterData()
     }
+    // this.activatedRoute.queryParams.subscribe((res) => {
+    //   this.selectedActivityId = res['eId'];
+    // });
   }
 
   forkJoinResult() {
