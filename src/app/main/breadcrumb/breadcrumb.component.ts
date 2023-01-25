@@ -46,9 +46,8 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedOrganizationService.getSelectedOrganization().subscribe((res)=>{
-      console.log(res);
-      this.selectedOrganizationIds=res;
+    this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
+      this.selectedOrganizationIds = res;
       this.postActivityStatusMetricsCount();
     })
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
@@ -78,7 +77,7 @@ export class BreadcrumbComponent implements OnInit {
       this.organizationService.getOrganizationsSearchCriteria(organizationListPayload).subscribe(res => {
         this.organizationsList = res.data?.organizations
         this.searchedOrganizationList = res?.data?.organizations
-        // console.log(this.searchedOrganizationList)
+
       })
     } else {
       const organizationListPayload = {
@@ -144,7 +143,6 @@ export class BreadcrumbComponent implements OnInit {
   }
   selectedActivitiesStatus(data: any) {
     this.breadcrumbService.setSelectedActivityStatus(data);
-    console.log(data)
   }
 
   postActivityStatusMetricsCount() {
@@ -153,7 +151,6 @@ export class BreadcrumbComponent implements OnInit {
     }
     this.dashboardService.postDashBoardActivityMetrics(payload).subscribe(res => {
       this.dashboardMetricsCount = res.data[0]
-      console.log(res);
     })
   }
 
