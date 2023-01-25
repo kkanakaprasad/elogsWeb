@@ -8,7 +8,7 @@
 		</ng-container>
 		<ng-container *ngIf="organizationsList.length>1">
 			<div class="breadcrumb-find">
-				<mat-form-field>
+				<mat-form-field appearance="outline">
 					<input class="p-2" placeholder="Find an Organisation" matInput type="text"
 						(keyup)="filterOrganization($event)" [matAutocomplete]="auto" />
 					<mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleectedOrganization($event)">
@@ -25,10 +25,10 @@
 			</div>
 		</ng-container>
 	</div>
-	<ng-container *ngIf="organizationsList.length==1">
+	<!-- <ng-container *ngIf="organizationsList.length==1">
 		<div>{{organizationsList[0].organization}}</div>
-	</ng-container>
-	<ng-container *ngIf="organizationsList.length>1">
+	</ng-container> -->
+	<!-- <ng-container *ngIf="organizationsList.length>1">
 		<div class="breadcrumb-find">
 			<mat-form-field appearance="outline">
 				<input class="p-2" placeholder="Find an Organisation" matInput type="text"
@@ -46,7 +46,7 @@
 				</mat-autocomplete>
 			</mat-form-field>
 		</div>
-	</ng-container>
+	</ng-container> -->
 
 	<div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-between ">
 		<div class="d-flex">
@@ -58,7 +58,7 @@
 			</ng-container>
 			<ng-container *ngIf="organizationsList.length>1">
 				<div class="breadcrumb-find">
-					<mat-form-field>
+					<mat-form-field appearance="outline">
 						<input class="p-2" placeholder="Find an Organisation" matInput type="text"
 							(keyup)="filterOrganization($event)" [matAutocomplete]="auto" />
 						<mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleectedOrganization($event)">
@@ -111,7 +111,7 @@
 
 
 
-	<ng-container *ngIf="currentRoute == '/user-list'">
+	<!-- <ng-container *ngIf="currentRoute == '/user-list'">
 		<p>
 			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Users > Manage
 		</p>
@@ -129,11 +129,29 @@
 				</mat-autocomplete>
 			</mat-form-field>
 		</div>
-	</ng-container>
+	</ng-container> -->
 
 	<ng-container *ngIf="currentRoute == '/archive'">
 		<p>
 			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Archive > Tasks
+		</p>
+	</ng-container>
+
+	<ng-container *ngIf="currentRoute == '/organization-list'">
+		<p>
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Organizations > Manage
+		</p>
+	</ng-container>
+
+	<ng-container *ngIf="currentRoute == '/user-list'">
+		<p>
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Users > Manage
+		</p>
+	</ng-container>
+
+	<ng-container *ngIf="currentRoute == '/company-settings'">
+		<p>
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Company Settings > My Company
 		</p>
 	</ng-container>
 </div>
