@@ -78,7 +78,7 @@ export class BreadcrumbComponent implements OnInit {
       this.organizationService.getOrganizationsSearchCriteria(organizationListPayload).subscribe(res => {
         this.organizationsList = res.data?.organizations
         this.searchedOrganizationList = res?.data?.organizations
-        console.log(this.searchedOrganizationList)
+        // console.log(this.searchedOrganizationList)
       })
     } else {
       const organizationListPayload = {

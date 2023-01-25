@@ -108,6 +108,7 @@ export class DashboardComponent implements OnInit {
     }
     this.dashboardService.postDashBoardActivityMetrics(payload).subscribe(res => {
       this.dashboardMetricsCount=res.data[0]
+      // console.log(this.dashboardMetricsCount)
     })
   }
   startDateSetter( selectedOptionalDate?: any) { 
@@ -126,17 +127,24 @@ export class DashboardComponent implements OnInit {
   }
 
   postDashBoardDueDateMetrics(){
-    this.dashboardService.postDashBoardDueDateMetrics({organizations:this.selectedOrganizationIds}).subscribe(res=>{
-      console.log(res)
-      this.dueDateDashBoarData=res.data[0]
+    if(this.userRole=="user"){
+      this.dashboardService.postDashBoardDueDateMetrics({organizations:this.selectedOrganizationIds}).subscribe(res=>{
+        console.log(res)
+        this.dueDateDashBoarData=res.data[0]
+      })
+    }else{
+      this.dashboardService.postDashBoardDueDateMetrics({organizations:this.selectedOrganizationIds}).subscribe(res=>{
+        console.log(res)
+        this.dueDateDashBoarData=res.data[0]
     })
+  }
+    
   }
 
   postDashBoardRelatedToMetrics(){
     this.dashboardService.postDashBoardRelatedToMetrics({organizations:this.selectedOrganizationIds}).subscribe(res=>{
       this.relatedToMetricsData=res.data[0]
       console.log(this.relatedToMetricsData)
-      console.log(res)
     })
   }
 
