@@ -117,10 +117,9 @@ export class BreadcrumbComponent implements OnInit {
     }
   }
 
-  seleectedOrganization(event: MatAutocompleteSelectedEvent) {
-
-    this.selectOrganization = event.option.value;
-    if (event.option.value === 'all') {
+  seleectedOrganization(event: any) {
+    this.selectOrganization = event.value;
+    if (event.value === 'all') {
       if (this.isSuperAdmin) {
         this.selectedOrganizationService.setSelectedOrganization([]);
 
@@ -136,9 +135,6 @@ export class BreadcrumbComponent implements OnInit {
       let object = this.searchedOrganizationList.filter((res: any) => {
         return res.organization === this.selectOrganization
       })
-      // let index = this.searchedOrganizationList.findIndex((org:any)=>{
-      //   org.organization === this.selectOrganization;
-      // })
       this.selectedOrganizationService.setSelectedOrganization([object[0]._id]);
     }
   }
