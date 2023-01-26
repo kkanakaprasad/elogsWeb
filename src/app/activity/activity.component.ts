@@ -101,7 +101,7 @@ export class ActivityComponent implements OnInit {
   });
   selectedActivity:any;
   selectedOrganizationIds:any;
-
+  
   constructor(
     private activityService: ActivityService,
     private storageService: StorageService,
@@ -290,8 +290,8 @@ export class ActivityComponent implements OnInit {
     })
   }
 
-  navigateToActivityDetails(activityId: any) {
-    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activityId } });
+  navigateToActivityDetails(activity: any) {
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity._id } });
   }
 
   generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED", activity?: any) {
@@ -316,7 +316,7 @@ export class ActivityComponent implements OnInit {
       case 'REJECTED':
         this.updateActivityStatus(action);
         break;
-      case 'REPLAY':
+      case 'REPLY':
         this.moveToActivityDetail();
         break;
       case 'ARCHIVE':
@@ -330,7 +330,7 @@ export class ActivityComponent implements OnInit {
         break;
       case 'MOVE_TO_ORGANIZATION':
         this.activityService.openMoveToOrganizationPopup(this.selectedActivtyForRowActions._id).afterClosed().subscribe((res) => {
-          console.log(res);
+         
         })
         break;
       default:
@@ -344,7 +344,7 @@ export class ActivityComponent implements OnInit {
     this.confirmationDialogService.open({
       message: `Are you sure to change activity ${this.selectedActivtyForRowActions.title} to ${status}`
     }).afterClosed().subscribe((res) => {
-      console.log(res);
+      
       if (res) {
         this.activityService.updateActivityStatus(this.selectedActivtyForRowActions._id, { status: status }).subscribe((res) => {
           this.alertpopupService.open({
@@ -410,7 +410,7 @@ export class ActivityComponent implements OnInit {
   }
 
   moveToActivityDetail(){
-    this.router.navigate([RouteConstants.ACTIVITY_DETAILS]);
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS],{ queryParams: { aId: this.selectedActivtyForRowActions._id } });
   }
 
  

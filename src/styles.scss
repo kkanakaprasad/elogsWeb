@@ -20,7 +20,7 @@ td {
   padding: 8px;
   text-align: left;
   border-bottom: 1px solid rgb(206, 202, 202);
-  text-transform: capitalize;
+  // text-transform: capitalize;
   font-size: 14px;
 }
 .pdr-0{
@@ -1512,12 +1512,12 @@ h6,
   tr:hover{
     background-color: #fff;
   }
-  th,
+ th,
   td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid rgb(206, 202, 202);
-    text-transform: capitalize;
+    // text-transform: capitalize;
     font-size: 14px;
   }
   button{

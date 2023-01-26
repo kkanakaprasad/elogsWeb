@@ -94,6 +94,7 @@ export class CreateactivityComponent implements OnInit {
       this.activityForm.controls['activitySector'].setValue(this.selectedActivityData?.activitySector)
       this.activityForm.controls['activityScope'].setValue(this.selectedActivityData?.activityScope)
       this.activityForm.controls['title'].setValue(this.selectedActivityData?.title)
+      
 
     })
   }
