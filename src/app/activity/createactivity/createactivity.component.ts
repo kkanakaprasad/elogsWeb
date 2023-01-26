@@ -87,7 +87,6 @@ export class CreateactivityComponent implements OnInit {
       this.activitySectorsData = result[1]?.data?.activitySectorsData;
       this.activityScopesData = result[1]?.data?.activityScopesData;
       this.selectedActivityData = result[2]?.data[0];
-      console.log(result);
       this.activityForm.controls['activityType'].setValue(this.selectedActivityData?.activityType)
       this.activityForm.controls['activityRelatedTo'].setValue(this.selectedActivityData?.activityRelatedTo)
       this.activityForm.controls['organization']?.setValue(selectedOrganizations)

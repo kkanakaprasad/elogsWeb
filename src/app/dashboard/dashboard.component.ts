@@ -142,8 +142,7 @@ export class DashboardComponent implements OnInit {
   postDashBoardRelatedToMetrics() {
     this.dashboardService.postDashBoardRelatedToMetrics({ organizations: this.selectedOrganizationIds }).subscribe(res => {
       this.relatedToMetricsData = res.data[0]
-      console.log(this.relatedToMetricsData)
-    })
+      })
   }
 
   userDetails() {

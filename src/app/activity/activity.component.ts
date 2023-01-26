@@ -100,7 +100,7 @@ export class ActivityComponent implements OnInit {
   });
   selectedActivity:any;
   selectedOrganizationIds:any;
-  slectedActivityId: any;
+  slectedActivity_id: any;
 
   constructor(
     private activityService: ActivityService,
@@ -249,9 +249,9 @@ export class ActivityComponent implements OnInit {
     })
   }
 
-  navigateToActivityDetails(activityId: any) {
-    this.slectedActivityId=activityId
-    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activityId } });
+  navigateToActivityDetails(activity: any) {
+    this.slectedActivity_id=activity._id
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity._id } });
   }
 
   generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED", activity?: any) {
