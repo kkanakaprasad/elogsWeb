@@ -27,7 +27,7 @@ export class BreadcrumbComponent implements OnInit {
   currentRoute: any;
   isSuperAdmin!: boolean;
   logedInUserId: any;
-  activityFiltersData = ActivityFiltersData
+  activityFiltersData:any = ActivityFiltersData;
   selectedOrganizationIds: any;
   selectedActivityId: any;
   dashboardMetricsCount: any;
@@ -43,6 +43,7 @@ export class BreadcrumbComponent implements OnInit {
     router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
       this.currentRoute = event.url
     });
+    this.postActivityStatusMetricsCount();
   }
 
   ngOnInit(): void {
@@ -53,9 +54,9 @@ export class BreadcrumbComponent implements OnInit {
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.logedInUserId = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID);
     this.getOrganizationsSearchCriteria();
-    this.postActivityStatusMetricsCount();
 
   }
+
   navigateToDashboard() {
     this.router.navigate([RouteConstants.DASHBOARD])
   }
@@ -150,7 +151,11 @@ export class BreadcrumbComponent implements OnInit {
       organizations: this.selectedOrganizationIds,
     }
     this.dashboardService.postDashBoardActivityMetrics(payload).subscribe(res => {
-      this.dashboardMetricsCount = res.data[0]
+      this.dashboardMetricsCount = res.data[0];
+      this.activityFiltersData.status[0] = {...this.activityFiltersData.status[0],count : this.dashboardMetricsCount?.new[0]?.newCount},
+      this.activityFiltersData.status[1] = {...this.activityFiltersData.status[1],count : this.dashboardMetricsCount?.inProgress[0]?.inProgressCount},
+      this.activityFiltersData.status[2] = {...this.activityFiltersData.status[2],count : this.dashboardMetricsCount?.resolved[0]?.resolvedCount},
+      this.activityFiltersData.status[3] = {...this.activityFiltersData.status[3],count : this.dashboardMetricsCount?.notAdmissible[0]?.notAdmissibleCount}
     })
   }
 
