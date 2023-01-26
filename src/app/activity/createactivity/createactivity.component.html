@@ -15,7 +15,7 @@
         </mat-form-field>
       </ng-container>
       <ng-container *ngIf="userDetails?.organizationsdata?.length === 1">
-        <h3>Organization : <strong>{{ userDetails?.Name}}</strong></h3>
+        <h3>Organization : <strong>{{ userDetails?.organizationsdata[0].organization}}</strong></h3>
       </ng-container>
     </div>
     <div>
