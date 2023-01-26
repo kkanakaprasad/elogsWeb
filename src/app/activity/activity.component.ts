@@ -101,8 +101,7 @@ export class ActivityComponent implements OnInit {
   });
   selectedActivity:any;
   selectedOrganizationIds:any;
-  slectedActivity_id: any;
-
+  
   constructor(
     private activityService: ActivityService,
     private storageService: StorageService,
@@ -292,7 +291,6 @@ export class ActivityComponent implements OnInit {
   }
 
   navigateToActivityDetails(activity: any) {
-    this.slectedActivity_id=activity._id
     this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity._id } });
   }
 
