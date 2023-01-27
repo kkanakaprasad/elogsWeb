@@ -1,79 +1,78 @@
-
-  <div>
-    <div class="d-flex justify-content-between mb-2">
-      <div>
-        <mat-chip-list #chipList aria-label="Fruit selection">
-          <ng-container *ngFor="let type of this.masterData?.activityTypesData let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.shortName}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('activityTypesData',index,'types',true)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container *ngFor="let type of this.masterData?.activityEntryTypesData let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.name}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('activityEntryTypesData',index,'entryTypes',true)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container *ngFor="let type of this.masterData?.activitySectorsData let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.name}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('activitySectorsData',index,'geography',true)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container *ngFor="let type of this.masterData?.activityScopesData let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.name}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('activityScopesData',index,'scope',true)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container *ngFor="let type of activityFiltersData.priority let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.DisplayName}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('priority',index,'priority',false)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container *ngFor="let type of activityFiltersData.status let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.DisplayName}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('status',index,'status',false)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container >
-            <mat-chip *ngIf="createdDateChipValue && createdDateChipValue !== ''">
-              {{createdDateChipValue}}
-              <button matChipRemove>
-                <mat-icon (click)="removeDateFilter('createdDate')">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container >
-            <mat-chip *ngIf="dueDateChipValue && dueDateChipValue !== ''">
-              {{dueDateChipValue}}
-              <button matChipRemove>
-                <mat-icon (click)="removeDateFilter('dueDate')">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-        </mat-chip-list>
-      </div>
-      <div class="text-end activity_actions">
-        <button mat-button class="" (click)="downloadFile()" matTooltip="Download">
-          <i class="icon-taskdownl"></i>
-          Download <mat-icon>file_download</mat-icon>
-        </button>
+<div>
+  <div class="d-flex justify-content-between mb-2">
+    <div>
+      <mat-chip-list #chipList aria-label="Fruit selection">
+        <ng-container *ngFor="let type of this.masterData?.activityTypesData let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.shortName}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('activityTypesData',index,'types',true)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container *ngFor="let type of this.masterData?.activityEntryTypesData let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.name}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('activityEntryTypesData',index,'entryTypes',true)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container *ngFor="let type of this.masterData?.activitySectorsData let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.name}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('activitySectorsData',index,'geography',true)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container *ngFor="let type of this.masterData?.activityScopesData let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.name}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('activityScopesData',index,'scope',true)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container *ngFor="let type of activityFiltersData.priority let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.DisplayName}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('priority',index,'priority',false)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container *ngFor="let type of activityFiltersData.status let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.DisplayName}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('status',index,'status',false)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container>
+          <mat-chip *ngIf="createdDateChipValue && createdDateChipValue !== ''">
+            {{createdDateChipValue}}
+            <button matChipRemove>
+              <mat-icon (click)="removeDateFilter('createdDate')">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container>
+          <mat-chip *ngIf="dueDateChipValue && dueDateChipValue !== ''">
+            {{dueDateChipValue}}
+            <button matChipRemove>
+              <mat-icon (click)="removeDateFilter('dueDate')">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+      </mat-chip-list>
+    </div>
+    <div class="text-end activity_actions">
+      <button mat-button class="" (click)="downloadFile()" matTooltip="Download">
+        <i class="icon-taskdownl"></i>
+        Download <mat-icon>file_download</mat-icon>
+      </button>
       <button mat-button [matMenuTriggerFor]="filters" matTooltip="Filters">
         Filters <mat-icon> filter_alt</mat-icon></button>
       <mat-menu #filters="matMenu">
@@ -104,8 +103,8 @@
           {{option.DisplayName}}
         </mat-option>
       </mat-menu>
-      </div>
     </div>
+  </div>
 
 
   <!-- <form > -->
@@ -228,7 +227,7 @@
     </div>
   </mat-menu>
   <mat-menu #priority="matMenu">
-    <div (click)="$event.stopPropagation();" >
+    <div (click)="$event.stopPropagation();">
       <section class="example-section">
         <span class="example-list-section">
           <mat-checkbox *ngFor="let option of activityFiltersData.priority" [(ngModel)]="option.selected"
@@ -318,7 +317,8 @@
       <span class="badge" [ngClass]="{'bg-danger': element?.status.toLowerCase() == 'rejected',
       'bg-success': element?.status.toLowerCase() == 'resolved',
       'bg-dark': element?.status.toLowerCase() == 'inprogress',
-      'bg-primary': element?.status.toLowerCase() == 'new'}">{{element?.status | titlecase}}</span>  </td>
+      'bg-primary': element?.status.toLowerCase() == 'new'}">{{element?.status | titlecase}}</span>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="Activity">
@@ -361,16 +361,19 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<div *ngIf="dataSource?.filteredData?.length === 0">   
+<div *ngIf="dataSource?.filteredData?.length === 0">
   <mat-card class="technologyMatCard">
-      No Activities found
+    No Activities found
   </mat-card>
 </div>
 
 
-<mat-paginator #paginator [pageSize]="customPage.pageSize" [length]="activitylist.length"
-  [pageSizeOptions]="customPage.pageSizeOptions" (page)="onChangedPageSize($event)">
-</mat-paginator>
+<!-- <mat-paginator   [length]="totalActivitiesCount"
+  [pageSizeOptions]="customPage.pageSizeOptions" (page)="onChangedPageSize($event)" aria-label="Select page of GitHub search results">
+</mat-paginator> -->
+<mat-paginator [length]="totalActivitiesCount" [pageSize]="paginationProps.pageSize"
+  [pageSizeOptions]="paginationProps.pageSizeOptions" (page)="onChangedPageSize($event)"
+  aria-label="Select page of GitHub search results"></mat-paginator>
 
 
 <mat-menu #menu="matMenu">

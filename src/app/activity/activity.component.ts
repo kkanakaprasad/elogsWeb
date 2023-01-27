@@ -6,7 +6,7 @@ import { RouteConstants } from '../shared/constants/routes.constants';
 import { ActivityService } from './activity.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { FILTER_CONSTANT } from '../shared/constants/filter.constants';
-import { CUSTOMPAGE } from '../shared/constants/pagination';
+import { PaginationProps } from '../shared/constants/pagination';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { StorageService } from '../shared/services/storage-service/storage.service';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
@@ -46,7 +46,7 @@ export class ActivityComponent implements OnInit {
   statusEnums = Status
   public activitylist: any = [];
   filter = FILTER_CONSTANT;
-  customPage = CUSTOMPAGE;
+  paginationProps = PaginationProps;
   isSuperAdmin: boolean = false;
   logedInUserDetails: any;
   selectedActivtyForRowActions: any;
@@ -66,6 +66,7 @@ export class ActivityComponent implements OnInit {
     sectors: false
 
   }
+  totalActivitiesCount : number = 0;
 
 
   selection: any = new SelectionModel(true, []);
@@ -95,7 +96,7 @@ export class ActivityComponent implements OnInit {
 
   activitySearchCriteriaPayload: BehaviorSubject<any> = new BehaviorSubject({
     pageNumber: 0,
-    pageSize: 20,
+    pageSize: this.paginationProps.pageSize,
     sortField: "",
     sortOrder: 0,
     isArchive: false
@@ -175,8 +176,8 @@ export class ActivityComponent implements OnInit {
       payload = res;
     });
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
+      this.totalActivitiesCount = res.data[0]?.count[0]?.count ? res.data[0]?.count[0]?.count : 0;
       this.dataSource = new MatTableDataSource(res.data[0].activities.reverse())
-      this.dataSource.paginator = this.paginator;
     })
   }
 
@@ -268,15 +269,24 @@ export class ActivityComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  ngAfterViewInit() {
-    if (this.dataSource) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    }
-  }
+  // ngAfterViewInit() {
+  //   if (this.dataSource) {
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.sort = this.sort;
+  //   }
+  // }
 
   onChangedPageSize(event: any) {
     console.log(event);
+    let data: any;
+    this.activitySearchCriteriaPayload.subscribe((res) => {
+      data = res;
+    });
+    this.activitySearchCriteriaPayload.next({
+      ...data,
+      pageNumber: event.pageIndex,
+      pageSize : event.pageSize
+    })
   }
 
   sortChange(sortState: Sort) {
