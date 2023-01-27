@@ -262,27 +262,27 @@
 </div>
 
 
-<mat-tab-group class="activities-list">
-  <mat-tab>
+<mat-tab-group class="activities-list" (selectedTabChange)="onActivityTabSelection($event)">
+  <mat-tab label='ALL'>
     <ng-template mat-tab-label>
       <mat-icon>assignment</mat-icon>
       All Tasks
     </ng-template>
   </mat-tab>
-  <mat-tab>
+  <mat-tab label='MY_TASKS'>
     <ng-template mat-tab-label>
       <mat-icon>assignment_ind</mat-icon>
       My Tasks
     </ng-template>
   </mat-tab>
-  <mat-tab>
+  <mat-tab label='OVERDUE'>
     <ng-template mat-tab-label>
       <mat-icon>hourglass_empty</mat-icon>
       Overdue
     </ng-template>
   </mat-tab>
   <div *ngIf="isSuperAdmin">
-    <mat-tab>
+    <mat-tab label='HIGH'>
       <ng-template mat-tab-label>
         <mat-icon>wb_incandescent</mat-icon>
         High Priority

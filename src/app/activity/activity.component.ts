@@ -39,7 +39,7 @@ export class ActivityComponent implements OnInit {
   displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions'];
   activityFiltersData: any = ActivityFiltersData;
   currentStatus = Status
-  superAdminActivityRowActions:any = SuperAdminActivityRowActions;
+  superAdminActivityRowActions: any = SuperAdminActivityRowActions;
   userActivityRowActions = ActivityRowActions;
   dataSource: any;
   masterData: any;
@@ -66,7 +66,7 @@ export class ActivityComponent implements OnInit {
     sectors: false
 
   }
-  totalActivitiesCount : number = 0;
+  totalActivitiesCount: number = 0;
 
 
   selection: any = new SelectionModel(true, []);
@@ -98,12 +98,13 @@ export class ActivityComponent implements OnInit {
     pageNumber: 0,
     pageSize: this.paginationProps.pageSize,
     sortField: "",
-    sortOrder: 0,
-    isArchive: false
+    sortOrder: 1,
+    isArchive: false,
+    onlyMyTasks: false
   });
-  selectedActivity:any;
-  selectedOrganizationIds:any;
-  
+  selectedActivity: any;
+  selectedOrganizationIds: any;
+
   constructor(
     private activityService: ActivityService,
     private storageService: StorageService,
@@ -113,12 +114,15 @@ export class ActivityComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
-    private csvHelperService:CsvHelperService,
-   
+    private csvHelperService: CsvHelperService,
+    private selectedOrganizationService: SelectedOrganizationService
+
   ) { }
 
   ngOnInit(): void {
-    
+    this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
+      this.selectedOrganizationIds = res;
+    })
     this.getActivitiesSearchCriteria();
     this.getAcivityMasterData();
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
@@ -189,58 +193,58 @@ export class ActivityComponent implements OnInit {
 
   downloadFile() {
     let activityData = this.selection.selected.length === 0 ? this.dataSource.filteredData : this.selection.selected
-    let activityDownloadData:any []=[]
-    for(let i=0; i<activityData.length; i++){
-      const activityDataForDownload={
+    let activityDownloadData: any[] = []
+    for (let i = 0; i < activityData.length; i++) {
+      const activityDataForDownload = {
         title: activityData[i].title,
-        description:activityData[i].description.replace(/<[^>]*>/g,""),
-        status : activityData[i].status,
-        priority : activityData[i].priority,
-        assignedTo:activityData[i].assignTo[0].organization,
-        dueDate:activityData[i].dueDate,
-        createdDate:activityData[i].createdAt
+        description: activityData[i].description.replace(/<[^>]*>/g, ""),
+        status: activityData[i].status,
+        priority: activityData[i].priority,
+        assignedTo: activityData[i].assignTo[0].organization,
+        dueDate: activityData[i].dueDate,
+        createdDate: activityData[i].createdAt
       };
       activityDownloadData.push(activityDataForDownload)
     }
     console.log(activityDownloadData)
-    const headersList :{propertyName : string, displayName : string}[] = [
+    const headersList: { propertyName: string, displayName: string }[] = [
       {
-        propertyName : 'title',
-        displayName : 'Title'
+        propertyName: 'title',
+        displayName: 'Title'
 
       },
       {
-        propertyName : 'description',
-        displayName : 'Description'
+        propertyName: 'description',
+        displayName: 'Description'
 
       },
       {
-        propertyName : 'status',
-        displayName : 'Status'
+        propertyName: 'status',
+        displayName: 'Status'
 
       },
       {
-        propertyName : 'priority',
-        displayName : 'Priority'
+        propertyName: 'priority',
+        displayName: 'Priority'
 
       },
       {
-        propertyName : 'assignedTo',
-        displayName : 'Assigned To'
+        propertyName: 'assignedTo',
+        displayName: 'Assigned To'
 
       },
       {
-        propertyName : 'dueDate',
-        displayName : 'Due Date'
+        propertyName: 'dueDate',
+        displayName: 'Due Date'
 
-      },{
-        propertyName : 'createdDate',
-        displayName : 'Create Date'
+      }, {
+        propertyName: 'createdDate',
+        displayName: 'Create Date'
 
       },
-      
+
     ]
-    this.csvHelperService.downloadFile(activityDownloadData,"List of Activities", headersList)
+    this.csvHelperService.downloadFile(activityDownloadData, "List of Activities", headersList)
 
   }
 
@@ -285,7 +289,7 @@ export class ActivityComponent implements OnInit {
     this.activitySearchCriteriaPayload.next({
       ...data,
       pageNumber: event.pageIndex,
-      pageSize : event.pageSize
+      pageSize: event.pageSize
     })
   }
 
@@ -316,7 +320,7 @@ export class ActivityComponent implements OnInit {
   }
 
   navigateToActivityDetails(activity: any) {
-    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity} });
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity } });
   }
 
   generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED", activity?: any) {
@@ -355,7 +359,7 @@ export class ActivityComponent implements OnInit {
         break;
       case 'MOVE_TO_ORGANIZATION':
         this.activityService.openMoveToOrganizationPopup(this.selectedActivtyForRowActions._id).afterClosed().subscribe((res) => {
-         
+
         })
         break;
       default:
@@ -369,7 +373,7 @@ export class ActivityComponent implements OnInit {
     this.confirmationDialogService.open({
       message: `Are you sure to change activity ${this.selectedActivtyForRowActions.title} to ${status}`
     }).afterClosed().subscribe((res) => {
-      
+
       if (res) {
         this.activityService.updateActivityStatus(this.selectedActivtyForRowActions._id, { status: status }).subscribe((res) => {
           this.alertpopupService.open({
@@ -430,15 +434,15 @@ export class ActivityComponent implements OnInit {
     })
   }
 
-  editActivityByActivityId(){
-    this.router.navigate([RouteConstants.CREATEACTIVITY],{ queryParams: { aId: this.selectedActivtyForRowActions._id }})
+  editActivityByActivityId() {
+    this.router.navigate([RouteConstants.CREATEACTIVITY], { queryParams: { aId: this.selectedActivtyForRowActions._id } })
   }
 
-  moveToActivityDetail(){
-    this.router.navigate([RouteConstants.ACTIVITY_DETAILS],{ queryParams: { aId: this.selectedActivtyForRowActions._id } });
+  moveToActivityDetail() {
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: this.selectedActivtyForRowActions._id } });
   }
 
- 
+
   filterActivityListData(controlName: string, event: any, chipValue: string) {
     let data: any;
     this.activitySearchCriteriaPayload.subscribe((res) => {
@@ -559,6 +563,30 @@ export class ActivityComponent implements OnInit {
       data = res;
     });
     this.activitySearchCriteriaPayload.next({ ...data, sortField: selectedOption.key });
+  }
+
+  onActivityTabSelection(type: any) {
+    console.log(type);
+    let data: any;
+    this.activitySearchCriteriaPayload.subscribe((res) => {
+      data = res;
+    });
+    switch (type.tab.textLabel) {
+      case "ALL":
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: undefined, onlyMyTasks: false });
+        break;
+      case "MY_TASKS":
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate:undefined, onlyMyTasks: true, organizations: this.selectedOrganizationIds });
+        break;
+      case "OVERDUE" : 
+      this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate:{customString:"OVERDUE"}, onlyMyTasks: false});
+      break;
+      case "HIGH" : 
+      this.activitySearchCriteriaPayload.next({ ...data, priority: ["HIGH"], dueDate:undefined, onlyMyTasks: false});
+      break;
+      default : 
+        break;
+    }
   }
 
 

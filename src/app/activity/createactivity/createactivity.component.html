@@ -1,7 +1,7 @@
 <div class="container">
   <div class="d-flex">
     <mat-icon> note_add</mat-icon>
-    <h2>{{selectedActivityId!="" ? "Update Activity":"Create Activity"}}</h2>
+    <h2>{{selectedActivityId? "Update Activity":"Create Activity"}}</h2>
   </div>
   <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
     <div>
@@ -96,7 +96,7 @@
       </mat-form-field>
     </div>
     <div>
-      <app-rich-text-editor [value]="selectedActivityData.description" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
+      <app-rich-text-editor [value]="selectedActivityData?.description ? selectedActivityData.description : ''" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
     </div>
     <div>
       <app-fileuploader (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
