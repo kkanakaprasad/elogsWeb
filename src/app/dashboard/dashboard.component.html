@@ -228,7 +228,7 @@
         <div class="card-body activities_panel">
           <div class="heading overdue mb-3">
             <h2> <span>Overdue Tasks</span></h2>
-            <div class="activity-list" (click)="navigateToActivityDetails(item._id)" *ngFor="let item of overDueActivities">
+            <div class="activity-list"  *ngFor="let item of overDueActivities" (click)="navigateToActivityDetails(item._id)">
               <div class="activity-title">
                 <a routerLink="#" [title]="">ORGM</a> -
                 <a routerLink="#" [title]="">#17: {{item.title}}</a>
@@ -239,7 +239,7 @@
                 </div>
                 <div class="date-time">
                   <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">{{item.dueDate | date: 'MMM d, y'}}</span>
+                  <span class="over-due"><mat-icon>access_time</mat-icon>{{item.dueDate | date: 'MMM d, y'}}</span>
                 </div>
               </div>
             </div>
@@ -248,7 +248,7 @@
 
           <div class="heading upcoming">
             <h2> <span>Upcoming Tasks</span></h2>
-            <div class="activity-list"  (click)="navigateToActivityDetails(item._id)" *ngFor="let item of upComingActivities">
+            <div class="activity-list"   *ngFor="let item of upComingActivities" (click)="navigateToActivityDetails(item._id)">
               <div class="activity-title">
                 <a routerLink="#" [title]="">ORGM</a> -
                 <a routerLink="#" [title]="">#17: {{item.title}}</a>
@@ -259,13 +259,13 @@
                 </div>
                 <div class="date-time">
                   <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">{{item.dueDate | date: 'MMM d, y'}}</span>
+                  <span class="over-due"><mat-icon>access_time</mat-icon>{{item.dueDate | date: 'MMM d, y'}}</span>
                 </div>
               </div>
             </div>
           </div>
-        <button (click)="goToActivityList()">View All</button>
-        </div>
+          <div class="text-end"> <a (click)="goToActivityList()">View All</a> </div>
+          </div>
       </div>
     </div>
 
