@@ -15,7 +15,7 @@ import { RemoveOrgPopUpService } from './remove-org-pop-up/remove-org-pop-up.ser
 import { UserSearchCriteria } from './user-Interface';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { CUSTOMPAGE } from '../../../app/shared/constants/pagination';
+import { PaginationProps } from '../../../app/shared/constants/pagination';
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 
 @Component({
@@ -26,7 +26,7 @@ import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 export class UserListComponent implements OnInit {
   public usersList: any = [];
   filters = FILTER_CONSTANT
-  customPage = CUSTOMPAGE;
+  customPage = PaginationProps;
   selectedTab = {
     tab : {
       textLabel : FILTER_CONSTANT.IS_ACTIVE
