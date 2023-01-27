@@ -39,7 +39,7 @@ export class ActivityComponent implements OnInit {
   displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions'];
   activityFiltersData: any = ActivityFiltersData;
   currentStatus = Status
-  superAdminActivityRowActions = SuperAdminActivityRowActions;
+  superAdminActivityRowActions:any = SuperAdminActivityRowActions;
   userActivityRowActions = ActivityRowActions;
   dataSource: any;
   masterData: any;
@@ -98,6 +98,7 @@ export class ActivityComponent implements OnInit {
     pageSize: 20,
     sortField: "",
     sortOrder: 0,
+    isArchive: false
   });
   selectedActivity:any;
   selectedOrganizationIds:any;
@@ -186,14 +187,17 @@ export class ActivityComponent implements OnInit {
   }
 
   downloadFile() {
+    let activityData = this.selection.selected.length === 0 ? this.dataSource.filteredData : this.selection.selected
     let activityDownloadData:any []=[]
-    for(let i=0; i<this.dataSource.filteredData.length; i++){
+    for(let i=0; i<activityData.length; i++){
       const activityDataForDownload={
-        title: this.dataSource.filteredData[i].title,
-        description:this.dataSource.filteredData[i].description.replace(/<[^>]*>/g,""),
-        assignedTo:this.dataSource.filteredData[i].assignTo[0].organization,
-        dueDate:this.dataSource.filteredData[i].dueDate,
-        createdDate:this.dataSource.filteredData[i].createdAt
+        title: activityData[i].title,
+        description:activityData[i].description.replace(/<[^>]*>/g,""),
+        status : activityData[i].status,
+        priority : activityData[i].priority,
+        assignedTo:activityData[i].assignTo[0].organization,
+        dueDate:activityData[i].dueDate,
+        createdDate:activityData[i].createdAt
       };
       activityDownloadData.push(activityDataForDownload)
     }
@@ -207,6 +211,16 @@ export class ActivityComponent implements OnInit {
       {
         propertyName : 'description',
         displayName : 'Description'
+
+      },
+      {
+        propertyName : 'status',
+        displayName : 'Status'
+
+      },
+      {
+        propertyName : 'priority',
+        displayName : 'Priority'
 
       },
       {
@@ -225,9 +239,10 @@ export class ActivityComponent implements OnInit {
       },
       
     ]
-    this.csvHelperService.downloadFile(activityDownloadData,"activity details", headersList)
+    this.csvHelperService.downloadFile(activityDownloadData,"List of Activities", headersList)
 
   }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -291,7 +306,7 @@ export class ActivityComponent implements OnInit {
   }
 
   navigateToActivityDetails(activity: any) {
-    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity._id } });
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity} });
   }
 
   generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED", activity?: any) {
