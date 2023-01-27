@@ -72,10 +72,12 @@
       <div class="text-end activity_actions">
         <button mat-button class="" (click)="downloadFile()" matTooltip="Download">
           <i class="icon-taskdownl"></i>
-          Download <mat-icon>file_download</mat-icon>
+          <mat-icon class="download">file_download</mat-icon>
         </button>
       <button mat-button [matMenuTriggerFor]="filters" matTooltip="Filters">
-        Filters <mat-icon> filter_alt</mat-icon></button>
+        <mat-icon> filter_alt</mat-icon>Filters
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
       <mat-menu #filters="matMenu">
         <button mat-menu-item [matMenuTriggerFor]="createddate">Created Date</button>
         <button mat-menu-item [matMenuTriggerFor]="duedate">Due Date</button>
@@ -89,8 +91,10 @@
         <button mat-menu-item [matMenuTriggerFor]="assignto">Assigned to</button>
       </mat-menu>
 
-      <button mat-button [matMenuTriggerFor]="groupBymenu" matTooltip="Group By">Group By
-        <mat-icon>filter_list</mat-icon></button>
+      <button mat-button [matMenuTriggerFor]="groupBymenu" matTooltip="Group By">
+        <mat-icon>filter_list</mat-icon> Group By
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
       <mat-menu #groupBymenu="matMenu">
         <mat-option *ngFor="let option of activityFiltersData.groupBy">
           {{option.DisplayName}}
@@ -98,7 +102,9 @@
       </mat-menu>
 
       <button mat-button [matMenuTriggerFor]="sortby" matTooltip="Sort By">
-        Sort By<mat-icon>sort</mat-icon></button>
+        <mat-icon>sort</mat-icon> Sort By
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
       <mat-menu #sortby="matMenu">
         <mat-option *ngFor="let option of activityFiltersData.sortBy" (click)="sortActivityListData(option)">
           {{option.DisplayName}}
@@ -361,7 +367,7 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<div *ngIf="dataSource?.filteredData?.length === 0">   
+<div *ngIf="dataSource?.filteredData?.length === 0">
   <mat-card class="technologyMatCard">
       No Activities found
   </mat-card>

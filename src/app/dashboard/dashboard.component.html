@@ -11,9 +11,9 @@
             <div class="card-header d-flex align-items-center justify-content-between">
               <h6 class="m-0">Activity <span>Metrics</span></h6>
               <div class="calendar-inputs">
-               
-              
-                <input type="text" class="form-control col-md-1" placeholder="08-01-2023" name="" id=""  
+
+
+                <input type="text" class="form-control col-md-1" placeholder="08-01-2023" name="" id=""
                 matInput
                 [matDatepicker]="startDatePicker"
                 (dateChange)="startDateSetter( $event)"
@@ -37,7 +37,8 @@
             <div class="card-body">
               <div class="d-flex mb-3 justify-content-between">
                 <div class="total">Total <span>{{dashboardMetricsCount?.total[0]?.total}}</span></div>
-                <div> <mat-form-field appearance="outline">
+                <div class="activity_type">
+                  <mat-form-field appearance="outline">
                   <mat-label>Type</mat-label>
                   <mat-select  (selectionChange)="selectedActivityType($event)">
                     <mat-option
@@ -46,7 +47,8 @@
                       >{{ activityTypesData?.name }}</mat-option
                     >
                   </mat-select>
-                </mat-form-field></div>
+                </mat-form-field>
+              </div>
               </div>
               <div class="row">
                 <div class="col-md-6 activity mb-3">
