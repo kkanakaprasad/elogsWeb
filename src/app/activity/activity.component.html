@@ -318,9 +318,9 @@
   </ng-container>
 
   <ng-container matColumnDef="Status">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
 
-    <td mat-cell *matCellDef="let element">
+    <td mat-cell *matCellDef="let element" class="status-badge">
       <span class="badge" [ngClass]="{'bg-danger': element?.status.toLowerCase() == 'rejected',
       'bg-success': element?.status.toLowerCase() == 'resolved',
       'bg-dark': element?.status.toLowerCase() == 'inprogress',
@@ -374,8 +374,8 @@
 </div>
 
 
-<mat-paginator #paginator [pageSize]="customPage.pageSize" [length]="activitylist.length"
-  [pageSizeOptions]="customPage.pageSizeOptions" (page)="onChangedPageSize($event)">
+<mat-paginator #paginator [pageSize]="customPage?.pageSize" [length]="activitylist.length"
+  [pageSizeOptions]="customPage?.pageSizeOptions" (page)="onChangedPageSize($event)">
 </mat-paginator>
 
 

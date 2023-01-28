@@ -104,7 +104,7 @@ export class ActivityComponent implements OnInit {
   });
   selectedActivity: any;
   selectedOrganizationIds: any;
-
+  customPage:any;
   constructor(
     private activityService: ActivityService,
     private storageService: StorageService,
@@ -578,13 +578,13 @@ export class ActivityComponent implements OnInit {
       case "MY_TASKS":
         this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate:undefined, onlyMyTasks: true, organizations: this.selectedOrganizationIds });
         break;
-      case "OVERDUE" : 
+      case "OVERDUE" :
       this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate:{customString:"OVERDUE"}, onlyMyTasks: false});
       break;
-      case "HIGH" : 
+      case "HIGH" :
       this.activitySearchCriteriaPayload.next({ ...data, priority: ["HIGH"], dueDate:undefined, onlyMyTasks: false});
       break;
-      default : 
+      default :
         break;
     }
   }
