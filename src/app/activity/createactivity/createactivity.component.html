@@ -1,8 +1,9 @@
-<div class="container">
-  <div class="d-flex">
+<div class="container create-activity">
+  <h1>
     <mat-icon> note_add</mat-icon>
-    <h2>{{selectedActivityId? "Update Activity":"Create Activity"}}</h2>
-  </div>
+    <span>{{selectedActivityId? "Update Activity":"Create Activity"}}</span>
+  </h1>
+  <div class="acitivity-panel">
   <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
     <div>
       <ng-container *ngIf="userDetails?.organizationsdata?.length > 1">
@@ -37,6 +38,17 @@
           </mat-select>
         </mat-form-field>
       </div>
+
+      <div class="mx-5">
+        <mat-form-field appearance="outline" class="w-100-per">
+          <mat-label>Ministry/Department</mat-label>
+          <mat-select multiple="multiple" formControlName="organization">
+            <mat-option *ngFor="let organization of organizationsData" [value]="organization">{{
+              organization?.organization }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
       <div>
         <mat-chip-list><mat-chip *ngFor="
               let item of activityForm.get('organization')?.value;
@@ -47,15 +59,7 @@
           </mat-chip>
         </mat-chip-list>
       </div>
-      <div class="mx-5">
-        <mat-form-field appearance="outline" class="w-100-per">
-          <mat-label>Ministry/Department</mat-label>
-          <mat-select multiple="multiple" formControlName="organization">
-            <mat-option *ngFor="let organization of organizationsData" [value]="organization">{{
-              organization?.organization }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+
     </div>
 
     <div>
@@ -105,4 +109,5 @@
       <button mat-raised-button color="primary" type="submit">{{selectedActivityId? "update":"Submit"}}</button>
     </div>
   </form>
+  </div>
 </div>
