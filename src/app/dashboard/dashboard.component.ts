@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit {
   selectedOrganizationIds: any;
   overDueActivities : any=[];
   upComingActivities:any=[];
+  isSuperAdmin!: boolean;
 
 
   constructor(
@@ -54,8 +55,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getOverDueTaskForDashBoard();
     this.getUpComingTaskForDashBoard();
+    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
-
       this.selectedOrganizationIds = res;
       this.postDashBoardDueDateMetrics();
       this.postDashBoardRelatedToMetrics();
