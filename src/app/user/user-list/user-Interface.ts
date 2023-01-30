@@ -17,16 +17,18 @@ export interface OverDueTaskSearchCriteria{
     sortOrder:number,
     isArchive:false,
     dueDate:any,
-    title:string
+    title:string,
+    organizations?:string
 }
 
 export interface UpComingTaskSearchCriteria{
     pageNumber:0,
     pageSize:5,
     sortField:string,
-    sortOrder:0,
+    sortOrder:number,
     isArchive:false,
     status:["NEW","INPROGRESS"],
     dueDate:any,
     title:string
+    organizations?:string
 }
