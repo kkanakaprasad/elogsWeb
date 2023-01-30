@@ -52,7 +52,7 @@ export class UserListComponent implements OnInit {
   totalUserCount : number = 0;
 
 
-  displayedColumns = ['Name', 'Email', 'CreatedAt', 'Organization', 'Actions']
+  displayedColumns = ['Name','lastActivity', 'Email', 'CreatedAt', 'Organization', 'Actions']
   dataSource = new MatTableDataSource(this.usersList);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 

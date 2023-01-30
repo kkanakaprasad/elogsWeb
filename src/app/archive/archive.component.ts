@@ -1,6 +1,8 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { RouteConstants } from '../shared/constants/routes.constants';
 import { ArchiveService } from './archive.service';
 
 @Component({
@@ -18,7 +20,9 @@ export class ArchiveComponent implements OnInit {
 
 
 
-  constructor(private archiveService: ArchiveService) { }
+  constructor(private archiveService: ArchiveService,
+    private router:Router
+    ) { }
 
   ngOnInit(): void {
     this.getArchiveActivities();
@@ -47,5 +51,8 @@ export class ArchiveComponent implements OnInit {
 
   logSelection() {
     this.selection.selected.forEach(value => console.log(value.title));
+  }
+  navigateToActivityDetails(activity: any) {
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity } });
   }
 }
