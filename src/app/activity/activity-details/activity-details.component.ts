@@ -95,7 +95,6 @@ export class ActivityDetailsComponent implements OnInit {
 	getActivityDetailsById() {
 		this.activityService.getActivityById(this.selectedActivityId).subscribe(res => {
 			this.activityData = res.data[0]
-			console.log(this.activityData)
 			this.selectedActivityEntryTypeId = res.data[0]?.activitEntryType
 			this.selectedActivityRelatedTypeId = res.data[0]?.activityRelatedTo
 			this.selectedActivitySectorId = res.data[0]?.activitySector
@@ -106,7 +105,7 @@ export class ActivityDetailsComponent implements OnInit {
 			this.isArchive = this.activityData?.isArchive
 			this.selectedActivityTypeId = this.activityData?.activityType
 			this.organizationsInvolved = this.activityData?.organizationData
-			this.ministryName = this.activityData?.organizationData[0]?.organization
+			this.ministryName = this.activityData?.organizationData.map((res:any)=>res.organization)
 			this.selectedActivityAssignedTo = this.activityData?.organizationData.filter((organization: any) => organization._id == this.activityData?.assignTo).map((item: any) => item.organization)
 			this.getUserById()
 			this.getLogedInUserDetails()
@@ -131,7 +130,6 @@ export class ActivityDetailsComponent implements OnInit {
 			this.activitySectorsData = res.data?.activitySectorsData.filter((sectorsData: any) => sectorsData._id == this.selectedActivitySectorId).map((item: any) => item.name)
 			this.ActivityScopeData = res.data?.activityScopesData.filter((activityScopesData: any) => activityScopesData._id == this.selectedActivityScopeId).map((item: any) => item.name)
 			this.activityType = res?.data?.activityTypesData.filter((activitytype: any) => activitytype._id == this.selectedActivityTypeId).map((item: any) => item.name)
-			console.log(this.ActivityScopeData)
 		})
 	}
 

@@ -74,9 +74,9 @@
                 <div class="col-md-6 activity">
                   <div class="brdr-danger">
                     <div class="d-inline-block">Not Admissible</div>
-                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">{{dashboardMetricsCount?.notAdmissible?.length==0 ? 0 :dashboardMetricsCount?.notAdmissible[0]?.notAdmissibleCount}}</div>
+                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">{{dashboardMetricsCount?.rejectedCount?.length==0 ? 0 :dashboardMetricsCount?.rejectedCount[0]?.rejectedCount}}</div>
                     <div class="percentage">
-                      ({{(dashboardMetricsCount?.notAdmissible?.length==0 ? 0 :dashboardMetricsCount?.notAdmissible[0]?.notAdmissibleCount)*100/(dashboardMetricsCount?.total[0]?.total)| number:'.2-2'}})
+                      ({{(dashboardMetricsCount?.notAdmissible?.length==0 ? 0 :dashboardMetricsCount?.rejectedCount[0]?.rejectedCount)*100/(dashboardMetricsCount?.total[0]?.total)| number:'.2-2'}})
                     </div>
                   </div>
                 </div>

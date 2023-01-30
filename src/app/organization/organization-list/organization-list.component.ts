@@ -116,7 +116,6 @@ export class OrganizationListComponent implements OnInit {
       if (res) {
         this.getAllOrganizationsSearchCriteria();
 
-
       }
     })
   }

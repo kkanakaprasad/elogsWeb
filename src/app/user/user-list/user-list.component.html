@@ -1,6 +1,6 @@
 <div class="page-wrapper add-height">
   <div class="add-users">
-    <button mat-raised-button color="primary" (click)=" addUser()">Add Users</button>
+    <button mat-raised-button color="primary" (click)="addUser()">Add Users</button>
   </div>
   <mat-tab-group (selectedTabChange)="applyUserFilters($event)" class="mt-2 users_list">
     <mat-tab label={{filters.IS_ACTIVE}}>

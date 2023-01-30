@@ -151,7 +151,7 @@ export class BreadcrumbComponent implements OnInit {
       this.activityFiltersData.status[0] = {...this.activityFiltersData.status[0],count : this.dashboardMetricsCount?.new[0]?.newCount},
       this.activityFiltersData.status[1] = {...this.activityFiltersData.status[1],count : this.dashboardMetricsCount?.inProgress[0]?.inProgressCount},
       this.activityFiltersData.status[2] = {...this.activityFiltersData.status[2],count : this.dashboardMetricsCount?.resolved[0]?.resolvedCount},
-      this.activityFiltersData.status[3] = {...this.activityFiltersData.status[3],count : this.dashboardMetricsCount?.notAdmissible[0]?.notAdmissibleCount}
+      this.activityFiltersData.status[3] = {...this.activityFiltersData.status[3],count : this.dashboardMetricsCount?.rejectedCount[0]?.rejectedCount}
     })
   }
 

@@ -14,6 +14,7 @@ import { OverDueTaskSearchCriteria, UpComingTaskSearchCriteria, UserSearchCriter
 import { UserService } from '../user/user.service';
 import { DashboardService } from './dashboard.service';
 import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
+import { ProfileService } from '../profile/profile.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,6 +41,7 @@ export class DashboardComponent implements OnInit {
   isSuperAdmin!: boolean;
 
 
+
   constructor(
     private organizationService: OrganizationService,
     private storageService: StorageService,
@@ -49,15 +51,17 @@ export class DashboardComponent implements OnInit {
     private activityService: ActivityService,
     private userService: UserService,
     private dashboardService: DashboardService,
-    private selectedOrganizationService: SelectedOrganizationService
+    private selectedOrganizationService: SelectedOrganizationService,
+    private profileService: ProfileService,
   ) { }
 
   ngOnInit(): void {
-    this.getOverDueTaskForDashBoard();
-    this.getUpComingTaskForDashBoard();
+    this.profileService.getUserById(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res: any) => {console.log(res)})
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
       this.selectedOrganizationIds = res;
+      this.getOverDueTaskForDashBoard();
+    this.getUpComingTaskForDashBoard();
       this.postDashBoardDueDateMetrics();
       this.postDashBoardRelatedToMetrics();
       this.postDashBoardActivityMetrics();
@@ -179,32 +183,37 @@ export class DashboardComponent implements OnInit {
   }
 
   getOverDueTaskForDashBoard(){
-    const payload:OverDueTaskSearchCriteria={
+    const payload={
       pageNumber:0,
       pageSize:5,
       sortField:"",
       title:"",
-      sortOrder:0,
+      sortOrder:1,
       isArchive:false,
+      organizations: this.selectedOrganizationIds,
       dueDate:{"customString":"OVERDUE"}}
       this.activityService.getActivitiesSearchCriteria(payload).subscribe((res)=>{
       this.overDueActivities=res?.data[0].activities;
       })
+      console.log(payload)
   }
 
   getUpComingTaskForDashBoard(){
-    const payload:UpComingTaskSearchCriteria={
+    const todayDate = new Date();
+    const payload={
     pageNumber:0,
     pageSize:5,
     sortField:"",
     title:"",
-    sortOrder:0,
+    sortOrder:1,
     isArchive:false,
+    organizations: this.selectedOrganizationIds,
     status:["NEW","INPROGRESS"],
-    dueDate:{"fromDate":"date.now"}}
+    dueDate:{"fromDate":todayDate}}
       this.activityService.getActivitiesSearchCriteria(payload).subscribe((res)=>{
       this.upComingActivities=res?.data[0].activities;
       })
+      console.log(payload)
   }
 
   navigateToActivityDetails(activity: any) {
