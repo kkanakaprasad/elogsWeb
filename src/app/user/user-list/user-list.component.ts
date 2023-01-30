@@ -140,53 +140,56 @@ export class UserListComponent implements OnInit {
 
   applyUserFilters(user: any) {
     this.selectedTab = user;
-    let updatedPayload = this.userPayload;
+    let updatedPayload = {};
     if (Number(user.tab.textLabel) === FILTER_CONSTANT.IS_ACTIVE) {
       updatedPayload = {
-        ...updatedPayload,
         isActive: true,
         pageNumber : 0,
+        userId : '',
+        type : ''
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MY_PROFILE) {
       var userID = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID);
       updatedPayload = {
-        ...updatedPayload,
         isActive: true,
         userId: userID,
-        pageNumber : 0
+        pageNumber : 0,
+        type : ''
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.INACTIVE) {
       updatedPayload = {
-        ...updatedPayload,
         isActive: false,
         pageNumber : 0,
+        userId : '',
+        type : ''
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
       updatedPayload = {
-        ...updatedPayload,
         isActive: true,
         type: organizationType.MINISTRY,
         pageNumber : 0,
+        userId : '',
 
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.ASSOCIATION) {
       updatedPayload = {
-        ...updatedPayload,
         isActive: true,
         type: organizationType.ASSOCIATION,
         pageNumber : 0,
+        userId : '',
       }
     }
-    this.userSearchCriteria(updatedPayload);
+    this.userPayload = {...this.userPayload,...updatedPayload}
+    this.userSearchCriteria(this.userPayload);
   }
 
   onChangedPageSize(event: any) {
-    this.userPayload.pageNumber = event.pageIndex;
-    this.userPayload.pageSize = event.pageSize;
+    this.userPayload.pageNumber = this.paginator.pageIndex;
+    this.userPayload.pageSize = this.paginator.pageSize;
     this.userSearchCriteria(this.userPayload);
   }
 
