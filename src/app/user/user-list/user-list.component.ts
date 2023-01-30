@@ -28,8 +28,8 @@ export class UserListComponent implements OnInit {
   filters = FILTER_CONSTANT
   customPage = PaginationProps;
   selectedTab = {
-    tab : {
-      textLabel : FILTER_CONSTANT.IS_ACTIVE
+    tab: {
+      textLabel: FILTER_CONSTANT.IS_ACTIVE
     }
   };
   userTypes: any;
@@ -44,14 +44,14 @@ export class UserListComponent implements OnInit {
     userId: "",
     user: ""
   }
-  activeMetricsCount: number=0;
-  adminMetricsCount: number=0;
-  associationsMetricsCount: number=0  ;
-  ministriesMetricsCount: number=0;
-  inActiveMetricsCount: number=0;
+  activeMetricsCount: number = 0;
+  adminMetricsCount: number = 0;
+  associationsMetricsCount: number = 0;
+  ministriesMetricsCount: number = 0;
+  inActiveMetricsCount: number = 0;
 
 
-  displayedColumns = ['Name', 'Email', 'Organization', 'Actions']
+  displayedColumns = ['Name', 'Email', 'CreatedAt', 'Organization', 'Actions']
   dataSource = new MatTableDataSource(this.usersList);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -71,12 +71,11 @@ export class UserListComponent implements OnInit {
   }
 
   userSearchCriteria(payload: any) {
-   this.userService.userSearchCriteria(payload).subscribe((res) => {
-   this.activeMetricsCount=res.data.metrics[0].active[0]?.activeUsers;
-   this.associationsMetricsCount=res.data.metrics[0].associations[0]?.associationCount;
-   this.ministriesMetricsCount=res.data.metrics[0].ministries[0]?.ministriesCount;
-   this.inActiveMetricsCount=res.data.metrics[0].inActive[0]?.inActiveUsers;
-
+    this.userService.userSearchCriteria(payload).subscribe((res) => {
+      this.activeMetricsCount = res.data.metrics[0].active[0]?.activeUsers;
+      this.associationsMetricsCount = res.data.metrics[0].associations[0]?.associationCount;
+      this.ministriesMetricsCount = res.data.metrics[0].ministries[0]?.ministriesCount;
+      this.inActiveMetricsCount = res.data.metrics[0].inActive[0]?.inActiveUsers;
       this.usersList = res.data.users.reverse();
       this.dataSource = new MatTableDataSource(this.usersList);
       this.dataSource.paginator = this.paginator;
@@ -88,24 +87,24 @@ export class UserListComponent implements OnInit {
 
   editUser(userId: string) {
     this.addNewUserService.openUpdateUserPopup(userId).afterClosed().subscribe((res) => {
-      if(res){
-      this.applyUserFilters(this.selectedTab);
-    }
+      if (res) {
+        this.applyUserFilters(this.selectedTab);
+      }
     })
   }
 
   assignOrganisation(user: any) {
     this.assignOrganizationPopUpService.assignOrgPopUp(user).afterClosed().subscribe((res) => {
-      if (res){
-      this.applyUserFilters(this.selectedTab);
-    }
+      if (res) {
+        this.applyUserFilters(this.selectedTab);
+      }
     });
   }
 
   removeOrganisation(userId: any) {
     this.removeOrgPopUpService.removeOrgPopUp(userId).afterClosed().subscribe((res) => {
       if (res)
-      this.applyUserFilters(this.selectedTab);
+        this.applyUserFilters(this.selectedTab);
     });
   }
 
