@@ -26,7 +26,7 @@ import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 export class UserListComponent implements OnInit {
   public usersList: any = [];
   filters = FILTER_CONSTANT
-  customPage = PaginationProps;
+  paginationProps = PaginationProps;
   selectedTab = {
     tab: {
       textLabel: FILTER_CONSTANT.IS_ACTIVE
@@ -35,9 +35,9 @@ export class UserListComponent implements OnInit {
   userTypes: any;
   userPayload: UserSearchCriteria = {
     pageNumber: 0,
-    pageSize: 50,
+    pageSize: 10,
     sortField: "",
-    sortOrder: 0,
+    sortOrder: 1,
     type: "",
     isActive: true,
     role: "",
@@ -49,6 +49,7 @@ export class UserListComponent implements OnInit {
   associationsMetricsCount: number = 0;
   ministriesMetricsCount: number = 0;
   inActiveMetricsCount: number = 0;
+  totalUserCount : number = 0;
 
 
   displayedColumns = ['Name', 'Email', 'CreatedAt', 'Organization', 'Actions']
@@ -78,7 +79,7 @@ export class UserListComponent implements OnInit {
       this.inActiveMetricsCount = res.data.metrics[0].inActive[0]?.inActiveUsers;
       this.usersList = res.data.users.reverse();
       this.dataSource = new MatTableDataSource(this.usersList);
-      this.dataSource.paginator = this.paginator;
+      this.totalUserCount = res.data.totalCount;
     })
   }
   get loginUserID() {
@@ -144,6 +145,7 @@ export class UserListComponent implements OnInit {
       updatedPayload = {
         ...updatedPayload,
         isActive: true,
+        pageNumber : 0,
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MY_PROFILE) {
@@ -151,37 +153,45 @@ export class UserListComponent implements OnInit {
       updatedPayload = {
         ...updatedPayload,
         isActive: true,
-        userId: userID
+        userId: userID,
+        pageNumber : 0
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.INACTIVE) {
       updatedPayload = {
         ...updatedPayload,
         isActive: false,
+        pageNumber : 0,
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
       updatedPayload = {
         ...updatedPayload,
         isActive: true,
-        type: organizationType.MINISTRY
+        type: organizationType.MINISTRY,
+        pageNumber : 0,
+
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.ASSOCIATION) {
       updatedPayload = {
         ...updatedPayload,
         isActive: true,
-        type: organizationType.ASSOCIATION
+        type: organizationType.ASSOCIATION,
+        pageNumber : 0,
       }
     }
     this.userSearchCriteria(updatedPayload);
+  }
+
+  onChangedPageSize(event: any) {
+    this.userPayload.pageNumber = event.pageIndex;
+    this.userPayload.pageSize = event.pageSize;
+    this.userSearchCriteria(this.userPayload);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  onChangedPageSize(event: any) {
-    console.log(event);
-  }
 }

@@ -1,6 +1,6 @@
 <div class="page-wrapper add-height">
   <div class="add-users">
-    <button mat-raised-button color="primary" (click)=" addUser()">Add Users</button>
+    <button mat-raised-button color="primary" (click)="addUser()">Add Users</button>
   </div>
   <mat-tab-group (selectedTabChange)="applyUserFilters($event)" class="mt-2 users_list">
     <mat-tab label={{filters.IS_ACTIVE}}>
@@ -105,7 +105,9 @@
 
   </table>
 
-  <mat-paginator #paginator [pageSize]="customPage.pageSize" [length]="usersList.length"
-    [pageSizeOptions]="customPage.pageSizeOptions" (page)="onChangedPageSize($event)">
-  </mat-paginator>
+  <mat-paginator [length]="totalUserCount" [pageSize]="paginationProps.pageSize"
+  [pageSizeOptions]="paginationProps.pageSizeOptions" (page)="onChangedPageSize($event)"
+  aria-label="Select page of GitHub search results"></mat-paginator>
+
+
 </div>

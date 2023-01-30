@@ -3,10 +3,10 @@ export interface UserSearchCriteria {
     pageSize: number,
     sortField: string,
     sortOrder: number,
-    type: string,
+    type: string | undefined,
     isActive?: boolean,
     role: string,
-    userId: string,
+    userId: string | undefined,
     user:string,
 }
 
