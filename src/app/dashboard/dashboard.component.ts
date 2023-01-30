@@ -183,7 +183,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getOverDueTaskForDashBoard(){
-    const payload={
+    const payload:OverDueTaskSearchCriteria={
       pageNumber:0,
       pageSize:5,
       sortField:"",
@@ -200,7 +200,7 @@ export class DashboardComponent implements OnInit {
 
   getUpComingTaskForDashBoard(){
     const todayDate = new Date();
-    const payload={
+    const payload: UpComingTaskSearchCriteria={
     pageNumber:0,
     pageSize:5,
     sortField:"",
