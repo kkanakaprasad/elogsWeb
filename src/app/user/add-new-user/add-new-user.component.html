@@ -12,11 +12,10 @@
           <input matInput placeholder="password" input type="password" formControlName="password"
             pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" />
           <mat-error *ngIf="addNewUserForm.get('password')?.hasError('required')">
-            <!-- <mat-hint align="end">{{addNewUserForm.value?.length || 0}}/8</mat-hint> -->
-            password is <strong>required</strong>
+           password is <strong>required</strong>
           </mat-error>
           <mat-error *ngIf="addNewUserForm.get('password')?.hasError('pattern')" >
-            Must be filled by a~z,A~Z or number or one special character or minimum 9 characters <strong>required</strong>
+            Change the password text to- Minimum of 9 characters with a uppercase,lowercase,special character and a number. <strong>required</strong>
           </mat-error>
           </mat-form-field>
       </div>

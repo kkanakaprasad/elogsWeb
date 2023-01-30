@@ -10,7 +10,7 @@ import { AddNewUserService } from '../user/add-new-user/add-new-user.service';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { Roles } from '../shared/enums/roles.enums';
 import { ActivityService } from '../activity/activity.service';
-import { UserSearchCriteria } from '../user/user-list/user-Interface';
+import { OverDueTaskSearchCriteria, UpComingTaskSearchCriteria, UserSearchCriteria } from '../user/user-list/user-Interface';
 import { UserService } from '../user/user.service';
 import { DashboardService } from './dashboard.service';
 import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
@@ -35,6 +35,8 @@ export class DashboardComponent implements OnInit {
   userMetricsCount: any;
   organizationsMetricsCount: any;
   selectedOrganizationIds: any;
+  overDueActivities : any=[];
+  upComingActivities:any=[];
 
 
   constructor(
@@ -50,24 +52,26 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getOverDueTaskForDashBoard();
+    this.getUpComingTaskForDashBoard();
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
 
       this.selectedOrganizationIds = res;
       this.postDashBoardDueDateMetrics();
       this.postDashBoardRelatedToMetrics();
-      this.postDashBoardActivityMetrics()
+      this.postDashBoardActivityMetrics();
     })
     this.userRole = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE);
-    this.getActivityMasterData()
+    this.getActivityMasterData();
     this.dashboardService.postDashBoardActivityMetrics({}).subscribe(res => {
       this.dashboardMetricsCount = res.data[0]
     })
-    this.postDashBoardDueDateMetrics()
-    this.postDashBoardRelatedToMetrics()
-    this.userDetails()
-    this.getUserMetricsForDashBoard()
+    this.postDashBoardDueDateMetrics();
+    this.postDashBoardRelatedToMetrics();
+    this.userDetails();
+    this.getUserMetricsForDashBoard();
     this.getOrganizationsMetricsForDashBoard();
-  }
+      }
   openDialog() {
     this.organizationService.openCreateOrganizatioPopup()
   }
@@ -171,6 +175,44 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getOrganizationsMetricsForDashBoard().subscribe(res => {
       this.organizationsMetricsCount = res?.data[0]
     })
+  }
+
+  getOverDueTaskForDashBoard(){
+    const payload:OverDueTaskSearchCriteria={
+      pageNumber:0,
+      pageSize:5,
+      sortField:"",
+      title:"",
+      sortOrder:0,
+      isArchive:false,
+      dueDate:{"customString":"OVERDUE"}}
+      this.activityService.getActivitiesSearchCriteria(payload).subscribe((res)=>{
+      this.overDueActivities=res?.data[0].activities;
+      })
+  }
+
+  getUpComingTaskForDashBoard(){
+    const payload:UpComingTaskSearchCriteria={
+    pageNumber:0,
+    pageSize:5,
+    sortField:"",
+    title:"",
+    sortOrder:0,
+    isArchive:false,
+    status:["NEW","INPROGRESS"],
+    dueDate:{"fromDate":"date.now"}}
+      this.activityService.getActivitiesSearchCriteria(payload).subscribe((res)=>{
+      this.upComingActivities=res?.data[0].activities;
+      })
+  }
+
+  navigateToActivityDetails(activity: any) {
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity._id} });
+  }
+
+
+  goToActivityList(){
+    this.router.navigate([RouteConstants.ACTIVITY]);
   }
 
 }

@@ -1,3 +1,4 @@
+import { UpperCasePipe } from '@angular/common';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -78,8 +79,8 @@ export class CreateOrganizationComponent implements OnInit {
   OrganizationFormValues() {
     this.createOrganizationForm = this.formBuilder.group({
       type: ['', Validators.nullValidator],
-      organization: ['', Validators.required],
-      shortName: ['', Validators.required],
+      organization: ['', [Validators.required,Validators.maxLength(126)]],
+      shortName: ['', [Validators.required,Validators.maxLength(5)]],
       defaultAssign: ['', Validators.nullValidator],
     })
   }
