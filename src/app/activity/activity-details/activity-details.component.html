@@ -267,10 +267,7 @@
           </div>
         </ng-container>
 
-        <ng-container *ngIf="
-            isAssignee &&
-            activityData?.createdByOrganization !=
-              activityData?.organizationData[0]._id && !isSuperAdmin">
+        <ng-container *ngIf="logedInUserId !== selectedActivityCreatedById && !isSuperAdmin">
           <div class="d-flex justify-content-start">
             <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
               <mat-icon>refresh</mat-icon>

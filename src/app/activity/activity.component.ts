@@ -281,7 +281,6 @@ export class ActivityComponent implements OnInit {
   // }
 
   onChangedPageSize(event: any) {
-    console.log(event);
     let data: any;
     this.activitySearchCriteriaPayload.subscribe((res) => {
       data = res;
@@ -566,7 +565,6 @@ export class ActivityComponent implements OnInit {
   }
 
   onActivityTabSelection(type: any) {
-    console.log(type);
     let data: any;
     this.activitySearchCriteriaPayload.subscribe((res) => {
       data = res;
