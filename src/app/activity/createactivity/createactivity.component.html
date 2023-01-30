@@ -4,7 +4,7 @@
     <h2>Create Activity</h2>
   </div>
   <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
-    <div class="row p-2">
+    <div class="row p-4">
       <div class="row">
         <div class="col-md-6">
           <ng-container *ngIf="userDetails?.organizationsdata?.length > 1">
@@ -17,7 +17,7 @@
             </mat-form-field>
           </ng-container>
           <ng-container *ngIf="userDetails?.organizationsdata?.length === 1">
-            <h3>{{ userDetails?.Name}}</h3>
+            <h3 class="username">{{ userDetails?.Name}}</h3>
           </ng-container>
         </div>
       </div>

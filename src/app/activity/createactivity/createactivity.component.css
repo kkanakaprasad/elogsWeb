@@ -17,6 +17,11 @@
   gap: 5px;
 }
 
+.username{
+  font-size: 20px;
+}
+
+
 .input-field {
   display: block;
 }
