@@ -374,9 +374,10 @@
 </div>
 
 
-<mat-paginator #paginator [pageSize]="customPage?.pageSize" [length]="activitylist.length"
-  [pageSizeOptions]="customPage?.pageSizeOptions" (page)="onChangedPageSize($event)">
-</mat-paginator>
+<mat-paginator [length]="totalActivitiesCount" [pageSize]="paginationProps.pageSize"
+  [pageSizeOptions]="paginationProps.pageSizeOptions" (page)="onChangedPageSize($event)"
+  aria-label="Select page of GitHub search results"></mat-paginator>
+
 
 
 <mat-menu #menu="matMenu">
