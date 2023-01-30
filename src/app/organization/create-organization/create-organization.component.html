@@ -20,13 +20,13 @@
   
       <mat-form-field appearance="outline">
         <mat-label>{{isSelected==false?'Organization':'Organization Name'}}</mat-label>
-        <input matInput placeholder="My Organization" input type="text" formControlName="organization" />
+        <input matInput placeholder="My Organization" input type="text" formControlName="organization" maxlength="126"/>
       </mat-form-field>
       <div>
   
         <mat-form-field appearance="outline">
           <mat-label>Short Name</mat-label>
-          <input matInput placeholder="Short Name" input type="text" formControlName="shortName" />
+          <input matInput placeholder="Short Name" input type="text" formControlName="shortName" maxlength="5"/>
         </mat-form-field>
   
       <ng-container *ngIf="isSelected==true">

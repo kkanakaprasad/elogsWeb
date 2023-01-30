@@ -7,18 +7,19 @@
         <input matInput placeholder="name" input type="text" formControlName="Name" />
       </mat-form-field>
       <div>
-        <mat-form-field appearance="outline">
+        <mat-form-field  appearance="outline">
           <mat-label>Password</mat-label>
           <input matInput placeholder="password" input type="password" formControlName="password"
             pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" />
           <mat-error *ngIf="addNewUserForm.get('password')?.hasError('required')">
-            password is <strong>required</strong>
+           password is <strong>required</strong>
           </mat-error>
-          <mat-error *ngIf="addNewUserForm.get('password')?.hasError('pattern')">
-            Strong password <strong>required</strong>
+          <mat-error *ngIf="addNewUserForm.get('password')?.hasError('pattern')" >
+            Change the password text to- Minimum of 9 characters with a uppercase,lowercase,special character and a number. <strong>required</strong>
           </mat-error>
-        </mat-form-field>
+          </mat-form-field>
       </div>
+      
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Email ID</mat-label>

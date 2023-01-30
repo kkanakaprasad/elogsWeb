@@ -6,7 +6,7 @@ import { RouteConstants } from '../shared/constants/routes.constants';
 import { ActivityService } from './activity.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { FILTER_CONSTANT } from '../shared/constants/filter.constants';
-import { CUSTOMPAGE } from '../shared/constants/pagination';
+import { PaginationProps } from '../shared/constants/pagination';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { StorageService } from '../shared/services/storage-service/storage.service';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
@@ -19,6 +19,8 @@ import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
 import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 import { BehaviorSubject } from 'rxjs';
 import { BreadcrumbService } from '../main/breadcrumb/breadcrumb.service';
+import { CsvHelperService } from '../shared/services/csv-helper-service/csv-helper.service';
+import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
 
 const today = new Date();
 const month = today.getMonth();
@@ -34,18 +36,17 @@ const year = today.getFullYear();
 
 export class ActivityComponent implements OnInit {
 
-  activityId = '';
   displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions'];
   activityFiltersData: any = ActivityFiltersData;
   currentStatus = Status
-  superAdminActivityRowActions = SuperAdminActivityRowActions;
+  superAdminActivityRowActions: any = SuperAdminActivityRowActions;
   userActivityRowActions = ActivityRowActions;
   dataSource: any;
   masterData: any;
   statusEnums = Status
   public activitylist: any = [];
   filter = FILTER_CONSTANT;
-  customPage = CUSTOMPAGE;
+  paginationProps = PaginationProps;
   isSuperAdmin: boolean = false;
   logedInUserDetails: any;
   selectedActivtyForRowActions: any;
@@ -65,6 +66,8 @@ export class ActivityComponent implements OnInit {
     sectors: false
 
   }
+  totalActivitiesCount: number = 0;
+
 
   selection: any = new SelectionModel(true, []);
   filters: any = {
@@ -93,11 +96,14 @@ export class ActivityComponent implements OnInit {
 
   activitySearchCriteriaPayload: BehaviorSubject<any> = new BehaviorSubject({
     pageNumber: 0,
-    pageSize: 20,
+    pageSize: this.paginationProps.pageSize,
     sortField: "",
-    sortOrder: 0,
+    sortOrder: 1,
+    isArchive: false,
+    onlyMyTasks: false
   });
-
+  selectedActivity: any;
+  selectedOrganizationIds: any;
 
   constructor(
     private activityService: ActivityService,
@@ -107,10 +113,16 @@ export class ActivityComponent implements OnInit {
     private alertpopupService: AlertpopupService,
     private confirmationDialogService: ConfirmationDialogService,
     private formBuilder: FormBuilder,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private csvHelperService: CsvHelperService,
+    private selectedOrganizationService: SelectedOrganizationService
+
   ) { }
 
   ngOnInit(): void {
+    this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
+      this.selectedOrganizationIds = res;
+    })
     this.getActivitiesSearchCriteria();
     this.getAcivityMasterData();
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
@@ -160,7 +172,6 @@ export class ActivityComponent implements OnInit {
       this.getActivitiesSearchCriteria()
     });
 
-
   }
 
   getActivitiesSearchCriteria() {
@@ -169,8 +180,8 @@ export class ActivityComponent implements OnInit {
       payload = res;
     });
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
-      this.dataSource = new MatTableDataSource(res.data[0].activities)
-      this.dataSource.paginator = this.paginator;
+      this.totalActivitiesCount = res.data[0]?.count[0]?.count ? res.data[0]?.count[0]?.count : 0;
+      this.dataSource = new MatTableDataSource(res.data[0].activities.reverse())
     })
   }
 
@@ -181,8 +192,62 @@ export class ActivityComponent implements OnInit {
   }
 
   downloadFile() {
+    let activityData = this.selection.selected.length === 0 ? this.dataSource.filteredData : this.selection.selected
+    let activityDownloadData: any[] = []
+    for (let i = 0; i < activityData.length; i++) {
+      const activityDataForDownload = {
+        title: activityData[i].title,
+        description: activityData[i].description.replace(/<[^>]*>/g, ""),
+        status: activityData[i].status,
+        priority: activityData[i].priority,
+        assignedTo: activityData[i].assignTo[0].organization,
+        dueDate: activityData[i].dueDate,
+        createdDate: activityData[i].createdAt
+      };
+      activityDownloadData.push(activityDataForDownload)
+    }
+    console.log(activityDownloadData)
+    const headersList: { propertyName: string, displayName: string }[] = [
+      {
+        propertyName: 'title',
+        displayName: 'Title'
+
+      },
+      {
+        propertyName: 'description',
+        displayName: 'Description'
+
+      },
+      {
+        propertyName: 'status',
+        displayName: 'Status'
+
+      },
+      {
+        propertyName: 'priority',
+        displayName: 'Priority'
+
+      },
+      {
+        propertyName: 'assignedTo',
+        displayName: 'Assigned To'
+
+      },
+      {
+        propertyName: 'dueDate',
+        displayName: 'Due Date'
+
+      }, {
+        propertyName: 'createdDate',
+        displayName: 'Create Date'
+
+      },
+
+    ]
+    this.csvHelperService.downloadFile(activityDownloadData, "List of Activities", headersList)
 
   }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -208,15 +273,23 @@ export class ActivityComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  ngAfterViewInit() {
-    if (this.dataSource) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    }
-  }
+  // ngAfterViewInit() {
+  //   if (this.dataSource) {
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.sort = this.sort;
+  //   }
+  // }
 
   onChangedPageSize(event: any) {
-    console.log(event);
+    let data: any;
+    this.activitySearchCriteriaPayload.subscribe((res) => {
+      data = res;
+    });
+    this.activitySearchCriteriaPayload.next({
+      ...data,
+      pageNumber: event.pageIndex,
+      pageSize: event.pageSize
+    })
   }
 
   sortChange(sortState: Sort) {
@@ -245,8 +318,8 @@ export class ActivityComponent implements OnInit {
     })
   }
 
-  navigateToActivityDetails(activityId: any) {
-    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activityId } });
+  navigateToActivityDetails(activity: any) {
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity } });
   }
 
   generateActivityRowActions(status: "NEW" | "INPROGRESS" | "RESOLVED" | "REJECTED", activity?: any) {
@@ -271,8 +344,8 @@ export class ActivityComponent implements OnInit {
       case 'REJECTED':
         this.updateActivityStatus(action);
         break;
-      case 'REPLAY':
-        this.navigateToActivityDetails(this.selectedActivtyForRowActions._id);
+      case 'REPLY':
+        this.moveToActivityDetail();
         break;
       case 'ARCHIVE':
         this.updateArchivestatus();
@@ -280,9 +353,12 @@ export class ActivityComponent implements OnInit {
       case 'DELETE':
         this.deleteActivityByActivityId();
         break;
+      case 'EDIT':
+        this.editActivityByActivityId();
+        break;
       case 'MOVE_TO_ORGANIZATION':
         this.activityService.openMoveToOrganizationPopup(this.selectedActivtyForRowActions._id).afterClosed().subscribe((res) => {
-          console.log(res);
+
         })
         break;
       default:
@@ -294,8 +370,9 @@ export class ActivityComponent implements OnInit {
   updateActivityStatus(status: string) {
 
     this.confirmationDialogService.open({
-      message: `Are you sure to change status to ${status}`
+      message: `Are you sure to change activity ${this.selectedActivtyForRowActions.title} to ${status}`
     }).afterClosed().subscribe((res) => {
+
       if (res) {
         this.activityService.updateActivityStatus(this.selectedActivtyForRowActions._id, { status: status }).subscribe((res) => {
           this.alertpopupService.open({
@@ -311,12 +388,12 @@ export class ActivityComponent implements OnInit {
         action: 'ok'
       });
     })
-  }
 
+  }
 
   updateArchivestatus() {
     this.confirmationDialogService.open({
-      message: `Are you sure to Archive the activity`
+      message: `Are you sure to Archive the activity ${this.selectedActivtyForRowActions.title}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.activityService.updateArchivestatus(this.selectedActivtyForRowActions._id, { isArchive: true }).subscribe((res) => {
@@ -337,7 +414,7 @@ export class ActivityComponent implements OnInit {
 
   deleteActivityByActivityId() {
     this.confirmationDialogService.open({
-      message: `Are you sure to Delete activity`
+      message: `Are you sure to Delete activity ${this.selectedActivtyForRowActions.title}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.activityService.deleteSelectedActivity(this.selectedActivtyForRowActions._id).subscribe((res) => {
@@ -355,6 +432,15 @@ export class ActivityComponent implements OnInit {
       });
     })
   }
+
+  editActivityByActivityId() {
+    this.router.navigate([RouteConstants.CREATEACTIVITY], { queryParams: { aId: this.selectedActivtyForRowActions._id } })
+  }
+
+  moveToActivityDetail() {
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: this.selectedActivtyForRowActions._id } });
+  }
+
 
   filterActivityListData(controlName: string, event: any, chipValue: string) {
     let data: any;
@@ -478,9 +564,29 @@ export class ActivityComponent implements OnInit {
     this.activitySearchCriteriaPayload.next({ ...data, sortField: selectedOption.key });
   }
 
+  onActivityTabSelection(type: any) {
+    let data: any;
+    this.activitySearchCriteriaPayload.subscribe((res) => {
+      data = res;
+    });
+    switch (type.tab.textLabel) {
+      case "ALL":
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: undefined, onlyMyTasks: false });
+        break;
+      case "MY_TASKS":
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate:undefined, onlyMyTasks: true, organizations: this.selectedOrganizationIds });
+        break;
+      case "OVERDUE" : 
+      this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate:{customString:"OVERDUE"}, onlyMyTasks: false});
+      break;
+      case "HIGH" : 
+      this.activitySearchCriteriaPayload.next({ ...data, priority: ["HIGH"], dueDate:undefined, onlyMyTasks: false});
+      break;
+      default : 
+        break;
+    }
+  }
+
 
 
 }
-
-
-

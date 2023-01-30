@@ -141,7 +141,7 @@
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label"> Write your Reply: </label>
                 <div class="col-sm-9">
-                  <app-rich-text-editor value="" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
+                  <app-rich-text-editor [value]="description" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
                 </div>
               </div>
               <div class="row mb-3">
@@ -194,7 +194,7 @@
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label"> Attachments</label>
               <div class="col-sm-9">
-                <app-fileuploader (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
+                <app-fileuploader [value]="isFilesListArray"  (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
               </div>
               </div>
 
@@ -268,10 +268,7 @@
           </div>
         </ng-container>
 
-        <ng-container *ngIf="
-            isAssignee &&
-            activityData?.createdByOrganization !=
-              activityData?.organizationData[0]._id && !isSuperAdmin">
+        <ng-container *ngIf="logedInUserId !== selectedActivityCreatedById && !isSuperAdmin">
           <div class="d-flex justify-content-start">
             <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
               <mat-icon>refresh</mat-icon>

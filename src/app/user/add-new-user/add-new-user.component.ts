@@ -86,9 +86,9 @@ export class AddNewUserComponent implements OnInit {
   generateAddNewUserForm() {
     this.addNewUserForm = this.formBuilder.group({
       Name: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.pattern(REG_EXP_PATTERNS.PasswordPattern)]],
+      password: ['', [Validators.pattern(REG_EXP_PATTERNS.PasswordPattern)]],
       email: ['', [Validators.required, Validators.pattern(REG_EXP_PATTERNS.EmailPattern)]],
-      organization: ['', [Validators.required]],
+      organization: ['', [Validators.required,Validators.maxLength(126)]],
       department: ['',],
     })
   }

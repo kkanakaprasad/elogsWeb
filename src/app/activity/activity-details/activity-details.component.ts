@@ -15,430 +15,459 @@ import { Priority, Status, Visibility } from '../activity.constant';
 import { ActivityService } from '../activity.service';
 
 @Component({
-  selector: 'app-activity-details',
-  templateUrl: './activity-details.component.html',
-  styleUrls: ['./activity-details.component.scss']
+	selector: 'app-activity-details',
+	templateUrl: './activity-details.component.html',
+	styleUrls: ['./activity-details.component.scss']
 })
 export class ActivityDetailsComponent implements OnInit {
-  selectedActivityId: any;
-  activityDetails: any;
-  activityLogForm!: FormGroup;
-  Priority = Priority;
-  visibility = Visibility
-  status = Status
-  organizationList: any;
-  filesListArray: any[]  =[];
-  description: string = '';
+	selectedActivityId: any;
+	activityDetails: any;
+	activityLogForm!: FormGroup;
+	Priority = Priority;
+	visibility = Visibility
+	status = Status
+	organizationList: any;
+	filesListArray: any[] = [];
+	description: string = '';
 
-  selectedActivityEntryTypeId: any;
-  activityEntryType: any;
-  activityRelatedTypesData: any;
-  selectedActivityRelatedTypeId: any;
-  selectedActivityTypesDataId: any;
-  activityTypesData: any;
-  selectedPriorityId: any;
-  activityPriority: any;
-  activityData: any;
-  activitySectorsData: any;
-  selectedActivitySectorId: any;
-  selectedActivityScopeId: any;
-  ActivityScopeData: any;
-  selectedActivityCreatedById: any;
-  organizationCreatedBy: any;
-  activityLogData: any;
-  selectedDate: any;
-  toDay = new Date();
-  isArchive: any;
-  activityType: any;
-  selectedActivityTypeId: any;
-  organizationsInvolved: any;
-  activityReportedBy: any;
-  selectedActivityAssignedTo: any;
-  ActivityTimeLogs: any;
-  isSuperAdmin!: boolean;
-  logedInUserId: any;
-  logedInUserDetails: any;
-  isAssignee: any;
-  ministryName: any;
-
-
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private activityService: ActivityService,
-    private formBuilder: FormBuilder,
-    private organizationService: OrganizationService,
-    private router: Router,
-    private alertpopupService: AlertpopupService,
-    private confirmationDialogService: ConfirmationDialogService,
-    private userService:UserService,
-    private csvHelperService:CsvHelperService,
-    private storageService:StorageService,
-    private userDetailsService:UserDetailsService
-  ) {
-    this.activatedRoute.queryParams.subscribe((res) => {
-      this.selectedActivityId = res['aId'];
-    });
-  }
-
-  ngOnInit(): void {
-    this.getActivityDetailsById()
-    this.getActivityMasterData()
-    this.getAllOrganizationsBySearchCriteria()
-    this.genarateActivityLogForm()
-    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
-    this.logedInUserId= this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)
-    
-  }
+	selectedActivityEntryTypeId: any;
+	activityEntryType: any;
+	activityRelatedTypesData: any;
+	selectedActivityRelatedTypeId: any;
+	selectedActivityTypesDataId: any;
+	activityTypesData: any;
+	selectedPriorityId: any;
+	activityPriority: any;
+	activityData: any;
+	activitySectorsData: any;
+	selectedActivitySectorId: any;
+	selectedActivityScopeId: any;
+	ActivityScopeData: any;
+	selectedActivityCreatedById: any;
+	organizationCreatedBy: any;
+	activityLogData: any;
+	selectedDate: any;
+	toDay = new Date();
+	isArchive: any;
+	activityType: any;
+	selectedActivityTypeId: any;
+	organizationsInvolved: any;
+	activityReportedBy: any;
+	selectedActivityAssignedTo: any;
+	ActivityTimeLogs: any;
+	isSuperAdmin!: boolean;
+	logedInUserId: any;
+	logedInUserDetails: any;
+	isAssignee: any;
+	ministryName: any;
+	isFilesListArray: boolean = true;
 
 
-  getActivityDetailsById() {
-    this.activityService.getActivityById(this.selectedActivityId).subscribe(res => {
-      this.activityData = res.data[0]
-      console.log(this.activityData)
-      this.selectedActivityEntryTypeId = res.data[0]?.activitEntryType
-      this.selectedActivityRelatedTypeId = res.data[0]?.activityRelatedTo
-      this.selectedActivitySectorId = res.data[0]?.activitySector
-      this.selectedActivityScopeId = res.data[0]?.activityScope
-      this.selectedActivityCreatedById = res.data[0]?.createdBy
-      this.organizationCreatedBy = this.activityData?.createdByOrganizationData[0]?.organization
-      this.activityLogData = this.activityData?.activityLog
-      this.isArchive = this.activityData?.isArchive
-      this.selectedActivityTypeId=this.activityData?.activityType
-      this.organizationsInvolved=this.activityData?.organizationData
-      this.ministryName=this.activityData?.organizationData[0]?.organization
-      this.selectedActivityAssignedTo=this.activityData?.organizationData.filter((organization:any)=>organization._id==this.activityData?.assignTo).map((item: any) => item.organization)
-      this.getUserById()
-      this.getLogedInUserDetails()
-      this.ActivityTimeLogs=this.activityData?.statusLog
-    })
-  }
+	constructor(
+		private activatedRoute: ActivatedRoute,
+		private activityService: ActivityService,
+		private formBuilder: FormBuilder,
+		private organizationService: OrganizationService,
+		private router: Router,
+		private alertpopupService: AlertpopupService,
+		private confirmationDialogService: ConfirmationDialogService,
+		private userService: UserService,
+		private csvHelperService: CsvHelperService,
+		private storageService: StorageService,
+		private userDetailsService: UserDetailsService
+	) {
+		this.activatedRoute.queryParams.subscribe((res) => {
+			this.selectedActivityId = res['aId'];
+		});
+	}
 
-  getLogedInUserDetails(){
-    this.userDetailsService.getUserDetails().subscribe((res)=>{
-      this.logedInUserDetails=res
-      this.isAssignee=res?.organization?.includes(this.activityData?.assignTo)
-    })
-  }
+	ngOnInit(): void {
+		this.getActivityDetailsById()
+		this.getActivityMasterData()
+		this.getAllOrganizationsBySearchCriteria()
+		this.genarateActivityLogForm()
+		this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
+		this.logedInUserId = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)
 
-  getActivityMasterData() {
-    this.activityService.getActivitiesMasterData().subscribe(res => {
-      this.activityEntryType = res.data?.activityEntryTypesData.filter((activityEntry: any) => activityEntry._id == this.selectedActivityEntryTypeId).map((item: any) => item.name)
-      this.activityRelatedTypesData = res.data?.activityRelatedTypesData.filter((activityRelated: any) => activityRelated._id == this.selectedActivityRelatedTypeId).map((item: any) => item.name)
-      this.activitySectorsData = res.data?.activitySectorsData.filter((sectorsData: any) => sectorsData._id == this.selectedActivitySectorId).map((item: any) => item.name)
-      this.ActivityScopeData = res.data?.activityScopesData.filter((activityScopesData: any) => activityScopesData._id == this.selectedActivityScopeId).map((item: any) => item.name)
-      this.activityType=res?.data?.activityTypesData.filter((activitytype: any) => activitytype._id == this.selectedActivityTypeId).map((item: any) => item.name)
-    })
-  }
+	}
 
-  getUserById(){
-    this.userService.getUserById(this.activityData?.createdBy).subscribe(res=>{
-     this.activityReportedBy=res?.existingUser?.Name
-    })
-  }
 
-  genarateActivityLogForm() {
-    this.activityLogForm = this.formBuilder.group({
-      priority: ['', [Validators.required]],
-      visibility: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-      assignTo: ['', [Validators.required]],
-      attachments: ['', [Validators.required]],
+	getActivityDetailsById() {
+		this.activityService.getActivityById(this.selectedActivityId).subscribe(res => {
+			this.activityData = res.data[0]
+			console.log(this.activityData)
+			this.selectedActivityEntryTypeId = res.data[0]?.activitEntryType
+			this.selectedActivityRelatedTypeId = res.data[0]?.activityRelatedTo
+			this.selectedActivitySectorId = res.data[0]?.activitySector
+			this.selectedActivityScopeId = res.data[0]?.activityScope
+			this.selectedActivityCreatedById = res.data[0]?.createdBy
+			this.organizationCreatedBy = this.activityData?.createdByOrganizationData[0]?.organization
+			this.activityLogData = this.activityData?.activityLog
+			this.isArchive = this.activityData?.isArchive
+			this.selectedActivityTypeId = this.activityData?.activityType
+			this.organizationsInvolved = this.activityData?.organizationData
+			this.ministryName = this.activityData?.organizationData[0]?.organization
+			this.selectedActivityAssignedTo = this.activityData?.organizationData.filter((organization: any) => organization._id == this.activityData?.assignTo).map((item: any) => item.organization)
+			this.getUserById()
+			this.getLogedInUserDetails()
+			this.ActivityTimeLogs = this.activityData?.statusLog
+			this.activityLogForm.controls['priority'].setValue(this.activityData?.priority)
+			this.activityLogForm.controls['status'].setValue(this.activityData?.status)
+			this.activityLogForm.controls['assignTo'].setValue(this.activityData?.assignTo)
+		})
+	}
 
-    })
-  }
+	getLogedInUserDetails() {
+		this.userDetailsService.getUserDetails().subscribe((res) => {
+			this.logedInUserDetails = res
+			this.isAssignee = res?.organization?.includes(this.activityData?.assignTo)
+		})
+	}
 
-  onSubmit() {
-    const payload = { ...this.activityLogForm.value, 
-      attachments: this.filesListArray.length === 0 ? undefined :this.filesListArray , 
-      message: this.description }
-    this.activityService.updateActivityLogById(this.selectedActivityId, payload).subscribe(res => {
-      this.alertpopupService.open({
-        message: res.message ? res.message : 'Activity Updated Successfully',
-        action: 'ok'
-      })
-      this.getActivityDetailsById()
-      this.activityLogForm?.reset()
-    }, (error) => {
-      this.alertpopupService.open({
-        message: error.message ? error.message : "something went wrong!",
-        action: "ok"
+	getActivityMasterData() {
+		this.activityService.getActivitiesMasterData().subscribe(res => {
+			this.activityEntryType = res.data?.activityEntryTypesData.filter((activityEntry: any) => activityEntry._id == this.selectedActivityEntryTypeId).map((item: any) => item.name)
+			this.activityRelatedTypesData = res.data?.activityRelatedTypesData.filter((activityRelated: any) => activityRelated._id == this.selectedActivityRelatedTypeId).map((item: any) => item.name)
+			this.activitySectorsData = res.data?.activitySectorsData.filter((sectorsData: any) => sectorsData._id == this.selectedActivitySectorId).map((item: any) => item.name)
+			this.ActivityScopeData = res.data?.activityScopesData.filter((activityScopesData: any) => activityScopesData._id == this.selectedActivityScopeId).map((item: any) => item.name)
+			this.activityType = res?.data?.activityTypesData.filter((activitytype: any) => activitytype._id == this.selectedActivityTypeId).map((item: any) => item.name)
+			console.log(this.ActivityScopeData)
+		})
+	}
 
-      });
-    })
-  }
+	getUserById() {
+		this.userService.getUserById(this.activityData?.createdBy).subscribe(res => {
+			this.activityReportedBy = res?.existingUser?.Name
+		})
+	}
 
-  getAllOrganizationsBySearchCriteria() {
-    const payload = {
-      pageNumber: 0,
-      pageSize: 50,
-      sortField: "",
-      sortOrder: 0,
-      type: "63973bfb61ab6f49bfdd3c35",
-      organization: "",
-      organizationId: "",
-      isActive: true,
-      userId: "",
-      userSearch: ""
-    }
-    this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
-      this.organizationList = res.data.organizations
+	genarateActivityLogForm() {
+		this.activityLogForm = this.formBuilder.group({
+			priority: ['', [Validators.required]],
+			visibility: ['', [Validators.required]],
+			status: ['', [Validators.required]],
+			assignTo: ['', [Validators.required]],
+			attachments: ['', [Validators.required]],
 
-    })
-  }
+		})
+	}
 
-  updatedDescription(event: string) {
-    this.description = event
-  }
+	onSubmit() {
+		const payload = {
+			...this.activityLogForm.value,
+			attachments: this.filesListArray.length === 0 ? undefined : this.filesListArray,
+			message: this.description
+		}
+		this.activityService.updateActivityLogById(this.selectedActivityId, payload).subscribe(res => {
+			this.alertpopupService.open({
+				message: res.message ? res.message : 'Activity Updated Successfully',
+				action: 'ok'
+			})
+			this.getActivityDetailsById()
+			this.activityLogForm?.reset()
+			this.description = ''
+			this.isFilesListArray = false
 
-  updatedFilesDescription(event: any) {
-    for (var i = 0; i < event.length; i++) {
-      this.filesListArray.push({
-        name: event[i].name,
-        size: event[i].size,
-        path: "string"
-      });
-    }
-  }
+		}, (error) => {
+			this.alertpopupService.open({
+				message: error.message ? error.message : "something went wrong!",
+				action: "ok"
 
-  updateActivityDetails() {
-    this.router.navigate([RouteConstants.CREATEACTIVITY], { queryParams: { aId: this.selectedActivityId } });
-  }
+			});
+		})
+	}
 
-  
-  dueDateSetter(selectedOption: any, selectedOptionalDate?: any) {
+	getAllOrganizationsBySearchCriteria() {
+		const payload = {
+			pageNumber: 0,
+			pageSize: 50,
+			sortField: "",
+			sortOrder: 0,
+			type: "63973bfb61ab6f49bfdd3c35",
+			organization: "",
+			organizationId: "",
+			isActive: true,
+			userId: "",
+			userSearch: ""
+		}
+		this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
+			this.organizationList = res.data.organizations
 
-    if (selectedOption == 'noDueDate') {
-      this.selectedDate = ""
+		})
+	}
 
-    } else if (selectedOption == 'Today') {
-      this.selectedDate = new Date()
+	updatedDescription(event: string) {
+		this.description = event
+	}
 
-    } else if (selectedOption == 'Tomorrow') {
-      this.selectedDate = new Date(this.toDay.setDate(this.toDay.getDate() + 1))
+	updatedFilesDescription(event: any) {
+		for (var i = 0; i < event.length; i++) {
+			this.filesListArray.push({
+				name: event[i].name,
+				size: event[i].size,
+				path: "string"
+			});
+		}
+	}
 
-    } else if (selectedOption == 'Next Monday') {
-      this.selectedDate = new Date(this.toDay.setDate(this.toDay.getDate() + (7 - this.toDay.getDay()) % 7 + 1))
+	updateActivityDetails() {
+		this.router.navigate([RouteConstants.CREATEACTIVITY], { queryParams: { aId: this.selectedActivityId } });
+	}
 
-    } else if (selectedOption == 'This Friday') {
-      this.selectedDate = new Date(this.toDay.setDate(this.toDay.getDate() + (12 - this.toDay.getDay()) % 7))
 
-    } else if (selectedOption == 'custom') {
-      this.selectedDate = selectedOptionalDate.value
+	dueDateSetter(selectedOption: any, selectedOptionalDate?: any) {
 
-    }
-   
-    this.activityService.updateActivityDueDate(this.selectedActivityId,{dueDate:this.selectedDate}).subscribe(res=>{
-      this.alertpopupService.open({
-        message: res.message,
-        action: 'ok'
-      })
-      this.getActivityDetailsById()
-    }, (error) => {
-      this.alertpopupService.open({
-        message: "Faild to create Organization! Please try again ",
-        action: 'ok'
-      })
-     }) 
-    }
-  
-  updateSelectedArchiveStatus() {
-    const payload = {
-      isArchive: true
-    }
-    this.confirmationDialogService.open({
-      message: `Are you sure you want to archive`
-    }).afterClosed().subscribe((res) => {
-      if (res) {
-        this.activityService.updateArchivestatus(this.selectedActivityId, payload).subscribe(res => {
-          this.alertpopupService.open({
-            message: res.message,
-            action: 'ok'
-          })
-          this.getActivityDetailsById()
-        }, (error) => {
-          this.alertpopupService.open({
-            message: "Faild to create Organization! Please try again ",
-            action: 'ok'
-          })
-         })  
-          }
-        })
-        
-      }
+		if (selectedOption == 'noDueDate') {
+			this.selectedDate = ""
 
-      deleteSelectedActivity(){
-        this.confirmationDialogService.open({
-          message: `Are you sure you want to delete `
-        }).afterClosed().subscribe((res) => {
-          if (res) {
-            this.activityService.deleteSelectedActivity(this.selectedActivityId).subscribe(res => {
-              this.alertpopupService.open({
-                message: res.message,
-                action: 'ok'
-              })
-               this.getActivityDetailsById()
-            }, (error) => {
-              this.alertpopupService.open({
-                message: "Faild to create Organization! Please try again ",
-                action: 'ok'
-              })
-             })  
-              }
-            })
-       }
+		} else if (selectedOption == 'Today') {
+			this.selectedDate = new Date()
 
-       updateStatusOfSelectedActivity(currentStatus:string){
-        let selectedActivity=''
-        if(currentStatus=="Reject"){
-          selectedActivity=Status[2]
-      }else if(currentStatus=='Resolve'){
-        selectedActivity=Status[4]
-      }
-      const payload = {
-        status:selectedActivity ,
-      }
-        this.confirmationDialogService.open({
-          message: `Are you sure you want to ${currentStatus}`
-        }).afterClosed().subscribe((res) => {
-          if (res) {
-            this.activityService.updateActivityStatus(this.selectedActivityId, payload).subscribe(res => {
-              this.alertpopupService.open({
-                message: res.message,
-                action: 'ok'
-              })
-              this.getActivityDetailsById()
-            }, (error) => {
-              this.alertpopupService.open({
-                message: "Faild to create Organization! Please try again ",
-                action: 'ok'
-              })
-             })  
-              }
-            })
-       }
-       downloadActivity(){
-        const activityDataForDownload=[{
-          title: this.activityData.title,
-          description:this.activityData.description,
-          status:this.activityData.status,
-          assignedTo:this.selectedActivityAssignedTo[0],
-          dueDate:this.activityData.dueDate,
-          attachments:this.activityData.attachments,
-          priority:this.activityData.priority,
-          type:this.activityType[0],
-          sector:this.activitySectorsData[0],
-          entryType:this.activityEntryType[0],
-          ministry:this.organizationsInvolved,
-          Scope:this.ActivityScopeData[0],
-          relatedTo:this.activityRelatedTypesData[0],
-          categoryMappedTo:"",
-          activityprogress:""
+		} else if (selectedOption == 'Tomorrow') {
+			this.selectedDate = new Date(this.toDay.setDate(this.toDay.getDate() + 1))
 
-        }];
-        const headersList :{propertyName : string, displayName : string}[] = [
-          {
-            propertyName : 'title',
-            displayName : 'Title'
+		} else if (selectedOption == 'Next Monday') {
+			this.selectedDate = new Date(this.toDay.setDate(this.toDay.getDate() + (7 - this.toDay.getDay()) % 7 + 1))
 
-          },
-          {
-            propertyName : 'description',
-            displayName : 'Description'
+		} else if (selectedOption == 'This Friday') {
+			this.selectedDate = new Date(this.toDay.setDate(this.toDay.getDate() + (12 - this.toDay.getDay()) % 7))
 
-          },
-          {
-            propertyName : 'status',
-            displayName : 'Status'
+		} else if (selectedOption == 'custom') {
+			this.selectedDate = selectedOptionalDate.value
 
-          },
-          {
-            propertyName : 'assignedTo',
-            displayName : 'Assigned To'
+		}
 
-          },
-          {
-            propertyName : 'dueDate',
-            displayName : 'Due Date'
+		this.activityService.updateActivityDueDate(this.selectedActivityId, { dueDate: this.selectedDate }).subscribe(res => {
+			this.alertpopupService.open({
+				message: res.message,
+				action: 'ok'
+			})
+			this.getActivityDetailsById()
+		}, (error) => {
+			this.alertpopupService.open({
+				message: "Faild to create Organization! Please try again ",
+				action: 'ok'
+			})
+		})
+	}
 
-          },
-          {
-            propertyName : 'attachments',
-            displayName : 'Attachments'
+	updateSelectedArchiveStatus() {
+		const payload = {
+			isArchive: true
+		}
+		this.confirmationDialogService.open({
+			message: `Are you sure you want to archive`
+		}).afterClosed().subscribe((res) => {
+			if (res) {
+				this.activityService.updateArchivestatus(this.selectedActivityId, payload).subscribe(res => {
+					this.alertpopupService.open({
+						message: res.message,
+						action: 'ok'
+					})
+					this.getActivityDetailsById()
+				}, (error) => {
+					this.alertpopupService.open({
+						message: "Faild to create Organization! Please try again ",
+						action: 'ok'
+					})
+				})
+			}
+		})
 
-          },
-          {
-            propertyName : 'priority',
-            displayName : 'Priority'
+	}
 
-          },
-          {
-            propertyName : 'type',
-            displayName : 'Type'
+	deleteSelectedActivity() {
+		this.confirmationDialogService.open({
+			message: `Are you sure you want to delete `
+		}).afterClosed().subscribe((res) => {
+			if (res) {
+				this.activityService.deleteSelectedActivity(this.selectedActivityId).subscribe(res => {
+					this.alertpopupService.open({
+						message: res.message,
+						action: 'ok'
+					})
+					this.getActivityDetailsById()
+				}, (error) => {
+					this.alertpopupService.open({
+						message: "Faild to create Organization! Please try again ",
+						action: 'ok'
+					})
+				})
+			}
+		})
+	}
 
-          },
-          {
-            propertyName : 'sector',
-            displayName : 'Sector'
+	updateStatusOfSelectedActivity(currentStatus: string) {
+		let selectedActivity = ''
+		if (currentStatus == "Reject") {
+			selectedActivity = Status[2]
+		} else if (currentStatus == 'Resolve') {
+			selectedActivity = Status[4]
+		}
+		const payload = {
+			status: selectedActivity,
+		}
+		this.confirmationDialogService.open({
+			message: `Are you sure you want to ${currentStatus}`
+		}).afterClosed().subscribe((res) => {
+			if (res) {
+				this.activityService.updateActivityStatus(this.selectedActivityId, payload).subscribe(res => {
+					this.alertpopupService.open({
+						message: res.message,
+						action: 'ok'
+					})
+					this.getActivityDetailsById()
+				}, (error) => {
+					this.alertpopupService.open({
+						message: "Faild to create Organization! Please try again ",
+						action: 'ok'
+					})
+				})
+			}
+		})
+	}
+	downloadActivity() {
+		let activityLogAndDueLog: any = [...this.activityData.activityLog, ...this.activityData.dueDateLog];
+		activityLogAndDueLog = activityLogAndDueLog.sort((a: any, b: any) => {
+			return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf()
+		}
+		);
+		console.log(activityLogAndDueLog);
+		let activityDataForDownload = [{
+			title: this.activityData.title,
+			description: this.activityData.description.replace(/<[^>]*>/g, ""),
+			status: this.activityData.status,
+			assignedTo: this.selectedActivityAssignedTo.toString(),
+			dueDate: this.activityData.dueDate,
+			attachments: this.activityData.attachments.length == 0 ? "NO" : this.activityData.attachments[0].name.toString(),
+			priority: this.activityData.priority,
+			type: this.activityType.toString(),
+			sector: this.activitySectorsData.toString(),
+			entryType: this.activityEntryType.toString(),
+			ministry: this.organizationsInvolved[0].organization,
+			scope: this.ActivityScopeData.toString(),
+			relatedTo: this.activityRelatedTypesData.toString(),
+			categoryMappedTo: "",
+			activityprogress: ""
+		}];
+		activityLogAndDueLog.forEach((element: any, index: number,) => {
+			let data = activityDataForDownload[index];
+			if (element.dueDate) {
+				data.dueDate = element.dueDate
+				console.log(element, "dueDte");
+				activityDataForDownload = [...activityDataForDownload, data];
+				console.log(activityDataForDownload, "updated duedate");
+			} else if (element.message) {
+				console.log(element, "log");
+				data.description = element?.message.replace(/<[^>]*>/g, ""),
+					data.status = element?.status ? element.status : data.status,
+					data.priority = element?.priority ? element.priority : data.priority,
+					activityDataForDownload = [...activityDataForDownload, data];
+			}
+		});
+		const headersList: { propertyName: string, displayName: string }[] = [
+			{
+				propertyName: 'title',
+				displayName: 'Title'
 
-          },
-          {
-            propertyName : 'entryType',
-            displayName : 'Entry Type'
+			},
+			{
+				propertyName: 'description',
+				displayName: 'Description'
 
-          },
-          {
-            propertyName : 'ministry',
-            displayName : 'Ministry/Department'
+			},
+			{
+				propertyName: 'status',
+				displayName: 'Status'
 
-          },
-          {
-            propertyName : 'scope',
-            displayName : 'Scope'
+			},
+			{
+				propertyName: 'assignedTo',
+				displayName: 'Assigned To'
 
-          },
-          {
-            propertyName : 'relatedTo',
-            displayName : 'Related To'
+			},
+			{
+				propertyName: 'dueDate',
+				displayName: 'Due Date'
 
-          },
-          {
-            propertyName : 'categoryMappedTo',
-            displayName : 'Category Mapped to'
+			},
+			{
+				propertyName: 'attachments',
+				displayName: 'Attachments'
 
-          },
-          {
-            propertyName : 'activityprogress',
-            displayName : 'Activity % of progress'
+			},
+			{
+				propertyName: 'priority',
+				displayName: 'Priority'
 
-          },
-        ]
-        this.csvHelperService.downloadFile(activityDataForDownload,"activity details", headersList)
+			},
+			{
+				propertyName: 'type',
+				displayName: 'Type'
 
-       }
+			},
+			{
+				propertyName: 'sector',
+				displayName: 'Sector'
 
-       refreshPage(){
-        this.getActivityDetailsById()
-       }
+			},
+			{
+				propertyName: 'entryType',
+				displayName: 'Entry Type'
 
-       resetActivityLogForm(){
-        this.activityLogForm.reset()
-       }
-  
-       navigateToPreviousRoute(){
-        this.router.navigate([RouteConstants.ACTIVITY])
-       }
+			},
+			{
+				propertyName: 'ministry',
+				displayName: 'Ministry/Department'
 
-       statusClass(status: string) {
-        return status === 'MEDIUM' ? 'confirm' 
-        : status === 'HIGH'  ? 'reject' 
-        :''
-      }
-      
-    }
-    
-        
+			},
+			{
+				propertyName: 'scope',
+				displayName: 'Scope'
 
-  
+			},
+			{
+				propertyName: 'relatedTo',
+				displayName: 'Related To'
+
+			},
+			// {
+			//   propertyName : 'categoryMappedTo',
+			//   displayName : 'Category Mapped to'
+
+			// },
+			// {
+			//   propertyName : 'activityprogress',
+			//   displayName : 'Activity % of progress'
+
+			// },
+		]
+		this.csvHelperService.downloadFile(activityDataForDownload, "activity details", headersList)
+
+	}
+
+	refreshPage() {
+		this.getActivityDetailsById()
+	}
+
+	resetActivityLogForm() {
+		this.activityLogForm.reset()
+	}
+
+	navigateToPreviousRoute() {
+		this.router.navigate([RouteConstants.ACTIVITY])
+	}
+
+	statusClass(status: string) {
+		return status === 'MEDIUM' ? 'confirm'
+			: status === 'HIGH' ? 'reject'
+				: ''
+	}
+
+}
+
+
+
+
 
 

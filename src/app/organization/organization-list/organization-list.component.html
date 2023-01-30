@@ -2,29 +2,29 @@
   <mat-tab-group class="organization-cards" (selectedTabChange)="applyOrganizationFilters($event)">
     <mat-tab label={{filters.IS_ACTIVE}}>
       <ng-template mat-tab-label>
-          Active ({{activeMetricsCount}})
+        Active ({{activeMetricsCount ? activeMetricsCount : 0}})
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.MINISTRIES}}>
       <ng-template mat-tab-label>
-          Ministry/Department ({{ministriesMetricsCount}})
+        Ministry/Department ({{ministriesMetricsCount ? ministriesMetricsCount : 0}})
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.ASSOCIATION}}>
       <ng-template mat-tab-label>
-          Association ({{associationsMetricsCount}})
+        Association ({{associationsMetricsCount ? associationsMetricsCount : 0}})
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.INACTIVE}}>
       <ng-template mat-tab-label>
-          Inactive ({{inActiveMetricsCount}})
+        Inactive ({{inActiveMetricsCount ? inActiveMetricsCount : 0}})
       </ng-template>
     </mat-tab>
   </mat-tab-group>
   <section class="in-page-wrapper">
     <div class="row">
-      <div class="col-md-4 org-card">
-        <mat-card class="plus" (click)="createOrganization()" *ngIf="!this.isUser">
+      <div class="col-md-4 org-card" *ngIf="!isUser">
+        <mat-card class="plus" (click)="createOrganization()">
           <mat-card-content>
             <div class="add-icon">
               <font>+</font>
@@ -32,9 +32,10 @@
             <h4 class="mt-2">Create Organization</h4>
           </mat-card-content>
         </mat-card>
-        <mat-card *ngIf="organizationList?.length === 0 && isUser">
+      </div>
+      <div class="col-md-4 org-card" *ngIf="organizationList?.length === 0 && isUser">
+        <mat-card >
           <h1>No Organizations Assigned!!</h1>
-
         </mat-card>
       </div>
       <div class="col-md-4 org-card" *ngFor="let organization of organizationList">
@@ -58,8 +59,8 @@
               <div>
                 <p>
                   {{ organization.users.length }} User(s)</p>
-                <p>0 Activity(s)</p>
-                <p>0 Hour(s) Spent</p>
+                <p>{{ organization.activities }} Activity(s)</p>
+                <!-- <p>0 Hour(s) Spent</p> -->
                 <p>0 Mb Storage</p>
               </div>
             </div>
@@ -88,7 +89,7 @@
                     </div>
                   </span>
 
-                  <ng-container *ngIf="organization.users?.length >=1">
+                  <ng-container *ngIf="organization.users?.length > 0 && organization.activities > 0">
                     <span class="col-6" (click)="disableOrganization(this.organization._id,organization.organization)">
                       <div class="d-flex align-items-center">
                         <mat-icon>not_interested </mat-icon>
@@ -97,7 +98,7 @@
                     </span>
                   </ng-container>
 
-                  <ng-container *ngIf="organization.users?.length  == 0">
+                  <ng-container *ngIf="organization.users?.length  == 0 || organization.activities === 0">
                     <span class="col-6" (click)="removeOrganization(organization._id,organization.organization)">
                       <div class="d-flex align-items-center">
                         <mat-icon>delete</mat-icon>

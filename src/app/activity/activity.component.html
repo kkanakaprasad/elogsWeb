@@ -72,10 +72,12 @@
       <div class="text-end activity_actions">
         <button mat-button class="" (click)="downloadFile()" matTooltip="Download">
           <i class="icon-taskdownl"></i>
-          Download <mat-icon>file_download</mat-icon>
+          <mat-icon class="download">file_download</mat-icon>
         </button>
       <button mat-button [matMenuTriggerFor]="filters" matTooltip="Filters">
-        Filters <mat-icon> filter_alt</mat-icon></button>
+        <mat-icon> filter_alt</mat-icon>Filters
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
       <mat-menu #filters="matMenu">
         <button mat-menu-item [matMenuTriggerFor]="createddate">Created Date</button>
         <button mat-menu-item [matMenuTriggerFor]="duedate">Due Date</button>
@@ -89,8 +91,10 @@
         <button mat-menu-item [matMenuTriggerFor]="assignto">Assigned to</button>
       </mat-menu>
 
-      <button mat-button [matMenuTriggerFor]="groupBymenu" matTooltip="Group By">Group By
-        <mat-icon>filter_list</mat-icon></button>
+      <button mat-button [matMenuTriggerFor]="groupBymenu" matTooltip="Group By">
+        <mat-icon>filter_list</mat-icon> Group By
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
       <mat-menu #groupBymenu="matMenu">
         <mat-option *ngFor="let option of activityFiltersData.groupBy">
           {{option.DisplayName}}
@@ -98,7 +102,9 @@
       </mat-menu>
 
       <button mat-button [matMenuTriggerFor]="sortby" matTooltip="Sort By">
-        Sort By<mat-icon>sort</mat-icon></button>
+        <mat-icon>sort</mat-icon> Sort By
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
       <mat-menu #sortby="matMenu">
         <mat-option *ngFor="let option of activityFiltersData.sortBy" (click)="sortActivityListData(option)">
           {{option.DisplayName}}
@@ -263,27 +269,27 @@
 </div>
 
 
-<mat-tab-group class="activities-list">
-  <mat-tab>
+<mat-tab-group class="activities-list" (selectedTabChange)="onActivityTabSelection($event)">
+  <mat-tab label='ALL'>
     <ng-template mat-tab-label>
       <mat-icon>assignment</mat-icon>
       All Tasks
     </ng-template>
   </mat-tab>
-  <mat-tab>
+  <mat-tab label='MY_TASKS'>
     <ng-template mat-tab-label>
       <mat-icon>assignment_ind</mat-icon>
       My Tasks
     </ng-template>
   </mat-tab>
-  <mat-tab>
+  <mat-tab label='OVERDUE'>
     <ng-template mat-tab-label>
       <mat-icon>hourglass_empty</mat-icon>
       Overdue
     </ng-template>
   </mat-tab>
   <div *ngIf="isSuperAdmin">
-    <mat-tab>
+    <mat-tab label='HIGH'>
       <ng-template mat-tab-label>
         <mat-icon>wb_incandescent</mat-icon>
         High Priority
@@ -312,9 +318,9 @@
   </ng-container>
 
   <ng-container matColumnDef="Status">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
 
-    <td mat-cell *matCellDef="let element">
+    <td mat-cell *matCellDef="let element" class="status-badge">
       <span class="badge" [ngClass]="{'bg-danger': element?.status.toLowerCase() == 'rejected',
       'bg-success': element?.status.toLowerCase() == 'resolved',
       'bg-dark': element?.status.toLowerCase() == 'inprogress',
@@ -344,7 +350,7 @@
   <!-- Symbol Column -->
   <ng-container matColumnDef="Duedate">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Due date </th>
-    <td mat-cell *matCellDef="let element"> {{element?.dueDate | date:'fullDate'}} </td>
+    <td mat-cell *matCellDef="let element"> {{element?.dueDate | date:'MMM d, y'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="Assignto">
@@ -352,7 +358,7 @@
     <td mat-cell *matCellDef="let element"> {{element?.assignTo[0]?.organization}} </td>
   </ng-container>
   <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> actions </th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
     <td mat-cell *matCellDef="let element"> <mat-icon class="cursor"
         (click)="navigateToActivityDetails(element._id)">keyboard_arrow_right icon</mat-icon>
     </td>
@@ -361,16 +367,17 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<div *ngIf="dataSource?.filteredData?.length === 0">   
+<div *ngIf="dataSource?.filteredData?.length === 0">
   <mat-card class="technologyMatCard">
       No Activities found
   </mat-card>
 </div>
 
 
-<mat-paginator #paginator [pageSize]="customPage.pageSize" [length]="activitylist.length"
-  [pageSizeOptions]="customPage.pageSizeOptions" (page)="onChangedPageSize($event)">
-</mat-paginator>
+<mat-paginator [length]="totalActivitiesCount" [pageSize]="paginationProps.pageSize"
+  [pageSizeOptions]="paginationProps.pageSizeOptions" (page)="onChangedPageSize($event)"
+  aria-label="Select page of GitHub search results"></mat-paginator>
+
 
 
 <mat-menu #menu="matMenu">

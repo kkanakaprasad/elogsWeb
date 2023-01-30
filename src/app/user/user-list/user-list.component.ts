@@ -15,7 +15,7 @@ import { RemoveOrgPopUpService } from './remove-org-pop-up/remove-org-pop-up.ser
 import { UserSearchCriteria } from './user-Interface';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { CUSTOMPAGE } from '../../../app/shared/constants/pagination';
+import { PaginationProps } from '../../../app/shared/constants/pagination';
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 
 @Component({
@@ -26,32 +26,33 @@ import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 export class UserListComponent implements OnInit {
   public usersList: any = [];
   filters = FILTER_CONSTANT
-  customPage = CUSTOMPAGE;
+  paginationProps = PaginationProps;
   selectedTab = {
-    tab : {
-      textLabel : FILTER_CONSTANT.IS_ACTIVE
+    tab: {
+      textLabel: FILTER_CONSTANT.IS_ACTIVE
     }
   };
   userTypes: any;
   userPayload: UserSearchCriteria = {
     pageNumber: 0,
-    pageSize: 50,
+    pageSize: 10,
     sortField: "",
-    sortOrder: 0,
+    sortOrder: 1,
     type: "",
     isActive: true,
     role: "",
     userId: "",
     user: ""
   }
-  activeMetricsCount: number=0;
-  adminMetricsCount: number=0;
-  associationsMetricsCount: number=0  ;
-  ministriesMetricsCount: number=0;
-  inActiveMetricsCount: number=0;
+  activeMetricsCount: number = 0;
+  adminMetricsCount: number = 0;
+  associationsMetricsCount: number = 0;
+  ministriesMetricsCount: number = 0;
+  inActiveMetricsCount: number = 0;
+  totalUserCount : number = 0;
 
 
-  displayedColumns = ['Name', 'Email', 'Organization', 'Actions']
+  displayedColumns = ['Name', 'Email', 'CreatedAt', 'Organization', 'Actions']
   dataSource = new MatTableDataSource(this.usersList);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -71,15 +72,14 @@ export class UserListComponent implements OnInit {
   }
 
   userSearchCriteria(payload: any) {
-   this.userService.userSearchCriteria(payload).subscribe((res) => {
-   this.activeMetricsCount=res.data.metrics[0].active[0]?.activeUsers;
-   this.associationsMetricsCount=res.data.metrics[0].associations[0]?.associationCount;
-   this.ministriesMetricsCount=res.data.metrics[0].ministries[0]?.ministriesCount;
-   this.inActiveMetricsCount=res.data.metrics[0].inActive[0]?.inActiveUsers;
-
+    this.userService.userSearchCriteria(payload).subscribe((res) => {
+      this.activeMetricsCount = res.data.metrics[0].active[0]?.activeUsers;
+      this.associationsMetricsCount = res.data.metrics[0].associations[0]?.associationCount;
+      this.ministriesMetricsCount = res.data.metrics[0].ministries[0]?.ministriesCount;
+      this.inActiveMetricsCount = res.data.metrics[0].inActive[0]?.inActiveUsers;
       this.usersList = res.data.users.reverse();
       this.dataSource = new MatTableDataSource(this.usersList);
-      this.dataSource.paginator = this.paginator;
+      this.totalUserCount = res.data.totalCount;
     })
   }
   get loginUserID() {
@@ -88,24 +88,24 @@ export class UserListComponent implements OnInit {
 
   editUser(userId: string) {
     this.addNewUserService.openUpdateUserPopup(userId).afterClosed().subscribe((res) => {
-      if(res){
-      this.applyUserFilters(this.selectedTab);
-    }
+      if (res) {
+        this.applyUserFilters(this.selectedTab);
+      }
     })
   }
 
   assignOrganisation(user: any) {
     this.assignOrganizationPopUpService.assignOrgPopUp(user).afterClosed().subscribe((res) => {
-      if (res){
-      this.applyUserFilters(this.selectedTab);
-    }
+      if (res) {
+        this.applyUserFilters(this.selectedTab);
+      }
     });
   }
 
   removeOrganisation(userId: any) {
     this.removeOrgPopUpService.removeOrgPopUp(userId).afterClosed().subscribe((res) => {
       if (res)
-      this.applyUserFilters(this.selectedTab);
+        this.applyUserFilters(this.selectedTab);
     });
   }
 
@@ -140,49 +140,61 @@ export class UserListComponent implements OnInit {
 
   applyUserFilters(user: any) {
     this.selectedTab = user;
-    let updatedPayload = this.userPayload;
+    let updatedPayload = {};
     if (Number(user.tab.textLabel) === FILTER_CONSTANT.IS_ACTIVE) {
       updatedPayload = {
-        ...updatedPayload,
         isActive: true,
+        pageNumber : 0,
+        userId : '',
+        type : ''
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MY_PROFILE) {
       var userID = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID);
       updatedPayload = {
-        ...updatedPayload,
         isActive: true,
-        userId: userID
+        userId: userID,
+        pageNumber : 0,
+        type : ''
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.INACTIVE) {
       updatedPayload = {
-        ...updatedPayload,
         isActive: false,
+        pageNumber : 0,
+        userId : '',
+        type : ''
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.MINISTRIES) {
       updatedPayload = {
-        ...updatedPayload,
         isActive: true,
-        type: organizationType.MINISTRY
+        type: organizationType.MINISTRY,
+        pageNumber : 0,
+        userId : '',
+
       }
     }
     else if (Number(user.tab.textLabel) === FILTER_CONSTANT.ASSOCIATION) {
       updatedPayload = {
-        ...updatedPayload,
         isActive: true,
-        type: organizationType.ASSOCIATION
+        type: organizationType.ASSOCIATION,
+        pageNumber : 0,
+        userId : '',
       }
     }
-    this.userSearchCriteria(updatedPayload);
+    this.userPayload = {...this.userPayload,...updatedPayload}
+    this.userSearchCriteria(this.userPayload);
+  }
+
+  onChangedPageSize(event: any) {
+    this.userPayload.pageNumber = this.paginator.pageIndex;
+    this.userPayload.pageSize = this.paginator.pageSize;
+    this.userSearchCriteria(this.userPayload);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  onChangedPageSize(event: any) {
-    console.log(event);
-  }
 }

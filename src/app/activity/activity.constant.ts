@@ -167,7 +167,7 @@ export const ActivityRowActions = [
     {
         title: 'Reply',
         icon: "reply",
-        action: 'REPLAY',
+        action: 'REPLY',
         displayCondition : (activity:any,loggedInUserDetails:any) =>{
             return (activity.status !== 'REJECTED')
         }

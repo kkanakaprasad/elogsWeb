@@ -38,11 +38,11 @@
                 </a>
 
                 <mat-menu #profileMenu="matMenu" class="profile_menu">
+                  <div class="profile-dropdown">
                   <div class="account-info">
                     <h2>This Account is managed by {{companyName}}</h2>
                     {{logedinUserDetails.email}}
                   </div>
-
                     <div class="menu">
                         <div class="settings-menu">
                           <h4>Personal Settings</h4>
@@ -59,6 +59,7 @@
                                 <button mat-menu-item (click)="navigateTocatageory()">Catageory</button>
                         </div>
                     </div>
+                  </div>
                 </mat-menu>
             </li>
         </ul>

@@ -11,33 +11,27 @@
             <div class="card-header d-flex align-items-center justify-content-between">
               <h6 class="m-0">Activity <span>Metrics</span></h6>
               <div class="calendar-inputs">
-               
-              
-                <input type="text" class="form-control col-md-1" placeholder="08-01-2023" name="" id=""  
-                matInput
-                [matDatepicker]="startDatePicker"
-                (dateChange)="startDateSetter( $event)"
-              />
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="startDatePicker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #startDatePicker></mat-datepicker>
-                <input type="text" class="form-control col-md-1" placeholder="To Date" name="" id=""  matInput
-                [matDatepicker]="endDatePicker"
-                (dateChange)="endDateSetter( $event)"
-              />
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="endDatePicker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #endDatePicker></mat-datepicker>
+                <div class="d-flex date-input start-date">
+                  <input type="text" class="form-control col-md-1" placeholder="08-01-2023" name="" id="" matInput
+                    [matDatepicker]="startDatePicker" (dateChange)="startDateSetter( $event)" />
+                  <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #startDatePicker></mat-datepicker>
+                </div>
+
+                <div class="d-flex date-input">
+                  <input type="text" class="form-control col-md-1" placeholder="To Date" name="" id="" matInput
+                    [matDatepicker]="endDatePicker" (dateChange)="endDateSetter( $event)" />
+                  <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #endDatePicker></mat-datepicker>
+                </div>
+
               </div>
             </div>
             <div class="card-body">
-              <div class="d-flex mb-3 justify-content-between">
+              <div class="d-flex mb-3 justify-content-between align-items-center">
                 <div class="total">Total <span>{{dashboardMetricsCount?.total[0]?.total}}</span></div>
-                <div> <mat-form-field appearance="outline">
+                <div class="activity_type">
+                  <mat-form-field appearance="outline">
                   <mat-label>Type</mat-label>
                   <mat-select  (selectionChange)="selectedActivityType($event)">
                     <mat-option
@@ -46,7 +40,8 @@
                       >{{ activityTypesData?.name }}</mat-option
                     >
                   </mat-select>
-                </mat-form-field></div>
+                </mat-form-field>
+              </div>
               </div>
               <div class="row">
                 <div class="col-md-6 activity mb-3">
@@ -79,9 +74,9 @@
                 <div class="col-md-6 activity">
                   <div class="brdr-danger">
                     <div class="d-inline-block">Not Admissible</div>
-                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">{{dashboardMetricsCount?.notAdmissible?.length==0 ? 0 :dashboardMetricsCount?.notAdmissible[0]?.notAdmissibleCount}}</div>
+                    <div class="d-inline-block float-right bg-primary-text fw-bold fs-5">{{dashboardMetricsCount?.rejectedCount?.length==0 ? 0 :dashboardMetricsCount?.rejectedCount[0]?.rejectedCount}}</div>
                     <div class="percentage">
-                      ({{(dashboardMetricsCount?.notAdmissible?.length==0 ? 0 :dashboardMetricsCount?.notAdmissible[0]?.notAdmissibleCount)*100/(dashboardMetricsCount?.total[0]?.total)| number:'.2-2'}})
+                      ({{(dashboardMetricsCount?.rejectedCount?.length==0 ? 0 :dashboardMetricsCount?.rejectedCount[0]?.rejectedCount)*100/(dashboardMetricsCount?.total[0]?.total)| number:'.2-2'}})
                     </div>
                   </div>
                 </div>
@@ -145,7 +140,7 @@
                         <h5 class="day-heading"> &lt; Week</h5>
                     </div>
                     <div>
-                        <div class="round-box" style="border-color: rgb(243, 141, 144)">{{dueDateDashBoarData?.oneToTwoWeek?.length==0 ? 0:dueDateDashBoarData?.oneToTwoWeek[0]?.oneToTwoWeek}}</div>
+                        <div class="round-box" style="border-color: rgb(243, 141, 144)">{{dueDateDashBoarData?.oneToTwoWeek?.length==0 ? 0:dueDateDashBoarData?.oneToTwoWeek[0]?.oneToTwoWeeks}}</div>
                         <h5 class="day-heading">1 to 2 Weeks</h5>
                     </div>
                     <div>
@@ -228,82 +223,18 @@
         <div class="card-body activities_panel">
           <div class="heading overdue mb-3">
             <h2> <span>Overdue Tasks</span></h2>
-            <div class="activity-list">
+            <div class="activity-list"  *ngFor="let item of overDueActivities" (click)="navigateToActivityDetails(item._id)">
               <div class="activity-title">
                 <a routerLink="#" [title]="">ORGM</a> -
-                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+                <a routerLink="#" [title]="">#17: {{item.title}}</a>
               </div>
               <div class="d-flex justify-content-between">
                 <div class="created">
-                  <span>Created on Today</span>
+                  <span>Created on {{item.createdAt | date: 'MMM d, y'}}</span>
                 </div>
                 <div class="date-time">
                   <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="activity-list">
-              <div class="activity-title">
-                <a routerLink="#" [title]="">ORGM</a> -
-                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
-              </div>
-              <div class="d-flex justify-content-between">
-                <div class="created">
-                  <span>Created on Today</span>
-                </div>
-                <div class="date-time">
-                  <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="activity-list">
-              <div class="activity-title">
-                <a routerLink="#" [title]="">ORGM</a> -
-                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
-              </div>
-              <div class="d-flex justify-content-between">
-                <div class="created">
-                  <span>Created on Today</span>
-                </div>
-                <div class="date-time">
-                  <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="activity-list">
-              <div class="activity-title">
-                <a routerLink="#" [title]="">ORGM</a> -
-                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
-              </div>
-              <div class="d-flex justify-content-between">
-                <div class="created">
-                  <span>Created on Today</span>
-                </div>
-                <div class="date-time">
-                  <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="activity-list">
-              <div class="activity-title">
-                <a routerLink="#" [title]="">ORGM</a> -
-                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
-              </div>
-              <div class="d-flex justify-content-between">
-                <div class="created">
-                  <span>Created on Today</span>
-                </div>
-                <div class="date-time">
-                  <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                  <span class="over-due"><mat-icon>access_time</mat-icon>{{item.dueDate | date: 'MMM d, y'}}</span>
                 </div>
               </div>
             </div>
@@ -312,73 +243,24 @@
 
           <div class="heading upcoming">
             <h2> <span>Upcoming Tasks</span></h2>
-            <div class="activity-list">
+            <div class="activity-list"   *ngFor="let item of upComingActivities" (click)="navigateToActivityDetails(item._id)">
               <div class="activity-title">
                 <a routerLink="#" [title]="">ORGM</a> -
-                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
+                <a routerLink="#" [title]="">#17: {{item.title}}</a>
               </div>
               <div class="d-flex justify-content-between">
                 <div class="created">
-                  <span>Created on Today</span>
+                  <span>Created on Today {{item.createdAt | date: 'MMM d, y'}}</span>
                 </div>
                 <div class="date-time">
                   <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="activity-list">
-              <div class="activity-title">
-                <a routerLink="#" [title]="">ORGM</a> -
-                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
-              </div>
-              <div class="d-flex justify-content-between">
-                <div class="created">
-                  <span>Created on Today</span>
-                </div>
-                <div class="date-time">
-                  <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="activity-list">
-              <div class="activity-title">
-                <a routerLink="#" [title]="">ORGM</a> -
-                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
-              </div>
-              <div class="d-flex justify-content-between">
-                <div class="created">
-                  <span>Created on Today</span>
-                </div>
-                <div class="date-time">
-                  <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="activity-list">
-              <div class="activity-title">
-                <a routerLink="#" [title]="">ORGM</a> -
-                <a routerLink="#" [title]="">#17: Edit profile email validation issue</a>
-              </div>
-              <div class="d-flex justify-content-between">
-                <div class="created">
-                  <span>Created on Today</span>
-                </div>
-                <div class="date-time">
-                  <div class="img-cls-dt"></div>
-                  <span class="over-due" title="Jan 05, 2014 12:00 am">Jan 05, 2014 12:00 am</span>
+                  <span class="over-due"><mat-icon>access_time</mat-icon>{{item.dueDate | date: 'MMM d, y'}}</span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="text-end"> <a routerLink="">View All</a> </div>
-
-        </div>
+          <div class="text-end"> <a (click)="goToActivityList()">View All</a> </div>
+          </div>
       </div>
     </div>
 

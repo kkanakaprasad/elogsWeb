@@ -4,6 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { ActivityFiltersData } from 'src/app/activity/activity-filterData';
 import { CompanySettingsService } from 'src/app/company-settings/company-settings.service';
+import { DashboardService } from 'src/app/dashboard/dashboard.service';
 import { OrganizationService } from 'src/app/organization/organization.service';
 import { RouteConstants } from 'src/app/shared/constants/routes.constants';
 import { Roles } from 'src/app/shared/enums/roles.enums';
@@ -26,24 +27,36 @@ export class BreadcrumbComponent implements OnInit {
   currentRoute: any;
   isSuperAdmin!: boolean;
   logedInUserId: any;
-  activityFiltersData = ActivityFiltersData
+  activityFiltersData:any = ActivityFiltersData;
+  selectedOrganizationIds: any;
+  selectedActivityId: any;
+  dashboardMetricsCount: any;
+
 
   constructor(private router: Router,
     private selectedOrganizationService: SelectedOrganizationService,
     private storageService: StorageService,
     private organizationService: OrganizationService,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private dashboardService: DashboardService
   ) {
     router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
       this.currentRoute = event.url
     });
+    this.postActivityStatusMetricsCount();
   }
 
   ngOnInit(): void {
+    this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
+      this.selectedOrganizationIds = res;
+      this.postActivityStatusMetricsCount();
+    })
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.logedInUserId = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID);
-    this.getOrganizationsSearchCriteria()
+    this.getOrganizationsSearchCriteria();
+
   }
+
   navigateToDashboard() {
     this.router.navigate([RouteConstants.DASHBOARD])
   }
@@ -65,7 +78,7 @@ export class BreadcrumbComponent implements OnInit {
       this.organizationService.getOrganizationsSearchCriteria(organizationListPayload).subscribe(res => {
         this.organizationsList = res.data?.organizations
         this.searchedOrganizationList = res?.data?.organizations
-        console.log(this.searchedOrganizationList)
+
       })
     } else {
       const organizationListPayload = {
@@ -104,10 +117,9 @@ export class BreadcrumbComponent implements OnInit {
     }
   }
 
-  seleectedOrganization(event: MatAutocompleteSelectedEvent) {
-
-    this.selectOrganization = event.option.value;
-    if (event.option.value === 'all') {
+  seleectedOrganization(event: any) {
+    this.selectOrganization = event.value;
+    if (event.value === 'all') {
       if (this.isSuperAdmin) {
         this.selectedOrganizationService.setSelectedOrganization([]);
 
@@ -120,16 +132,28 @@ export class BreadcrumbComponent implements OnInit {
 
       }
     } else {
-      let object=this.searchedOrganizationList.filter((res:any)=>{
+      let object = this.searchedOrganizationList.filter((res: any) => {
         return res.organization === this.selectOrganization
-      }) 
-      // let index = this.searchedOrganizationList.findIndex((org:any)=>{
-      //   org.organization === this.selectOrganization;
-      // })
+      })
       this.selectedOrganizationService.setSelectedOrganization([object[0]._id]);
     }
   }
   selectedActivitiesStatus(data: any) {
     this.breadcrumbService.setSelectedActivityStatus(data);
   }
+
+  postActivityStatusMetricsCount() {
+    const payload = {
+      organizations: this.selectedOrganizationIds,
+    }
+    this.dashboardService.postDashBoardActivityMetrics(payload).subscribe(res => {
+      this.dashboardMetricsCount = res.data[0];
+      this.activityFiltersData.status[0] = {...this.activityFiltersData.status[0],count : this.dashboardMetricsCount?.new[0]?.newCount},
+      this.activityFiltersData.status[1] = {...this.activityFiltersData.status[1],count : this.dashboardMetricsCount?.inProgress[0]?.inProgressCount},
+      this.activityFiltersData.status[2] = {...this.activityFiltersData.status[2],count : this.dashboardMetricsCount?.resolved[0]?.resolvedCount},
+      this.activityFiltersData.status[3] = {...this.activityFiltersData.status[3],count : this.dashboardMetricsCount?.rejectedCount[0]?.rejectedCount}
+    })
+  }
+
+
 }

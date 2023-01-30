@@ -1,113 +1,112 @@
 <div class="mb-2">
-<div *ngIf="currentRoute == '/dashboard'" class="d-flex justify-content-start align-items-center">
-	<div class="p-2">
-		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Dashboard ></span>
-	</div>
-	<ng-container *ngIf="organizationsList.length==1">
-		<div>{{organizationsList[0].organization}}</div>
-	</ng-container>
-	<ng-container *ngIf="organizationsList.length>1">
-		<div class="breadcrumb-find">
-			<mat-form-field>
-				<input class="p-2" placeholder="Find an Organisation" matInput type="text"
-					(keyup)="filterOrganization($event)" [matAutocomplete]="auto" />
-				<mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleectedOrganization($event)">
-					<mat-option 
-						[value]="'all'" #matOption>
-						All
-					</mat-option>
-					<mat-option *ngFor="let organization of searchedOrganizationList"
-						[value]="organization.organization" #matOption>
-						{{ organization.organization }}
-					</mat-option>
-					
-				</mat-autocomplete>
-			</mat-form-field>
-		</div>
-	</ng-container>
-</div>
-
-<ng-container *ngIf="currentRoute == '/organization-list'">
-	<div>
-		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Organizations >
-		Manage
-	</div>
-</ng-container>
-
-<div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-between ">
-	<div class="d-flex">
+	<div *ngIf="currentRoute == '/dashboard'" class="d-flex justify-content-start align-items-center">
 		<div class="p-2">
-			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Activities ></span>
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Dashboard ></span>
 		</div>
 		<ng-container *ngIf="organizationsList.length==1">
 			<div>{{organizationsList[0].organization}}</div>
 		</ng-container>
 		<ng-container *ngIf="organizationsList.length>1">
 			<div class="breadcrumb-find">
-				<mat-form-field>
-					<input class="p-2" placeholder="Find an Organisation" matInput type="text"
-						(keyup)="filterOrganization($event)" [matAutocomplete]="auto" />
-					<mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleectedOrganization($event)">
-						<mat-option *ngFor="let organization of searchedOrganizationList"
-							[value]="organization.organization" #matOption>
-							{{ organization.organization }}
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Select Organization</mat-label>
+						<mat-select  (selectionChange)="seleectedOrganization($event)">
+							<input class='p-2' placeholder="Find an Organisation" matInput type="text"
+								(keyup)="filterOrganization($event)" />
+							<mat-option [value]="'all'" #matOption>
+								All
+							</mat-option>
+							<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
+								{{Organization.organization}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+		</ng-container>
+	</div>
+	
+	<div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-between ">
+		<div class="d-flex">
+			<div class="p-2">
+				<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Activities ></span>
+			</div>
+			<ng-container *ngIf="organizationsList.length==1">
+				<div>{{organizationsList[0].organization}}</div>
+			</ng-container>
+			<ng-container *ngIf="organizationsList.length>1">
+				<div class="breadcrumb-find">
+					<mat-form-field appearance="outline">
+						<mat-label>Select Organization</mat-label>
+						<mat-select  (selectionChange)="seleectedOrganization($event)">
+							<input class='p-2' placeholder="Find an Organisation" matInput type="text"
+								(keyup)="filterOrganization($event)" />
+							<mat-option [value]="'all'" #matOption>
+								All
+							</mat-option>
+							<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
+								{{Organization.organization}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+			</ng-container>
+		</div>
+	
+		<div>
+			<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+				<mat-button-toggle *ngFor="let status of activityFiltersData.status"
+					(click)="selectedActivitiesStatus(status)">{{status.count ? status.count : 0}} {{status.DisplayName}}</mat-button-toggle>
+			</mat-button-toggle-group>
+		</div>
+	</div>
+	
+	
+	<div *ngIf="currentRoute == '/documents'" class="d-flex justify-content-start ">
+		<div class="p-2">
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Documents ></span>
+		</div>
+		<ng-container *ngIf="organizationsList.length==1">
+			<div>{{organizationsList[0].organization}}</div>
+		</ng-container>
+		<ng-container *ngIf="organizationsList.length>1">
+			<div class="breadcrumb-find">
+				<mat-form-field appearance="outline">
+					<mat-label>Select Organization</mat-label>
+					<mat-select  (selectionChange)="seleectedOrganization($event)">
+						<input class='p-2' placeholder="Find an Organisation" matInput type="text"
+							(keyup)="filterOrganization($event)" />
+						<mat-option [value]="'all'" #matOption>
+							All
 						</mat-option>
-					</mat-autocomplete>
+						<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
+							{{Organization.organization}}</mat-option>
+					</mat-select>
 				</mat-form-field>
 			</div>
 		</ng-container>
 	</div>
-
-	<div>
-		<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-			<mat-button-toggle *ngFor="let status of activityFiltersData.status"
-				(click)="selectedActivitiesStatus(status)">{{status.DisplayName}}</mat-button-toggle>
-		</mat-button-toggle-group>
-	</div>
-</div>
-
-
-<div *ngIf="currentRoute == '/documents'" class="d-flex justify-content-start ">
-	<div class="p-2">
-		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Documents ></span>
-	</div>
-	<ng-container *ngIf="organizationsList.length==1">
-		<div>{{organizationsList[0].organization}}</div>
+	
+	<ng-container *ngIf="currentRoute == '/archive'">
+		<p>
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Archive > Tasks
+		</p>
 	</ng-container>
-	<ng-container *ngIf="organizationsList.length>1">
-		<div class="breadcrumb-find">
-			<mat-form-field>
-				<input class="p-2" placeholder="Find an Organisation" matInput type="text"
-					(keyup)="filterOrganization($event)" [matAutocomplete]="auto" />
-				<mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleectedOrganization($event)">
-					<mat-option *ngFor="let organization of searchedOrganizationList"
-						[value]="organization.organization" #matOption>
-						{{ organization.organization }}
-					</mat-option>
-				</mat-autocomplete>
-			</mat-form-field>
-		</div>
+
+	<ng-container *ngIf="currentRoute == '/organization-list'">
+		<p>
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Organizations > Manage
+		</p>
 	</ng-container>
-</div>
 
+	<ng-container *ngIf="currentRoute == '/user-list'">
+		<p>
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Users > Manage
+		</p>
+	</ng-container>
 
-
-<ng-container *ngIf="currentRoute == '/user-list'">
-	<p>
-		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Users > Manage
-	</p>
-</ng-container>
-
-<ng-container *ngIf="currentRoute == '/company-settings'">
-	<p>
-		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Company Settings
-		> My Company
-	</p>
-</ng-container>
-
-<ng-container *ngIf="currentRoute == '/archive'">
-	<p>
-		<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Archive > Tasks
-	</p>
-</ng-container>
+	<ng-container *ngIf="currentRoute == '/company-settings'">
+		<p>
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Company Settings > My Company
+		</p>
+	</ng-container>
 </div>
