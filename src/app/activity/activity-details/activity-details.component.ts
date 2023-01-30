@@ -330,7 +330,6 @@ export class ActivityDetailsComponent implements OnInit {
 			return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf()
 		}
 		);
-		console.log(activityLogAndDueLog);
 		let activityDataForDownload = [{
 			title: this.activityData.title,
 			description: this.activityData.description.replace(/<[^>]*>/g, ""),
@@ -356,7 +355,6 @@ export class ActivityDetailsComponent implements OnInit {
 				activityDataForDownload = [...activityDataForDownload, data];
 				console.log(activityDataForDownload, "updated duedate");
 			} else if (element.message) {
-				console.log(element, "log");
 				data.description = element?.message.replace(/<[^>]*>/g, ""),
 					data.status = element?.status ? element.status : data.status,
 					data.priority = element?.priority ? element.priority : data.priority,
