@@ -70,6 +70,7 @@
         </mat-chip-list>
       </div>
       <div class="text-end activity_actions">
+        <button *ngIf="isResetFilters" mat-button class="resetButton" (click)="resetAllFilters()">Reset Filters</button>
         <button mat-button class="" (click)="downloadFile()" matTooltip="Download">
           <i class="icon-taskdownl"></i>
           <mat-icon class="download">file_download</mat-icon>

@@ -93,6 +93,7 @@ export class ActivityComponent implements OnInit {
   dueDte = new FormControl();
   createdDateChipValue: string = "";
   dueDateChipValue: string = "";
+  isResetFilters: boolean = false;
 
   activitySearchCriteriaPayload: BehaviorSubject<any> = new BehaviorSubject({
     pageNumber: 0,
@@ -179,6 +180,13 @@ export class ActivityComponent implements OnInit {
     this.activitySearchCriteriaPayload.subscribe((res) => {
       payload = res;
     });
+    let result = Object.values(this.filters).every(( array : any) => array.length === 0);
+
+    if (!result || (payload.createdDate && payload.createdDate !== "" ) || (payload.dueDate && payload.dueDate !== "" )) {
+      this.isResetFilters = true
+    } else {
+      this.isResetFilters = false
+    }
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
       this.totalActivitiesCount = res.data[0]?.count[0]?.count ? res.data[0]?.count[0]?.count : 0;
       this.dataSource = new MatTableDataSource(res.data[0].activities.reverse())
@@ -574,17 +582,58 @@ export class ActivityComponent implements OnInit {
         this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: undefined, onlyMyTasks: false });
         break;
       case "MY_TASKS":
-        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate:undefined, onlyMyTasks: true, organizations: this.selectedOrganizationIds });
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: undefined, onlyMyTasks: true, organizations: this.selectedOrganizationIds });
         break;
-      case "OVERDUE" : 
-      this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate:{customString:"OVERDUE"}, onlyMyTasks: false});
-      break;
-      case "HIGH" : 
-      this.activitySearchCriteriaPayload.next({ ...data, priority: ["HIGH"], dueDate:undefined, onlyMyTasks: false});
-      break;
-      default : 
+      case "OVERDUE":
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: { customString: "OVERDUE" }, onlyMyTasks: false });
+        break;
+      case "HIGH":
+        this.activitySearchCriteriaPayload.next({ ...data, priority: ["HIGH"], dueDate: undefined, onlyMyTasks: false });
+        break;
+      default:
         break;
     }
+  }
+
+  resetAllFilters(){
+    this.activityFiltersData.status.forEach((element: any) => {
+      element.selected = false;
+    });
+    this.activityFiltersData.priority.forEach((element: any) => {
+      element.selected = false;
+    });
+    this.masterData?.activityTypesData.forEach((element: any) => {
+      element.selected = false;
+    });
+    this.masterData?.activityEntryTypesData.forEach((element: any) => {
+      element.selected = false;
+    });
+    this.masterData?.activitySectorsData.forEach((element: any) => {
+      element.selected = false;
+    });
+    this.masterData?.activityScopesData.forEach((element: any) => {
+      element.selected = false;
+    });
+
+    this.filters = {
+      types: [],
+      status: [],
+      entryTypes: [],
+      scope: [],
+      priority: [],
+      geography: []
+    }
+
+    this.activitySearchCriteriaPayload.next({
+      pageNumber: 0,
+      pageSize: this.paginationProps.pageSize,
+      sortField: "",
+      sortOrder: 1,
+      isArchive: false,
+      onlyMyTasks: false
+    });
+    this.createdDateChipValue = "";
+    this.dueDateChipValue = "";
   }
 
 
