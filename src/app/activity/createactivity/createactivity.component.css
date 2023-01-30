@@ -9,37 +9,28 @@
 .create-activity-header {
   background: #eeeeee;
   border-bottom: 1px solid #dcdadb;
-  color:  #444444;
+  color: #444444;
   font-size: 22px;
   font-weight: bold;
   height: 55px;
   padding: 11px 10px 0 10px;
-  margin-bottom: 15px;
   gap: 5px;
 }
 
-.create-activity-form {
-    padding: 10px;
-}
-
 .input-field {
-    display: block;
+  display: block;
 }
 
-.inline-inputs {
-    width: 50%;
-    padding-left: 5px;
+::ng-deep .NgxEditor {
+  height: 200px;
+  overflow-y: auto;
+  border-radius: 0px;
 }
 
-.entry-type-input {
-  width: 50%;
+::ng-deep .NgxEditor__Content {
+  min-height: 150px;
 }
 
-.text-editor {
-    border: 1px solid black;
-    margin-bottom: 1rem;
-}
-
-.btn-submit{
- text-align: center;
+::ng-deep form {
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }

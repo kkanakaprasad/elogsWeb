@@ -4,32 +4,36 @@
     <h2>Create Activity</h2>
   </div>
   <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
-    <div class="create-activity-form">
-      <div>
-        <ng-container *ngIf="userDetails?.organizationsdata?.length > 1">
+    <div class="row p-2">
+      <div class="row">
+        <div class="col-md-6">
+          <ng-container *ngIf="userDetails?.organizationsdata?.length > 1">
+            <mat-form-field appearance="outline" class="input-field">
+              <mat-label>organizations</mat-label>
+              <mat-select formControlName="createdByOrganization">
+                <mat-option *ngFor="let organization of userDetails?.organizationsdata" [value]="organization._id">{{
+                  organization.organization }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="userDetails?.organizationsdata?.length === 1">
+            <h3>{{ userDetails?.Name}}</h3>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
           <mat-form-field appearance="outline" class="input-field">
-            <mat-label>organizations</mat-label>
-            <mat-select formControlName="createdByOrganization">
-              <mat-option *ngFor="let organization of userDetails?.organizationsdata" [value]="organization._id">{{
-                organization.organization }}</mat-option>
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="activityType">
+              <mat-option *ngFor="let activityTypesData of activityTypesData" [value]="activityTypesData._id">{{
+                activityTypesData.name }}</mat-option>
             </mat-select>
           </mat-form-field>
-        </ng-container>
-        <ng-container *ngIf="userDetails?.organizationsdata?.length === 1">
-          <h3>{{ userDetails?.Name}}</h3>
-        </ng-container>
+        </div>
       </div>
-      <div>
-        <mat-form-field appearance="outline" class="input-field">
-          <mat-label>Type</mat-label>
-          <mat-select formControlName="activityType">
-            <mat-option *ngFor="let activityTypesData of activityTypesData" [value]="activityTypesData._id">{{
-              activityTypesData.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="d-flex justify-content-between">
-        <div class="inline-inputs">
+      <div class="row">
+        <div class="col-6">
           <mat-form-field appearance="outline" class="input-field">
             <mat-label>Related To</mat-label>
             <mat-select formControlName="activityRelatedTo">
@@ -38,7 +42,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="inline-inputs">
+        <div class="col-6">
           <mat-form-field appearance="outline" class="input-field">
             <mat-label>Ministry/Department</mat-label>
             <mat-select multiple="multiple" formControlName="organization">
@@ -49,17 +53,17 @@
         </div>
       </div>
 
-      <div class="d-flex">
-
-        <mat-form-field appearance="outline" class="entry-type-input">
-          <mat-label>Entry Type</mat-label>
-          <mat-select formControlName="activitEntryType">
-            <mat-option *ngFor="let activityEntryTypesData of activityEntryTypesData"
-              [value]="activityEntryTypesData._id">{{ activityEntryTypesData.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <div class="inline-inputs">
+      <div class="row">
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="col-12">
+            <mat-label>Entry Type</mat-label>
+            <mat-select formControlName="activitEntryType">
+              <mat-option *ngFor="let activityEntryTypesData of activityEntryTypesData"
+                [value]="activityEntryTypesData._id">{{ activityEntryTypesData.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-6">
           <mat-chip-list><mat-chip *ngFor="
           let item of activityForm.get('organization')?.value;
           let i = index
@@ -70,8 +74,8 @@
           </mat-chip-list>
         </div>
       </div>
-      <div class="d-flex justify-content-between">
-        <div class="inline-inputs">
+      <div class="row">
+        <div class="col-6">
           <mat-form-field appearance="outline" class="input-field">
             <mat-label>Sector</mat-label>
             <mat-select formControlName="activitySector">
@@ -80,7 +84,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="inline-inputs">
+        <div class="col-6">
           <mat-form-field appearance="outline" class="input-field">
             <mat-label>Scope</mat-label>
             <mat-select formControlName="activityScope">
@@ -91,21 +95,23 @@
         </div>
       </div>
       <div class="row">
-        <mat-form-field appearance="outline" class="input-field">
-          <mat-label>Title</mat-label>
-          <div class="col-12">
-            <input matInput placeholder="Add an activity here & hit enter..." input type="text"
-              formControlName="title" />
-          </div>
-        </mat-form-field>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="input-field">
+            <mat-label>Title</mat-label>
+            <div class="col-12">
+              <input matInput placeholder="Add an activity here & hit enter..." input type="text"
+                formControlName="title" />
+            </div>
+          </mat-form-field>
+        </div>
       </div>
-      <div class="text-editor">
+      <div class="text-editor mb-1">
         <app-rich-text-editor value="" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
       </div>
       <div>
         <app-fileuploader (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
       </div>
-      <div class="btn-submit">
+      <div class="text-center">
         <button mat-raised-button color="primary" type="submit">Submit</button>
       </div>
     </div>
