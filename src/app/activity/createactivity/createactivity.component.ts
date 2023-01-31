@@ -17,7 +17,7 @@ import { ActivityService } from '../activity.service';
 @Component({
   selector: 'app-createactivity',
   templateUrl: './createactivity.component.html',
-  styleUrls: ['./createactivity.component.css']
+  styleUrls: ['./createactivity.component.scss']
 })
 export class CreateactivityComponent implements OnInit {
   organizationsData: any;
