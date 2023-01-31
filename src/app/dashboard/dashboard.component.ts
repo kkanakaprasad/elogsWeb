@@ -213,11 +213,10 @@ export class DashboardComponent implements OnInit {
       this.activityService.getActivitiesSearchCriteria(payload).subscribe((res)=>{
       this.upComingActivities=res?.data[0].activities;
       })
-      console.log(payload)
   }
 
   navigateToActivityDetails(activity: any) {
-    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity._id} });
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity} });
   }
 
 
