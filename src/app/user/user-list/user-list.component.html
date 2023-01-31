@@ -5,43 +5,44 @@
   <mat-tab-group (selectedTabChange)="applyUserFilters($event)" class="mt-2 users_list">
     <mat-tab label={{filters.IS_ACTIVE}}>
       <ng-template mat-tab-label>
+        <div class="d-flex align-items-center gap-1">
 
           <mat-icon>person_pin</mat-icon>
           Active ({{activeMetricsCount}})
-
+        </div>
       </ng-template>
 
     </mat-tab>
 
     <mat-tab label={{filters.MY_PROFILE}}>
       <ng-template mat-tab-label>
-
-          <mat-icon>person_outline</mat-icon>Admin (1)
-
+       <div class="d-flex align-items-center gap-1">
+        <mat-icon>person_outline</mat-icon>Admin (1)
+       </div>
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.MINISTRIES}}>
       <ng-template mat-tab-label>
-
-          <mat-icon>people</mat-icon>
-          Ministry/Department({{ministriesMetricsCount}})
-
+        <div class="d-flex align-items-center gap-1">
+        <mat-icon>people</mat-icon>
+        Ministry/Department({{ministriesMetricsCount}})
+        </div>
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.ASSOCIATION}}>
       <ng-template mat-tab-label>
-
-          <mat-icon>group_add</mat-icon>
-          Association ({{associationsMetricsCount}})
-
+       <div class="d-flex align-items-center gap-1">
+        <mat-icon>group_add</mat-icon>
+        Association ({{associationsMetricsCount}})
+       </div>
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.INACTIVE}}>
       <ng-template mat-tab-label>
-
-          <mat-icon>not_interested</mat-icon>
-          Inactive ({{inActiveMetricsCount}})
-
+       <div class="d-flex align-items-center gap-1">
+        <mat-icon>not_interested</mat-icon>
+        Inactive ({{inActiveMetricsCount}})
+       </div>
       </ng-template>
 
     </mat-tab>
@@ -52,7 +53,8 @@
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element">
         <span class="usertype_badge">{{element.Name=="SuperAdmin" ? 'Owner':'user'}} </span>
-        {{element.Name}} </td>
+        {{element.Name}}
+      </td>
 
     </ng-container>
 
@@ -69,10 +71,10 @@
 
     <ng-container matColumnDef="CreatedAt">
       <th mat-header-cell *matHeaderCellDef> CreatedAt </th>
-      <td mat-cell *matCellDef="let element"> {{element.createdAt |  date: 'MMM d, y'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'MMM d, y'}} </td>
     </ng-container>
-  
-       <ng-container matColumnDef="Organization">
+
+    <ng-container matColumnDef="Organization">
       <th mat-header-cell *matHeaderCellDef> Organization </th>
       <td mat-cell *matCellDef="let element">
         <div *ngIf="element.organizationsdata?.length > 0">
@@ -111,8 +113,8 @@
   </table>
 
   <mat-paginator [length]="totalUserCount" [pageSize]="paginationProps.pageSize"
-  [pageSizeOptions]="paginationProps.pageSizeOptions" (page)="onChangedPageSize($event)"
-  aria-label="Select page of GitHub search results"></mat-paginator>
+    [pageSizeOptions]="paginationProps.pageSizeOptions" (page)="onChangedPageSize($event)"
+    aria-label="Select page of GitHub search results"></mat-paginator>
 
 
 </div>
