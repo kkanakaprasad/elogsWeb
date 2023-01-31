@@ -95,6 +95,7 @@ export class ActivityDetailsComponent implements OnInit {
 	getActivityDetailsById() {
 		this.activityService.getActivityById(this.selectedActivityId).subscribe(res => {
 			this.activityData = res.data[0]
+			console.log(this.activityData)
 			this.selectedActivityEntryTypeId = res.data[0]?.activitEntryType
 			this.selectedActivityRelatedTypeId = res.data[0]?.activityRelatedTo
 			this.selectedActivitySectorId = res.data[0]?.activitySector
