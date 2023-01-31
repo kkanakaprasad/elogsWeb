@@ -1,22 +1,26 @@
 <div class="page-wrapper">
   <mat-tab-group class="organization-cards" (selectedTabChange)="applyOrganizationFilters($event)">
     <mat-tab label={{filters.IS_ACTIVE}}>
-      <ng-template mat-tab-label>
+        <ng-template mat-tab-label>
+        <mat-icon>person_pin</mat-icon>
         Active ({{activeMetricsCount ? activeMetricsCount : 0}})
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.MINISTRIES}}>
       <ng-template mat-tab-label>
+        <mat-icon>person_outline</mat-icon>
         Ministry/Department ({{ministriesMetricsCount ? ministriesMetricsCount : 0}})
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.ASSOCIATION}}>
       <ng-template mat-tab-label>
+        <mat-icon>group_add</mat-icon>
         Association ({{associationsMetricsCount ? associationsMetricsCount : 0}})
       </ng-template>
     </mat-tab>
     <mat-tab label={{filters.INACTIVE}}>
       <ng-template mat-tab-label>
+        <mat-icon>not_interested</mat-icon>
         Inactive ({{inActiveMetricsCount ? inActiveMetricsCount : 0}})
       </ng-template>
     </mat-tab>
@@ -116,14 +120,17 @@
                     Enable
                   </span>
                 </ng-container>
-
-              </div>
+                </div>
 
             </div>
           </mat-card-content>
         </mat-card>
       </div>
-
+      <div *ngIf="organizationList?.length === 0">
+        <mat-card class="noProjects-message">
+            No projects found!!!
+        </mat-card>
+      </div>
     </div>
   </section>
 </div>

@@ -13,12 +13,11 @@ import { ArchiveService } from './archive.service';
 export class ArchiveComponent implements OnInit {
 
   archiveActivitiesList: any = [];
-  taskDisplayedColumns = ['Activity', 'Title', 'Status', 'Organisation'];
+  taskDisplayedColumns = ['checkbox','Activity', 'Title', 'Status', 'Organisation'];
   fileDisplayedColumns = ['Activity', 'FileName', 'Size', 'Organization'];
   dataSource = new MatTableDataSource(this.archiveActivitiesList);
   selection = new SelectionModel<any>(true, []);
-
-
+ 
 
   constructor(private archiveService: ArchiveService,
     private router:Router
@@ -26,6 +25,7 @@ export class ArchiveComponent implements OnInit {
 
   ngOnInit(): void {
     this.getArchiveActivities();
+    
   }
 
   getArchiveActivities() {
@@ -54,5 +54,12 @@ export class ArchiveComponent implements OnInit {
   }
   navigateToActivityDetails(activity: any) {
     this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity } });
+  }
+
+  
+  archiveActionClick(event:any){
+    console.log(event,this.selection.selected)
+    
+
   }
 }

@@ -337,7 +337,7 @@ export class ActivityComponent implements OnInit {
   updateActivityStatus(status: string) {
 
     this.confirmationDialogService.open({
-      message: `Are you sure to change activity ${this.selectedActivtyForRowActions.title} to ${status}`
+      message: `Are you sure to change activity ${this.selectedActivtyForRowActions.uniqIdentity} to ${status}`
     }).afterClosed().subscribe((res) => {
 
       if (res) {
@@ -360,7 +360,7 @@ export class ActivityComponent implements OnInit {
 
   updateArchivestatus() {
     this.confirmationDialogService.open({
-      message: `Are you sure to Archive the activity ${this.selectedActivtyForRowActions.title}`
+      message: `Are you sure to Archive the activity ${this.selectedActivtyForRowActions.uniqIdentity}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.activityService.updateArchivestatus(this.selectedActivtyForRowActions._id, { isArchive: true }).subscribe((res) => {
@@ -381,7 +381,7 @@ export class ActivityComponent implements OnInit {
 
   deleteActivityByActivityId() {
     this.confirmationDialogService.open({
-      message: `Are you sure to Delete activity ${this.selectedActivtyForRowActions.title}`
+      message: `Are you sure to Delete activity ${this.selectedActivtyForRowActions.uniqIdentity}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.activityService.deleteSelectedActivity(this.selectedActivtyForRowActions._id).subscribe((res) => {

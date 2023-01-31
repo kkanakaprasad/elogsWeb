@@ -40,13 +40,11 @@
       <ng-template mat-tab-label>
 
           <mat-icon>not_interested</mat-icon>
-          Inactive ({{inActiveMetricsCount}})
-
-      </ng-template>
-
-    </mat-tab>
+          Inactive ({{inActiveMetricsCount ? inActiveMetricsCount : 0 }})
+         </ng-template>
+         </mat-tab>
   </mat-tab-group>
-
+  
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 userTable">
     <ng-container matColumnDef="Name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -55,7 +53,6 @@
         {{element.Name}} </td>
 
     </ng-container>
-
     <!-- Name Column -->
     <ng-container matColumnDef="Email">
       <th mat-header-cell *matHeaderCellDef> Email </th>
@@ -104,12 +101,14 @@
         </div>
       </td>
     </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-  </table>
-
+    </table>
+    <div *ngIf="dataSource?.filteredData?.length === 0">
+      <mat-card class="noData-message">
+          No Users found
+      </mat-card>
+    </div>
   <mat-paginator [length]="totalUserCount" [pageSize]="paginationProps.pageSize"
   [pageSizeOptions]="paginationProps.pageSizeOptions" (page)="onChangedPageSize($event)"
   aria-label="Select page of GitHub search results"></mat-paginator>
