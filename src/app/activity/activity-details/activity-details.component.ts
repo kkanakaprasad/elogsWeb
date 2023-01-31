@@ -265,7 +265,7 @@ export class ActivityDetailsComponent implements OnInit {
 					this.getActivityDetailsById()
 				}, (error) => {
 					this.alertpopupService.open({
-						message: "Faild to create Organization! Please try again ",
+						message: "Faild to archive Organization! Please try again ",
 						action: 'ok'
 					})
 				})
@@ -290,7 +290,7 @@ export class ActivityDetailsComponent implements OnInit {
 					this.getActivityDetailsById()
 				}, (error) => {
 					this.alertpopupService.open({
-						message: "Faild to create Organization! Please try again ",
+						message: "Faild to Restored Organization! Please try again ",
 						action: 'ok'
 					})
 				})
