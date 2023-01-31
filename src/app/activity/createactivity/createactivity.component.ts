@@ -212,6 +212,7 @@ export class CreateactivityComponent implements OnInit {
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       this.userDetails = res
+      console.log(this.userDetails)
       if(this.userDetails?.organization?.length === 1){
         this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organization[0]);
       }

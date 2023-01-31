@@ -19,7 +19,7 @@
 							</mat-option>
 							<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
 								{{Organization.organization}}</mat-option>
-								<mat-option (click)="openCreateOrganizaation()">create Organization</mat-option>
+								<mat-option (click)="openCreateOrganizaation()"> <button class="btn text-primary">+ Create Organization</button></mat-option>
 						</mat-select>
 					</mat-form-field>
 				</div>
