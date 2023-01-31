@@ -1,10 +1,10 @@
 <mat-tab-group>
     <mat-tab label="My Company ">
         <ng-template mat-tab-label>
-
+          <div class="d-flex align-items-center gap-1">
             <mat-icon>business</mat-icon>
             My Company
-
+          </div>
         </ng-template>
         <div class="text-center">
             <form [formGroup]="companySettingsForm" (ngSubmit)="onUpdate()">
@@ -24,20 +24,20 @@
 
     <mat-tab label="Import & Export">
         <ng-template mat-tab-label>
-
+           <div class="d-flex align-items-center gap-1">
             <mat-icon>import_export</mat-icon>
             Import & Export
-          
+           </div>
         </ng-template>
         <app-import-export></app-import-export>
     </mat-tab>
 
     <mat-tab label="Category">
         <ng-template mat-tab-label>
-
+           <div class="d-flex align-items-center gap-1">
             <mat-icon>format_indent_increase</mat-icon>
             Category
-        
+           </div>
         </ng-template>
         <app-category></app-category>
     </mat-tab>

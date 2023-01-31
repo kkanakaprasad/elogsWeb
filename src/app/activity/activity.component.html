@@ -1,80 +1,79 @@
-
-  <div>
-    <div class="d-flex justify-content-between mb-2">
-      <div>
-        <mat-chip-list #chipList aria-label="Fruit selection">
-          <ng-container *ngFor="let type of this.masterData?.activityTypesData let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.shortName}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('activityTypesData',index,'types',true)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container *ngFor="let type of this.masterData?.activityEntryTypesData let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.name}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('activityEntryTypesData',index,'entryTypes',true)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container *ngFor="let type of this.masterData?.activitySectorsData let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.name}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('activitySectorsData',index,'geography',true)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container *ngFor="let type of this.masterData?.activityScopesData let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.name}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('activityScopesData',index,'scope',true)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container *ngFor="let type of activityFiltersData.priority let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.DisplayName}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('priority',index,'priority',false)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container *ngFor="let type of activityFiltersData.status let index = index">
-            <mat-chip *ngIf="type.selected === true">
-              {{type.DisplayName}}
-              <button matChipRemove>
-                <mat-icon (click)="removeFilter('status',index,'status',false)">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container >
-            <mat-chip *ngIf="createdDateChipValue && createdDateChipValue !== ''">
-              {{createdDateChipValue}}
-              <button matChipRemove>
-                <mat-icon (click)="removeDateFilter('createdDate')">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-          <ng-container >
-            <mat-chip *ngIf="dueDateChipValue && dueDateChipValue !== ''">
-              {{dueDateChipValue}}
-              <button matChipRemove>
-                <mat-icon (click)="removeDateFilter('dueDate')">cancel</mat-icon>
-              </button>
-            </mat-chip>
-          </ng-container>
-        </mat-chip-list>
-      </div>
-      <div class="text-end activity_actions">
-        <button *ngIf="isResetFilters" mat-button class="resetButton" (click)="resetAllFilters()">Reset Filters</button>
-        <button mat-button class="" (click)="downloadFile()" matTooltip="Download">
-          <i class="icon-taskdownl"></i>
-          <mat-icon class="download">file_download</mat-icon>
-        </button>
+<div>
+  <div class="d-flex justify-content-between mb-2">
+    <div>
+      <mat-chip-list #chipList aria-label="Fruit selection">
+        <ng-container *ngFor="let type of this.masterData?.activityTypesData let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.shortName}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('activityTypesData',index,'types',true)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container *ngFor="let type of this.masterData?.activityEntryTypesData let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.name}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('activityEntryTypesData',index,'entryTypes',true)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container *ngFor="let type of this.masterData?.activitySectorsData let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.name}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('activitySectorsData',index,'geography',true)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container *ngFor="let type of this.masterData?.activityScopesData let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.name}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('activityScopesData',index,'scope',true)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container *ngFor="let type of activityFiltersData.priority let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.DisplayName}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('priority',index,'priority',false)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container *ngFor="let type of activityFiltersData.status let index = index">
+          <mat-chip *ngIf="type.selected === true">
+            {{type.DisplayName}}
+            <button matChipRemove>
+              <mat-icon (click)="removeFilter('status',index,'status',false)">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container>
+          <mat-chip *ngIf="createdDateChipValue && createdDateChipValue !== ''">
+            {{createdDateChipValue}}
+            <button matChipRemove>
+              <mat-icon (click)="removeDateFilter('createdDate')">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+        <ng-container>
+          <mat-chip *ngIf="dueDateChipValue && dueDateChipValue !== ''">
+            {{dueDateChipValue}}
+            <button matChipRemove>
+              <mat-icon (click)="removeDateFilter('dueDate')">cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-container>
+      </mat-chip-list>
+    </div>
+    <div class="text-end activity_actions">
+      <button *ngIf="isResetFilters" mat-button class="resetButton" (click)="resetAllFilters()">Reset Filters</button>
+      <button mat-button class="" (click)="downloadFile()" matTooltip="Download">
+        <i class="icon-taskdownl"></i>
+        <mat-icon class="download">file_download</mat-icon>
+      </button>
       <button mat-button [matMenuTriggerFor]="filters" matTooltip="Filters">
         <mat-icon> filter_alt</mat-icon>Filters
         <mat-icon>keyboard_arrow_down</mat-icon>
@@ -111,8 +110,8 @@
           {{option.DisplayName}}
         </mat-option>
       </mat-menu>
-      </div>
     </div>
+  </div>
 
 
   <!-- <form > -->
@@ -235,7 +234,7 @@
     </div>
   </mat-menu>
   <mat-menu #priority="matMenu">
-    <div (click)="$event.stopPropagation();" >
+    <div (click)="$event.stopPropagation();">
       <section class="example-section">
         <span class="example-list-section">
           <mat-checkbox *ngFor="let option of activityFiltersData.priority" [(ngModel)]="option.selected"
@@ -273,27 +272,35 @@
 <mat-tab-group class="activities-list" (selectedTabChange)="onActivityTabSelection($event)">
   <mat-tab label='ALL'>
     <ng-template mat-tab-label>
-      <mat-icon>assignment</mat-icon>
-      All Tasks
+      <div class="d-flex align-items-center gap-1">
+        <mat-icon>assignment</mat-icon>
+        All Tasks
+      </div>
     </ng-template>
   </mat-tab>
   <mat-tab label='MY_TASKS'>
     <ng-template mat-tab-label>
-      <mat-icon>assignment_ind</mat-icon>
-      My Tasks
+      <div class="d-flex align-items-center gap-1">
+        <mat-icon>assignment_ind</mat-icon>
+        My Tasks
+      </div>
     </ng-template>
   </mat-tab>
   <mat-tab label='OVERDUE'>
     <ng-template mat-tab-label>
-      <mat-icon>hourglass_empty</mat-icon>
-      Overdue
+      <div class="d-flex align-items-center gap-1">
+        <mat-icon>hourglass_empty</mat-icon>
+        Overdue
+      </div>
     </ng-template>
   </mat-tab>
   <div *ngIf="isSuperAdmin">
     <mat-tab label='HIGH'>
       <ng-template mat-tab-label>
-        <mat-icon>wb_incandescent</mat-icon>
-        High Priority
+        <div class="d-flex align-items-center gap-1">
+          <mat-icon>wb_incandescent</mat-icon>
+          High Priority
+        </div>
       </ng-template>
     </mat-tab>
   </div>
@@ -322,10 +329,11 @@
     <th mat-header-cell *matHeaderCellDef > Status </th>
 
     <td mat-cell *matCellDef="let element" class="status-badge">
-      <span class="badge" [ngClass]="{'bg-danger': element?.status.toLowerCase() == 'rejected',
-      'bg-success': element?.status.toLowerCase() == 'resolved',
-      'bg-dark': element?.status.toLowerCase() == 'inprogress',
-      'bg-primary': element?.status.toLowerCase() == 'new'}">{{element?.status | titlecase}}</span>  </td>
+      <span class="badge" [ngClass]="{'badge-not-admissible': element?.status.toLowerCase() == 'rejected',
+      'badge-resolved': element?.status.toLowerCase() == 'resolved',
+      'badge-in-progress': element?.status.toLowerCase() == 'inprogress',
+      'badge-new': element?.status.toLowerCase() == 'new'}">{{element?.status | titlecase}}</span>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="Activity">
@@ -378,8 +386,6 @@
 <mat-paginator [length]="totalActivitiesCount" [pageSize]="paginationProps.pageSize"
   [pageSizeOptions]="paginationProps.pageSizeOptions" (page)="onChangedPageSize($event)"
   aria-label="Select page of GitHub search results"></mat-paginator>
-
-
 
 <mat-menu #menu="matMenu">
   <ng-container *ngIf="isSuperAdmin">
