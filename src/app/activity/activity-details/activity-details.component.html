@@ -212,7 +212,7 @@
     </div>
     </div>
     <div class="col-md-3 active_right_panel">
-      <div class="activity_widget">
+      <div class="activity_widget" *ngIf="!isArchive">
         <ng-container *ngIf="isSuperAdmin">
           <div class="d-flex justify-content-start">
             <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
@@ -277,6 +277,20 @@
             </button>
           </div>
         </ng-container>
+      </div>
+      <div class="activity_widget" *ngIf="isArchive">
+        <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
+          <mat-icon>download</mat-icon>
+        </button>
+        <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Reload">
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-stroked-button class="padding" (click)="downloadActivity()" matTooltip="Download">
+          <mat-icon>download</mat-icon>
+        </button>
       </div>
       <div class="activity_widget">
       <div class="d-flex align-items-center">
