@@ -1,18 +1,13 @@
 <div class="container create-activity">
-<<<<<<< HEAD
-  <div class="d-flex  create-activity-header">
-=======
-  <h1>
->>>>>>> b42dfc4d20126f125f3f0d1944673a4f7b622687
+  <div class="d-flex  create-activity-header align-items-baseline">
     <mat-icon> note_add</mat-icon>
     <span>{{selectedActivityId? "Update Activity":"Create Activity"}}</span>
-  </h1>
+  </div>
   <div class="acitivity-panel">
-  <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
-<<<<<<< HEAD
-    <div class="row p-4">
+    <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
+
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-6">
           <ng-container *ngIf="userDetails?.organizationsdata?.length > 1">
             <mat-form-field appearance="outline" class="input-field">
               <mat-label>organizations</mat-label>
@@ -26,25 +21,24 @@
             <h3 class="username">{{ userDetails?.Name}}</h3>
           </ng-container>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <mat-form-field appearance="outline" class="input-field">
-            <mat-label>Type</mat-label>
-            <mat-select formControlName="activityType">
-              <mat-option *ngFor="let activityTypesData of activityTypesData" [value]="activityTypesData._id">{{
-                activityTypesData.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+        <div class="col-6">
+          <mat-chip-list><mat-chip *ngFor="
+          let item of activityForm.get('organization')?.value;
+          let i = index
+        " [removable]="removable" (removed)="removeChip(i)">
+              {{ item.organization }}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
           <mat-form-field appearance="outline" class="input-field">
-            <mat-label>Related To</mat-label>
-            <mat-select formControlName="activityRelatedTo">
-              <mat-option *ngFor="let activityRelatedTypesData of activityRelatedTypesData"
-                [value]="activityRelatedTypesData._id">{{ activityRelatedTypesData.name }}</mat-option>
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="activityType">
+              <mat-option *ngFor="let activityTypesData of activityTypesData" [value]="activityTypesData._id">{{
+                activityTypesData.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -61,6 +55,15 @@
 
       <div class="row">
         <div class="col-6">
+          <mat-form-field appearance="outline" class="input-field">
+            <mat-label>Related To</mat-label>
+            <mat-select formControlName="activityRelatedTo">
+              <mat-option *ngFor="let activityRelatedTypesData of activityRelatedTypesData"
+                [value]="activityRelatedTypesData._id">{{ activityRelatedTypesData.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-6">
           <mat-form-field appearance="outline" class="col-12">
             <mat-label>Entry Type</mat-label>
             <mat-select formControlName="activitEntryType">
@@ -69,17 +72,9 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-6">
-          <mat-chip-list><mat-chip *ngFor="
-          let item of activityForm.get('organization')?.value;
-          let i = index
-        " [removable]="removable" (removed)="removeChip(i)">
-              {{ item.organization }}
-              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-        </div>
       </div>
+
+     
       <div class="row">
         <div class="col-6">
           <mat-form-field appearance="outline" class="input-field">
@@ -101,130 +96,29 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6">
+
+        <div class="col-12">
           <mat-form-field appearance="outline" class="input-field">
             <mat-label>Title</mat-label>
-            <div class="col-12">
+            <div>
               <input matInput placeholder="Add an activity here & hit enter..." input type="text"
                 formControlName="title" />
             </div>
           </mat-form-field>
         </div>
       </div>
-      <div class="text-editor mb-1">
+      <h3 class="m-0">Description :</h3>
+      <div class="text-editor  mb-1" >
         <app-rich-text-editor value="" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
       </div>
-      <div>
+      <div class="mt-2">
+        <h3 class="m-0">Attachments :</h3>
         <app-fileuploader (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
       </div>
-      <div class="text-center">
+      <div class="text-end">
         <button mat-raised-button color="primary" type="submit">Submit</button>
       </div>
-=======
-    <div>
-      <ng-container *ngIf="userDetails?.organizationsdata?.length > 1">
-        <mat-form-field appearance="outline">
-          <mat-label>organizations</mat-label>
-          <mat-select formControlName="createdByOrganization">
-            <mat-option *ngFor="let organization of userDetails?.organizationsdata" [value]="organization._id">{{
-              organization.organization }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </ng-container>
-      <ng-container *ngIf="userDetails?.organizationsdata?.length === 1">
-        <h3>Organization : <strong>{{ userDetails?.organizationsdata[0].organization}}</strong></h3>
-      </ng-container>
-    </div>
-    <div>
-      <mat-form-field appearance="outline">
-        <mat-label>Type</mat-label>
-        <mat-select formControlName="activityType">
-          <mat-option *ngFor="let activityTypesData of activityTypesData" [value]="activityTypesData._id">{{
-            activityTypesData?.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="d-flex">
-      <div>
-        <mat-form-field appearance="outline">
-          <mat-label>Related To</mat-label>
-          <mat-select formControlName="activityRelatedTo">
-            <mat-option *ngFor="let activityRelatedTypesData of activityRelatedTypesData"
-              [value]="activityRelatedTypesData._id">{{ activityRelatedTypesData?.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
 
-      <div class="mx-5">
-        <mat-form-field appearance="outline" class="w-100-per">
-          <mat-label>Ministry/Department</mat-label>
-          <mat-select multiple="multiple" formControlName="organization">
-            <mat-option *ngFor="let organization of organizationsData" [value]="organization">{{
-              organization?.organization }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-chip-list><mat-chip *ngFor="
-              let item of activityForm.get('organization')?.value;
-              let i = index
-            " [removable]="removable" (removed)="removeChip(i)">
-            {{ item?.organization }}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-        </mat-chip-list>
-      </div>
-
-    </div>
-
-    <div>
-      <mat-form-field appearance="outline">
-        <mat-label>Entry Type</mat-label>
-        <mat-select formControlName="activitEntryType">
-          <mat-option *ngFor="let activityEntryTypesData of activityEntryTypesData"
-            [value]="activityEntryTypesData._id">{{ activityEntryTypesData.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="d-flex">
-      <div>
-        <mat-form-field appearance="outline">
-          <mat-label>Sector</mat-label>
-          <mat-select formControlName="activitySector">
-            <mat-option *ngFor="let activitySectorsData of activitySectorsData" [value]="activitySectorsData._id">{{
-              activitySectorsData.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="mx-5">
-        <mat-form-field appearance="outline">
-          <mat-label>Scope</mat-label>
-          <mat-select formControlName="activityScope">
-            <mat-option *ngFor="let activityScopesData of activityScopesData" [value]="activityScopesData._id">{{
-              activityScopesData.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row">
-      <mat-form-field appearance="outline">
-        <mat-label>Title</mat-label>
-        <div class="col-12">
-          <input matInput placeholder="Add an activity here & hit enter..." input type="text" formControlName="title" />
-        </div>
-      </mat-form-field>
-    </div>
-    <div>
-      <app-rich-text-editor [value]="selectedActivityData?.description ? selectedActivityData.description : ''" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
-    </div>
-    <div>
-      <app-fileuploader (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
-    </div>
-    <div class="d-flex justify-content-end">
-      <button mat-raised-button color="primary" type="submit">{{selectedActivityId? "update":"Submit"}}</button>
->>>>>>> b42dfc4d20126f125f3f0d1944673a4f7b622687
-    </div>
-  </form>
+    </form>
   </div>
 </div>

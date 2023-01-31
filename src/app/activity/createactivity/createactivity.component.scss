@@ -17,10 +17,13 @@
   gap: 5px;
 }
 
-.username{
-  font-size: 20px;
+.text-editor {
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+.username {
+  font-size: 20px;
+}
 
 .input-field {
   display: block;
@@ -34,8 +37,4 @@
 
 ::ng-deep .NgxEditor__Content {
   min-height: 150px;
-}
-
-::ng-deep form {
-  border: 1px solid rgba(0, 0, 0, 0.2);
 }
