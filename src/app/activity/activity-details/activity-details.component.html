@@ -45,13 +45,12 @@
               </tr>
               <tr>
                 <td>Ministry/Department:</td>
-
-                <!-- <td>
-                  <p *ngFor="let ministry of organizationsInvolved">{{ ministry.organization }}</p>
-                  </td> -->
-                <td>
-                  {{ ministryName }}
+                <td [matTooltip]="ministryName">
+                  
+                  {{ organizationsInvolved?.length > 0 && organizationsInvolved[0]?.organization}}<span *ngIf="organizationsInvolved?.length > 1">... + {{organizationsInvolved?.length-1}} more</span>
+                 
                 </td>
+            
               </tr>
               <tr>
                 <td>Organization:</td>
@@ -301,19 +300,22 @@
          <div>
           <button mat-button [matMenuTriggerFor]="dueDateFiltersMatMenu">
             <mat-icon>edit</mat-icon>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                Due Date {{ activityData?.dueDate | date : "medium" }}
-              </button>
-              <button mat-menu-item>Updated by{{activityData?.updatedBy}}</button>
-              <button mat-menu-item>
-                Created At {{ activityData?.createdAt | date : "medium" }}
-              </button>
-            </mat-menu>
           </button>
-          <button mat-button [matMenuTriggerFor]="menu">
+          <button mat-button [matMenuTriggerFor]="dueDateLogMenu" >
             <mat-icon>view_headline</mat-icon>
           </button>
+          <mat-menu #dueDateLogMenu="matMenu"  >
+            <div *ngFor="let dueDateLogs of activityData?.dueDateLog?.reverse()">
+              <div mat-menu-item>
+                Due Date {{ dueDateLogs?.dueDate | date : "medium" }}
+              </div>
+              <div mat-menu-item>Updated by {{ dueDateLogs?.createdByUserName}}</div>
+              <!-- <div mat-menu-item>
+                Created At {{ dueDateLogs?.createdAt | date : "medium" }}
+              </div> -->
+              <hr>
+            </div>
+          </mat-menu>
         </div>
         </div>
         <mat-menu #dueDateFiltersMatMenu="matMenu">

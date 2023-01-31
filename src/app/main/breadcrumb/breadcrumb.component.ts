@@ -12,6 +12,7 @@ import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
 import { SelectedOrganizationService } from 'src/app/shared/services/selected-organizions/selected-organization.service';
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
+import { AddNewUserService } from 'src/app/user/add-new-user/add-new-user.service';
 import { BreadcrumbService } from './breadcrumb.service';
 
 @Component({
@@ -38,7 +39,8 @@ export class BreadcrumbComponent implements OnInit {
     private storageService: StorageService,
     private organizationService: OrganizationService,
     private breadcrumbService: BreadcrumbService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private addNewUserService: AddNewUserService,
   ) {
     router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
       this.currentRoute = event.url
@@ -155,5 +157,8 @@ export class BreadcrumbComponent implements OnInit {
     })
   }
 
+  openCreateOrganizaation(){
+    this.addNewUserService.openAddUser();
+  }
 
 }
