@@ -322,10 +322,10 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
 
     <td mat-cell *matCellDef="let element" class="status-badge">
-      <span class="badge" [ngClass]="{'bg-danger': element?.status.toLowerCase() == 'rejected',
-      'bg-success': element?.status.toLowerCase() == 'resolved',
-      'bg-dark': element?.status.toLowerCase() == 'inprogress',
-      'bg-primary': element?.status.toLowerCase() == 'new'}">{{element?.status | titlecase}}</span>  </td>
+      <span class="badge" [ngClass]="{'badge-not-admissible': element?.status.toLowerCase() == 'rejected',
+      'badge-resolved': element?.status.toLowerCase() == 'resolved',
+      'badge-in-progress': element?.status.toLowerCase() == 'inprogress',
+      'badge-new': element?.status.toLowerCase() == 'new'}">{{element?.status | titlecase}}</span>  </td>
   </ng-container>
 
   <ng-container matColumnDef="Activity">

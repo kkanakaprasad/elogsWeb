@@ -2,7 +2,40 @@
   width: 100%;
 }
 
-  th {
-    background-color: #818dcf;
-    color: white;
-  }
+th {
+  background-color: #818dcf;
+  color: white;
+}
+
+.badge {
+  width: 100px;
+  padding: 5px;
+  color: white;
+  text-align: center;
+  padding: 5px 9px;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  font-size: 12px;
+  border-radius: 0px;
+  text-transform: capitalize;
+}
+
+.badge-new {
+  @extend .badge;
+  background-color: rgb(255 174 62 / 88%);
+}
+
+.badge-in-progress {
+  @extend .badge;
+  background-color: #012970c2;
+}
+
+.badge-not-admissible {
+  @extend .badge;
+  background-color: #ff4b3edb;
+}
+
+.badge-resolved {
+  @extend .badge;
+  background-color: #4bec81;
+}

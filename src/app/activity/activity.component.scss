@@ -38,35 +38,44 @@ td {
 }
 
 .blue-color {
-  color:blue;
+  color: blue;
 }
 
-.new {
-  height: 19px;
-  width: fit-content;
-  background-color: #f19a91;
-  padding:5px;
-  color:white;
-  text-align:center;
-  padding: 4px 9px;
+.status-badge {
+  .badge {
+    width: 100px;
+    padding: 5px;
+    color: white;
+    text-align: center;
+    padding: 5px 9px;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    font-size: 12px;
+    border-radius: 0px;
+    text-transform: capitalize;
+  }
+
+  .badge-new {
+    @extend .badge;
+    background-color: rgb(255 174 62 / 88%);
+  }
+
+  .badge-in-progress {
+    @extend .badge;
+    background-color: #012970c2;
+  }
+
+  .badge-not-admissible {
+    @extend .badge;
+    background-color: #ff4b3edb;
+  }
+
+  .badge-resolved {
+    @extend .badge;
+    background-color: #4bec81;
+  }
 }
 
-.in-progress {
-  @extend .new;
-  background-color: #8dc2f8;
-}
-
-.not-admissible {
-  @extend .new;
-  background-color: #8ad6a3;
-}
-
-.resolved {
-  @extend .new;
-  background-color: #f3c788;
-}
-
-.cursor{
+.cursor {
   cursor: pointer;
 }
-
