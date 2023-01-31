@@ -254,7 +254,7 @@ export class ActivityDetailsComponent implements OnInit {
 			isArchive: true
 		}
 		this.confirmationDialogService.open({
-			message: `Are you sure you want to archive`
+			message: `Are you sure you want to archive ${this.activityData?.uniqIdentity}`
 		}).afterClosed().subscribe((res) => {
 			if (res) {
 				this.activityService.updateArchivestatus(this.selectedActivityId, payload).subscribe(res => {
@@ -265,7 +265,7 @@ export class ActivityDetailsComponent implements OnInit {
 					this.getActivityDetailsById()
 				}, (error) => {
 					this.alertpopupService.open({
-						message: "Faild to create Organization! Please try again ",
+						message: "Faild to archive Organization! Please try again ",
 						action: 'ok'
 					})
 				})
@@ -274,9 +274,33 @@ export class ActivityDetailsComponent implements OnInit {
 
 	}
 
+	restoreActivity(){
+		const payload = {
+			isArchive: false
+		}
+		this.confirmationDialogService.open({
+			message: `Are you sure you want to restore ${this.activityData?.uniqIdentity}`
+		}).afterClosed().subscribe((res) => {
+			if (res) {
+				this.activityService.updateArchivestatus(this.selectedActivityId, payload).subscribe(res => {
+					this.alertpopupService.open({
+						message:`Activity Restored Successfully`,
+						action: 'ok'
+					})
+					this.getActivityDetailsById()
+				}, (error) => {
+					this.alertpopupService.open({
+						message: "Faild to Restored Organization! Please try again ",
+						action: 'ok'
+					})
+				})
+			}
+		})
+	}
+
 	deleteSelectedActivity() {
 		this.confirmationDialogService.open({
-			message: `Are you sure you want to delete `
+			message: `Are you sure you want to delete ${this.activityData?.uniqIdentity}`
 		}).afterClosed().subscribe((res) => {
 			if (res) {
 				this.activityService.deleteSelectedActivity(this.selectedActivityId).subscribe(res => {
@@ -306,7 +330,7 @@ export class ActivityDetailsComponent implements OnInit {
 			status: selectedActivity,
 		}
 		this.confirmationDialogService.open({
-			message: `Are you sure you want to ${currentStatus}`
+			message: `Are you sure you want to ${currentStatus} ${this.activityData?.uniqIdentity}`
 		}).afterClosed().subscribe((res) => {
 			if (res) {
 				this.activityService.updateActivityStatus(this.selectedActivityId, payload).subscribe(res => {

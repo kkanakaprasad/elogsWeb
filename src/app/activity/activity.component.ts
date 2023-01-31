@@ -13,7 +13,7 @@ import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { Roles } from '../shared/enums/roles.enums';
 import { ActivityFiltersData } from './activity-filterData';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ActivityRowActions, Status, SuperAdminActivityRowActions } from './activity.constant';
+import { ActivitiesDownloadHeaders, ActivityRowActions, Status, SuperAdminActivityRowActions } from './activity.constant';
 import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
 import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
 import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
@@ -116,17 +116,18 @@ export class ActivityComponent implements OnInit {
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     private csvHelperService: CsvHelperService,
-    private selectedOrganizationService: SelectedOrganizationService
+    private selectedOrganizationService: SelectedOrganizationService,
 
-  ) { }
+  ) { 
+    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
+  }
 
   ngOnInit(): void {
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
       this.selectedOrganizationIds = res;
+      this.getActivitiesSearchCriteria();
     })
-    this.getActivitiesSearchCriteria();
     this.getAcivityMasterData();
-    this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.getLogedinUserDetails();
     this.customCreatedDate.valueChanges.subscribe((res) => {
       if (res.fromDate !== null && res.toDate !== null) {
@@ -187,6 +188,7 @@ export class ActivityComponent implements OnInit {
     } else {
       this.isResetFilters = false
     }
+    payload = {...payload, organizations: this.selectedOrganizationIds}
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
       this.totalActivitiesCount = res.data[0]?.count[0]?.count ? res.data[0]?.count[0]?.count : 0;
       this.dataSource = new MatTableDataSource(res.data[0].activities.reverse())
@@ -214,44 +216,7 @@ export class ActivityComponent implements OnInit {
       };
       activityDownloadData.push(activityDataForDownload)
     }
-    console.log(activityDownloadData)
-    const headersList: { propertyName: string, displayName: string }[] = [
-      {
-        propertyName: 'title',
-        displayName: 'Title'
-
-      },
-      {
-        propertyName: 'description',
-        displayName: 'Description'
-
-      },
-      {
-        propertyName: 'status',
-        displayName: 'Status'
-
-      },
-      {
-        propertyName: 'priority',
-        displayName: 'Priority'
-
-      },
-      {
-        propertyName: 'assignedTo',
-        displayName: 'Assigned To'
-
-      },
-      {
-        propertyName: 'dueDate',
-        displayName: 'Due Date'
-
-      }, {
-        propertyName: 'createdDate',
-        displayName: 'Create Date'
-
-      },
-
-    ]
+    const headersList: { propertyName: string, displayName: string }[] = ActivitiesDownloadHeaders
     this.csvHelperService.downloadFile(activityDownloadData, "List of Activities", headersList)
 
   }
@@ -281,12 +246,11 @@ export class ActivityComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  // ngAfterViewInit() {
-  //   if (this.dataSource) {
-  //     this.dataSource.paginator = this.paginator;
-  //     this.dataSource.sort = this.sort;
-  //   }
-  // }
+  ngAfterViewInit() {
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+    }
+  }
 
   onChangedPageSize(event: any) {
     let data: any;
@@ -298,11 +262,6 @@ export class ActivityComponent implements OnInit {
       pageNumber: event.pageIndex,
       pageSize: event.pageSize
     })
-  }
-
-  sortChange(sortState: Sort) {
-    console.log(sortState);
-
   }
 
   getAcivityMasterData() {
@@ -378,7 +337,7 @@ export class ActivityComponent implements OnInit {
   updateActivityStatus(status: string) {
 
     this.confirmationDialogService.open({
-      message: `Are you sure to change activity ${this.selectedActivtyForRowActions.title} to ${status}`
+      message: `Are you sure to change activity ${this.selectedActivtyForRowActions.uniqIdentity} to ${status}`
     }).afterClosed().subscribe((res) => {
 
       if (res) {
@@ -401,7 +360,7 @@ export class ActivityComponent implements OnInit {
 
   updateArchivestatus() {
     this.confirmationDialogService.open({
-      message: `Are you sure to Archive the activity ${this.selectedActivtyForRowActions.title}`
+      message: `Are you sure to Archive the activity ${this.selectedActivtyForRowActions.uniqIdentity}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.activityService.updateArchivestatus(this.selectedActivtyForRowActions._id, { isArchive: true }).subscribe((res) => {
@@ -422,7 +381,7 @@ export class ActivityComponent implements OnInit {
 
   deleteActivityByActivityId() {
     this.confirmationDialogService.open({
-      message: `Are you sure to Delete activity ${this.selectedActivtyForRowActions.title}`
+      message: `Are you sure to Delete activity ${this.selectedActivtyForRowActions.uniqIdentity}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.activityService.deleteSelectedActivity(this.selectedActivtyForRowActions._id).subscribe((res) => {

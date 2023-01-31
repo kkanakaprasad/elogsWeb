@@ -62,9 +62,7 @@ export class HeaderComponent implements OnInit {
       user: ''
     }
     this.userService.userSearchCriteria(payload).subscribe((res: any) => {
-      console.log(res);
       this.logedinUserDetails = res.data.users[0];
-      this.userDetailsService.setUserDetails(res.data.users[0]);
     })
   }
 
@@ -88,6 +86,7 @@ export class HeaderComponent implements OnInit {
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.storageService.clearLocalStorage();
+        localStorage.clear();
         this.router.navigate([RouteConstants.HOME])
       }
     })
