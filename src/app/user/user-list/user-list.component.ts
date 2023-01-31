@@ -51,7 +51,6 @@ export class UserListComponent implements OnInit {
   inActiveMetricsCount: number = 0;
   totalUserCount : number = 0;
 
-
   displayedColumns = ['Name', 'Email','lastActivity', 'CreatedAt', 'Organization', 'Actions']
   dataSource = new MatTableDataSource(this.usersList);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
