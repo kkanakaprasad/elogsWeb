@@ -299,7 +299,7 @@
   </div>
 </mat-tab-group>
 
-<table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
+<table mat-table [dataSource]="dataSource" 
   class="mat-elevation-z8 userTable">
   <ng-container matColumnDef="select">
     <th mat-header-cell *matHeaderCellDef>
@@ -319,7 +319,7 @@
   </ng-container>
 
   <ng-container matColumnDef="Status">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+    <th mat-header-cell *matHeaderCellDef > Status </th>
 
     <td mat-cell *matCellDef="let element" class="status-badge">
       <span class="badge" [ngClass]="{'bg-danger': element?.status.toLowerCase() == 'rejected',
@@ -329,7 +329,7 @@
   </ng-container>
 
   <ng-container matColumnDef="Activity">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Activity </th>
+    <th mat-header-cell *matHeaderCellDef > Activity </th>
 
     <td mat-cell *matCellDef="let element" class="cursor" (click)="navigateToActivityDetails(element._id)">
       {{element.createdByOrganization[0].shortName}} </td>
@@ -337,29 +337,29 @@
 
   <!-- Name Column -->
   <ng-container matColumnDef="Title">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+    <th mat-header-cell *matHeaderCellDef > Title </th>
     <td mat-cell *matCellDef="let element" class="cursor" (click)="navigateToActivityDetails(element._id)">
       {{element.title}} </td>
   </ng-container>
 
   <!-- Weight Column -->
   <ng-container matColumnDef="Priority">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Priority </th>
+    <th mat-header-cell *matHeaderCellDef > Priority </th>
     <td mat-cell *matCellDef="let element"> {{element?.priority}} </td>
   </ng-container>
 
   <!-- Symbol Column -->
   <ng-container matColumnDef="Duedate">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Due date </th>
+    <th mat-header-cell *matHeaderCellDef > Due date </th>
     <td mat-cell *matCellDef="let element"> {{element?.dueDate | date:'MMM d, y'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="Assignto">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Assignto </th>
+    <th mat-header-cell *matHeaderCellDef > Assignto </th>
     <td mat-cell *matCellDef="let element"> {{element?.assignTo[0]?.organization}} </td>
   </ng-container>
   <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+    <th mat-header-cell *matHeaderCellDef > Action </th>
     <td mat-cell *matCellDef="let element"> <mat-icon class="cursor"
         (click)="navigateToActivityDetails(element._id)">keyboard_arrow_right icon</mat-icon>
     </td>
