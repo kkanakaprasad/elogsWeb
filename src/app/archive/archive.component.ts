@@ -25,6 +25,7 @@ export class ArchiveComponent implements OnInit {
 
   ngOnInit(): void {
     this.getArchiveActivities();
+    
   }
 
   getArchiveActivities() {
@@ -55,7 +56,10 @@ export class ArchiveComponent implements OnInit {
     this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity } });
   }
 
+  
   archiveActionClick(event:any){
+    console.log(event,this.selection.selected)
+    
 
   }
 }
