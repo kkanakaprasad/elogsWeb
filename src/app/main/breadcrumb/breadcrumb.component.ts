@@ -40,7 +40,6 @@ export class BreadcrumbComponent implements OnInit {
     private organizationService: OrganizationService,
     private breadcrumbService: BreadcrumbService,
     private dashboardService: DashboardService,
-    private addNewUserService: AddNewUserService,
   ) {
     router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
       this.currentRoute = event.url
@@ -158,7 +157,7 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   openCreateOrganizaation(){
-    this.addNewUserService.openAddUser();
+    this.organizationService.openCreateOrganizatioPopup();
   }
 
 }

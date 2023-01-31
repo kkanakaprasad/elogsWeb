@@ -194,6 +194,7 @@ export class DashboardComponent implements OnInit {
       dueDate:{"customString":"OVERDUE"}}
       this.activityService.getActivitiesSearchCriteria(payload).subscribe((res)=>{
       this.overDueActivities=res?.data[0].activities;
+      console.log(this.overDueActivities)
       })
       console.log(payload)
   }
@@ -217,7 +218,7 @@ export class DashboardComponent implements OnInit {
   }
 
   navigateToActivityDetails(activity: any) {
-    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity._id} });
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity} });
   }
 
 
