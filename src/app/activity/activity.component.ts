@@ -105,6 +105,7 @@ export class ActivityComponent implements OnInit {
   });
   selectedActivity: any;
   selectedOrganizationIds: any;
+  activitiesTabCount:any;
 
   constructor(
     private activityService: ActivityService,
@@ -126,6 +127,7 @@ export class ActivityComponent implements OnInit {
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
       this.selectedOrganizationIds = res;
       this.getActivitiesSearchCriteria();
+      this.getTabBasedActivityCount();
     })
     this.getAcivityMasterData();
     this.getLogedinUserDetails();
@@ -173,7 +175,6 @@ export class ActivityComponent implements OnInit {
     this.activitySearchCriteriaPayload.subscribe((res) => {
       this.getActivitiesSearchCriteria()
     });
-
   }
 
   getActivitiesSearchCriteria() {
@@ -593,6 +594,15 @@ export class ActivityComponent implements OnInit {
     });
     this.createdDateChipValue = "";
     this.dueDateChipValue = "";
+  }
+
+  getTabBasedActivityCount(){
+    const payload = {
+      organizations : this.selectedOrganizationIds
+    }
+    this.activityService.getActivitiesCountForHeaders(payload).subscribe((res)=>{
+      this.activitiesTabCount = res.data[0];
+    })
   }
 
 

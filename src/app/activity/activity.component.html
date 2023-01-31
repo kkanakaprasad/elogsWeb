@@ -274,7 +274,7 @@
     <ng-template mat-tab-label>
       <div class="d-flex align-items-center gap-1">
         <mat-icon>assignment</mat-icon>
-        All Tasks
+        All Tasks ( {{activitiesTabCount?.all[0]?.all ? activitiesTabCount.all[0]?.all : 0 }} )
       </div>
     </ng-template>
   </mat-tab>
@@ -282,7 +282,7 @@
     <ng-template mat-tab-label>
       <div class="d-flex align-items-center gap-1">
         <mat-icon>assignment_ind</mat-icon>
-        My Tasks
+        My Tasks ( {{activitiesTabCount?.myTasks[0]?.myTasks ? activitiesTabCount.myTasks[0]?.myTasks : 0 }} )
       </div>
     </ng-template>
   </mat-tab>
@@ -290,7 +290,7 @@
     <ng-template mat-tab-label>
       <div class="d-flex align-items-center gap-1">
         <mat-icon>hourglass_empty</mat-icon>
-        Overdue
+        Overdue ( {{activitiesTabCount?.overDue[0]?.overDue ? activitiesTabCount.overDue[0]?.overDue : 0 }} )
       </div>
     </ng-template>
   </mat-tab>
@@ -299,7 +299,7 @@
       <ng-template mat-tab-label>
         <div class="d-flex align-items-center gap-1">
           <mat-icon>wb_incandescent</mat-icon>
-          High Priority
+          High Priority ( {{activitiesTabCount?.highPriority[0]?.highPriority ? activitiesTabCount.highPriority[0]?.highPriority : 0 }} )
         </div>
       </ng-template>
     </mat-tab>

@@ -72,4 +72,8 @@ export class ActivityService {
     return this.httpDataService.post(`activity/activitysearch`, payload);
   }
 
+  getActivitiesCountForHeaders(payload : any) : Observable<any>{
+    return this.httpDataService.post('activity/activitysearchPageHeaderCounts',payload)
+  }
+
 }
