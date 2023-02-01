@@ -17,6 +17,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { PaginationProps } from '../../../app/shared/constants/pagination';
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
+import { Roles } from 'src/app/shared/enums/roles.enums';
 
 @Component({
   selector: 'app-user-list',
@@ -54,6 +55,8 @@ export class UserListComponent implements OnInit {
   displayedColumns = ['Name', 'Email','lastActivity', 'CreatedAt', 'Organization', 'Actions']
   dataSource = new MatTableDataSource(this.usersList);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  usersData: any;
+  textLableNumber: any;
 
   constructor(private userService: UserService,
     private addNewUserService: AddNewUserService,
@@ -76,8 +79,18 @@ export class UserListComponent implements OnInit {
       this.associationsMetricsCount = res.data.metrics[0].associations[0]?.associationCount;
       this.ministriesMetricsCount = res.data.metrics[0].ministries[0]?.ministriesCount;
       this.inActiveMetricsCount = res.data.metrics[0].inActive[0]?.inActiveUsers;
-      this.usersList = res.data.users.reverse();
-      this.dataSource = new MatTableDataSource(this.usersList);
+      this.usersData = res.data.users
+      // this.usersList = res.data.users.filter((res:any)=>Roles.SuperAdmin!==res.roles[0]).reverse();
+      if(this.textLableNumber==4){
+          this.usersList = this.usersData.filter((res:any)=>Roles.SuperAdmin===res.roles[0])
+          this.dataSource = new MatTableDataSource(this.usersList);
+          this.textLableNumber=''
+         }
+        else{
+          this.usersList = this.usersData.filter((res:any)=>Roles.SuperAdmin!==res.roles[0])
+          this.dataSource = new MatTableDataSource(this.usersList);
+          this.textLableNumber=''
+         }
       this.totalUserCount = res.data.totalCount;
     })
   }
@@ -188,6 +201,7 @@ export class UserListComponent implements OnInit {
     }
     this.userPayload = {...this.userPayload,...updatedPayload}
     this.userSearchCriteria(this.userPayload);
+    this.textLableNumber=user.tab.textLabel
   }
 
   onChangedPageSize(event: any) {
