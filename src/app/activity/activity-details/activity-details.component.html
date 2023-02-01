@@ -320,10 +320,10 @@
           </button>
           <mat-menu #dueDateLogMenu="matMenu"  >
             <div *ngFor="let dueDateLogs of activityData?.dueDateLog?.reverse()">
-              <div mat-menu-item>
+              <div >
                 Due Date {{ dueDateLogs?.dueDate | date : "medium" }}
               </div>
-              <div mat-menu-item>Updated by {{ dueDateLogs?.createdByUserName}}</div>
+              <div>Updated by {{ dueDateLogs?.createdByUserName}}</div>
               <!-- <div mat-menu-item>
                 Created At {{ dueDateLogs?.createdAt | date : "medium" }}
               </div> -->
@@ -400,6 +400,11 @@
           <h3 class="">People Involved</h3>
         </div>
         <div class="d-flex">
+          <div *ngFor="let ministry of activityData?.createdByOrganizationData">
+            <span class="d-flex align-items-center justify-content-center">
+              <mat-icon class="mat-i" matTooltip="{{ ministry.organization }}">account_circle</mat-icon>
+            </span>
+          </div>
           <div *ngFor="let ministry of organizationsInvolved">
             <span class="d-flex align-items-center justify-content-center">
               <mat-icon class="mat-i" matTooltip="{{ ministry.organization }}">account_circle</mat-icon>
