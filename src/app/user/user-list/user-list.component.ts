@@ -55,8 +55,7 @@ export class UserListComponent implements OnInit {
   displayedColumns = ['Name', 'Email','lastActivity', 'CreatedAt', 'Organization', 'Actions']
   dataSource = new MatTableDataSource(this.usersList);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  usersData: any;
-  textLableNumber: any;
+  selectedTabTextLableNumber: any;
 
   constructor(private userService: UserService,
     private addNewUserService: AddNewUserService,
@@ -79,16 +78,13 @@ export class UserListComponent implements OnInit {
       this.associationsMetricsCount = res.data.metrics[0].associations[0]?.associationCount;
       this.ministriesMetricsCount = res.data.metrics[0].ministries[0]?.ministriesCount;
       this.inActiveMetricsCount = res.data.metrics[0].inActive[0]?.inActiveUsers;
-      this.usersData = res.data.users
-      if(this.textLableNumber==4){
-          this.usersList = this.usersData.filter((res:any)=>Roles.SuperAdmin===res.roles[0])
+      if(this.selectedTabTextLableNumber==4){
+          this.usersList = res.data.users.filter((res:any)=>Roles.SuperAdmin===res.roles[0])
           this.dataSource = new MatTableDataSource(this.usersList.reverse());
-          this.textLableNumber=''
          }
         else{
-          this.usersList = this.usersData.filter((res:any)=>Roles.SuperAdmin!==res.roles[0])
+          this.usersList = res.data.users.filter((res:any)=>Roles.SuperAdmin!==res.roles[0])
           this.dataSource = new MatTableDataSource(this.usersList.reverse());
-          this.textLableNumber=''
          }
       this.totalUserCount = res.data.totalCount;
     })
@@ -199,8 +195,8 @@ export class UserListComponent implements OnInit {
       }
     }
     this.userPayload = {...this.userPayload,...updatedPayload}
+    this.selectedTabTextLableNumber=user.tab.textLabel
     this.userSearchCriteria(this.userPayload);
-    this.textLableNumber=user.tab.textLabel
   }
 
   onChangedPageSize(event: any) {
