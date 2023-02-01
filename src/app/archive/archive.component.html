@@ -60,7 +60,11 @@
             <tr mat-header-row *matHeaderRowDef="taskDisplayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: taskDisplayedColumns;"></tr>
         </table>
-
+        <div *ngIf="dataSource?.filteredData?.length === 0">
+            <mat-card class="noTask-message">
+                No Tasks found
+            </mat-card>
+          </div>
     </mat-tab>
     <mat-tab>
         <ng-template mat-tab-label>
@@ -69,7 +73,7 @@
                 Files
             </div>
         </ng-template>
-
+       
        <!-- for future use -->
 <!-- 
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 archiveTable">
@@ -107,9 +111,13 @@
             <tr mat-row *matRowDef="let row; columns: fileDisplayedColumns;"></tr>
         </table> -->
 
-
+        <div *ngIf="dataSource?.filteredData?.length === 0">
+            <mat-card class="noTask-message">
+                No Files found
+            </mat-card>
+          </div>
     </mat-tab>
-
+    
 </mat-tab-group>
 
 <mat-menu #menu="matMenu">
@@ -127,3 +135,4 @@
       </button>
 
   </mat-menu>
+  
