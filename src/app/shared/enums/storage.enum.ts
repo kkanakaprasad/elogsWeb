@@ -1,6 +1,6 @@
 export enum STORAGE_KEYS {
     ACCESS_TOKEN = "access_token",
     ROLE = "role",
-    USER_ID = 'user_id'
-    
+    USER_ID = 'user_id',
+    ACTIVITY_FILTERS = 'activity_filters'
 }  

@@ -151,7 +151,7 @@ export class DashboardComponent implements OnInit {
   postDashBoardRelatedToMetrics() {
     this.dashboardService.postDashBoardRelatedToMetrics({ organizations: this.selectedOrganizationIds }).subscribe(res => {
       this.relatedToMetricsData = res.data[0]
-      })
+    })
   }
 
   userDetails() {
@@ -182,37 +182,39 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  getOverDueTaskForDashBoard(){
-    const payload:OverDueTaskSearchCriteria={
-      pageNumber:0,
-      pageSize:5,
-      sortField:"",
-      title:"",
-      sortOrder:1,
-      isArchive:false,
+  getOverDueTaskForDashBoard() {
+    const payload: OverDueTaskSearchCriteria = {
+      pageNumber: 0,
+      pageSize: 5,
+      sortField: "",
+      title: "",
+      sortOrder: 1,
+      isArchive: false,
       organizations: this.selectedOrganizationIds,
-      dueDate:{"customString":"OVERDUE"}}
-      this.activityService.getActivitiesSearchCriteria(payload).subscribe((res)=>{
-      this.overDueActivities=res?.data[0].activities;
-      })
-      console.log(payload)
+      dueDate: { "customString": "OVERDUE" }
+    }
+    this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
+      this.overDueActivities = res?.data[0].activities;
+    })
+    console.log(payload)
   }
 
-  getUpComingTaskForDashBoard(){
+  getUpComingTaskForDashBoard() {
     const todayDate = new Date();
-    const payload: UpComingTaskSearchCriteria={
-    pageNumber:0,
-    pageSize:5,
-    sortField:"",
-    title:"",
-    sortOrder:1,
-    isArchive:false,
-    organizations: this.selectedOrganizationIds,
-    status:["NEW","INPROGRESS"],
-    dueDate:{"fromDate":todayDate}}
-      this.activityService.getActivitiesSearchCriteria(payload).subscribe((res)=>{
-      this.upComingActivities=res?.data[0].activities;
-      })
+    const payload: UpComingTaskSearchCriteria = {
+      pageNumber: 0,
+      pageSize: 5,
+      sortField: "",
+      title: "",
+      sortOrder: 1,
+      isArchive: false,
+      organizations: this.selectedOrganizationIds,
+      status: ["NEW", "INPROGRESS"],
+      dueDate: { "fromDate": todayDate }
+    }
+    this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
+      this.upComingActivities = res?.data[0].activities;
+    })
   }
 
   navigateToActivityDetails(activity: any) {
@@ -220,7 +222,23 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  goToActivityList(){
+  goToActivityList() {
+    const activityPayload = { 
+      "pageNumber": 0, 
+      "pageSize": 10, 
+      "sortField": "", 
+      "sortOrder": 1, 
+      "isArchive": false, 
+      "onlyMyTasks": false, 
+      "types": [], 
+      "status": ["INPROGRESS", "NEW"], 
+      "entryTypes": [], 
+      "scope": [], 
+      "priority": [], 
+      "geography": [], 
+      "organizations": [] 
+    }
+    this.storageService.setDataToLocalStorage(STORAGE_KEYS.ACTIVITY_FILTERS,JSON.stringify(activityPayload))
     this.router.navigate([RouteConstants.ACTIVITY]);
   }
 

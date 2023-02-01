@@ -7,7 +7,6 @@ import { ActivityService } from './activity.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { FILTER_CONSTANT } from '../shared/constants/filter.constants';
 import { PaginationProps } from '../shared/constants/pagination';
-import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { StorageService } from '../shared/services/storage-service/storage.service';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { Roles } from '../shared/enums/roles.enums';
@@ -21,11 +20,7 @@ import { BehaviorSubject } from 'rxjs';
 import { BreadcrumbService } from '../main/breadcrumb/breadcrumb.service';
 import { CsvHelperService } from '../shared/services/csv-helper-service/csv-helper.service';
 import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
-
-const today = new Date();
-const month = today.getMonth();
-const year = today.getFullYear();
-
+import { DashboardService } from '../dashboard/dashboard.service';
 
 @Component({
   selector: 'app-activity',
@@ -53,7 +48,6 @@ export class ActivityComponent implements OnInit {
   activityRowActionByStatus: any;
   userActivityRowActionByStatus: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
   isShowCustomCreatedDate: boolean = false;
   isShowCustomDueDate: boolean = false;
   activitiesFiltersForm!: FormGroup;
@@ -106,6 +100,7 @@ export class ActivityComponent implements OnInit {
   selectedActivity: any;
   selectedOrganizationIds: any;
   activitiesTabCount:any;
+  appliedFilters :any;
 
   constructor(
     private activityService: ActivityService,
@@ -114,22 +109,54 @@ export class ActivityComponent implements OnInit {
     private userDetailsService: UserDetailsService,
     private alertpopupService: AlertpopupService,
     private confirmationDialogService: ConfirmationDialogService,
-    private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     private csvHelperService: CsvHelperService,
     private selectedOrganizationService: SelectedOrganizationService,
-
+    private dashboardService : DashboardService
   ) { 
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
   }
 
   ngOnInit(): void {
+    this.appliedFilters = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ACTIVITY_FILTERS) && JSON.parse(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ACTIVITY_FILTERS));
+    if(this.appliedFilters){
+      if(this.appliedFilters?.createdDate){
+        this.setCreatedDateFilter();
+      }
+      if(this.appliedFilters?.dueDate){
+        this.setDueDateFilter();
+      }
+      this.filters = {
+        types: this.appliedFilters.types? this.appliedFilters.types : [],
+        status: this.appliedFilters.status ? this.appliedFilters.status : [],
+        entryTypes: this.appliedFilters.entryTypes ? this.appliedFilters.entryTypes : [],
+        scope: this.appliedFilters.scope ? this.appliedFilters.scope : [],
+        priority: this.appliedFilters.priority ? this.appliedFilters.priority : [],
+        geography: this.appliedFilters.geography ? this.appliedFilters.geography : []
+      }
+
+      if(this.appliedFilters?.status?.length !== 0){
+        this.activityFiltersData.status.forEach((element: any) => {
+            this.appliedFilters?.status?.includes(element.key) ? element.selected = true : element.selected = false;
+        });
+      }
+
+      if(this.appliedFilters?.priority?.length !== 0){
+        this.activityFiltersData.priority.forEach((element: any) => {
+            this.appliedFilters?.priority?.includes(element.key) ? element.selected = true : element.selected = false;
+        });
+      }
+
+      this.activitySearchCriteriaPayload.next(this.appliedFilters);
+    }
+    this.getAcivityMasterData();
+
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
       this.selectedOrganizationIds = res;
       this.getActivitiesSearchCriteria();
       this.getTabBasedActivityCount();
-    })
-    this.getAcivityMasterData();
+      this.activityStatusMetricsCount()
+    });
     this.getLogedinUserDetails();
     this.customCreatedDate.valueChanges.subscribe((res) => {
       if (res.fromDate !== null && res.toDate !== null) {
@@ -177,9 +204,55 @@ export class ActivityComponent implements OnInit {
     });
   }
 
+  setCreatedDateFilter() {
+    let index = this.activityFiltersData['createddate'].findIndex((element: any) => element.key.unit == this.appliedFilters['createdDate'].unit);
+    if (index > 0) {
+      const data = {
+        source: {
+          value: this.activityFiltersData['createddate'][index].key
+        }
+      }
+      const chipValue = this.activityFiltersData['createddate'][index].DisplayName;
+      this.filterActivityListData('createdDate', data, chipValue);
+    } else if (this.appliedFilters['createdDate'].fromDate || this.appliedFilters['createdDate'].todate) {
+      this.customCreatedDate.controls['fromDate'].setValue(
+        this.appliedFilters['createdDate'].fromDate 
+      );
+      this.customCreatedDate.controls['toDate'].setValue(
+        this.appliedFilters['createdDate']?.toDate
+      );
+      this.isShowCustomCreatedDate = true;
+      this.createdDateChipValue = `${this.appliedFilters['createdDate'].fromDate} - ${this.appliedFilters['createdDate'].toDate}`;
+    }
+  }
+
+  setDueDateFilter(){
+    let index = this.activityFiltersData['duedate'].findIndex((element: any) => element.key == this.appliedFilters['dueDate'].customString);
+    if(index > 0){
+      const data = {
+        source: {
+          value: this.activityFiltersData['duedate'][index].key
+        }
+      }
+      const chipValue = this.activityFiltersData['duedate'][index].DisplayName;
+      this.filterActivityListData('dueDate', data, chipValue);
+    } else if (this.appliedFilters['dueDate'].fromDate || this.appliedFilters['dueDate'].todate) {
+      this.customDueDate.controls['fromDate'].setValue(
+        this.appliedFilters['dueDate'].fromDate 
+      );
+      this.customCreatedDate.controls['toDate'].setValue(
+        this.appliedFilters['dueDate']?.toDate
+      );
+      this.isShowCustomDueDate = true;
+      this.dueDateChipValue = `${this.appliedFilters['dueDate'].fromDate} - ${this.appliedFilters['dueDate'].toDate}`;
+    }
+    
+  }
+
   getActivitiesSearchCriteria() {
     let payload: any;
     this.activitySearchCriteriaPayload.subscribe((res) => {
+      this.storageService.setDataToLocalStorage(STORAGE_KEYS.ACTIVITY_FILTERS,JSON.stringify(res));
       payload = res;
     });
     let result = Object.values(this.filters).every(( array : any) => array.length === 0);
@@ -270,20 +343,36 @@ export class ActivityComponent implements OnInit {
       if (res.data) {
         this.masterData = res.data;
         this.masterData?.activityTypesData.forEach((element: any) => {
-          element.selected = false;
+          if(this.appliedFilters?.types?.length === 0 || !this.appliedFilters?.types){
+            element.selected = false;
+          }else{
+            this.appliedFilters.types.includes(element._id) ? element.selected = true : element.selected = false;
+          }
+          
         });
         this.masterData?.activityEntryTypesData.forEach((element: any) => {
-          element.selected = false;
+          if(this.appliedFilters?.entryType?.length === 0 || !this.appliedFilters?.entryType){
+            element.selected = false;
+          }else{
+            this.appliedFilters.entryType.includes(element._id) ? element.selected = true : element.selected = false;
+          }
         });
         this.masterData?.activitySectorsData.forEach((element: any) => {
-          element.selected = false;
+          if(this.appliedFilters?.sectors?.length === 0 || !this.appliedFilters?.sectors){
+            element.selected = false;
+          }else{
+            this.appliedFilters.sectors.includes(element._id) ? element.selected = true : element.selected = false;
+          }
         });
         this.masterData?.activityScopesData.forEach((element: any) => {
-          element.selected = false;
+          if(this.appliedFilters?.scope?.length === 0 || !this.appliedFilters?.scope){
+            element.selected = false;
+          }else{
+            this.appliedFilters.scope.includes(element._id) ? element.selected = true : element.selected = false;
+          }
         });
-
       }
-    })
+    });
   }
 
   navigateToActivityDetails(activity: any) {
@@ -602,6 +691,18 @@ export class ActivityComponent implements OnInit {
     }
     this.activityService.getActivitiesCountForHeaders(payload).subscribe((res)=>{
       this.activitiesTabCount = res.data[0];
+    })
+  }
+
+  activityStatusMetricsCount() {
+    const payload = {
+      organizations: this.selectedOrganizationIds,
+    }
+    this.dashboardService.postDashBoardActivityMetrics(payload).subscribe((res : any) => {
+      this.activityFiltersData.status[0] = {...this.activityFiltersData.status[0],count : res.data[0]?.new[0]?.newCount},
+      this.activityFiltersData.status[1] = {...this.activityFiltersData.status[1],count : res.data[0]?.inProgress[0]?.inProgressCount},
+      this.activityFiltersData.status[2] = {...this.activityFiltersData.status[2],count : res.data[0]?.resolved[0]?.resolvedCount},
+      this.activityFiltersData.status[3] = {...this.activityFiltersData.status[3],count : res.data[0]?.rejectedCount[0]?.rejectedCount}
     })
   }
 
