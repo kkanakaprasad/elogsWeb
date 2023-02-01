@@ -1,10 +1,9 @@
+.documentTable {
+  width: 100%;
+}
 
-  .documentTable {
-    width: 100%;
-  }
-  
-  .documentTable,
-  th {
-    background-color: #818dcf;
-    color: white;
-  }
+.documentTable,
+th {
+  font-size: 1em;
+  background-color: #f0f0f0;
+}
