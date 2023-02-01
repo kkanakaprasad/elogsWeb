@@ -80,15 +80,14 @@ export class UserListComponent implements OnInit {
       this.ministriesMetricsCount = res.data.metrics[0].ministries[0]?.ministriesCount;
       this.inActiveMetricsCount = res.data.metrics[0].inActive[0]?.inActiveUsers;
       this.usersData = res.data.users
-      // this.usersList = res.data.users.filter((res:any)=>Roles.SuperAdmin!==res.roles[0]).reverse();
       if(this.textLableNumber==4){
           this.usersList = this.usersData.filter((res:any)=>Roles.SuperAdmin===res.roles[0])
-          this.dataSource = new MatTableDataSource(this.usersList);
+          this.dataSource = new MatTableDataSource(this.usersList.reverse());
           this.textLableNumber=''
          }
         else{
           this.usersList = this.usersData.filter((res:any)=>Roles.SuperAdmin!==res.roles[0])
-          this.dataSource = new MatTableDataSource(this.usersList);
+          this.dataSource = new MatTableDataSource(this.usersList.reverse());
           this.textLableNumber=''
          }
       this.totalUserCount = res.data.totalCount;
