@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit {
       Name: ['', Validators.required],
       email: ['', Validators.required],
       shortName: ['', Validators.required],
-      timeZone: ['', Validators.required]
+      // timeZone: ['', Validators.required]
 
     })
   }
@@ -69,7 +69,7 @@ export class ProfileComponent implements OnInit {
       this.emailReports = res?.profile.emailReports;
       this.notifications = res?.profile.notifications;
       this.profileForm.controls['shortName'].setValue(this.profileDetails.shortName);
-      this.profileForm.controls['timeZone'].setValue(this.profileDetails.timeZone);
+      // this.profileForm.controls['timeZone'].setValue(this.profileDetails.timeZone);
       this.profileForm.controls['email'].setValue(this.profileDetails.email)
 
     }, (error) => {
