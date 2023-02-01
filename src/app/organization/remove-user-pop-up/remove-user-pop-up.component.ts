@@ -55,7 +55,7 @@ export class RemoveUserPopUpComponent implements OnInit {
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
       this.organizationName= res.data.organizations[0].organization
-      this.organizationUsersData = res.data.organizations[0].users.filter((res:any)=>Roles.SuperAdmin!=res.roles[0])
+      this.organizationUsersData = res.data.organizations[0].users.filter((res:any)=>Roles.SuperAdmin!==res.roles[0])
       this.dataSource = new MatTableDataSource(this.organizationUsersData);
 
     })
