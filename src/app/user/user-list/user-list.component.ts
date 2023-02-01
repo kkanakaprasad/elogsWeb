@@ -128,7 +128,11 @@ export class UserListComponent implements OnInit {
   }
 
   addUser() {
-    this.addNewUserService.openAddUser()
+    this.addNewUserService.openAddUser().afterClosed().subscribe((res)=>{
+      if(res){
+        this.userSearchCriteria(this.userPayload);
+      }
+    })
   }
 
   updateUserDetails(payload: UpdateProfileSearchCriteria) {

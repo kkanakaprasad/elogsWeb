@@ -37,7 +37,7 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div class="col-md-4 org-card" *ngIf="organizationList?.length === 0 && isUser">
+      <div class="col-md-4 org-card" *ngIf="organizationList?.length === 0 ">
         <mat-card >
           <h1>No Organizations Assigned!!</h1>
         </mat-card>
@@ -70,7 +70,7 @@
             </div>
 
             <div class="action-buttons" *ngIf="showActionBtn">
-              <div class="row justify-content-between">
+              <div class="row justify-content-between" *ngIf="!isUser">
 
                 <ng-container *ngIf="organizationList[0].isActive == true">
                   <span class="col-6" (click)="openAddUserPopup(organization._id)">
@@ -124,11 +124,6 @@
 
             </div>
           </mat-card-content>
-        </mat-card>
-      </div>
-      <div *ngIf="organizationList?.length === 0">
-        <mat-card class="noProjects-message">
-            No projects found!!!
         </mat-card>
       </div>
     </div>

@@ -1,4 +1,6 @@
-<button class="btn btn-primary btn-sm" (click)="navigateToPreviousRoute()"><mat-icon>keyboard_return</mat-icon></button>
+
+  <button class="btn-back btn btn-primary btn-sm" (click)="navigateToPreviousRoute()"><mat-icon>keyboard_return</mat-icon> Back To Activities</button>
+
 <div class="row">
     <div class="col-md-9">
       <div class="activity-data">
@@ -150,8 +152,8 @@
                     <mat-select formControlName="status">
                       <mat-option [value]="status[0]">New</mat-option>
                       <mat-option [value]="status[1]">In Progress</mat-option>
+                      <mat-option [value]="status[4]">Resolved</mat-option>
                       <mat-option [value]="status[2]">Not Admissible</mat-option>
-                      <mat-option [value]="status[3]">Resolved</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -320,10 +322,10 @@
           </button>
           <mat-menu #dueDateLogMenu="matMenu"  >
             <div *ngFor="let dueDateLogs of activityData?.dueDateLog?.reverse()">
-              <div mat-menu-item>
+              <div >
                 Due Date {{ dueDateLogs?.dueDate | date : "medium" }}
               </div>
-              <div mat-menu-item>Updated by {{ dueDateLogs?.createdByUserName}}</div>
+              <div>Updated by {{ dueDateLogs?.createdByUserName}}</div>
               <!-- <div mat-menu-item>
                 Created At {{ dueDateLogs?.createdAt | date : "medium" }}
               </div> -->
@@ -400,6 +402,11 @@
           <h3 class="">People Involved</h3>
         </div>
         <div class="d-flex">
+          <div *ngFor="let ministry of activityData?.createdByOrganizationData">
+            <span class="d-flex align-items-center justify-content-center">
+              <mat-icon class="mat-i" matTooltip="{{ ministry.organization }}">account_circle</mat-icon>
+            </span>
+          </div>
           <div *ngFor="let ministry of organizationsInvolved">
             <span class="d-flex align-items-center justify-content-center">
               <mat-icon class="mat-i" matTooltip="{{ ministry.organization }}">account_circle</mat-icon>
