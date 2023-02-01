@@ -7,6 +7,8 @@ import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service'
 import { OrganizationSearchCriteria } from '../organization.interface';
 import { OrganizationService } from '../organization.service';
 import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
+import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
+import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 
 @Component({
   selector: 'app-remove-user-pop-up',
@@ -25,8 +27,10 @@ export class RemoveUserPopUpComponent implements OnInit {
   color: ThemePalette = 'accent';
   isEmailNotificationActive= false;
   disabled = false;
+  SuperAdmin: any;
 
   constructor(private alertpopupService:AlertpopupService,
+    private storageService:StorageService,
     private organizationService: OrganizationService,
     public dialogref: MatDialogRef<RemoveUserPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string
@@ -36,7 +40,8 @@ export class RemoveUserPopUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsersOrgnationById()
-
+    this.SuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE)
+    console.log(this.SuperAdmin)
   }
 
   getUsersOrgnationById() {
@@ -53,7 +58,7 @@ export class RemoveUserPopUpComponent implements OnInit {
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
       this.organizationName= res.data.organizations[0].organization
-      this.organizationUsersData = res.data.organizations[0].users.filter((res:any)=>"SuperAdmin"!=res.Name)
+      this.organizationUsersData = res.data.organizations[0].users.filter((res:any)=>this.SuperAdmin!=res.roles[0])
       this.dataSource = new MatTableDataSource(this.organizationUsersData);
 
     })
