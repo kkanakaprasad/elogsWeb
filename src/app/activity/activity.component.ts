@@ -155,7 +155,7 @@ export class ActivityComponent implements OnInit {
       this.selectedOrganizationIds = res;
       this.getActivitiesSearchCriteria();
       this.getTabBasedActivityCount();
-      this.activityStatusMetricsCount()
+      this.activityStatusMetricsCount();
     });
     this.getLogedinUserDetails();
     this.customCreatedDate.valueChanges.subscribe((res) => {
@@ -194,6 +194,10 @@ export class ActivityComponent implements OnInit {
 
     this.breadcrumbService.getSelectedActivitiesStatus().subscribe((res: any) => {
       if (res && res.key) {
+        this.filters['status'] = [];
+        this.activityFiltersData['status'].map((filter:any)=>{
+          filter.selected = false;
+        });
         res.selected = true;
         this.activityListFilterOnChanged({}, 'status', res);
       }
@@ -415,7 +419,9 @@ export class ActivityComponent implements OnInit {
         break;
       case 'MOVE_TO_ORGANIZATION':
         this.activityService.openMoveToOrganizationPopup(this.selectedActivtyForRowActions._id).afterClosed().subscribe((res) => {
-
+            if(res){
+              this.getActivitiesSearchCriteria();
+            }
         })
         break;
       default:
