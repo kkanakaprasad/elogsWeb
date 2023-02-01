@@ -61,6 +61,7 @@ export class ActivityDetailsComponent implements OnInit {
 	isAssignee: any;
 	ministryName: any;
 	isFilesListArray: boolean = true;
+	minDate: any;
 
 
 	constructor(
@@ -88,7 +89,7 @@ export class ActivityDetailsComponent implements OnInit {
 		this.genarateActivityLogForm()
 		this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false
 		this.logedInUserId = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)
-
+		this.minDate = new Date();
 	}
 
 

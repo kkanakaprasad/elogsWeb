@@ -351,7 +351,7 @@
           </button>
 
           <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" (dateChange)="dueDateSetter('custom', $event)" />
+          <input matInput [matDatepicker]="picker" [min]="minDate" (dateChange)="dueDateSetter('custom', $event)" />
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-menu>
