@@ -1,14 +1,18 @@
-<div class="mb-2">
+<div class="breadcrumb-panel">
 	<div *ngIf="currentRoute == '/dashboard'" class="d-flex justify-content-start align-items-center">
-		<div class="p-2">
-			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Dashboard ></span>
+		<div class="d-flex justify-content-center align-items-center">
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
+      <mat-icon>keyboard_arrow_right</mat-icon>
+      <span class="d-flex justify-content-center align-items-center">
+         Dashboard
+      </span>
+      <mat-icon>keyboard_arrow_right</mat-icon>
 		</div>
 		<ng-container *ngIf="organizationsList.length==1">
 			<div>{{organizationsList[0].organization}}</div>
 		</ng-container>
 		<ng-container *ngIf="organizationsList.length>1">
 			<div class="breadcrumb-find">
-				<div>
 					<mat-form-field appearance="outline">
 						<mat-label>Select Organization</mat-label>
 						<mat-select  (selectionChange)="seleectedOrganization($event)">
@@ -22,15 +26,19 @@
 								<mat-option (click)="openCreateOrganizaation()"> <button class="btn text-primary">+ Create Organization</button></mat-option>
 						</mat-select>
 					</mat-form-field>
-				</div>
 			</div>
 		</ng-container>
 	</div>
-	
-	<div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-between ">
+
+	<div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-between w-100">
 		<div class="d-flex">
-			<div class="p-2">
-				<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Activities ></span>
+			<div class="d-flex align-items-center">
+				<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
+           <mat-icon>keyboard_arrow_right</mat-icon>
+           <span>
+            Activities
+           </span>
+           <mat-icon>keyboard_arrow_right</mat-icon>
 			</div>
 			<ng-container *ngIf="organizationsList.length==1">
 				<div>{{organizationsList[0].organization}}</div>
@@ -52,19 +60,23 @@
 				</div>
 			</ng-container>
 		</div>
-	
-		<div>
-			<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+
+		<div class="activity-status-group">
+			<mat-button-toggle-group class="mat-button-toggle" name="fontStyle" aria-label="Font Style">
 				<mat-button-toggle *ngFor="let status of activityFiltersData.status"
 					(click)="selectedActivitiesStatus(status)">{{status.count ? status.count : 0}} {{status.DisplayName}}</mat-button-toggle>
 			</mat-button-toggle-group>
 		</div>
 	</div>
-	
-	
+
+
 	<div *ngIf="currentRoute == '/documents'" class="d-flex justify-content-start ">
-		<div class="p-2">
-			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> <span> > Documents ></span>
+		<div class="d-flex justify-content-center align-items-center">
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
+
+       <mat-icon>keyboard_arrow_right</mat-icon>
+       <span> Documents </span>
+       <mat-icon>keyboard_arrow_right</mat-icon>
 		</div>
 		<ng-container *ngIf="organizationsList.length==1">
 			<div>{{organizationsList[0].organization}}</div>
@@ -86,28 +98,45 @@
 			</div>
 		</ng-container>
 	</div>
-	
+
 	<ng-container *ngIf="currentRoute == '/archive'">
 		<p>
-			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Archive > Tasks
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
+      <mat-icon>keyboard_arrow_right</mat-icon>
+       <span>Archive</span>
+       <mat-icon>keyboard_arrow_right</mat-icon>
+       Tasks
 		</p>
 	</ng-container>
 
 	<ng-container *ngIf="currentRoute == '/organization-list'">
-		<p>
-			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Organizations > Manage
-		</p>
+		<div class="d-flex align-items-center">
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
+      <mat-icon>keyboard_arrow_right</mat-icon>
+      Organizations
+       <mat-icon>keyboard_arrow_right</mat-icon>
+      Manage
+    </div>
 	</ng-container>
 
 	<ng-container *ngIf="currentRoute == '/user-list'">
 		<p>
-			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Users > Manage
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
+      <mat-icon>keyboard_arrow_right</mat-icon>
+      <span>Users</span>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      <span>Manage</span>
 		</p>
 	</ng-container>
 
 	<ng-container *ngIf="currentRoute == '/company-settings'">
 		<p>
-			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon> > Company Settings > My Company
+			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
+      <mat-icon>keyboard_arrow_right</mat-icon>
+        <span>Company Settings</span>
+      <mat-icon>keyboard_arrow_right</mat-icon>
+        <span>My Company</span>
 		</p>
 	</ng-container>
+
 </div>
