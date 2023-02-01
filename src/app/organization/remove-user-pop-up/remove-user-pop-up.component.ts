@@ -41,7 +41,6 @@ export class RemoveUserPopUpComponent implements OnInit {
   ngOnInit(): void {
     this.getUsersOrgnationById()
     this.SuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE)
-    console.log(this.SuperAdmin)
   }
 
   getUsersOrgnationById() {
