@@ -2,7 +2,7 @@
 
   
     <ng-container matColumnDef="Activity">
-        <th mat-header-cell *matHeaderCellDef> Activity# </th>
+        <th mat-header-cell *matHeaderCellDef> Activity</th>
     </ng-container>
 
    
@@ -23,6 +23,8 @@
     <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
 
 </table>
-<div *ngIf="dataSource" class="text-center">
+<mat-card>
+ <div *ngIf="dataSource" class="text-center text-danger">
     No records found
   </div>
+</mat-card>
