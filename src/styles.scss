@@ -2091,6 +2091,9 @@ h6,
   }
 }
 
+.mat-form-field-appearance-outline .mat-select-arrow-wrapper{
+  transform: translateY(60%) !important;
+}
 .breadcrumb-panel{
   min-height: 45px;
   // padding: 8px 10px;
