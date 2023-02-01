@@ -21,6 +21,7 @@ import { BreadcrumbService } from '../main/breadcrumb/breadcrumb.service';
 import { CsvHelperService } from '../shared/services/csv-helper-service/csv-helper.service';
 import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
 import { DashboardService } from '../dashboard/dashboard.service';
+import { SearchTriggerService } from '../shared/services/search-trigger-service/search-trigger.service';
 
 @Component({
   selector: 'app-activity',
@@ -112,7 +113,8 @@ export class ActivityComponent implements OnInit {
     private breadcrumbService: BreadcrumbService,
     private csvHelperService: CsvHelperService,
     private selectedOrganizationService: SelectedOrganizationService,
-    private dashboardService : DashboardService
+    private dashboardService : DashboardService,
+    private searchTriggerService:SearchTriggerService
   ) { 
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
   }
@@ -205,6 +207,17 @@ export class ActivityComponent implements OnInit {
     this.activitySearchCriteriaPayload.subscribe((res) => {
       this.getActivitiesSearchCriteria();
     });
+
+    this.searchTriggerService.getSearchData().subscribe((res:any)=>{
+      let data :any;
+      this.activitySearchCriteriaPayload.subscribe((res) => {
+        data = res;
+      });
+      this.activitySearchCriteriaPayload.next({
+        ...data,
+        searchTerm : res
+      })
+    })
   }
 
   setCreatedDateFilter() {

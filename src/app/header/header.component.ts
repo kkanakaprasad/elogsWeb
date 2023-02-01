@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 import { CompanySettingsService } from '../company-settings/company-settings.service';
 import { OrganizationService } from '../organization/organization.service';
 import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
@@ -7,6 +8,7 @@ import { RouteConstants } from '../shared/constants/routes.constants';
 import { Roles } from '../shared/enums/roles.enums';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
 import { EventCommunicationsService } from '../shared/services/event-communications.service';
+import { SearchTriggerService } from '../shared/services/search-trigger-service/search-trigger.service';
 import { StorageService } from '../shared/services/storage-service/storage.service';
 import { UserDetails } from '../shared/services/user-details-service/user-details.interface';
 import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
@@ -28,6 +30,8 @@ export class HeaderComponent implements OnInit {
   }
   isSuperAdmin: boolean = false;
   companyName = '';
+  searchText : string = "";
+  currentRoute:any;
 
   constructor(private organizationService: OrganizationService,
     private storageService: StorageService,
@@ -37,7 +41,12 @@ export class HeaderComponent implements OnInit {
     private userService: UserService,
     private eventCommunicationsService: EventCommunicationsService,
     private companySettingsService: CompanySettingsService,
-    private userDetailsService: UserDetailsService) { }
+    private searchTriggerService: SearchTriggerService) {
+      // router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
+      //   this.currentRoute = event.url
+      //   console.log(this.currentRoute.toString().split('/'),"header");
+      // });
+    }
 
   ngOnInit(): void {
     this.userDetails();
@@ -114,6 +123,11 @@ export class HeaderComponent implements OnInit {
   }
   navigateTocatageory() {
     this.router.navigate([RouteConstants.COMPANY_SETTINGS])
+  }
+
+  onSerchChange(){
+    console.log(this.searchText);
+    this.searchTriggerService.setSearchData(this.searchText);
   }
 }
 

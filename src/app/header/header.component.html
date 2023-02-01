@@ -7,11 +7,11 @@
         <span (click)="sidebarShow()" class="hamburger"><i class="material-icons toggle-sidebar-btn">dehaze</i></span>
     </div>
     <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-            <input type="text" name="query" placeholder="Search Activies" title="Enter search keyword">
-            <button type="submit" title="Search">
+        <div class="search-form d-flex align-items-center"  >
+            <input  type="text" placeholder="Search For Activities"   [(ngModel)]="searchText" (ngModelChange)="onSerchChange()">
+            <button  title="Search" (click)="onSerchChange()">
                 <i class="material-icons">search</i></button>
-        </form>
+        </div>
     </div>
 
     <nav class="header-nav ms-auto">
