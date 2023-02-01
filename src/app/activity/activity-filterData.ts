@@ -3,9 +3,10 @@ export const ActivityFiltersData = {
     { DisplayName: 'Status', key: 'status' }, { DisplayName: 'Types', key: 'types' },
     { DisplayName: 'Entry Type', key: 'entrytype' }, { DisplayName: 'Sectors', key: 'sector' },
     { DisplayName: 'Scope', key: 'scope' }, { DisplayName: 'Priority', key: 'priority' },
-    { DisplayName: 'Created BY', key: 'createdby' }, {
-        DisplayName: 'Assigned To', key: 'assignedto'
-    }],
+    // { DisplayName: 'Created BY', key: 'createdby' }, {
+    //     DisplayName: 'Assigned To', key: 'assignedto'
+    // }
+    ],
 
     createddate: [{ DisplayName: 'AnyTime', key: 'ALL' }, {
         DisplayName: 'PastHour', key: {
@@ -60,8 +61,8 @@ export const ActivityFiltersData = {
     { DisplayName: 'Medium', key: 'MEDIUM', selected: false }, { DisplayName: 'High', key: 'HIGH', selected: false }
     ],
 
-    createdby: [],
-    assignedto: [],
+    // createdby: [],
+    // assignedto: [],
 
     groupBy: [{ DisplayName: 'Due Date', key: 'dueDate' }, { DisplayName: 'Status', key: 'status' },
     { DisplayName: 'Priority', key: 'priority' }, { DisplayName: 'Assigned to', key: 'assignTo' }

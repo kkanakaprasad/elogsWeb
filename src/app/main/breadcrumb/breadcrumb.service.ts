@@ -11,7 +11,7 @@ export class BreadcrumbService {
   private selectedActivityStatus : BehaviorSubject<any> = new BehaviorSubject({});
 
   public getSelectedActivitiesStatus():Observable<any>{
-    return this.selectedActivityStatus
+    return this.selectedActivityStatus.asObservable();
   }
 
   public setSelectedActivityStatus(selectedActivitiesStatus:any){

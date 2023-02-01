@@ -87,14 +87,14 @@
         <button mat-menu-item [matMenuTriggerFor]="geography">Geography</button>
         <button mat-menu-item [matMenuTriggerFor]="scope">Scope</button>
         <button mat-menu-item [matMenuTriggerFor]="priority">Priority</button>
-        <button mat-menu-item [matMenuTriggerFor]="createdby">Created by</button>
-        <button mat-menu-item [matMenuTriggerFor]="assignto">Assigned to</button>
+        <!-- <button mat-menu-item [matMenuTriggerFor]="createdby">Created by</button>
+        <button mat-menu-item [matMenuTriggerFor]="assignto">Assigned to</button> -->
       </mat-menu>
 
-      <button mat-button [matMenuTriggerFor]="groupBymenu" matTooltip="Group By">
+      <!-- <button mat-button [matMenuTriggerFor]="groupBymenu" matTooltip="Group By">
         <mat-icon>filter_list</mat-icon> Group By
         <mat-icon>keyboard_arrow_down</mat-icon>
-      </button>
+      </button> -->
       <mat-menu #groupBymenu="matMenu">
         <mat-option *ngFor="let option of activityFiltersData.groupBy">
           {{option.DisplayName}}

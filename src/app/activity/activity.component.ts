@@ -155,7 +155,6 @@ export class ActivityComponent implements OnInit {
       this.selectedOrganizationIds = res;
       this.getActivitiesSearchCriteria();
       this.getTabBasedActivityCount();
-      this.activityStatusMetricsCount();
     });
     this.getLogedinUserDetails();
     this.customCreatedDate.valueChanges.subscribe((res) => {
@@ -204,7 +203,7 @@ export class ActivityComponent implements OnInit {
     })
 
     this.activitySearchCriteriaPayload.subscribe((res) => {
-      this.getActivitiesSearchCriteria()
+      this.getActivitiesSearchCriteria();
     });
   }
 
@@ -269,7 +268,8 @@ export class ActivityComponent implements OnInit {
     payload = {...payload, organizations: this.selectedOrganizationIds}
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
       this.totalActivitiesCount = res.data[0]?.count[0]?.count ? res.data[0]?.count[0]?.count : 0;
-      this.dataSource = new MatTableDataSource(res.data[0].activities.reverse())
+      this.dataSource = new MatTableDataSource(res.data[0].activities.reverse());
+      this.activityStatusMetricsCount();
     })
   }
 
