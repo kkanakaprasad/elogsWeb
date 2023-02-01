@@ -1,4 +1,4 @@
-<div>
+<div class="breadcrumb-panel">
 	<div *ngIf="currentRoute == '/dashboard'" class="d-flex justify-content-start align-items-center">
 		<div class="d-flex justify-content-center align-items-center">
 			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
@@ -30,7 +30,7 @@
 		</ng-container>
 	</div>
 
-	<div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-between ">
+	<div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-between w-100">
 		<div class="d-flex">
 			<div class="d-flex align-items-center">
 				<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
@@ -138,4 +138,5 @@
         <span>My Company</span>
 		</p>
 	</ng-container>
+
 </div>
