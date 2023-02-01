@@ -16,7 +16,6 @@ export class StorageService {
                 localStorage.setItem(name, JSON.stringify(value));
             }
             catch {
-                console.log("can't stringfy this value.....")
             }
         }
     }

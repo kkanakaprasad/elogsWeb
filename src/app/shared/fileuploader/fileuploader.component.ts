@@ -25,7 +25,6 @@ export class FileuploaderComponent implements OnInit,OnChanges {
   }
 
   ngOnChanges(changes : SimpleChanges){
-        console.log(changes,changes['value']);
         if(changes['value'].currentValue === false){
           this.files=[];
         }

@@ -100,7 +100,6 @@ export class RemoveOrgPopUpComponent implements OnInit {
   }
 
   onEmailNotificationChecked(event:any){
-    console.log(event);
   }
   
   organisationSearch(event:any){

@@ -42,10 +42,6 @@ export class HeaderComponent implements OnInit {
     private eventCommunicationsService: EventCommunicationsService,
     private companySettingsService: CompanySettingsService,
     private searchTriggerService: SearchTriggerService) {
-      // router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
-      //   this.currentRoute = event.url
-      //   console.log(this.currentRoute.toString().split('/'),"header");
-      // });
     }
 
   ngOnInit(): void {
@@ -126,7 +122,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onSerchChange(){
-    console.log(this.searchText);
     this.searchTriggerService.setSearchData(this.searchText);
   }
 }

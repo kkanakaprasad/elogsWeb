@@ -56,7 +56,6 @@ export class CreateactivityComponent implements OnInit {
   ) {
     this.activatedRoute.queryParams.subscribe((res) => {
       this.selectedActivityId = res['aId'];
-      console.log(this.selectedActivityId)
     });
   }
 

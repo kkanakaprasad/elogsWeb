@@ -98,10 +98,8 @@ export class RemoveUserPopUpComponent implements OnInit {
   }
 
   selectedUsers(){
-    console.log(this.tableRowSelection.selected);
     this.tableRowSelection.selected.map((res:any)=>{
       this.userIdsArray.push(res._id)
-      console.log(this.userIdsArray)
     })
     
     const payload={

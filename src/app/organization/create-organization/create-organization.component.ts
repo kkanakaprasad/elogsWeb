@@ -41,7 +41,6 @@ export class CreateOrganizationComponent implements OnInit {
       this.organizationService.getorganizationById(this.dataId).subscribe((res) => {
         this.isSelected = true
         this.oraginsationData = res.organization
-        console.log(this.oraginsationData)
         const payload: OrganizationSearchCriteria = {
           pageNumber: 1000,
           pageSize: 0,
@@ -69,7 +68,6 @@ export class CreateOrganizationComponent implements OnInit {
   getOrganizationTypes() {
     this.masterDataService.getOrganizationTypes().subscribe((res) => {
       this.organizationTypes = res.data
-      console.log(this.organizationTypes)
     })
 
   }
@@ -92,7 +90,6 @@ export class CreateOrganizationComponent implements OnInit {
     }
     if (this.dataId) {
       this.organizationService.updateOrganization(this.dataId, payload).subscribe((res) => {
-        console.log(res);
         this.alertpopupService.open({
           message: res.message,
           action: 'ok'

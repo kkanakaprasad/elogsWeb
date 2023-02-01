@@ -35,7 +35,6 @@ export class AssignOrganizationPopUpComponent implements OnInit {
 
   getOrganizations() {
     this.userService.getOrganisation().subscribe((res) => {
-      // console.log(res.organizations)
       this.organizations = res.organizations;
       this.dataSource = new MatTableDataSource(this.organizations);
     })
@@ -43,7 +42,6 @@ export class AssignOrganizationPopUpComponent implements OnInit {
 
   addOrganisation() {
     this.organizationService.openCreateOrganizatioPopup().afterClosed().subscribe((res) => {
-      console.log(res);
     })
   }
 

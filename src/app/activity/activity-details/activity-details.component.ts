@@ -376,9 +376,7 @@ export class ActivityDetailsComponent implements OnInit {
 			let data = activityDataForDownload[index];
 			if (element.dueDate) {
 				data.dueDate = element.dueDate
-				console.log(element, "dueDte");
 				activityDataForDownload = [...activityDataForDownload, data];
-				console.log(activityDataForDownload, "updated duedate");
 			} else if (element.message) {
 				data.description = element?.message.replace(/<[^>]*>/g, ""),
 					data.status = element?.status ? element.status : data.status,

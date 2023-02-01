@@ -44,7 +44,6 @@ export class ExportsTasksComponent implements OnInit {
   getAllOrganizations() {
     this.companySettingsService.getAllOrganizations().subscribe((res) => {
       this.organizationsList = res.organizations
-      console.log(this.organizationsList)
     })
   }
 

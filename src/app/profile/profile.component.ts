@@ -73,7 +73,6 @@ export class ProfileComponent implements OnInit {
       this.profileForm.controls['email'].setValue(this.profileDetails.email)
 
     }, (error) => {
-      console.log(error);
     })
   }
 

@@ -50,7 +50,7 @@ export class ArchiveComponent implements OnInit {
   }
 
   logSelection() {
-    this.selection.selected.forEach(value => console.log(value.title));
+    this.selection.selected.forEach(value => {});
   }
   navigateToActivityDetails(activity: any) {
     this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity } });
@@ -58,7 +58,6 @@ export class ArchiveComponent implements OnInit {
 
   
   archiveActionClick(event:any){
-    console.log(event,this.selection.selected)
     
 
   }

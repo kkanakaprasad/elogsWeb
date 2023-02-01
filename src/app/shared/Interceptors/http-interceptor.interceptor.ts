@@ -21,7 +21,6 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
   ) { }
 
   handleError = (error: any) => {
-    console.log(error);
     if (error.status === 401 || error.statusCode === 401) {
       this.alertpopupService.open({
         message: 'UnAuthrized Please login again',

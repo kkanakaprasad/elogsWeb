@@ -71,7 +71,6 @@ export class AddNewUserComponent implements OnInit {
         this.addNewUserForm.controls['organization'].setValue(this.userDetails[0].organization),
         this.addNewUserForm.controls['department']?.setValue(this.userDetails[0].department)
     }, (error) => {
-      console.log(error);
     })
   }
 

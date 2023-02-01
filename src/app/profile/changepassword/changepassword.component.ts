@@ -52,7 +52,6 @@ export class ChangepasswordComponent implements OnInit {
       newPassword: this.changePasswordForm.controls['NewPassword']?.value
     }
     this.changePasswordService.changePassword(payload).subscribe((res) => {
-      console.log(res);
       this.alertpopupService.open({
         message : res.message ? res.message : 'Change Password updated successfully',
         action : 'Ok'

@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.profileService.getUserById(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res: any) => {console.log(res)})
+    this.profileService.getUserById(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res: any) => {})
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
       this.selectedOrganizationIds = res;
@@ -196,7 +196,6 @@ export class DashboardComponent implements OnInit {
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
       this.overDueActivities = res?.data[0].activities;
     })
-    console.log(payload)
   }
 
   getUpComingTaskForDashBoard() {

@@ -112,9 +112,7 @@ export class AddUserPopUpComponent implements OnInit {
       organizationIds:this.selectedOrganizationId
     }
     this.organizationService.removeUsersfromOrganization(payload).subscribe(res=>{
-      console.log(res)
     })
-    console.log(userId)
   }
 
   getUsersOrgnationById() {
@@ -130,7 +128,6 @@ export class AddUserPopUpComponent implements OnInit {
       userSearch: ""
     }
     this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res:any)=>{
-      console.log(res.data.organizations[0].users);
       this.organizationName=res.data.organizations[0].organization
       this.organizationUsersData = res.data.organizations[0].users
       this.dataSourceUsers = new MatTableDataSource( this.organizationUsersData);
