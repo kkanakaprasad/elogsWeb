@@ -78,7 +78,7 @@ export class UserListComponent implements OnInit {
       this.associationsMetricsCount = res.data.metrics[0].associations[0]?.associationCount;
       this.ministriesMetricsCount = res.data.metrics[0].ministries[0]?.ministriesCount;
       this.inActiveMetricsCount = res.data.metrics[0].inActive[0]?.inActiveUsers;
-      if(this.selectedTabTextLableNumber==4){
+      if(this.selectedTabTextLableNumber===4){
           this.usersList = res.data.users.filter((res:any)=>Roles.SuperAdmin===res.roles[0])
           this.dataSource = new MatTableDataSource(this.usersList.reverse());
          }
