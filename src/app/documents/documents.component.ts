@@ -6,14 +6,11 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.scss']
 })
-export class DocumentsComponent implements OnInit {
+export class DocumentsComponent {
 
   displayedColumns = ['Activity', 'FileName', 'Size', 'Organisation']
   dataSource = new MatTableDataSource();
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }
