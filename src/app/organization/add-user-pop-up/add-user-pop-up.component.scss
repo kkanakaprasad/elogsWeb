@@ -1,5 +1,5 @@
 .user {
-    margin-bottom: 0px
+    margin-bottom: 0px;
 }
 
 .mat-card-actions {
@@ -13,6 +13,10 @@ table {
 .adduser-table {
     height: 300px;
     overflow: auto;
+
+    th {
+        font-size: 1em;
+    }
 
     tr:nth-child(even) {
         background: #EAF1F6;
