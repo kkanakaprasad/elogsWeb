@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileSearchCriteria, UpdateProfileSearchCriteria } from 'src/app/profile/profile.interface';
 import { ProfileService } from 'src/app/profile/profile.service';
@@ -24,7 +24,7 @@ import { Roles } from 'src/app/shared/enums/roles.enums';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, AfterViewInit {
   public usersList: any = [];
   filters = FILTER_CONSTANT
   paginationProps = PaginationProps;

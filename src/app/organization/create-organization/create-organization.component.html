@@ -1,8 +1,8 @@
 <div class="elog-dialog">
-  <h1 mat-dialog-title>{{isSelected==false?'Create Organization':this.oraginsationData.organization }}</h1>
+  <h1 mat-dialog-title>{{isSelected===false?'Create Organization':this.oraginsationData.organization }}</h1>
   <div mat-dialog-content class="elog-dialog-body">
     <form [formGroup]="createOrganizationForm" (ngSubmit)="onSubmit()">
-      <ng-container *ngIf="isSelected==false">
+      <ng-container *ngIf="isSelected===false">
       <div class="select">
         <mat-form-field appearance="outline" class="w-100-per">
           <mat-label>Organization Type</mat-label>
@@ -19,7 +19,7 @@
     </ng-container>
   
       <mat-form-field appearance="outline">
-        <mat-label>{{isSelected==false?'Organization':'Organization Name'}}</mat-label>
+        <mat-label>{{isSelected===false?'Organization':'Organization Name'}}</mat-label>
         <input matInput placeholder="My Organization" input type="text" formControlName="organization" maxlength="126"/>
       </mat-form-field>
       <div>
@@ -29,7 +29,7 @@
           <input matInput placeholder="Short Name" input type="text" appUppercaseInput formControlName="shortName" maxlength="5"/>
         </mat-form-field>
   
-      <ng-container *ngIf="isSelected==true">
+      <ng-container *ngIf="isSelected===true">
         <div class="select">
           <mat-form-field appearance="outline" class="w-100-per">
             <mat-label>Default Assign To:</mat-label>
@@ -48,7 +48,7 @@
         </button>
         <button type="submit" mat-raised-button color="primary"[disabled]="createOrganizationForm.invalid"
           mat-dialog-close="true">
-          {{isSelected==false?'create':'update'}}
+          {{isSelected===false?'create':'update'}}
         </button>
       </div>
     </form>

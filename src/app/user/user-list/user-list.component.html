@@ -52,7 +52,7 @@
     <ng-container matColumnDef="Name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element">
-        <span class="usertype_badge">{{element.Name=="SuperAdmin" ? 'Owner':'user'}} </span>
+        <span class="usertype_badge">{{element.Name==="SuperAdmin" ? 'Owner':'user'}} </span>
         {{element.Name}}
       </td>
 

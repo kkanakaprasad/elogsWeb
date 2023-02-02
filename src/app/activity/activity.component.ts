@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { RouteConstants } from '../shared/constants/routes.constants';
@@ -30,7 +30,7 @@ import { SearchTriggerService } from '../shared/services/search-trigger-service/
 })
 
 
-export class ActivityComponent implements OnInit {
+export class ActivityComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions'];
   activityFiltersData: any = ActivityFiltersData;

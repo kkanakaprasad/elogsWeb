@@ -72,7 +72,7 @@
             <div class="action-buttons" *ngIf="showActionBtn">
               <div class="row justify-content-between" *ngIf="!isUser">
 
-                <ng-container *ngIf="organizationList[0].isActive == true">
+                <ng-container *ngIf="organizationList[0].isActive === true">
                   <span class="col-6" (click)="openAddUserPopup(organization._id)">
                     <div class="d-flex align-items-center">
                       <mat-icon>person_add</mat-icon>
@@ -102,7 +102,7 @@
                     </span>
                   </ng-container>
 
-                  <ng-container *ngIf="organization.users?.length  == 0 || organization.activities === 0">
+                  <ng-container *ngIf="organization.users?.length  === 0 || organization.activities === 0">
                     <span class="col-6" (click)="removeOrganization(organization._id,organization.organization)">
                       <div class="d-flex align-items-center">
                         <mat-icon>delete</mat-icon>
@@ -112,7 +112,7 @@
                   </ng-container>
                 </ng-container>
 
-                <ng-container *ngIf="organizationList[0].isActive == false">
+                <ng-container *ngIf="organizationList[0].isActive === false">
                   <span class="col-6" (click)="removeOrganization(organization._id,organization.organization)">
                     Delete User
                   </span>

@@ -6,15 +6,13 @@ import { AlertpopupService } from '../alertPopup/alertpopup.service';
   templateUrl: './fileuploader.component.html',
   styleUrls: ['./fileuploader.component.css']
 })
-export class FileuploaderComponent implements OnInit,OnChanges {
+export class FileuploaderComponent implements OnChanges {
   fileType: any;
   
   @Output() updatedFilesDescription = new EventEmitter<any>();
   @Input() value:any=false;
   constructor(private alertpopupService :AlertpopupService) { }
 
-  ngOnInit() {
-  }
   files: any[] = [];
 
   /**

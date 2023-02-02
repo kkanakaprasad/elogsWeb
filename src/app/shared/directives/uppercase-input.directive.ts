@@ -1,10 +1,7 @@
 import { Directive, ElementRef, HostListener  } from '@angular/core';
 
 @Directive({
-  selector: '[appUppercaseInput]',
-  host: {
-    '(input)': '$event'
-  }
+  selector: '[appUppercaseInput]'
 })
 export class UppercaseInputDirective {
 

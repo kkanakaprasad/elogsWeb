@@ -8,7 +8,7 @@ import { CustomModelData } from './custom-model.interface';
   templateUrl: './custom-model.component.html',
   styleUrls: ['./custom-model.component.scss'],
 })
-export class CustomModelComponent implements OnInit {
+export class CustomModelComponent {
 
   dialogActions:any;
   constructor(public dialogref:MatDialogRef<CustomModelComponent>,
@@ -16,7 +16,5 @@ export class CustomModelComponent implements OnInit {
       this.dialogActions=data.actions
     }
 
-  ngOnInit(): void {
-  }
 
 }
