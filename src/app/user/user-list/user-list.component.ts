@@ -116,12 +116,12 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  disableOrenableUser(userID: string, isEnable: boolean) {
+  disableOrenableUser(userID: string, isEnable: boolean, userName:any) {
     var obj = {
       isActive: isEnable
     }
     this.confirmationDialogService.open({
-      message: isEnable ? 'Are you sure want to enable!!' : 'Are you sure want to disable!!'
+      message: isEnable ? `Are you sure want to enable ${userName}` : `Are you sure want to disable ${userName}`
     }).afterClosed().subscribe((res) => {
       if (res) {
         this.profileService.inActiveUser(userID, obj).subscribe((res) => {
