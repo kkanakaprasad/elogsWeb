@@ -66,7 +66,7 @@ export class OrganizationListComponent implements OnInit {
       this.updatedPayload = { ...this.updatedPayload, userId: this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID) };
     }
     this.organizationService.getOrganizationsSearchCriteria(this.updatedPayload).subscribe((res) => {
-      this.organizationList = res.data.organizations;
+      this.organizationList = res.data.organizations.reverse();
       this.activeMetricsCount=res.data.metrics[0].active[0]?.activeOrganizatiosns
       this.associationsMetricsCount=res.data.metrics[0].associations[0]?.associationCount
       this.ministriesMetricsCount=res.data.metrics[0].ministries[0]?.ministriesCount
