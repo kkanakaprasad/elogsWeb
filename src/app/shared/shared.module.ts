@@ -9,12 +9,14 @@ import { RichTextEditorModule } from "./rich-text-editor/rich-text-editor.module
 import { SearchPipe } from './pipes/search.pipe';
 import { FileUploaderDirective } from './fileUploaderDirective/file-uploader.directive';
 import { FileuploaderModule } from "./fileuploader/fileuploader.module";
+import { UppercaseInputDirective } from './directives/uppercase-input.directive';
 
 
 @NgModule({
     declarations: [
     SearchPipe,
-    FileUploaderDirective
+    FileUploaderDirective,
+    UppercaseInputDirective
   ],
     imports: [
       CommonModule,
@@ -31,7 +33,8 @@ import { FileuploaderModule } from "./fileuploader/fileuploader.module";
       ConfirmationDialogModule,
       RichTextEditorModule,
       SearchPipe,
-      FileuploaderModule
+      FileuploaderModule,
+      UppercaseInputDirective
     ]
   })
 export class SharedModule { }

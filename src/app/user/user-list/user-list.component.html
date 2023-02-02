@@ -94,9 +94,9 @@
           <button mat-raised-button *ngIf="element.isActive" color="primary"
             (click)="editUser(element._id)">Edit</button>
           <button mat-raised-button *ngIf="element.isActive"
-            (click)="disableOrenableUser(element._id,false)">Disable</button>
+            (click)="disableOrenableUser(element,false)">Disable</button>
           <button mat-raised-button *ngIf="!element.isActive"
-            (click)="disableOrenableUser(element._id,true)">Enable</button>
+            (click)="disableOrenableUser(element,true)">Enable</button>
           <button *ngIf="element.organizationsdata?.length > 0" mat-raised-button color="warn"
             (click)="removeOrganisation(element)">Remove Organisation</button>
           <button *ngIf="element.organizationsdata?.length === 0 && element.isActive" mat-raised-button color="accent"

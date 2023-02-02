@@ -281,7 +281,7 @@ export class ActivityComponent implements OnInit {
     payload = {...payload, organizations: this.selectedOrganizationIds}
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
       this.totalActivitiesCount = res.data[0]?.count[0]?.count ? res.data[0]?.count[0]?.count : 0;
-      this.dataSource = new MatTableDataSource(res.data[0].activities.reverse());
+      this.dataSource = new MatTableDataSource(res.data[0].activities);
       this.activityStatusMetricsCount();
     })
   }

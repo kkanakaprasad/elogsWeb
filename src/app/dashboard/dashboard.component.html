@@ -35,6 +35,7 @@
                     <mat-select (selectionChange)="selectedActivityType($event)">
                       <mat-option *ngFor="let activityTypesData of activityTypesData" [value]="activityTypesData._id">{{
                         activityTypesData?.name }}</mat-option>
+                        <mat-option [value]="">Clear All</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>

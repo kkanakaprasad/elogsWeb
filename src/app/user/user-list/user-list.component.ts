@@ -78,7 +78,7 @@ export class UserListComponent implements OnInit {
       this.associationsMetricsCount = res.data.metrics[0].associations[0]?.associationCount;
       this.ministriesMetricsCount = res.data.metrics[0].ministries[0]?.ministriesCount;
       this.inActiveMetricsCount = res.data.metrics[0].inActive[0]?.inActiveUsers;
-      if (this.selectedTabTextLableNumber === 4) {
+      if (this.selectedTabTextLableNumber ==="4") {
         this.usersList = res.data.users.filter((res: any) => Roles.SuperAdmin === res.roles[0])
         this.dataSource = new MatTableDataSource(this.usersList);
       }
@@ -116,15 +116,15 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  disableOrenableUser(userID: string, isEnable: boolean) {
+  disableOrenableUser(userData: any, isEnable: boolean) {
     var obj = {
       isActive: isEnable
     }
     this.confirmationDialogService.open({
-      message: isEnable ? 'Are you sure want to enable!!' : 'Are you sure want to disable!!'
+      message: isEnable ? `Are you sure want to enable ${userData.Name}` : `Are you sure want to disable ${userData.Name}`
     }).afterClosed().subscribe((res) => {
       if (res) {
-        this.profileService.inActiveUser(userID, obj).subscribe((res) => {
+        this.profileService.inActiveUser(userData._id, obj).subscribe((res) => {
           this.alertpopupService.open({
             message: isEnable ? 'User enabled successfully' : 'User disabled successfully',
             action: 'ok'
