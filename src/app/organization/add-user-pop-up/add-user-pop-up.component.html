@@ -9,7 +9,7 @@
   <!-- </div> -->
 
 
-  <div class="row mt-2">
+  <div class="d-flex mt-2">
     <div class="col-md-8">
       <div class="selected-chips">
         <mat-chip-list>
@@ -33,9 +33,9 @@
 
   <mat-card-content class="elog-dialog-body p-0">
     <div mat-dialog-content>
-      <div class="row">
+      <div class="row px-1 gx-0 mt-1">
         <!-- unassigned users table -->
-        <div class="col-8">
+        <div class="col-8 adduser-table">
 
           <table mat-table [dataSource]="dataSource" style="padding-right: 10px; width: 100%">
             <ng-container matColumnDef="select">
@@ -72,7 +72,7 @@
           </div>
         </div>
 
-        <div class="col-4 px-4">
+        <div class="col-4 px-1">
           <!-- organization users table -->
           <table mat-table [dataSource]="dataSourceUsers">
             <!-- Name Column -->
