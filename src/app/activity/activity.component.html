@@ -338,10 +338,10 @@
     <th mat-header-cell *matHeaderCellDef > Status </th>
 
     <td mat-cell *matCellDef="let element" class="status-badge">
-      <span class="badge" [ngClass]="{'badge-not-admissible': element?.status.toLowerCase() == 'rejected',
-      'badge-resolved': element?.status.toLowerCase() == 'resolved',
-      'badge-in-progress': element?.status.toLowerCase() == 'inprogress',
-      'badge-new': element?.status.toLowerCase() == 'new'}">{{element?.status | titlecase}}</span>
+      <span class="badge" [ngClass]="{'badge-not-admissible': element?.status.toLowerCase() === 'rejected',
+      'badge-resolved': element?.status.toLowerCase() === 'resolved',
+      'badge-in-progress': element?.status.toLowerCase() === 'inprogress',
+      'badge-new': element?.status.toLowerCase() === 'new'}">{{element?.status | titlecase}}</span>
     </td>
   </ng-container>
 
@@ -349,7 +349,7 @@
     <th mat-header-cell *matHeaderCellDef > Activity </th>
 
     <td mat-cell *matCellDef="let element" class="cursor" (click)="navigateToActivityDetails(element._id)">
-      {{ element.uniqIdentity==null ? element.createdByOrganization[0].shortName:element.uniqIdentity}} </td>
+      {{element.uniqIdentity}} </td>
   </ng-container>
 
   <!-- Name Column -->
