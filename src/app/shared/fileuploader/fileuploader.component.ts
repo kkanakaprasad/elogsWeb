@@ -6,7 +6,7 @@ import { AlertpopupService } from '../alertPopup/alertpopup.service';
   templateUrl: './fileuploader.component.html',
   styleUrls: ['./fileuploader.component.css']
 })
-export class FileuploaderComponent  {
+export class FileuploaderComponent implements OnChanges {
   fileType: any;
   
   @Output() updatedFilesDescription = new EventEmitter<any>();

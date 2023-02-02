@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterContentChecked, Component } from '@angular/core';
 import { HttpDataService } from './shared/services/http-service/http-service.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { HttpDataService } from './shared/services/http-service/http-service.ser
   styleUrls: ['./app.component.scss'],
   
   })
-export class AppComponent {
+export class AppComponent implements AfterContentChecked {
   title = 'elog-web';
   loadingCount :number = this.httpDataService.loadingCount;
 
