@@ -8,7 +8,7 @@ import { ConfirmationDialogdata } from './confirmation-dialog.interface';
   templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.scss']
 })
-export class ConfirmationDialogComponent implements OnInit {
+export class ConfirmationDialogComponent {
 
   actionLabel:string= 'Confirm';
   constructor(public dialogref:MatDialogRef<ConfirmationDialogComponent>,
@@ -17,7 +17,5 @@ export class ConfirmationDialogComponent implements OnInit {
         this.actionLabel = data?.actionLabel
       }
     }
-  ngOnInit(): void {
-  }
-
+ 
 }
