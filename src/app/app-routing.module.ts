@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    canActivate: [LoginGuard],
+    // canActivate: [LoginGuard],
     canActivateChild:[RoleAuthenticationGuard],
     children: [
       {
