@@ -52,7 +52,7 @@
     <ng-container matColumnDef="Name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element">
-        <span [ngClass]="{'ownertype_badge': element.Name==='SuperAdmin','usertype_badge':element.Name!=='SuperAdmin'}">{{element.Name=="SuperAdmin" ? 'Owner':'user'}} </span>
+        <span [ngClass]="{'ownertype_badge': element.Name===SuperAdmin,'usertype_badge':element.Name!==SuperAdmin}">{{element.Name=="SuperAdmin" ? 'Owner':'user'}} </span>
         {{element.Name}}
       </td>
 
