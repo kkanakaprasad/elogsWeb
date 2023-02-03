@@ -1,5 +1,5 @@
 <div class="breadcrumb-panel">
-	<div *ngIf="currentRoute == '/dashboard'" class="d-flex justify-content-start align-items-center">
+	<div *ngIf="currentRoute ==='/dashboard'" class="d-flex justify-content-start align-items-center">
 		<div class="d-flex justify-content-center align-items-center">
 			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
       <mat-icon>keyboard_arrow_right</mat-icon>
@@ -8,7 +8,7 @@
       </span>
       <mat-icon>keyboard_arrow_right</mat-icon>
 		</div>
-		<ng-container *ngIf="organizationsList.length==1">
+		<ng-container *ngIf="organizationsList.length===1">
 			<div>{{organizationsList[0].organization}}</div>
 		</ng-container>
 		<ng-container *ngIf="organizationsList.length>1">
@@ -30,7 +30,7 @@
 		</ng-container>
 	</div>
 
-	<div *ngIf="currentRoute == '/activity'" class="d-flex justify-content-between w-100">
+	<div *ngIf="currentRoute === '/activity'" class="d-flex justify-content-between w-100">
 		<div class="d-flex">
 			<div class="d-flex align-items-center">
 				<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
@@ -40,7 +40,7 @@
            </span>
            <mat-icon>keyboard_arrow_right</mat-icon>
 			</div>
-			<ng-container *ngIf="organizationsList.length==1">
+			<ng-container *ngIf="organizationsList.length===1">
 				<div>{{organizationsList[0].organization}}</div>
 			</ng-container>
 			<ng-container *ngIf="organizationsList.length>1">
@@ -74,7 +74,7 @@
 	</div>
 
 
-	<div *ngIf="currentRoute == '/documents'" class="d-flex justify-content-start ">
+	<div *ngIf="currentRoute === '/documents'" class="d-flex justify-content-start ">
 		<div class="d-flex justify-content-center align-items-center">
 			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
 
@@ -82,7 +82,7 @@
        <span> Documents </span>
        <mat-icon>keyboard_arrow_right</mat-icon>
 		</div>
-		<ng-container *ngIf="organizationsList.length==1">
+		<ng-container *ngIf="organizationsList.length===1">
 			<div>{{organizationsList[0].organization}}</div>
 		</ng-container>
 		<ng-container *ngIf="organizationsList.length>1">
@@ -103,7 +103,7 @@
 		</ng-container>
 	</div>
 
-	<ng-container *ngIf="currentRoute == '/archive'">
+	<ng-container *ngIf="currentRoute === '/archive'">
 		<p>
 			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
       <mat-icon>keyboard_arrow_right</mat-icon>
@@ -113,7 +113,7 @@
 		</p>
 	</ng-container>
 
-	<ng-container *ngIf="currentRoute == '/organization-list'">
+	<ng-container *ngIf="currentRoute === '/organization-list'">
 		<div class="d-flex align-items-center">
 			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
       <mat-icon>keyboard_arrow_right</mat-icon>
@@ -123,7 +123,7 @@
     </div>
 	</ng-container>
 
-	<ng-container *ngIf="currentRoute == '/user-list'">
+	<ng-container *ngIf="currentRoute === '/user-list'">
 		<p>
 			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
       <mat-icon>keyboard_arrow_right</mat-icon>
@@ -133,7 +133,7 @@
 		</p>
 	</ng-container>
 
-	<ng-container *ngIf="currentRoute == '/company-settings'">
+	<ng-container *ngIf="currentRoute === '/company-settings'">
 		<p>
 			<mat-icon (click)="navigateToDashboard()" class="home-icon">home</mat-icon>
       <mat-icon>keyboard_arrow_right</mat-icon>

@@ -245,7 +245,7 @@
             </button>
           </div>
         </ng-container>
-        <ng-container *ngIf="logedInUserId == selectedActivityCreatedById && !isSuperAdmin">
+        <ng-container *ngIf="logedInUserId === selectedActivityCreatedById && !isSuperAdmin">
           <div class="d-flex justify-content-start">
             <button mat-stroked-button class="padding" (click)="refreshPage()" matTooltip="Refresh">
               <mat-icon>refresh</mat-icon>
@@ -361,7 +361,7 @@
         <mat-icon>attach_file</mat-icon>
         <h3 class="">
           {{
-          activityData?.attachments?.length == 0
+          activityData?.attachments?.length === 0
           ? "No Files in this Activity"
           : "Files in this Activity"
           }}
