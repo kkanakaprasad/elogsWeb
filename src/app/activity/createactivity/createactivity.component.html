@@ -3,6 +3,9 @@
     <mat-icon> note_add</mat-icon>
     <span>{{selectedActivityId? "Update Activity":"Create Activity"}}</span>
   </div>
+  <div class="d-flex justify-content-center"*ngIf=" userDetails?.organizationsdata?.length === 0">
+    <h2 class="errorMsg"> you are not part of any organization so you cannot create activity</h2>
+  </div>
   <div class="acitivity-panel">
     <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
 
@@ -17,8 +20,8 @@
               </mat-select>
             </mat-form-field>
           </ng-container>
-          <ng-container *ngIf="userDetails?.organizationsdata?.length === 1">
-            <h3 class="username">organization : {{ userDetails?.organizationsdata[0]?.organization}}</h3>
+          <ng-container *ngIf="userDetails?.organizationsdata?.length <=1">
+            <h3 class="username">organization : {{ userDetails?.organizationsdata?.length === 1 ? userDetails?.organizationsdata[0]?.organization : 'No Assigned organization'}}</h3>
           </ng-container>
         </div>
         <div class="col-6 mb-4">
