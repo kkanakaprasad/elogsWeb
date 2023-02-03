@@ -60,23 +60,22 @@ export class ArchiveComponent implements OnInit {
   }
 
   
-  archiveActionClick(type:any){
-    console.log(this.selection.selected.map(res=>res._id))
+  archiveActionClick(type:string){
     if(type==="Restore"){
       const payload={
         activityIds:this.selection.selected.map(res=>res._id),
         isArchive :false
       }
-      this.archiveService.PostRestoreSelectedActivities(payload).subscribe(res=>{
+      this.archiveService.postRestoreSelectedActivities(payload).subscribe(res=>{
         if (res) {
             this.alertpopupService.open({
-              message: res.message,
+              message:  res?.message ? res?.message : 'Activities archived successfully',
               action: 'ok'
             })
             this.getArchiveActivities();
           }} , (error) => {
             this.alertpopupService.open({
-              message: error.message,
+              message: error?.message ? error?.message : 'Failed to archive Activities  ',
               action: 'ok'
             })
           })
@@ -84,13 +83,13 @@ export class ArchiveComponent implements OnInit {
       this.archiveService.postDeleteSelectedActivities({ activityIds:this.selection.selected.map(res=>res._id)}).subscribe(res=>{
         if (res) {
           this.alertpopupService.open({
-            message: res.message,
+            message: res?.message ? res?.message : 'Activities removed successfully',
             action: 'ok'
           })
           this.getArchiveActivities();
         }} , (error) => {
           this.alertpopupService.open({
-            message: error.message,
+            message: error?.message ? error?.message : 'Failed to remove Activities  ',
             action: 'ok'
           })
         })
