@@ -1739,7 +1739,18 @@ h6,
       }
     }
   }
+}
 
+.no_org-card {
+  min-height: 200px;
+  margin-bottom: 30px;
+  display: grid;
+  place-items: center;
+
+  h4 {
+    letter-spacing: 0.05em;
+    color: #FF0000;
+  }
 }
 
 .tr.mat-header-row {
@@ -2054,7 +2065,7 @@ h6,
 
 .ownertype_badge {
   @extend .usertype_badge;
-  background: #a4d240 ;
+  background: #a4d240;
 }
 
 .activity_actions {

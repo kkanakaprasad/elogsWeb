@@ -56,7 +56,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource(this.usersList);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   selectedTabTextLableNumber: any;
-  SuperAdmin!: string;
+  roles = Roles
 
   constructor(private userService: UserService,
     private addNewUserService: AddNewUserService,
@@ -71,7 +71,6 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.userSearchCriteria(this.userPayload);
-    this.SuperAdmin= Roles.SuperAdmin
   }
 
   userSearchCriteria(payload: any) {
