@@ -12,4 +12,12 @@ export class ArchiveService {
   getArchiveActivities(): Observable<any>{
     return this.httpDataService.get(`activity/archive/activities`)
   }
+
+   PostRestoreSelectedActivities(payload:any):Observable<any>{
+    return this.httpDataService.post(`activity/archive/multiple`,payload)
+   }
+
+   postDeleteSelectedActivities(payload:any ):Observable<any>{
+    return this.httpDataService.post(`activity/delete/multiple`,payload)
+   }
 }

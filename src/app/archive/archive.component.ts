@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
 import { RouteConstants } from '../shared/constants/routes.constants';
 import { ArchiveService } from './archive.service';
 
@@ -17,10 +18,11 @@ export class ArchiveComponent implements OnInit {
   fileDisplayedColumns = ['Activity', 'FileName', 'Size', 'Organization'];
   dataSource = new MatTableDataSource(this.archiveActivitiesList);
   selection = new SelectionModel<any>(true, []);
- 
+
 
   constructor(private archiveService: ArchiveService,
-    private router:Router
+    private router:Router,
+    private alertpopupService:AlertpopupService
     ) { }
 
   ngOnInit(): void {
@@ -40,6 +42,7 @@ export class ArchiveComponent implements OnInit {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
+  
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -57,8 +60,40 @@ export class ArchiveComponent implements OnInit {
   }
 
   
-  archiveActionClick(event:any){
-    
-
+  archiveActionClick(type:any){
+    console.log(this.selection.selected.map(res=>res._id))
+    if(type==="Restore"){
+      const payload={
+        activityIds:this.selection.selected.map(res=>res._id),
+        isArchive :false
+      }
+      this.archiveService.PostRestoreSelectedActivities(payload).subscribe(res=>{
+        if (res) {
+            this.alertpopupService.open({
+              message: res.message,
+              action: 'ok'
+            })
+            this.getArchiveActivities();
+          }} , (error) => {
+            this.alertpopupService.open({
+              message: error.message,
+              action: 'ok'
+            })
+          })
+    }else if(type==="Remove"){
+      this.archiveService.postDeleteSelectedActivities({ activityIds:this.selection.selected.map(res=>res._id)}).subscribe(res=>{
+        if (res) {
+          this.alertpopupService.open({
+            message: res.message,
+            action: 'ok'
+          })
+          this.getArchiveActivities();
+        }} , (error) => {
+          this.alertpopupService.open({
+            message: error.message,
+            action: 'ok'
+          })
+        })
+    }
   }
 }
