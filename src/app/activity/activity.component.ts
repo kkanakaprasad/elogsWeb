@@ -647,16 +647,19 @@ export class ActivityComponent implements OnInit, AfterViewInit {
     });
     switch (type.tab.textLabel) {
       case "ALL":
-        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: undefined, onlyMyTasks: false });
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [],status:[], dueDate: undefined, onlyMyTasks: false });
         break;
       case "MY_TASKS":
-        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: undefined, onlyMyTasks: true, organizations: this.selectedOrganizationIds });
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [],status:[], dueDate: undefined, onlyMyTasks: true, organizations: this.selectedOrganizationIds });
         break;
+        case "ACTIVE":
+          this.activitySearchCriteriaPayload.next({ ...data, priority: [],status:["INPROGRESS","NEW"], dueDate: undefined, onlyMyTasks: false });
+          break;
       case "OVERDUE":
-        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: { customString: "OVERDUE" }, onlyMyTasks: false });
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [], status:[],dueDate: { customString: "OVERDUE" }, onlyMyTasks: false });
         break;
       case "HIGH":
-        this.activitySearchCriteriaPayload.next({ ...data, priority: ["HIGH"], dueDate: undefined, onlyMyTasks: false });
+        this.activitySearchCriteriaPayload.next({ ...data, priority: ["HIGH"],status:[], dueDate: undefined, onlyMyTasks: false });
         break;
       default:
         break;

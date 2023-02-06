@@ -114,6 +114,8 @@ export class ActivityDetailsComponent implements OnInit {
 			this.activityLogForm.controls['priority'].setValue(this.activityData?.priority)
 			this.activityLogForm.controls['status'].setValue(this.activityData?.status)
 			this.activityLogForm.controls['assignTo'].setValue(this.activityData?.assignTo)
+			this.activityLogForm.controls['visibility'].setValue(this.activityData?.visibility)
+			
 		})
 	}
 
