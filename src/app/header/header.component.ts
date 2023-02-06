@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { ActivityService } from '../activity/activity.service';
 import { CompanySettingsService } from '../company-settings/company-settings.service';
 import { OrganizationService } from '../organization/organization.service';
 import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
@@ -32,6 +33,7 @@ export class HeaderComponent implements OnInit {
   companyName = '';
   searchText : string = "";
   currentRoute:any;
+  surchResult: any;
 
   constructor(private organizationService: OrganizationService,
     private storageService: StorageService,
@@ -41,7 +43,8 @@ export class HeaderComponent implements OnInit {
     private userService: UserService,
     private eventCommunicationsService: EventCommunicationsService,
     private companySettingsService: CompanySettingsService,
-    private searchTriggerService: SearchTriggerService) {
+    private searchTriggerService: SearchTriggerService,
+    private activityService: ActivityService) {
     }
 
   ngOnInit(): void {
@@ -123,6 +126,11 @@ export class HeaderComponent implements OnInit {
 
   onSerchChange(){
     this.searchTriggerService.setSearchData(this.searchText);
+    this.activityService.getActivitiesSearchCriteria({pageNumber:0,pageSize:10,sortField:"",sortOrder:1,isArchive:false,onlyMyTasks:false,priority:[],organizations:[],searchTerm:this.searchText}).subscribe((res:any)=>{
+      console.log(res)
+      this.surchResult=res.data[0].activities
+
+    })
   }
 }
 

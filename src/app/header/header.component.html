@@ -6,19 +6,24 @@
         </a>
         <span (click)="sidebarShow()" class="hamburger"><i class="material-icons toggle-sidebar-btn">dehaze</i></span>
     </div>
-    <div class="search-bar">
+    <div class="search-bar" >
         <div class="search-form d-flex align-items-center"  >
-            <input  type="text" placeholder="Search For Activities"   [(ngModel)]="searchText" (ngModelChange)="onSerchChange()">
+            <input  [matAutocomplete]="auto"  type="text" placeholder="Search For Activities"   [(ngModel)]="searchText" (ngModelChange)="onSerchChange()">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let result of surchResult">
+                   {{result.title}} 
+                </mat-option>
+              </mat-autocomplete>
             <button  title="Search" (click)="onSerchChange()">
                 <i class="material-icons">search</i></button>
         </div>
     </div>
-
+   
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
 
             <li class="nav-item d-block d-lg-none">
-                <a class="nav-link nav-icon search-bar-toggle " href="#">
+                <a class="nav-link nav-icon search-bar-toggle " >
                     <i class="material-icons">search </i>
                 </a>
             </li>
