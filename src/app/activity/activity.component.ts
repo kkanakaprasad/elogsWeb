@@ -713,6 +713,7 @@ export class ActivityComponent implements OnInit, AfterViewInit {
     }
     this.activityService.getActivitiesCountForHeaders(payload).subscribe((res)=>{
       this.activitiesTabCount = res.data[0];
+      console.log(this.activitiesTabCount)
     })
   }
 
