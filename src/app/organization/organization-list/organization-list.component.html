@@ -1,7 +1,7 @@
 <div class="page-wrapper">
   <mat-tab-group class="organization-cards" (selectedTabChange)="applyOrganizationFilters($event)">
     <mat-tab label={{filters.IS_ACTIVE}}>
-        <ng-template mat-tab-label>
+      <ng-template mat-tab-label>
         <mat-icon>person_pin</mat-icon>
         Active ({{activeMetricsCount ? activeMetricsCount : 0}})
       </ng-template>
@@ -37,10 +37,8 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div class="col-md-4 org-card" *ngIf="organizationList?.length === 0 ">
-        <mat-card >
-          <h1>No Organizations Assigned!!</h1>
-        </mat-card>
+      <div class="col-md-4 no_org-card" *ngIf="organizationList?.length === 0 ">
+        <h4>No Organizations Assigned!!</h4>
       </div>
       <div class="col-md-4 org-card" *ngFor="let organization of organizationList">
         <mat-card>
@@ -120,7 +118,7 @@
                     Enable
                   </span>
                 </ng-container>
-                </div>
+              </div>
 
             </div>
           </mat-card-content>

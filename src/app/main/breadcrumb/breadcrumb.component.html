@@ -64,7 +64,11 @@
 		<div class="activity-status-group">
 			<mat-button-toggle-group class="mat-button-toggle" name="fontStyle" aria-label="Font Style">
 				<mat-button-toggle *ngFor="let status of activityFiltersData.status"
-					(click)="selectedActivitiesStatus(status)">{{status.count ? status.count : 0}} {{status.DisplayName}}</mat-button-toggle>
+					(click)="selectedActivitiesStatus(status)">
+					<span  [ngClass]="{'not-admissible': status.DisplayName === 'Not Admissible',
+					'resolved': status.DisplayName === 'Resolved',
+					'in-progress': status.DisplayName === 'In Progress',
+					'new': status.DisplayName==='New'}">{{status.count ? status.count : 0}} </span> <span>{{status.DisplayName}} </span></mat-button-toggle>
 			</mat-button-toggle-group>
 		</div>
 	</div>

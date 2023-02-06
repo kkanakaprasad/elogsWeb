@@ -1,7 +1,7 @@
 <div class="elog-dialog">
 
   <!-- <div class="d-flex justify-content-between"> -->
-    <h1 class="user"> <span> Add User <small>></small> {{ organizationName }}</span> 
+  <h1 class="user"> <span class="breadcrumb-panel"> Add User <mat-icon style="color: #595858;"> keyboard_arrow_right</mat-icon> {{ organizationName }}</span>
     <button mat-raised-button color="primary" mat-dialog-close="true" [mat-dialog-close]="false" (click)="addUser()">
       <mat-icon>person_add</mat-icon> <span> Add New User</span>
     </button>
@@ -9,7 +9,7 @@
   <!-- </div> -->
 
 
-  <div class="row mt-2">
+  <div class="d-flex mt-2">
     <div class="col-md-8">
       <div class="selected-chips">
         <mat-chip-list>
@@ -33,38 +33,39 @@
 
   <mat-card-content class="elog-dialog-body p-0">
     <div mat-dialog-content>
-      <div class="row">
+      <div class="row px-1 gx-0 mt-1">
         <!-- unassigned users table -->
         <div class="col-8">
+          <section class="adduser-table" tabindex="0" *ngIf="dataSource.filteredData?.length !== 0">
+            <table mat-table [dataSource]="dataSource" style="padding-right: 10px; width: 100%">
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
 
-          <table mat-table [dataSource]="dataSource" style="padding-right: 10px; width: 100%">
-            <ng-container matColumnDef="select">
-              <th mat-header-cell *matHeaderCellDef>
-                <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                  [checked]="selection.hasValue() && isAllSelected()"
-                  [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                </mat-checkbox>
-              </th>
-              <td mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                  [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                </mat-checkbox>
-              </td>
-            </ng-container>
+              <ng-container matColumnDef="Name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let element">{{ element?.Name }}</td>
+              </ng-container>
 
-            <ng-container matColumnDef="Name">
-              <th mat-header-cell *matHeaderCellDef>Name</th>
-              <td mat-cell *matCellDef="let element">{{ element?.Name }}</td>
-            </ng-container>
+              <ng-container matColumnDef="Email">
+                <th mat-header-cell *matHeaderCellDef>Email</th>
+                <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+              </ng-container>
 
-            <ng-container matColumnDef="Email">
-              <th mat-header-cell *matHeaderCellDef>Email</th>
-              <td mat-cell *matCellDef="let element">{{ element.email }}</td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="selection.toggle(row)"></tr>
-          </table>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="selection.toggle(row)"></tr>
+            </table>
+          </section>
           <div *ngIf="dataSource.filteredData?.length === 0">
             <mat-card class="noUserFoundCard">
               No users found
@@ -72,20 +73,27 @@
           </div>
         </div>
 
-        <div class="col-4 px-4">
+        <div class="col-4 px-1">
           <!-- organization users table -->
-          <table mat-table [dataSource]="dataSourceUsers">
-            <!-- Name Column -->
-            <ng-container matColumnDef="User">
-              <th mat-header-cell *matHeaderCellDef>
-                User(s) in this Organization
-              </th>
-              <td mat-cell *matCellDef="let element">{{ element.Name }}</td>
-            </ng-container>
+          <section class="adduser-table" tabindex="0" *ngIf="dataSourceUsers.filteredData?.length !== 0">
+            <table mat-table [dataSource]="dataSourceUsers">
+              <!-- Name Column -->
+              <ng-container matColumnDef="User">
+                <th mat-header-cell *matHeaderCellDef>
+                  User(s) in this Organization
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element.Name }}</td>
+              </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers"></tr>
-          </table>
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers"></tr>
+            </table>
+          </section>
+          <div *ngIf="dataSourceUsers.filteredData?.length === 0">
+            <mat-card class="noUserFoundCard">
+              No users in this organization
+            </mat-card>
+          </div>
         </div>
       </div>
     </div>

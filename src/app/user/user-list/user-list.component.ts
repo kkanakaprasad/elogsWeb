@@ -56,6 +56,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource(this.usersList);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   selectedTabTextLableNumber: any;
+  roles = Roles
 
   constructor(private userService: UserService,
     private addNewUserService: AddNewUserService,
