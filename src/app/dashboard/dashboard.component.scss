@@ -1,7 +1,7 @@
 .over-due {
     display: flex;
     min-width: 100px;
-   
+
     mat-icon {
         font-size: 18px;
     }
@@ -10,6 +10,7 @@
 .todos-message {
     text-align: center;
     color: rgb(233, 14, 14);
+    padding: 10px;
 }
 
 .text-end {

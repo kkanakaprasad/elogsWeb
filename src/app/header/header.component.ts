@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
     this.userDetails();
     this.companySettingsService.getCompanySettings().subscribe((res) => {
       this.companyName = res.companySettings[0].name;
-    }); 
+    });
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.eventCommunicationsService.on("RELOAD_NAME").subscribe((data) => {
        this.companyName = data;
@@ -77,7 +77,6 @@ export class HeaderComponent implements OnInit {
   sidebarShow() {
     const bodyElement = document.body;
     bodyElement.classList.toggle("toggle_sidebar");
-
   }
 
   openCreateOrganizationPopup() {
