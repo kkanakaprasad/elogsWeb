@@ -126,7 +126,17 @@ export class HeaderComponent implements OnInit {
 
   onSerchChange(){
     this.searchTriggerService.setSearchData(this.searchText);
-    this.activityService.getActivitiesSearchCriteria({pageNumber:0,pageSize:10,sortField:"",sortOrder:1,isArchive:false,onlyMyTasks:false,priority:[],organizations:[],searchTerm:this.searchText}).subscribe((res:any)=>{
+    const payload={
+      pageNumber:0,
+      pageSize:10,
+      sortField:"",
+      sortOrder:1,
+      isArchive:false,
+      onlyMyTasks:false,
+      priority:[],
+      organizations:[],
+      searchTerm:this.searchText}
+    this.activityService.getActivitiesSearchCriteria(payload).subscribe((res:any)=>{
       this.surchResult=res.data[0].activities
     })
   }
