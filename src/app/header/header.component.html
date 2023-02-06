@@ -10,8 +10,11 @@
         <div class="search-form d-flex align-items-center"  >
             <input  [matAutocomplete]="auto"  type="text" placeholder="Search For Activities"   [(ngModel)]="searchText" (ngModelChange)="onSerchChange()">
             <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let result of surchResult">
-                   {{result.title}} 
+                <mat-option *ngFor="let result of surchResult"  (click)="navigateToSelectedActivity(result._id)">
+                   {{result.uniqIdentity}} | <span [ngClass]="{'not-admissible': result?.status.toLowerCase() === 'rejected',
+                   'resolved': result?.status.toLowerCase() === 'resolved',
+                   'in-progress': result?.status.toLowerCase() === 'inprogress',
+                   'new': result?.status.toLowerCase() === 'new'}">{{result.status | titlecase}}</span> | {{result.title}} 
                 </mat-option>
               </mat-autocomplete>
             <button  title="Search" (click)="onSerchChange()">
