@@ -9,6 +9,9 @@ body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   background: #f3f4f9;
+  &::before{
+    color: '';
+  }
 }
 
 a {
@@ -510,23 +513,7 @@ h6,
 }
 
 /** MEDIA **/
-@media (max-width: 992px) {
-  .login-12 .logo-2 {
-    display: inherit;
-  }
 
-  .login-12 .bg-img {
-    display: none;
-  }
-
-  .login-12 .form-section {
-    padding: 30px 15px;
-  }
-
-  .org_mob_icon {
-    display: block;
-  }
-}
 
 /*--------------------------------------------------------------
 # Header
@@ -535,11 +522,7 @@ h6,
   line-height: 1;
 }
 
-@media (min-width: 1200px) {
-  .logo {
-    width: 150px;
-  }
-}
+
 
 .logo img {
   width: 120px;
@@ -575,28 +558,6 @@ h6,
   min-width: 360px;
   padding: 0 20px;
   margin-left: 10px;
-}
-
-@media (max-width: 1199px) {
-  .header .search-bar {
-    position: fixed;
-    top: 50px;
-    left: 0;
-    right: 0;
-    padding: 20px;
-    box-shadow: 0px 0px 15px 0px rgba(1, 41, 112, 0.1);
-    background: white;
-    z-index: 9999;
-    transition: 0.3s;
-    visibility: hidden;
-    opacity: 0;
-  }
-
-  .header .search-bar-show {
-    top: 60px;
-    visibility: visible;
-    opacity: 1;
-  }
 }
 
 .header .search-form {
@@ -848,16 +809,6 @@ h6,
   padding-top: 10px;
 }
 
-@media (max-width: 1199px) {
-  .sidebar {
-    left: -300px;
-  }
-
-  .main-panel {
-    margin-left: 0px;
-  }
-}
-
 /*--------------------------------------------------------------
   # Sidebar
   --------------------------------------------------------------*/
@@ -890,16 +841,6 @@ h6,
   padding: 15px;
 }
 
-@media (max-width: 1199px) {
-  .sidebar {
-    left: -300px;
-  }
-
-  .main-panel {
-    margin-left: 0px;
-  }
-}
-
 .sidebar::-webkit-scrollbar {
   width: 5px;
   height: 8px;
@@ -908,32 +849,6 @@ h6,
 
 .sidebar::-webkit-scrollbar-thumb {
   background-color: #aab7cf;
-}
-
-@media (min-width: 1200px) {
-
-  #main,
-  #footer {
-    margin-left: 190px;
-  }
-}
-
-@media (max-width: 1199px) {
-  .toggle_sidebar .sidebar {
-    left: 0;
-  }
-}
-
-@media (min-width: 1200px) {
-
-  .toggle_sidebar #main,
-  .toggle_sidebar #footer {
-    margin-left: 0;
-  }
-
-  .toggle_sidebar .sidebar {
-    left: -190px;
-  }
 }
 
 .app-sidebar__user {
@@ -1296,6 +1211,15 @@ h6,
       right: 1px;
       position: relative;
       top: 8px;
+    }
+    &:hover{
+      background: #d8d8d8;
+      &::after{
+        content: url(../src/assets/images/arw_after.png);
+        right: 1px;
+        position: relative;
+        top: 8px;
+      }
     }
   }
 
@@ -2126,6 +2050,8 @@ h6,
   padding: 5px 10px;
   align-items: center;
   border-bottom: 1px solid #d9d9d9;
+  transition: all 0.3s;
+
 
   .mat-icon {
     color: #c6c6c6;
