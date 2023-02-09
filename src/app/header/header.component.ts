@@ -31,9 +31,10 @@ export class HeaderComponent implements OnInit {
   }
   isSuperAdmin: boolean = false;
   companyName = '';
-  searchText : string = "";
-  currentRoute:any;
+  searchText: string = "";
+  currentRoute: any;
   surchResult: any;
+  inputPlaceHolder = "Actvities"  
 
   constructor(private organizationService: OrganizationService,
     private storageService: StorageService,
@@ -45,7 +46,20 @@ export class HeaderComponent implements OnInit {
     private companySettingsService: CompanySettingsService,
     private searchTriggerService: SearchTriggerService,
     private activityService: ActivityService) {
-    }
+    this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
+      this.currentRoute = event.url
+      if (this.currentRoute !== `/${RouteConstants.DASHBOARD}`) {
+        this.surchResult = [];
+      }
+      if(this.currentRoute === `/${RouteConstants.USER_LIST}`){
+        this.inputPlaceHolder = 'Users'
+      }else{
+        this.inputPlaceHolder = 'Activities'
+      }
+      this.searchText = ""
+      this.onSerchChange()
+    });
+  }
 
   ngOnInit(): void {
     this.userDetails();
@@ -54,8 +68,8 @@ export class HeaderComponent implements OnInit {
     });
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.eventCommunicationsService.on("RELOAD_NAME").subscribe((data) => {
-       this.companyName = data;
-      });
+      this.companyName = data;
+    });
   }
 
   userDetails() {
@@ -123,24 +137,31 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([RouteConstants.COMPANY_SETTINGS])
   }
 
-  onSerchChange(){
+  onSerchChange() {
     this.searchTriggerService.setSearchData(this.searchText);
-    const payload={
-      pageNumber:0,
-      pageSize:10,
-      sortField:"",
-      sortOrder:1,
-      isArchive:false,
-      onlyMyTasks:false,
-      priority:[],
-      organizations:[],
-      searchTerm:this.searchText}
-    this.activityService.getActivitiesSearchCriteria(payload).subscribe((res:any)=>{
-      this.surchResult=res.data[0].activities
-    })
+    this.surchResult = [];
+    if (this.currentRoute === `/${RouteConstants.DASHBOARD}`) {
+      const payload = {
+        pageNumber: 0,
+        pageSize: 10,
+        sortField: "",
+        sortOrder: 1,
+        isArchive: false,
+        onlyMyTasks: false,
+        priority: [],
+        organizations: [],
+        searchTerm: this.searchText
+      }
+      if (this.searchText && this.searchText !== '') {
+        this.activityService.getActivitiesSearchCriteria(payload).subscribe((res: any) => {
+          this.surchResult = res.data[0].activities
+        })
+      }
+    }
+
   }
 
-  navigateToSelectedActivity(actvityId:string){
+  navigateToSelectedActivity(actvityId: string) {
     this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: actvityId } })
   }
 }

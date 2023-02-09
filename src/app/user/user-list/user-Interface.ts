@@ -8,6 +8,7 @@ export interface UserSearchCriteria {
     role: string,
     userId: string | undefined,
     user:string,
+    searchTerm ?: string
 }
 
 export interface OverDueTaskSearchCriteria{
