@@ -173,7 +173,7 @@ export class CreateactivityComponent implements OnInit {
           priority: Priority[0], 
           status: Status[0], 
           description:this.descriptionOfTextEditor,
-          visibility : 'EVERYONE'
+          visibility : 'INTERNAL'
         }
         
         this.activityService.postActivity(payload).subscribe((res) => {
