@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
   overDueActivities: any = [];
   upComingActivities: any = [];
   isSuperAdmin!: boolean;
-  todoActivityCount: any;
+  todoActivitiesCount: any;
 
 
 
@@ -214,7 +214,7 @@ export class DashboardComponent implements OnInit {
     }
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
       this.upComingActivities = res?.data[0].activities;
-      this.todoActivityCount = res?.data[0].count[0].count;
+      this.todoActivitiesCount = res?.data[0].count[0].count;
     })
   }
 
