@@ -112,19 +112,10 @@ export class HeaderComponent implements OnInit {
       }
     })
   }
-  profile() {
 
-    this.router.navigate([RouteConstants.PROFILE])
-  }
+  navigateToProfile(tabId : string) {
 
-  notifications() {
-    this.router.navigate([RouteConstants.PROFILE])
-  }
-  emailReports() {
-    this.router.navigate([RouteConstants.PROFILE])
-  }
-  changetab() {
-    this.router.navigate([RouteConstants.PROFILE])
+    this.router.navigate([RouteConstants.PROFILE],{queryParams : {tab : tabId}})
   }
 
   navigateTomyCompany() {

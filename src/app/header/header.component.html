@@ -52,9 +52,9 @@
                         <div class="menu">
                             <div class="settings-menu">
                                 <h4>Personal Settings</h4>
-                                <button mat-menu-item (click)="profile()">Profile</button>
-                                <button mat-menu-item (click)="notifications()">Notifications</button>
-                                <button mat-menu-item (click)="emailReports()">Email Reports</button>
+                                <button mat-menu-item (click)="navigateToProfile('0')">Profile</button>
+                                <button mat-menu-item (click)="navigateToProfile('2')">Notifications</button>
+                                <button mat-menu-item (click)="navigateToProfile('3')">Email Reports</button>
                                 <button class="btn-logout" mat-menu-item (click)="logout()">Logout</button>
                             </div>
 
