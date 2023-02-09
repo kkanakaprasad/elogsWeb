@@ -6,7 +6,7 @@
   <div class="d-flex justify-content-center"*ngIf=" userDetails?.organizationsdata?.length === 0">
     <h2 class="errorMsg"> you are not part of any organization so you cannot create activity</h2>
   </div>
-  <div class="acitivity-panel">
+  <div class="acitivity-panel" *ngIf=" userDetails?.organizationsdata?.length >= 1">
     <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
 
       <div class="row">
