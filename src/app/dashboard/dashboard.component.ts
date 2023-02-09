@@ -36,9 +36,10 @@ export class DashboardComponent implements OnInit {
   userMetricsCount: any;
   organizationsMetricsCount: any;
   selectedOrganizationIds: any;
-  overDueActivities : any=[];
-  upComingActivities:any=[];
+  overDueActivities: any = [];
+  upComingActivities: any = [];
   isSuperAdmin!: boolean;
+  todoActivitiesCount: any;
 
 
 
@@ -56,12 +57,12 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.profileService.getUserById(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res: any) => {})
+    this.profileService.getUserById(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res: any) => { })
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
       this.selectedOrganizationIds = res;
       this.getOverDueTaskForDashBoard();
-    this.getUpComingTaskForDashBoard();
+      this.getUpComingTaskForDashBoard();
       this.postDashBoardDueDateMetrics();
       this.postDashBoardRelatedToMetrics();
       this.postDashBoardActivityMetrics();
@@ -76,7 +77,7 @@ export class DashboardComponent implements OnInit {
     this.userDetails();
     this.getUserMetricsForDashBoard();
     this.getOrganizationsMetricsForDashBoard();
-      }
+  }
   openDialog() {
     this.organizationService.openCreateOrganizatioPopup()
   }
@@ -213,31 +214,32 @@ export class DashboardComponent implements OnInit {
     }
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
       this.upComingActivities = res?.data[0].activities;
+      this.todoActivitiesCount = res?.data[0].count[0].count;
     })
   }
 
   navigateToActivityDetails(activity: any) {
-    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity} });
+    this.router.navigate([RouteConstants.ACTIVITY_DETAILS], { queryParams: { aId: activity } });
   }
 
 
   goToActivityList() {
-    const activityPayload = { 
-      "pageNumber": 0, 
-      "pageSize": 10, 
-      "sortField": "", 
-      "sortOrder": 1, 
-      "isArchive": false, 
-      "onlyMyTasks": false, 
-      "types": [], 
-      "status": ["INPROGRESS", "NEW"], 
-      "entryTypes": [], 
-      "scope": [], 
-      "priority": [], 
-      "geography": [], 
-      "organizations": [] 
+    const activityPayload = {
+      "pageNumber": 0,
+      "pageSize": 10,
+      "sortField": "",
+      "sortOrder": 1,
+      "isArchive": false,
+      "onlyMyTasks": false,
+      "types": [],
+      "status": ["INPROGRESS", "NEW"],
+      "entryTypes": [],
+      "scope": [],
+      "priority": [],
+      "geography": [],
+      "organizations": []
     }
-    this.storageService.setDataToLocalStorage(STORAGE_KEYS.ACTIVITY_FILTERS,JSON.stringify(activityPayload))
+    this.storageService.setDataToLocalStorage(STORAGE_KEYS.ACTIVITY_FILTERS, JSON.stringify(activityPayload))
     this.router.navigate([RouteConstants.ACTIVITY]);
   }
 
