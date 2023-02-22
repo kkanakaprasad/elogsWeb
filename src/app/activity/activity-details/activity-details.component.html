@@ -104,7 +104,7 @@
 
           <div class="col-md-12 my-2" *ngFor="let activity of activityLogData;let i = index">
 
-            <div class="activity_card">
+            <div class="activity_card" *ngIf="isShowActivityLog(activity)" >
                 <div class="d-flex justify-content-between">
                   <div class="d-flex">
                     <mat-icon class="mat-i">account_circle</mat-icon>

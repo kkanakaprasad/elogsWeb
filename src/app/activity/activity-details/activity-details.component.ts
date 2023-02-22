@@ -122,7 +122,7 @@ export class ActivityDetailsComponent implements OnInit {
 	getLogedInUserDetails() {
 		this.userDetailsService.getUserDetails().subscribe((res) => {
 			this.logedInUserDetails = res
-			this.isAssignee = res?.organization?.includes(this.activityData?.assignTo)
+			this.isAssignee = res?.organization?.includes(this.activityData?.assignTo);
 		})
 	}
 
@@ -153,9 +153,24 @@ export class ActivityDetailsComponent implements OnInit {
 		})
 	}
 
+	setOrganizationIdInActivityLog(){
+		if(this.logedInUserDetails.organization.length === 0){
+			return this.logedInUserDetails.organization[0];
+		}else{
+			let organizationId = this.logedInUserDetails?.organization.filter((org : string)=> org === this.activityData?.assignTo)
+			if(organizationId.length !== 0 ){
+				return organizationId[0];
+			}else{
+				organizationId = this.logedInUserDetails?.organization.filter((org : string)=> org === this.activityData?.createdByOrganization);
+				return organizationId[0];
+			}
+		}
+	}
+
 	onSubmit() {
 		const payload = {
 			...this.activityLogForm.value,
+			organizationId : this.setOrganizationIdInActivityLog(),
 			attachments: this.filesListArray.length === 0 ? undefined : this.filesListArray,
 			message: this.description
 		}
@@ -483,6 +498,22 @@ export class ActivityDetailsComponent implements OnInit {
 		return status === 'MEDIUM' ? 'confirm'
 			: status === 'HIGH' ? 'reject'
 				: ''
+	}
+
+	isShowActivityLog(activity : any){
+		if(this.isSuperAdmin){
+			return true
+		}else if(activity.visibility === "EVERYONE" ){
+			return true;
+		}else{
+			let value = this.logedInUserDetails.organization.includes(activity.organizationId);
+			if(value){
+				return true;
+			}else{
+				value = this.logedInUserDetails.organization.includes(activity.organizationId);
+				return value;
+			}
+		}
 	}
 
 }
