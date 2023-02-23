@@ -1,5 +1,6 @@
 <div class="container" appDnd (fileDropped)="onFileDropped($event)">
-	<input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event)" />
+	<input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event)" 
+	accept="application/pdf,application/vnd.ms-excel, image/gif, image/jpeg, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword application/vnd.ms-powerpoint" />
 	
   <mat-icon>upload_file</mat-icon>
 	<h3>Drag and drop file here</h3>

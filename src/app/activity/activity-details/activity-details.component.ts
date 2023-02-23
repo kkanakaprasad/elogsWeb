@@ -62,6 +62,7 @@ export class ActivityDetailsComponent implements OnInit {
 	ministryName: any;
 	isFilesListArray: boolean = true;
 	minDate: any;
+	fileAttachmments :any;
 
 
 	constructor(
@@ -175,6 +176,15 @@ export class ActivityDetailsComponent implements OnInit {
 			message: this.description
 		}
 		this.activityService.updateActivityLogById(this.selectedActivityId, payload).subscribe(res => {
+			let details = res.data.activityLog
+			if(this.fileAttachmments.length !== 0){
+				let formData = new FormData()
+				for(let fileIndex = 0 ; fileIndex < this.fileAttachmments.length; fileIndex++ ){
+					formData.append(`${this.selectedActivityId}/${details[details.length - 1]._id}`, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex].name )
+				}
+				this.uploadAttachments(formData);
+			}
+
 			this.alertpopupService.open({
 				message: res.message ? res.message : 'Activity Updated Successfully',
 				action: 'ok'
@@ -217,13 +227,15 @@ export class ActivityDetailsComponent implements OnInit {
 	}
 
 	updatedFilesDescription(event: any) {
-		for (var i = 0; i < event.length; i++) {
-			this.filesListArray.push({
-				name: event[i].name,
-				size: event[i].size,
-				path: "string"
-			});
-		}
+		let files = event.target.files;
+		this.fileAttachmments = files;
+		for (var i = 0; i < files.length; i++) {
+		  this.filesListArray.push({
+			name: files[i].name,
+			size: files[i].size.toString(),
+			path: "string",
+		  });
+		} 
 	}
 
 	updateActivityDetails() {
@@ -514,6 +526,43 @@ export class ActivityDetailsComponent implements OnInit {
 				return value;
 			}
 		}
+	}
+
+	uploadAttachments(formData : FormData){
+		this.activityService.uploadAttachments(formData).subscribe((res:any)=>{
+		})
+	  }
+
+	downloadAttachment(activityLogData : any,attachmentData : any){
+		const payload ={
+			fileName : attachmentData.name,
+			path : `${this.selectedActivityId}/${activityLogData._id}`
+		}
+
+		this.activityService.dowloadAttachments(payload).subscribe((blob=>{
+			const link = document.createElement('a');
+			link.href = window.URL.createObjectURL(blob);
+			link.download = attachmentData.name;
+			link.click();
+			window.URL.revokeObjectURL(link.href);
+		}),(error:any)=>{
+		})
+	}
+
+	downloadActivityAttachment(attachmentData:any){
+		const payload ={
+			fileName : attachmentData.name,
+			path : `${this.selectedActivityId}`
+		}
+
+		this.activityService.dowloadAttachments(payload).subscribe((blob=>{
+			const link = document.createElement('a');
+			link.href = window.URL.createObjectURL(blob);
+			link.download = attachmentData.name;
+			link.click();
+			window.URL.revokeObjectURL(link.href);
+		}),(error:any)=>{
+		})
 	}
 
 }

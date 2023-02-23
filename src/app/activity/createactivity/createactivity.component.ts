@@ -41,6 +41,7 @@ export class CreateactivityComponent implements OnInit {
   descriptionOfTextEditor: any;
   priority=Priority;
   status=Status;
+  fileAttachmments :any;
 
 
   constructor(
@@ -146,12 +147,19 @@ export class CreateactivityComponent implements OnInit {
 
     if (this.selectedActivityId) {
       const payload = { ...this.activityForm.value, 
-        attachments: this.filesListArray, 
+        attachments: [...this.filesListArray,...this.selectedActivityData.attachments], 
         organization: this.selectedOrganizationValue, 
         priority: Priority[0] , 
         status: Status[0],  
       }
       this.activityService.updateActivity(this.selectedActivityId, payload).subscribe(res => {
+        if(this.fileAttachmments.length !== 0 ){
+          let formData = new FormData()
+          for(let fileIndex = 0 ; fileIndex < this.fileAttachmments.length; fileIndex++ ){
+            formData.append(res.data[0]._id, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex].name )
+          }
+          this.uploadAttachments(formData);
+        }
         this.alertpopupService.open({
           message: res.message ? res.message : 'Activity updated Successfully',
           action: 'ok'
@@ -177,6 +185,13 @@ export class CreateactivityComponent implements OnInit {
         }
         
         this.activityService.postActivity(payload).subscribe((res) => {
+          if(this.fileAttachmments.length !== 0 ){
+            let formData = new FormData()
+            for(let fileIndex = 0 ; fileIndex < this.fileAttachmments.length; fileIndex++ ){
+              formData.append(res.newActivity._id, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex].name )
+            }
+            this.uploadAttachments(formData);
+          }
           this.alertpopupService.open({
             message: res.message ? res.message : 'Activity Created Successfully',
             action: 'ok'
@@ -223,13 +238,22 @@ export class CreateactivityComponent implements OnInit {
 
   }
   updatedFilesDescription(event:any){
-    for (var i = 0; i < event.length; i++) {
+    let files = event.target.files;
+    this.fileAttachmments = files;
+    for (var i = 0; i < files.length; i++) {
       this.filesListArray.push({
-        name: event[i].name,
-        size: event[i].size.toString(),
-        path: "string"
+        name: files[i].name,
+        size: files[i].size.toString(),
+        path: "string",
       });
     } 
   }
+
+  uploadAttachments(formData : FormData){
+    this.activityService.uploadAttachments(formData).subscribe((res:any)=>{
+    })
+  }
+
+
 
 }
