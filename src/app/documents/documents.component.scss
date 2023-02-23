@@ -2,8 +2,8 @@
   width: 100%;
 }
 
-.documentTable,
-th {
-  font-size: 1em;
-  background-color: #f0f0f0;
+th.mat-header-cell {
+  text-align: left;
+  font-size: 1rem;
+  background: #f0f0f0;
 }
