@@ -9,7 +9,7 @@
    
     <ng-container matColumnDef="FileName" >
         <th mat-header-cell *matHeaderCellDef> FileName </th>
-        <td mat-cell *matCellDef="let element" (click)="downloadDocumement(element)"> {{element?.nestedAttchments?.name}} </td>
+        <td mat-cell *matCellDef="let element" (click)="downloadDocumement(element)" class="attachment-download"> {{element?.nestedAttchments?.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="Size">
