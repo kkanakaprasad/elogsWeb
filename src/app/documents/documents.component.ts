@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivityService } from '../activity/activity.service';
 import { PaginationProps } from '../shared/constants/pagination';
 import { DocumentsService } from './documents.service';
 
@@ -26,7 +27,9 @@ export class DocumentsComponent implements OnInit,AfterViewInit{
   totalDocumentCount: any;
   
 
-  constructor(private documentsService: DocumentsService) { 
+  constructor(private documentsService: DocumentsService,
+		private activityService: ActivityService,
+    ) { 
 
   }
   ngOnInit(): void {
@@ -48,5 +51,26 @@ export class DocumentsComponent implements OnInit,AfterViewInit{
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  downloadDocumement(element : any){
+    const payload ={
+			fileName : element.nestedAttchments.name,
+      path : `${element._id}`
+		}
+
+    if(element.nestedAttchments.activityLogId){
+      payload.path = `${element._id}/${element.nestedAttchments.activityLogId}`
+    }
+
+		this.activityService.dowloadAttachments(payload).subscribe((blob=>{
+			const link = document.createElement('a');
+			link.href = window.URL.createObjectURL(blob);
+			link.download = element.nestedAttchments.name;
+			link.click();
+			window.URL.revokeObjectURL(link.href);
+		}),(error:any)=>{
+		})
+
   }
 }
