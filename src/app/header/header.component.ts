@@ -121,12 +121,14 @@ export class HeaderComponent implements OnInit {
   navigateTomyCompany() {
     this.router.navigate([RouteConstants.COMPANY_SETTINGS])
   }
-  navigateToimportandexport() {
-    this.router.navigate([RouteConstants.COMPANY_SETTINGS])
-  }
-  navigateTocatageory() {
-    this.router.navigate([RouteConstants.COMPANY_SETTINGS])
-  }
+  
+  // for future use
+  // navigateToimportandexport() {
+  //   this.router.navigate([RouteConstants.COMPANY_SETTINGS])
+  // }
+  // navigateTocatageory() {
+  //   this.router.navigate([RouteConstants.COMPANY_SETTINGS])
+  // }
 
   onSerchChange() {
     this.searchTriggerService.setSearchData(this.searchText);
