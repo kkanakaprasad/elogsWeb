@@ -185,9 +185,9 @@ export class CreateactivityComponent implements OnInit {
         }
         
         this.activityService.postActivity(payload).subscribe((res) => {
-          if(this.fileAttachmments.length !== 0 ){
+          if(this.fileAttachmments?.length > 0 ){
             let formData = new FormData()
-            for(let fileIndex = 0 ; fileIndex < this.fileAttachmments.length; fileIndex++ ){
+            for(let fileIndex = 0 ; fileIndex < this.fileAttachmments?.length; fileIndex++ ){
               formData.append(res.newActivity._id, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex].name )
             }
             this.uploadAttachments(formData);

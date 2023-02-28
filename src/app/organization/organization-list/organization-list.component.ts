@@ -11,6 +11,7 @@ import { OrganizationService } from '../organization.service';
 import { RemoveUserPopUpService } from '../remove-user-pop-up/remove-user-pop-up.service';
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { Roles } from 'src/app/shared/enums/roles.enums'
+import { EventCommunicationsService } from 'src/app/shared/services/event-communications.service';
 
 @Component({
   selector: 'app-organization-list',
@@ -46,11 +47,18 @@ export class OrganizationListComponent implements OnInit {
     private alertpopupService: AlertpopupService,
     private removeUserPopUpService: RemoveUserPopUpService,
     private confirmationDialogService: ConfirmationDialogService,
-    private storageService: StorageService,) { }
+    private storageService: StorageService,
+    private eventCommunicationsService: EventCommunicationsService,
+    ) { }
 
 
   ngOnInit(): void {
     this.getAllOrganizationsSearchCriteria();
+    this.eventCommunicationsService.on('NEW_USER_CREATED').subscribe((res)=>{
+      if(res){
+        this.getAllOrganizationsSearchCriteria();
+      }
+    })
     this.getOrganizationTypes();
   }
 

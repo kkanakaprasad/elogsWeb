@@ -10,17 +10,33 @@ th {
 
 table {
   border: 1px solid rgb(236 236 236);
+
+  .mat-checkbox {
+    margin-right: 1rem;
+  }
 }
 
-.adduser-table {
+.assignorg_pop-up-table {
   height: 200px;
   overflow: auto;
-  
-  tr:nth-child(even){
+
+  tr:nth-child(even) {
     background: #EAF1F6;
+  }
+
+  .mat-dialog-content {
+    overflow: visible;
   }
 }
 
 .mat-card-actions {
   margin: 0;
+}
+
+table th {
+  font-size: 1em;
+}
+
+.cdk-overlay-pane{
+  width: 80vw;
 }
