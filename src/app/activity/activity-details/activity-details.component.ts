@@ -227,6 +227,22 @@ export class ActivityDetailsComponent implements OnInit {
 	}
 
 	updatedFilesDescription(event: any) {
+		let organizationId : string;
+		let organization : string;
+		if(this.isSuperAdmin){
+			organizationId = this.activityData?.createdByOrganization;
+			organization = this.activityData?.createdByOrganizationData[0].organization
+		}
+		else if(this.logedInUserDetails.organization?.includes(this.activityData?.assignTo) && this.logedInUserDetails.organization?.includes(this.activityData?.createdByOrganization)){
+			organizationId = this.activityData?.assignTo
+			organization = this.selectedActivityAssignedTo[0]
+		}else if(this.logedInUserDetails.organization?.includes(this.activityData?.assignTo)){
+			organizationId = this.activityData?.assignTo
+			organization = this.selectedActivityAssignedTo[0]
+		}else {
+			organizationId = this.activityData?.createdByOrganization
+			organization = this.activityData?.createdByOrganizationData[0].organization
+		}
 		let files = event.target.files;
 		this.fileAttachmments = files;
 		for (var i = 0; i < files.length; i++) {
@@ -234,6 +250,8 @@ export class ActivityDetailsComponent implements OnInit {
 			name: files[i].name,
 			size: files[i].size.toString(),
 			path: "string",
+			organization : organization,
+			organizationId : organizationId,
 		  });
 		} 
 	}
