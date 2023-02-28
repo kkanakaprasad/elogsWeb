@@ -254,6 +254,10 @@ export class CreateactivityComponent implements OnInit {
     })
   }
 
+  gotoDashboard(){
+    this.router.navigate([RouteConstants.DASHBOARD])
+  }
+
 
 
 }
