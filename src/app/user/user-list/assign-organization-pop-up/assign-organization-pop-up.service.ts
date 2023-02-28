@@ -13,7 +13,7 @@ export class AssignOrganizationPopUpService {
     return this.matDialog.open(AssignOrganizationPopUpComponent, {
       // disableClose: false, 
       data: user,
-      minWidth: '800px',
+      minWidth: '80vw',
       // height: '70%',
       // autoFocus: false,
     })

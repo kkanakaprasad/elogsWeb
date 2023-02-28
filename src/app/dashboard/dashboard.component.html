@@ -8,7 +8,7 @@
         <div class="col-md-6 mb-3 pdr-0">
           <div class="card shadow h-100">
             <div class="card-header d-flex align-items-center justify-content-between">
-              <h6 class="m-0">Activity <span>Metrics</span></h6>
+              <h2 class="m-0">Activity <span>Metrics</span></h2>
               <div class="calendar-inputs">
                 <div class="d-flex date-input start-date">
                   <input type="text" class="form-control col-md-1" placeholder="08-01-2023" name="" id="" matInput
@@ -99,42 +99,42 @@
         <div class="col-md-6 mb-3">
           <div class="card shadow h-100">
             <div class="card-header">
-              <h6 class="m-0">Related To <span>Metrics</span></h6>
+              <h2 class="m-0">Related To <span>Metrics</span></h2>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6 mb-3 related">
                   <div class="bg-primary h-100">
-                    <h6>Others<span></span>(
+                    <h5>Others<span>(
                       {{(relatedToMetricsData?.others?.length===0 ? 0 :
                       relatedToMetricsData?.others[0]?.others)*100/(relatedToMetricsData?.total[0]?.total)|
-                      number:'.2-2'}})</h6>
+                      number:'.2-2'}})</span></h5>
                     <h3>{{relatedToMetricsData?.others?.length===0 ? 0 : relatedToMetricsData?.others[0]?.others}}</h3>
                   </div>
                 </div>
                 <div class="col-md-6 mb-3 related">
                   <div class="bg-success h-100">
-                    <h6>Multiple Ministries / Departments<span>({{ (relatedToMetricsData?.multiMinistry?.length===0 ? 0
+                    <h5>Multiple Ministries / Departments<span>({{ (relatedToMetricsData?.multiMinistry?.length===0 ? 0
                         :relatedToMetricsData?.multiMinistry[0]?.multiMinistry)*100/(relatedToMetricsData?.total[0]?.total)|
-                        number:'.2-2'}})</span></h6>
+                        number:'.2-2'}})</span></h5>
                     <h3>{{ relatedToMetricsData?.multiMinistry?.length===0 ? 0
                       :relatedToMetricsData?.multiMinistry[0]?.multiMinistry}}</h3>
                   </div>
                 </div>
                 <div class="col-md-6 related">
                   <div class="bg-warning h-100">
-                    <h6>Single Ministry / Department<span>({{ (relatedToMetricsData?.singleMinistry?.length===0 ? 0 :
+                    <h5>Single Ministry / Department<span>({{ (relatedToMetricsData?.singleMinistry?.length===0 ? 0 :
                         relatedToMetricsData?.singleMinistry[0]?.singleMinistry)*100/(relatedToMetricsData?.total[0]?.total)|
-                        number:'.2-2'}})</span></h6>
+                        number:'.2-2'}})</span></h5>
                     <h3>{{ relatedToMetricsData?.singleMinistry?.length===0 ? 0 :
                       relatedToMetricsData?.singleMinistry[0]?.singleMinistry}}</h3>
                   </div>
                 </div>
                 <div class="col-md-6 related">
                   <div class="bg-danger h-100">
-                    <h6>None<span>({{(relatedToMetricsData?.none?.length===0 ? 0
+                    <h5>None<span>({{(relatedToMetricsData?.none?.length===0 ? 0
                         :relatedToMetricsData?.none[0]?.none)*100/(relatedToMetricsData?.total[0]?.total)|
-                        number:'.2-2'}})</span></h6>
+                        number:'.2-2'}})</span></h5>
                     <h3>{{relatedToMetricsData?.none?.length===0 ? 0 :relatedToMetricsData?.none[0]?.none}}</h3>
                   </div>
                 </div>
@@ -146,7 +146,7 @@
 
       <div class="card shadow mb-3">
         <div class="card-header">
-          <h6 class="m-0">On Time <span>Metrics</span></h6>
+          <h2 class="m-0">On Time <span>Metrics</span></h2>
         </div>
         <div class="card-body">
           <div class="ontime">
@@ -190,7 +190,7 @@
         <div class="col-md-7 pdr-0 user_met">
           <div class="card shadow h-100">
             <div class="card-header">
-              <h6 class="m-0">User <span>Metrics</span></h6>
+              <h2 class="m-0">User <span>Metrics</span></h2>
             </div>
             <div class="card-body user-metrics">
               <div class="active-users">
@@ -215,7 +215,7 @@
         <div class="col-md-5">
           <div class="card shadow h-100">
             <div class="card-header">
-              <h6 class="m-0">Organization <span>Metrics</span></h6>
+              <h2 class="m-0">Organization <span>Metrics</span></h2>
             </div>
             <div class="card-body">
               <div class="row organization">
@@ -247,11 +247,11 @@
     <div class="col-md-4 mb-3">
       <div class="card shadow h-100">
         <div class="card-header">
-          <h6 class="m-0">To Dos</h6>
+          <h2 class="m-0">To Dos</h2>
         </div>
         <div class="card-body activities_panel">
           <div class="heading overdue mb-3">
-            <h2> <span>Overdue Tasks</span></h2>
+            <h2 class="over_due-header"> <span>Overdue Tasks</span></h2>
             <div class="activity-list" *ngFor="let item of overDueActivities"
               (click)="navigateToActivityDetails(item._id)">
               <div *ngIf="overDueActivities.length>0">
@@ -264,7 +264,6 @@
                     <span>Created on {{item.createdAt | date: 'MMM d, y'}}</span>
                   </div>
                   <div class="date-time">
-                    <div class="img-cls-dt"></div>
                     <span class="over-due"><mat-icon>access_time</mat-icon>{{item.dueDate | date: 'MMM d, y'}}</span>
                   </div>
                 </div>
@@ -289,7 +288,7 @@
                   <span>Created on Today {{item.createdAt | date: 'MMM d, y'}}</span>
                 </div>
                 <div class="date-time">
-                  <span class="over-due"><mat-icon>access_time</mat-icon>{{item.dueDate | date: 'MMM d, y'}}</span>
+                  <span class="upcoming_over-due"><mat-icon>access_time</mat-icon>{{item.dueDate | date: 'MMM d, y'}}</span>
                 </div>
               </div>
             </div>

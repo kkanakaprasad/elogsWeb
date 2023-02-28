@@ -4,6 +4,9 @@
   gap: 3px;
   letter-spacing: 0.03em;
   margin-bottom: 5px;
+  position: absolute;
+  top: 70px;
+  z-index: 333;
 }
 
 .mat-Icon {
@@ -11,19 +14,22 @@
   width: 40px;
   height: 40px;
 }
-.padding{
-    min-width: 30px;
-    padding: 0;
-    border-radius: 5px;
+
+.padding {
+  min-width: 30px;
+  padding: 0;
+  border-radius: 5px;
 }
-.img-span{
-    height: 50px;
-    width: 50px;
-    background-color: #bbb;
-    border-radius: 50%;
+
+.img-span {
+  height: 50px;
+  width: 50px;
+  background-color: #bbb;
+  border-radius: 50%;
   text-align: center;
 }
-.mat-i{
+
+.mat-i {
   font-size: 40px;
   opacity: 0.5;
   width: 40px;
@@ -31,28 +37,31 @@
   line-height: 40px;
 }
 
-.kit{
-    .mat-icon{
-        opacity: 0.7;
-    }
-}
-hr{
-    opacity: 0.1;
+.kit {
+  .mat-icon {
+    opacity: 0.7;
+  }
 }
 
-.date-icon{
-    min-width: 30px;
-    padding: 0;
+hr {
+  opacity: 0.1;
 }
 
-.redText{
-    color: rgb(181, 75, 75);
-}
-.blueText{
-    color: rgb(121, 121, 196);
+.date-icon {
+  min-width: 30px;
+  padding: 0;
 }
 
-::ng-deep { /* to penetrate <ngx-editor> CSS styling */
+.redText {
+  color: rgb(181, 75, 75);
+}
+
+.blueText {
+  color: rgb(121, 121, 196);
+}
+
+::ng-deep {
+  /* to penetrate <ngx-editor> CSS styling */
 
   .NgxEditor {
     height: 200px;
