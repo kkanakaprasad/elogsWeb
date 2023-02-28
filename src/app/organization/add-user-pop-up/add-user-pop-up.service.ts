@@ -10,7 +10,7 @@ export class AddUserPopUpService {
   constructor(private matDialog: MatDialog) { }
   openAddUser(organizationId:string) {
     return this.matDialog.open(AddUserPopUpComponent, { disableClose : true,
-      minWidth: '1200px',data:organizationId
+      minWidth: '80vw',data:organizationId
     })
   }
 }
