@@ -11,7 +11,7 @@ constructor(private matDialog: MatDialog) { }
 
 removeOrgPopUp(selectedUserID:string) {
   return this.matDialog.open(RemoveOrgPopUpComponent, { disableClose : true,
-    minWidth: '800px',data:selectedUserID, 
+    minWidth: '60vw',data:selectedUserID, 
   })
 }
 

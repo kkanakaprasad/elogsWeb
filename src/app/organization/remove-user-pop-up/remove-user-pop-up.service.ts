@@ -10,7 +10,7 @@ export class RemoveUserPopUpService {
   constructor(private matDialog: MatDialog) { }
   removeUserPopUp(selectedOrganizationId:string) {
     return this.matDialog.open(RemoveUserPopUpComponent, { disableClose : true,
-      minWidth: '800px',data:selectedOrganizationId, 
+      minWidth: '80vw',data:selectedOrganizationId, 
     })
   }
 }

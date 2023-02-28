@@ -1077,15 +1077,14 @@ h6,
     align-items: center;
     display: flex;
 
-    h6 {
-      font-size: 15px;
+    h2 {
       font-weight: 500;
       letter-spacing: 0.5px;
+      color: #d93651;
 
       span {
-        font-size: 13px;
-        font-weight: 400;
-        color: #8b8a8a;
+        font-size: 15px;
+        font-weight: normal;
       }
     }
 
@@ -1188,7 +1187,6 @@ h6,
     padding: 10px;
     color: #fff;
     text-align: center;
-
   }
 }
 
@@ -1408,6 +1406,21 @@ h6,
   .date-time {
     font-size: 12px;
     color: #777;
+
+    .over-due {
+      display: flex;
+      min-width: 100px;
+      color: #f44336;
+
+      mat-icon {
+        font-size: 18px;
+        color: #777;
+      }
+    }
+    .upcoming_over-due {
+      @extend .over-due;
+      color:#0CAA00;
+    }
   }
 
   .heading {
@@ -1422,7 +1435,7 @@ h6,
         font-weight: 400;
         background: transparent;
         color: #fff;
-        padding: 5px 10px;
+        padding: 6px 10px;
       }
     }
   }
