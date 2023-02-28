@@ -381,17 +381,17 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
           
         });
         this.masterData?.activityEntryTypesData.forEach((element: any) => {
-          if(this.appliedFilters?.entryType?.length === 0 || !this.appliedFilters?.entryType){
+          if(this.appliedFilters?.entryTypes?.length === 0 || !this.appliedFilters?.entryTypes){
             element.selected = false;
           }else{
-            this.appliedFilters.entryType.includes(element._id) ? element.selected = true : element.selected = false;
+            this.appliedFilters.entryTypes.includes(element._id) ? element.selected = true : element.selected = false;
           }
         });
         this.masterData?.activitySectorsData.forEach((element: any) => {
-          if(this.appliedFilters?.sectors?.length === 0 || !this.appliedFilters?.sectors){
+          if(this.appliedFilters?.geography?.length === 0 || !this.appliedFilters?.geography){
             element.selected = false;
           }else{
-            this.appliedFilters.sectors.includes(element._id) ? element.selected = true : element.selected = false;
+            this.appliedFilters.geography.includes(element._id) ? element.selected = true : element.selected = false;
           }
         });
         this.masterData?.activityScopesData.forEach((element: any) => {
