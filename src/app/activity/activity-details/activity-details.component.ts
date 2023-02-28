@@ -11,7 +11,7 @@ import { CsvHelperService } from 'src/app/shared/services/csv-helper-service/csv
 import { StorageService } from 'src/app/shared/services/storage-service/storage.service';
 import { UserDetailsService } from 'src/app/shared/services/user-details-service/user-details.service';
 import { UserService } from 'src/app/user/user.service';
-import { Priority, Status, Visibility } from '../activity.constant';
+import { ActivitiesDownloadHeaders, Priority, Status, Visibility } from '../activity.constant';
 import { ActivityService } from '../activity.service';
 
 @Component({
@@ -378,21 +378,21 @@ export class ActivityDetailsComponent implements OnInit {
 			}
 		})
 	}
-	
+
 	downloadActivity() {
 		let activityLogAndDueLog: any = [...this.activityData.activityLog, ...this.activityData.dueDateLog];
 		activityLogAndDueLog = activityLogAndDueLog.sort((a: any, b: any) => {
-			return new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf()
+			return new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf()
 		}
 		);
 		let activityDataForDownload = [{
 			title: this.activityData.title,
 			description: this.activityData.description.replace(/<[^>]*>/g, ""),
-			status: this.activityData.status,
+			status:'New',
 			assignedTo: this.selectedActivityAssignedTo.toString(),
 			dueDate: this.activityData.dueDate,
 			attachments: this.activityData.attachments.length == 0 ? "NO" : this.activityData.attachments[0].name.toString(),
-			priority: this.activityData.priority,
+			priority: 'None',
 			type: this.activityType.toString(),
 			sector: this.activitySectorsData.toString(),
 			entryType: this.activityEntryType.toString(),
@@ -400,97 +400,26 @@ export class ActivityDetailsComponent implements OnInit {
 			scope: this.ActivityScopeData.toString(),
 			relatedTo: this.activityRelatedTypesData.toString(),
 			categoryMappedTo: "",
-			activityprogress: ""
+			activityprogress: "",
+			reportedBy : this.activityData.createdByOrganizationData[0].organization,
+			activityId : this.activityData.uniqIdentity,
+			createdAt : this.activityData.createdAt,
 		}];
 		activityLogAndDueLog.forEach((element: any, index: number,) => {
-			let data = activityDataForDownload[index];
+			let data = { ...activityDataForDownload[0]};
 			if (element.dueDate) {
-				data.dueDate = element.dueDate
-				activityDataForDownload = [...activityDataForDownload, data];
+				data.dueDate = element.dueDate,
+				data.createdAt = element.createdAt
+				activityDataForDownload.push(data);
 			} else if (element.message) {
 				data.description = element?.message.replace(/<[^>]*>/g, ""),
-					data.status = element?.status ? element.status : data.status,
-					data.priority = element?.priority ? element.priority : data.priority,
-					activityDataForDownload = [...activityDataForDownload, data];
+				data.createdAt = element.createdAt
+				data.status = element?.status ? element.status : data.status,
+				data.priority = element?.priority ? element.priority : data.priority,
+				activityDataForDownload.push(data);
 			}
 		});
-		const headersList: { propertyName: string, displayName: string }[] = [
-			{
-				propertyName: 'title',
-				displayName: 'Title'
-
-			},
-			{
-				propertyName: 'description',
-				displayName: 'Description'
-
-			},
-			{
-				propertyName: 'status',
-				displayName: 'Status'
-
-			},
-			{
-				propertyName: 'assignedTo',
-				displayName: 'Assigned To'
-
-			},
-			{
-				propertyName: 'dueDate',
-				displayName: 'Due Date'
-
-			},
-			{
-				propertyName: 'attachments',
-				displayName: 'Attachments'
-
-			},
-			{
-				propertyName: 'priority',
-				displayName: 'Priority'
-
-			},
-			{
-				propertyName: 'type',
-				displayName: 'Type'
-
-			},
-			{
-				propertyName: 'sector',
-				displayName: 'Sector'
-
-			},
-			{
-				propertyName: 'entryType',
-				displayName: 'Entry Type'
-
-			},
-			{
-				propertyName: 'ministry',
-				displayName: 'Ministry/Department'
-
-			},
-			{
-				propertyName: 'scope',
-				displayName: 'Scope'
-
-			},
-			{
-				propertyName: 'relatedTo',
-				displayName: 'Related To'
-
-			},
-			// {
-			//   propertyName : 'categoryMappedTo',
-			//   displayName : 'Category Mapped to'
-
-			// },
-			// {
-			//   propertyName : 'activityprogress',
-			//   displayName : 'Activity % of progress'
-
-			// },
-		]
+		const headersList: { propertyName: string, displayName: string }[] = ActivitiesDownloadHeaders
 		this.csvHelperService.downloadFile(activityDataForDownload, "activity details", headersList)
 
 	}

@@ -297,6 +297,12 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     let activityData = this.selection.selected.length === 0 ? this.dataSource.filteredData : this.selection.selected
     let activityDownloadData: any[] = []
     for (let i = 0; i < activityData.length; i++) {
+      const  entryTypeData = this.masterData.activityEntryTypesData.filter((entry:any)=>
+          entry._id === activityData[i].activitEntryType
+      );
+      const  activityTypeData = this.masterData.activityTypesData.filter((entry:any)=>
+        entry._id === activityData[i].activityType
+      );
       const activityDataForDownload = {
         title: activityData[i].title,
         description: activityData[i].description.replace(/<[^>]*>/g, ""),
@@ -304,7 +310,13 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
         priority: activityData[i].priority,
         assignedTo: activityData[i].assignTo[0].organization,
         dueDate: activityData[i].dueDate,
-        createdDate: activityData[i].createdAt
+        propertyName: 'createdAt',
+        reportedBy :activityData[i].createdByOrganization[0].organization,
+			  activityId : activityData[i].uniqIdentity,
+			  createdAt : activityData[i].createdAt,
+        entryType : entryTypeData[0].name,
+        type : activityTypeData[0].name,
+        ministry : activityData[i].assignToObj[0].organization
       };
       activityDownloadData.push(activityDataForDownload)
     }

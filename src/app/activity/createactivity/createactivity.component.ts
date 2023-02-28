@@ -41,6 +41,8 @@ export class CreateactivityComponent implements OnInit {
   descriptionOfTextEditor: any;
   priority=Priority;
   status=Status;
+  description: any;
+  discriptionData: any;
   fileAttachmments :any;
 
 
@@ -94,8 +96,8 @@ export class CreateactivityComponent implements OnInit {
       this.activityForm.controls['activitySector'].setValue(this.selectedActivityData?.activitySector)
       this.activityForm.controls['activityScope'].setValue(this.selectedActivityData?.activityScope)
       this.activityForm.controls['title'].setValue(this.selectedActivityData?.title)
-      
-
+      this.activityForm.controls['createdByOrganization'].setValue(this.selectedActivityData?.createdByOrganization)
+      this.description=this.selectedActivityData.description
     })
   }
 
@@ -235,6 +237,7 @@ export class CreateactivityComponent implements OnInit {
 
   updatedDescription(event :any){
   this.descriptionOfTextEditor=event
+  this.discriptionData=event?.replace(/<[^>]*>/g, "")
 
   }
   updatedFilesDescription(event:any){

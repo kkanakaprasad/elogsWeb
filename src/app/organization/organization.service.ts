@@ -59,7 +59,6 @@ export class OrganizationService {
 
   addUsersToOrganization(payload:any):Observable<any>{
     return this.httpDataService.put(`user/organzation/addUsersToOrganization`,payload)
-
   }
 
   
