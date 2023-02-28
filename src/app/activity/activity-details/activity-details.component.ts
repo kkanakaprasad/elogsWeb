@@ -172,21 +172,21 @@ export class ActivityDetailsComponent implements OnInit {
 		const payload = {
 			...this.activityLogForm.value,
 			organizationId : this.setOrganizationIdInActivityLog(),
-			attachments: this.filesListArray.length === 0 ? undefined : this.filesListArray,
+			attachments: this.filesListArray?.length === 0 ? undefined : this.filesListArray,
 			message: this.description
 		}
 		this.activityService.updateActivityLogById(this.selectedActivityId, payload).subscribe(res => {
 			let details = res.data.activityLog
-			if(this.fileAttachmments.length !== 0){
+			if(this.fileAttachmments?.length > 0){
 				let formData = new FormData()
-				for(let fileIndex = 0 ; fileIndex < this.fileAttachmments.length; fileIndex++ ){
+				for(let fileIndex = 0 ; fileIndex < this.fileAttachmments?.length; fileIndex++ ){
 					formData.append(`${this.selectedActivityId}/${details[details.length - 1]._id}`, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex].name )
 				}
 				this.uploadAttachments(formData);
 			}
 
 			this.alertpopupService.open({
-				message: res.message ? res.message : 'Activity Updated Successfully',
+				message: res?.message ? res?.message : 'Activity Updated Successfully',
 				action: 'ok'
 			})
 			this.getActivityDetailsById()
@@ -378,6 +378,7 @@ export class ActivityDetailsComponent implements OnInit {
 			}
 		})
 	}
+	
 	downloadActivity() {
 		let activityLogAndDueLog: any = [...this.activityData.activityLog, ...this.activityData.dueDateLog];
 		activityLogAndDueLog = activityLogAndDueLog.sort((a: any, b: any) => {

@@ -6,6 +6,7 @@ import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service'
 import { REG_EXP_PATTERNS } from 'src/app/shared/enums/regex-pattern.enum';
 import { Roles } from 'src/app/shared/enums/roles.enums';
 import { SearchPipe } from 'src/app/shared/pipes/search.pipe';
+import { EventCommunicationsService } from 'src/app/shared/services/event-communications.service';
 import { SelectedOrganizationService } from 'src/app/shared/services/selected-organizions/selected-organization.service';
 import { UserSearchCriteria } from '../user-list/user-Interface';
 import { UserService } from '../user.service';
@@ -33,7 +34,8 @@ export class AddNewUserComponent implements OnInit {
     private alertpopupService: AlertpopupService,
     public dialogref: MatDialogRef<AddNewUserComponent>,     
     @Inject(MAT_DIALOG_DATA) public userId: string,
-    private selectedOrganizationService: SelectedOrganizationService
+    private selectedOrganizationService: SelectedOrganizationService,
+    private eventCommunicationsService: EventCommunicationsService
   ) {
   }
 
@@ -127,10 +129,11 @@ export class AddNewUserComponent implements OnInit {
         roles: [Roles.User]
       }
       this.userService.addUser(payload).subscribe((res) => {
+        this.eventCommunicationsService.broadcast('NEW_USER_CREATED',true);
         this.alertpopupService.open({
           message: "User added sucessfully",
           action: "ok"
-        })
+        });
       }, (error) => {
         this.alertpopupService.open({
           message: error.message ? error.message : "something went wrong!",
