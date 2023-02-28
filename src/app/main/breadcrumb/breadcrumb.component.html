@@ -13,19 +13,17 @@
 		</ng-container>
 		<ng-container *ngIf="organizationsList.length>1">
 			<div class="breadcrumb-find">
-					<mat-form-field appearance="outline">
-						<mat-label>Select Organization</mat-label>
-						<mat-select  (selectionChange)="seleectedOrganization($event)">
-							<input class='p-2' placeholder="Find an Organisation" matInput type="text"
-								(keyup)="filterOrganization($event)" />
-							<mat-option [value]="'all'" #matOption>
-								All
-							</mat-option>
-							<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
-								{{Organization.organization}}</mat-option>
-								<mat-option (click)="openCreateOrganizaation()"> <button class="btn text-primary">+ Create Organization</button></mat-option>
-						</mat-select>
-					</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-select [value]="'all'"  (selectionChange)="seleectedOrganization($event)" aria-placeholder="Select Organization">
+						<input class='p-2' placeholder="Find an Organisation" matInput type="text"
+							(keyup)="filterOrganization($event)" />
+						<mat-option [value]="'all'" #matOption>
+							{{selectOrganization ? 'All' : 'Select Organization'}}
+						</mat-option>
+						<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
+							{{Organization.organization}}</mat-option>
+					</mat-select>
+				</mat-form-field>
 			</div>
 		</ng-container>
 	</div>
@@ -46,12 +44,11 @@
 			<ng-container *ngIf="organizationsList.length>1">
 				<div class="breadcrumb-find">
 					<mat-form-field appearance="outline">
-						<mat-label>Select Organization</mat-label>
-						<mat-select  (selectionChange)="seleectedOrganization($event)">
+						<mat-select [value]="'all'"  (selectionChange)="seleectedOrganization($event)" aria-placeholder="Select Organization">
 							<input class='p-2' placeholder="Find an Organisation" matInput type="text"
 								(keyup)="filterOrganization($event)" />
 							<mat-option [value]="'all'" #matOption>
-								All
+								{{selectOrganization ? 'All' : 'Select Organization'}}
 							</mat-option>
 							<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
 								{{Organization.organization}}</mat-option>
@@ -88,12 +85,11 @@
 		<ng-container *ngIf="organizationsList.length>1">
 			<div class="breadcrumb-find">
 				<mat-form-field appearance="outline">
-					<mat-label>Select Organization</mat-label>
-					<mat-select  (selectionChange)="seleectedOrganization($event)">
+					<mat-select [value]="'all'"  (selectionChange)="seleectedOrganization($event)" aria-placeholder="Select Organization">
 						<input class='p-2' placeholder="Find an Organisation" matInput type="text"
 							(keyup)="filterOrganization($event)" />
 						<mat-option [value]="'all'" #matOption>
-							All
+							{{selectOrganization ? 'All' : 'Select Organization'}}
 						</mat-option>
 						<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
 							{{Organization.organization}}</mat-option>

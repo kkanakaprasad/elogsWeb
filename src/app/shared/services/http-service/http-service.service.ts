@@ -13,10 +13,10 @@ export class HttpDataService {
     public httpClient :HttpClient
   ) { }
 
-  post(url : string, payload:any){
+  post(url : string, payload:any,options?:any){
     this.loadingCount = this.loadingCount+1;
     if (url) {
-      return this.httpClient.post(`${environment.BASE_URL}${url}`,payload).pipe(
+      return this.httpClient.post(`${environment.BASE_URL}${url}`,payload,options).pipe(
         finalize(()=>{
           this.loadingCount = this.loadingCount -1;
         })

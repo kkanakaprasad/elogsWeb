@@ -76,4 +76,12 @@ export class ActivityService {
     return this.httpDataService.post('activity/activitysearchPageHeaderCounts',payload)
   }
 
+  uploadAttachments(payload:any) : Observable<any>{
+    return this.httpDataService.post('activity/upload', payload);
+  }
+
+  dowloadAttachments(payload : any) : Observable<any>{
+    return this.httpDataService.post('activity/attachment/download', payload, { responseType: 'blob' });
+  }
+
 }
