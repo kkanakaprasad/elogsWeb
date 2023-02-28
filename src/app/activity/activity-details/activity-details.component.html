@@ -93,7 +93,7 @@
                 <div class="d-flex">
                   <mat-icon *ngIf="activityData?.attachments?.length>=1">attach_file</mat-icon>
                   <div>
-                    <p *ngFor="let attachments of activityData?.attachments">
+                    <p *ngFor="let attachments of activityData?.attachments" (click)="downloadActivityAttachment(attachments)">
                       <mat-icon>insert_drive_file</mat-icon>{{ attachments?.name }} {{ attachments?.size/1024 |
                       number:'.2-2' }} Kb
                     </p>
@@ -104,7 +104,7 @@
 
           <div class="col-md-12 my-2" *ngFor="let activity of activityLogData;let i = index">
 
-            <div class="activity_card">
+            <div class="activity_card" *ngIf="isShowActivityLog(activity)" >
                 <div class="d-flex justify-content-between">
                   <div class="d-flex">
                     <mat-icon class="mat-i">account_circle</mat-icon>
@@ -128,11 +128,11 @@
                 <div class="d-flex">
                   <mat-icon *ngIf="activity?.attachments?.length>=1">attach_file</mat-icon>
                   <div>
-                  <p *ngFor="let attachment of activity?.attachments">
-                    <mat-icon>insert_drive_file</mat-icon>{{ attachment?.name }} {{ attachment?.size/1024 |
-                    number:'.2-2' }} Kb
+                    <p *ngFor="let attachment of activity?.attachments" (click)="downloadAttachment(activity,attachment)">
+                      <mat-icon>insert_drive_file</mat-icon>{{ attachment?.name }} {{ attachment?.size/1024 |
+                      number:'.2-2' }} Kb
                     </p>
-                </div>
+                  </div>
               </div>
 
               </div>

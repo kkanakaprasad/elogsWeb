@@ -1,12 +1,14 @@
 <div class="wrapper">
-    <app-header></app-header>
-    <app-side-nav></app-side-nav>
+  <app-header></app-header>
+  <app-side-nav></app-side-nav>
+  <div class="content-area" (click)="removeOverlay()">
     <div class="bread-crumb">
-      <app-breadcrumb ></app-breadcrumb>
+      <app-breadcrumb></app-breadcrumb>
     </div>
     <div class="main-panel" id="main">
-        <ng-container *ngIf="userDetails">
-            <router-outlet></router-outlet>
-        </ng-container>
+      <ng-container *ngIf="userDetails">
+        <router-outlet></router-outlet>
+      </ng-container>
     </div>
+  </div>
 </div>

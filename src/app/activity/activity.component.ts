@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { RouteConstants } from '../shared/constants/routes.constants';
@@ -30,7 +30,7 @@ import { SearchTriggerService } from '../shared/services/search-trigger-service/
 })
 
 
-export class ActivityComponent implements OnInit, AfterViewInit {
+export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
 
   displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions'];
   activityFiltersData: any = ActivityFiltersData;
@@ -62,6 +62,7 @@ export class ActivityComponent implements OnInit, AfterViewInit {
 
   }
   totalActivitiesCount: number = 0;
+  activitySerachSubscription : any;
 
 
   selection: any = new SelectionModel(true, []);
@@ -208,7 +209,7 @@ export class ActivityComponent implements OnInit, AfterViewInit {
       this.getActivitiesSearchCriteria();
     });
 
-    this.searchTriggerService.getSearchData().subscribe((res:any)=>{
+    this.activitySerachSubscription = this.searchTriggerService.getSearchData().subscribe((res:any)=>{
       let data :any;
       this.activitySearchCriteriaPayload.subscribe((res) => {
         data = res;
@@ -647,16 +648,19 @@ export class ActivityComponent implements OnInit, AfterViewInit {
     });
     switch (type.tab.textLabel) {
       case "ALL":
-        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: undefined, onlyMyTasks: false });
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [],status:[], dueDate: undefined, onlyMyTasks: false });
         break;
       case "MY_TASKS":
-        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: undefined, onlyMyTasks: true, organizations: this.selectedOrganizationIds });
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [],status:[], dueDate: undefined, onlyMyTasks: true, organizations: this.selectedOrganizationIds });
         break;
+        case "ACTIVE":
+          this.activitySearchCriteriaPayload.next({ ...data, priority: [],status:["INPROGRESS","NEW"], dueDate: undefined, onlyMyTasks: false });
+          break;
       case "OVERDUE":
-        this.activitySearchCriteriaPayload.next({ ...data, priority: [], dueDate: { customString: "OVERDUE" }, onlyMyTasks: false });
+        this.activitySearchCriteriaPayload.next({ ...data, priority: [], status:[],dueDate: { customString: "OVERDUE" }, onlyMyTasks: false });
         break;
       case "HIGH":
-        this.activitySearchCriteriaPayload.next({ ...data, priority: ["HIGH"], dueDate: undefined, onlyMyTasks: false });
+        this.activitySearchCriteriaPayload.next({ ...data, priority: ["HIGH"],status:[], dueDate: undefined, onlyMyTasks: false });
         break;
       default:
         break;
@@ -723,6 +727,10 @@ export class ActivityComponent implements OnInit, AfterViewInit {
       this.activityFiltersData.status[2] = {...this.activityFiltersData.status[2],count : res.data[0]?.resolved[0]?.resolvedCount},
       this.activityFiltersData.status[3] = {...this.activityFiltersData.status[3],count : res.data[0]?.rejectedCount[0]?.rejectedCount}
     })
+  }
+
+  ngOnDestroy(){
+    this.activitySerachSubscription.unsubscribe();
   }
 
 

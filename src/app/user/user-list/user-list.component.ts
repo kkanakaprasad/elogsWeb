@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileSearchCriteria, UpdateProfileSearchCriteria } from 'src/app/profile/profile.interface';
 import { ProfileService } from 'src/app/profile/profile.service';
@@ -18,13 +18,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { PaginationProps } from '../../../app/shared/constants/pagination';
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { Roles } from 'src/app/shared/enums/roles.enums';
+import { SearchTriggerService } from 'src/app/shared/services/search-trigger-service/search-trigger.service';
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit, AfterViewInit {
+export class UserListComponent implements OnInit, AfterViewInit, OnDestroy {
   public usersList: any = [];
   filters = FILTER_CONSTANT
   paginationProps = PaginationProps;
@@ -51,6 +52,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   ministriesMetricsCount: number = 0;
   inActiveMetricsCount: number = 0;
   totalUserCount: number = 0;
+  userSerachSubscription : any;
 
   displayedColumns = ['Name', 'Email', 'lastActivity', 'CreatedAt', 'Organization', 'Actions']
   dataSource = new MatTableDataSource(this.usersList);
@@ -66,11 +68,21 @@ export class UserListComponent implements OnInit, AfterViewInit {
     private confirmationDialogService: ConfirmationDialogService,
     private removeOrgPopUpService: RemoveOrgPopUpService,
     private alertpopupService: AlertpopupService,
-    private assignOrganizationPopUpService: AssignOrganizationPopUpService
+    private assignOrganizationPopUpService: AssignOrganizationPopUpService,
+    private searchTriggerService : SearchTriggerService
   ) { }
 
   ngOnInit(): void {
     this.userSearchCriteria(this.userPayload);
+    this.userSerachSubscription = this.searchTriggerService.getSearchData().subscribe((res:any)=>{
+      if(res){
+        this.userPayload = {
+          ...this.userPayload,
+          searchTerm : res
+        }
+        this.userSearchCriteria(this.userPayload);
+      }
+    })
   }
 
   userSearchCriteria(payload: any) {
@@ -208,6 +220,10 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnDestroy(){
+    this.userSerachSubscription.unsubscribe();
   }
 
 }

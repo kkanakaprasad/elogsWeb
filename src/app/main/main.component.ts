@@ -28,6 +28,11 @@ export class MainComponent implements OnInit {
     this.getUserDetails();
   }
 
+  removeOverlay(){
+    const bodyElement = document.body;
+    bodyElement.classList.remove("toggle_sidebar");
+  }
+
   getUserDetails() {
     const payload: UserSearchCriteria = {
       pageNumber: 0,

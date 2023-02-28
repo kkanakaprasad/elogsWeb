@@ -62,6 +62,7 @@ export class ActivityDetailsComponent implements OnInit {
 	ministryName: any;
 	isFilesListArray: boolean = true;
 	minDate: any;
+	fileAttachmments :any;
 
 
 	constructor(
@@ -114,13 +115,15 @@ export class ActivityDetailsComponent implements OnInit {
 			this.activityLogForm.controls['priority'].setValue(this.activityData?.priority)
 			this.activityLogForm.controls['status'].setValue(this.activityData?.status)
 			this.activityLogForm.controls['assignTo'].setValue(this.activityData?.assignTo)
+			this.activityLogForm.controls['visibility'].setValue(this.activityData?.visibility)
+			
 		})
 	}
 
 	getLogedInUserDetails() {
 		this.userDetailsService.getUserDetails().subscribe((res) => {
 			this.logedInUserDetails = res
-			this.isAssignee = res?.organization?.includes(this.activityData?.assignTo)
+			this.isAssignee = res?.organization?.includes(this.activityData?.assignTo);
 		})
 	}
 
@@ -151,13 +154,37 @@ export class ActivityDetailsComponent implements OnInit {
 		})
 	}
 
+	setOrganizationIdInActivityLog(){
+		if(this.logedInUserDetails.organization.length === 0){
+			return this.logedInUserDetails.organization[0];
+		}else{
+			let organizationId = this.logedInUserDetails?.organization.filter((org : string)=> org === this.activityData?.assignTo)
+			if(organizationId.length !== 0 ){
+				return organizationId[0];
+			}else{
+				organizationId = this.logedInUserDetails?.organization.filter((org : string)=> org === this.activityData?.createdByOrganization);
+				return organizationId[0];
+			}
+		}
+	}
+
 	onSubmit() {
 		const payload = {
 			...this.activityLogForm.value,
+			organizationId : this.setOrganizationIdInActivityLog(),
 			attachments: this.filesListArray.length === 0 ? undefined : this.filesListArray,
 			message: this.description
 		}
 		this.activityService.updateActivityLogById(this.selectedActivityId, payload).subscribe(res => {
+			let details = res.data.activityLog
+			if(this.fileAttachmments.length !== 0){
+				let formData = new FormData()
+				for(let fileIndex = 0 ; fileIndex < this.fileAttachmments.length; fileIndex++ ){
+					formData.append(`${this.selectedActivityId}/${details[details.length - 1]._id}`, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex].name )
+				}
+				this.uploadAttachments(formData);
+			}
+
 			this.alertpopupService.open({
 				message: res.message ? res.message : 'Activity Updated Successfully',
 				action: 'ok'
@@ -200,13 +227,15 @@ export class ActivityDetailsComponent implements OnInit {
 	}
 
 	updatedFilesDescription(event: any) {
-		for (var i = 0; i < event.length; i++) {
-			this.filesListArray.push({
-				name: event[i].name,
-				size: event[i].size,
-				path: "string"
-			});
-		}
+		let files = event.target.files;
+		this.fileAttachmments = files;
+		for (var i = 0; i < files.length; i++) {
+		  this.filesListArray.push({
+			name: files[i].name,
+			size: files[i].size.toString(),
+			path: "string",
+		  });
+		} 
 	}
 
 	updateActivityDetails() {
@@ -481,6 +510,59 @@ export class ActivityDetailsComponent implements OnInit {
 		return status === 'MEDIUM' ? 'confirm'
 			: status === 'HIGH' ? 'reject'
 				: ''
+	}
+
+	isShowActivityLog(activity : any){
+		if(this.isSuperAdmin){
+			return true
+		}else if(activity.visibility === "EVERYONE" ){
+			return true;
+		}else{
+			let value = this.logedInUserDetails.organization.includes(activity.organizationId);
+			if(value){
+				return true;
+			}else{
+				value = this.logedInUserDetails.organization.includes(activity.organizationId);
+				return value;
+			}
+		}
+	}
+
+	uploadAttachments(formData : FormData){
+		this.activityService.uploadAttachments(formData).subscribe((res:any)=>{
+		})
+	  }
+
+	downloadAttachment(activityLogData : any,attachmentData : any){
+		const payload ={
+			fileName : attachmentData.name,
+			path : `${this.selectedActivityId}/${activityLogData._id}`
+		}
+
+		this.activityService.dowloadAttachments(payload).subscribe((blob=>{
+			const link = document.createElement('a');
+			link.href = window.URL.createObjectURL(blob);
+			link.download = attachmentData.name;
+			link.click();
+			window.URL.revokeObjectURL(link.href);
+		}),(error:any)=>{
+		})
+	}
+
+	downloadActivityAttachment(attachmentData:any){
+		const payload ={
+			fileName : attachmentData.name,
+			path : `${this.selectedActivityId}`
+		}
+
+		this.activityService.dowloadAttachments(payload).subscribe((blob=>{
+			const link = document.createElement('a');
+			link.href = window.URL.createObjectURL(blob);
+			link.download = attachmentData.name;
+			link.click();
+			window.URL.revokeObjectURL(link.href);
+		}),(error:any)=>{
+		})
 	}
 
 }

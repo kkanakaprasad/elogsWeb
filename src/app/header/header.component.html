@@ -1,15 +1,21 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center justify-content-between header-left">
         <a class="logo d-flex align-items-center">
             <img src="https://elogs.cxipl.com/img/gatishakti-logo-login-h.png" alt="">
         </a>
         <span (click)="sidebarShow()" class="hamburger"><i class="material-icons toggle-sidebar-btn">dehaze</i></span>
     </div>
     <div class="search-bar">
-        <div class="search-form d-flex align-items-center"  >
-            <input  type="text" placeholder="Search For Activities"   [(ngModel)]="searchText" (ngModelChange)="onSerchChange()">
-            <button  title="Search" (click)="onSerchChange()">
+        <div class="search-form d-flex align-items-center">
+            <input [matAutocomplete]="auto" type="text" placeholder="Search For {{inputPlaceHolder}}" [(ngModel)]="searchText"
+                (ngModelChange)="onSerchChange()">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let result of surchResult" (click)="navigateToSelectedActivity(result._id)">
+                    {{result.uniqIdentity}} | {{result.status | titlecase}} | {{result.title}}
+                </mat-option>
+            </mat-autocomplete>
+            <button title="Search" (click)="onSerchChange()">
                 <i class="material-icons">search</i></button>
         </div>
     </div>
@@ -18,7 +24,7 @@
         <ul class="d-flex align-items-center">
 
             <li class="nav-item d-block d-lg-none">
-                <a class="nav-link nav-icon search-bar-toggle " href="#">
+                <a class="nav-link nav-icon search-bar-toggle ">
                     <i class="material-icons">search </i>
                 </a>
             </li>
@@ -38,28 +44,28 @@
                 </a>
 
                 <mat-menu #profileMenu="matMenu" class="profile_menu">
-                  <div class="profile-dropdown">
-                  <div class="account-info">
-                    <h2>This Account is managed by {{companyName}}</h2>
-                    {{logedinUserDetails.email}}
-                  </div>
-                    <div class="menu">
-                        <div class="settings-menu">
-                          <h4>Personal Settings</h4>
-                          <button mat-menu-item (click)="profile()">Profile</button>
-                          <button mat-menu-item (click)="notifications()">Notifications</button>
-                          <button mat-menu-item (click)="emailReports()">Email Reports</button>
-                          <button class="btn-logout" mat-menu-item (click)="logout()">Logout</button>
+                    <div class="profile-dropdown">
+                        <div class="account-info">
+                            <h2>This Account is managed by {{companyName}}</h2>
+                            {{logedinUserDetails.email}}
                         </div>
+                        <div class="menu">
+                            <div class="settings-menu">
+                                <h4>Personal Settings</h4>
+                                <button mat-menu-item (click)="navigateToProfile('0')">Profile</button>
+                                <button mat-menu-item (click)="navigateToProfile('2')">Notifications</button>
+                                <button mat-menu-item (click)="navigateToProfile('3')">Email Reports</button>
+                                <button class="btn-logout" mat-menu-item (click)="logout()">Logout</button>
+                            </div>
 
-                        <div *ngIf="isSuperAdmin" class="settings-menu">
-                            <h4>Company Settings</h4>
+                            <div *ngIf="isSuperAdmin" class="settings-menu">
+                                <h4>Company Settings</h4>
                                 <button mat-menu-item (click)="navigateTomyCompany()">My Company</button>
                                 <button mat-menu-item (click)="navigateToimportandexport()">Import & Export</button>
                                 <button mat-menu-item (click)="navigateTocatageory()">Catageory</button>
+                            </div>
                         </div>
                     </div>
-                  </div>
                 </mat-menu>
             </li>
         </ul>

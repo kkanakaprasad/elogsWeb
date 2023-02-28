@@ -19,9 +19,9 @@ export class UppercaseInputDirective {
     if (!this.lastValue || (this.lastValue && $event.target.value.length > 0 && this.lastValue !== $event.target.value)) {
       this.lastValue = this.ref.nativeElement.value = $event.target.value;
       // Propagation
-      const evt = document.createEvent('HTMLEvents');
-      evt.initEvent('input', false, true);
-      event?.target?.dispatchEvent(evt);
+      var evt = new Event("input");
+      document.dispatchEvent(evt);
+
     }
   }
 }

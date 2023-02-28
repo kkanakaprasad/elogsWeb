@@ -187,7 +187,7 @@
       </div>
 
       <div class="row" *ngIf="isSuperAdmin">
-        <div class="col-md-7 pdr-0">
+        <div class="col-md-7 pdr-0 user_met">
           <div class="card shadow h-100">
             <div class="card-header">
               <h2 class="m-0">User <span>Metrics</span></h2>
@@ -219,19 +219,19 @@
             </div>
             <div class="card-body">
               <div class="row organization">
-                <div class="col-md-3">
+                <div class="col-md-3 col-3">
                   <div class="h-100">
                     <h3>{{organizationsMetricsCount?.active ? organizationsMetricsCount?.active : 0}}</h3>
                     <h6>Active</h6>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-4">
                   <div class="h-100">
                     <h3>{{organizationsMetricsCount?.inActive ? organizationsMetricsCount?.inActive : 0}}</h3>
                     <h6>Inactive</h6>
                   </div>
                 </div>
-                <div class="col-md-5 h-100">
+                <div class="col-md-5 h-100 col-5">
                   <div class="h-100">
                     <h3>{{organizationsMetricsCount?.activeInLast24Hours ? organizationsMetricsCount?.activeInLast24Hours : 0}}</h3>
                     <h6>Active in 24hrs</h6>
@@ -268,7 +268,7 @@
                   </div>
                 </div>
               </div>
-                                      
+
             </div>
             <div class="todos-message" *ngIf="overDueActivities.length === 0">
               No tasks assigned to you, Explore cool features!
@@ -296,7 +296,7 @@
               No tasks assigned to you, Explore cool features!
             </div>
           </div>
-          <div class="text-end"> <a (click)="goToActivityList()">View All</a> </div>
+          <div class="text-end"> <a (click)="goToActivityList()">View All({{todoActivitiesCount}}) </a></div>
         </div>
       </div>
     </div>

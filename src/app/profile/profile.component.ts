@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
 import { FILTER_CONSTANT } from '../shared/constants/filter.constants';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
@@ -21,7 +21,8 @@ export class ProfileComponent implements OnInit {
   emailReports: any;
   userId: any;
   notifications: any
-  loggedInUserEmail : string = "";
+  loggedInUserEmail: string = "";
+  selected: any = new FormControl('0');
 
 
   userTypes: any;
@@ -31,9 +32,16 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private storageService: StorageService,
     private alertpopupService: AlertpopupService,
-
-
-  ) { }
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.activatedRoute.queryParams.subscribe((res: any) => {
+      if(res && res['tab']){
+        this.selected.setValue(res['tab']);
+      }else{
+        this.selected.setValue('0');
+      }
+    })
+  }
 
   ngOnInit(): void {
     this.getProfileByUserId();
@@ -125,7 +133,7 @@ export class ProfileComponent implements OnInit {
     this.createProfile();
   }
 
-  resetFormValues(){
+  resetFormValues() {
     this.profileForm.reset()
   }
 
