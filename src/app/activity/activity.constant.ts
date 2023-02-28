@@ -217,6 +217,46 @@ export const ActivityRowActions = [
 
 export const ActivitiesDownloadHeaders = [
     {
+        propertyName: 'reportedBy',
+        displayName: 'Reported By'
+
+    },
+    {
+        propertyName: 'activityId',
+        displayName: 'Activity ID'
+
+    },
+    {
+        propertyName: 'entryType',
+        displayName: 'Entry Type'
+
+    },
+    {
+        propertyName: 'type',
+        displayName: 'Type of Issue'
+
+    },
+    {
+        propertyName: 'ministry',
+        displayName: 'Ministry/Department'
+
+    },
+    {
+        propertyName: 'assignedTo',
+        displayName: 'Assigned To'
+
+    },
+    {
+        propertyName: 'createdAt',
+        displayName: 'Created Date'
+
+    },
+    {
+        propertyName: 'dueDate',
+        displayName: 'Due Date'
+
+    },
+    {
         propertyName: 'title',
         displayName: 'Title'
 
@@ -228,28 +268,41 @@ export const ActivitiesDownloadHeaders = [
     },
     {
         propertyName: 'status',
-        displayName: 'Status'
+        displayName: 'Current Status'
 
     },
-    {
-        propertyName: 'priority',
-        displayName: 'Priority'
+    
+    // {
+    // 	propertyName: 'attachments',
+    // 	displayName: 'Attachments'
 
-    },
-    {
-        propertyName: 'assignedTo',
-        displayName: 'Assigned To'
+    // },
+    // {
+    // 	propertyName: 'priority',
+    // 	displayName: 'Priority'
 
-    },
-    {
-        propertyName: 'dueDate',
-        displayName: 'Due Date'
+    // },
+    // {
+    // 	propertyName: 'type',
+    // 	displayName: 'Type'
 
-    }, {
-        propertyName: 'createdDate',
-        displayName: 'Create Date'
+    // },
+    // {
+    // 	propertyName: 'sector',
+    // 	displayName: 'Sector'
 
-    },
+    // },
+    
+    // {
+    // 	propertyName: 'scope',
+    // 	displayName: 'Scope'
+
+    // },
+    // {
+    // 	propertyName: 'relatedTo',
+    // 	displayName: 'Related To'
+
+    // },
 
 ]
 

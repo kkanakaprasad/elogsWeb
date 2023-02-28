@@ -69,9 +69,6 @@ export class DashboardComponent implements OnInit {
     })
     this.userRole = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE);
     this.getActivityMasterData();
-    this.dashboardService.postDashBoardActivityMetrics({}).subscribe(res => {
-      this.dashboardMetricsCount = res.data[0]
-    })
     this.postDashBoardDueDateMetrics();
     this.postDashBoardRelatedToMetrics();
     this.userDetails();
