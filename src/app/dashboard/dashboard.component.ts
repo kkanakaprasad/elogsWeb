@@ -69,9 +69,11 @@ export class DashboardComponent implements OnInit {
     })
     this.userRole = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE);
     this.getActivityMasterData();
+    if(this.isSuperAdmin){
     this.dashboardService.postDashBoardActivityMetrics({}).subscribe(res => {
       this.dashboardMetricsCount = res.data[0]
     })
+  }
     this.postDashBoardDueDateMetrics();
     this.postDashBoardRelatedToMetrics();
     this.userDetails();
@@ -116,7 +118,7 @@ export class DashboardComponent implements OnInit {
       },
       type: this.selectedActivityId
     }
-    this.dashboardService.postDashBoardActivityMetrics(payload).subscribe(res => {
+     this.dashboardService.postDashBoardActivityMetrics(payload).subscribe(res => {
       this.dashboardMetricsCount = res.data[0]
 
     })
