@@ -149,7 +149,7 @@ export const ActivityRowActions = [
     {
         title: 'Resolve',
         icon: "assistant_photo",
-        action: 'RESOLVE',
+        action: 'RESOLVED',
         displayCondition: (activity: any, loggedInUserDetails: any) => {
             return ((activity.status === 'INPROGRESS' || activity.status === 'NEW') && (activity.createdBy === loggedInUserDetails._id || loggedInUserDetails.organization.includes(activity.assignTo)))
         }
