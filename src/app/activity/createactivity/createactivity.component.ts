@@ -33,17 +33,17 @@ export class CreateactivityComponent implements OnInit {
   selectedOrganizationValue: any;
   removable: boolean = true
   selectedActivityId: any;
-  selectedActivityData: any; 
+  selectedActivityData: any;
   filesListArray: any[] = [];
   userOrganizations: any;
   userDetails: any;
   createdByOrganization: any;
   descriptionOfTextEditor: any;
-  priority=Priority;
-  status=Status;
+  priority = Priority;
+  status = Status;
   description: any;
   discriptionData: any;
-  fileAttachmments :any;
+  fileAttachmments: any;
 
 
   constructor(
@@ -54,7 +54,7 @@ export class CreateactivityComponent implements OnInit {
     private storageService: StorageService,
     private activatedRoute: ActivatedRoute,
     private userDetailsService: UserDetailsService,
-    private router:Router
+    private router: Router
 
   ) {
     this.activatedRoute.queryParams.subscribe((res) => {
@@ -97,7 +97,7 @@ export class CreateactivityComponent implements OnInit {
       this.activityForm.controls['activityScope'].setValue(this.selectedActivityData?.activityScope)
       this.activityForm.controls['title'].setValue(this.selectedActivityData?.title)
       this.activityForm.controls['createdByOrganization'].setValue(this.selectedActivityData?.createdByOrganization)
-      this.description=this.selectedActivityData.description
+      this.description = this.selectedActivityData.description
     })
   }
 
@@ -146,18 +146,27 @@ export class CreateactivityComponent implements OnInit {
 
 
   onSubmit() {
+    if (this.filesListArray?.length > 0) {
+      const organization = this.userDetails?.organizationsdata.filter((org: any) => org._id === this.activityForm.controls['createdByOrganization'].value);
+      this.filesListArray.map((file: any) => {
+        file['organization'] = organization[0]?.organization
+        file['organizationId'] = organization[0]?._id
+
+      });
+    }
     this.selectedOrganizationValue = this.activityForm.get('organization')?.value.map((org: any) => org._id)
     if (this.selectedActivityId) {
-      const payload = { ...this.activityForm.value, 
-        attachments: [...this.filesListArray,...this.selectedActivityData.attachments], 
-        organization: this.selectedOrganizationValue,  
-        description:this.descriptionOfTextEditor
+      const payload = {
+        ...this.activityForm.value,
+        attachments: [...this.filesListArray, ...this.selectedActivityData.attachments],
+        organization: this.selectedOrganizationValue,
+        description: this.descriptionOfTextEditor
       }
       this.activityService.updateActivity(this.selectedActivityId, payload).subscribe(res => {
-        if(this.fileAttachmments?.length !== 0 ){
+        if (this.fileAttachmments?.length !== 0) {
           let formData = new FormData()
-          for(let fileIndex = 0 ; fileIndex < this.fileAttachmments?.length; fileIndex++ ){
-            formData.append(res?.data[0]?._id, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex]?.name )
+          for (let fileIndex = 0; fileIndex < this.fileAttachmments?.length; fileIndex++) {
+            formData.append(res?.data[0]?._id, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex]?.name)
           }
           this.uploadAttachments(formData);
         }
@@ -173,41 +182,42 @@ export class CreateactivityComponent implements OnInit {
 
         });
       })
-    } 
-      else {
-        const payload = { ...this.activityForm.value, 
-          attachments: this.filesListArray, 
-          organization: this.selectedOrganizationValue,
-          priority: Priority[0], 
-          status: Status[0], 
-          description:this.descriptionOfTextEditor,
-          visibility : 'INTERNAL'
-        }
-        
-        this.activityService.postActivity(payload).subscribe((res) => {
-          if(this.fileAttachmments?.length > 0 ){
-            let formData = new FormData()
-            for(let fileIndex = 0 ; fileIndex < this.fileAttachmments?.length; fileIndex++ ){
-              formData.append(res.newActivity._id, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex].name )
-            }
-            this.uploadAttachments(formData);
-          }
-          this.alertpopupService.open({
-            message: res.message ? res.message : 'Activity Created Successfully',
-            action: 'ok'
-          })
-          this.router.navigate([RouteConstants.ACTIVITY])
-
-        }, (error) => {
-          this.alertpopupService.open({
-            message: error.message ? error.message : "something went wrong!",
-            action: "ok"
-
-          });
-        })
-      }
     }
-  
+    else {
+      const payload = {
+        ...this.activityForm.value,
+        attachments: this.filesListArray,
+        organization: this.selectedOrganizationValue,
+        priority: Priority[0],
+        status: Status[0],
+        description: this.descriptionOfTextEditor,
+        visibility: 'INTERNAL'
+      }
+
+      this.activityService.postActivity(payload).subscribe((res) => {
+        if (this.fileAttachmments?.length > 0) {
+          let formData = new FormData()
+          for (let fileIndex = 0; fileIndex < this.fileAttachmments?.length; fileIndex++) {
+            formData.append(res.newActivity._id, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex].name)
+          }
+          this.uploadAttachments(formData);
+        }
+        this.alertpopupService.open({
+          message: res.message ? res.message : 'Activity Created Successfully',
+          action: 'ok'
+        })
+        this.router.navigate([RouteConstants.ACTIVITY])
+
+      }, (error) => {
+        this.alertpopupService.open({
+          message: error.message ? error.message : "something went wrong!",
+          action: "ok"
+
+        });
+      })
+    }
+  }
+
 
   //future use
   relatedValue(event: any) {
@@ -227,18 +237,18 @@ export class CreateactivityComponent implements OnInit {
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       this.userDetails = res
-      if(this.userDetails?.organization?.length === 1){
+      if (this.userDetails?.organization?.length === 1) {
         this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organization[0]);
       }
     })
   }
 
-  updatedDescription(event :any){
-  this.descriptionOfTextEditor=event
-  this.discriptionData=event?.replace(/<[^>]*>/g, "")
-
+  updatedDescription(event: any) {
+    this.descriptionOfTextEditor = event
+    this.discriptionData = event?.replace(/<[^>]*>/g, "")
   }
-  updatedFilesDescription(event:any){
+
+  updatedFilesDescription(event: any) {
     let files = event.target.files;
     this.fileAttachmments = files;
     for (var i = 0; i < files.length; i++) {
@@ -247,15 +257,15 @@ export class CreateactivityComponent implements OnInit {
         size: files[i].size.toString(),
         path: "string",
       });
-    } 
+    }
   }
 
-  uploadAttachments(formData : FormData){
-    this.activityService.uploadAttachments(formData).subscribe((res:any)=>{
+  uploadAttachments(formData: FormData) {
+    this.activityService.uploadAttachments(formData).subscribe((res: any) => {
     })
   }
 
-  gotoDashboard(){
+  gotoDashboard() {
     this.router.navigate([RouteConstants.DASHBOARD])
   }
 }

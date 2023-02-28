@@ -2,7 +2,11 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivityService } from '../activity/activity.service';
+import { BreadcrumbService } from '../main/breadcrumb/breadcrumb.service';
 import { PaginationProps } from '../shared/constants/pagination';
+import { Roles } from '../shared/enums/roles.enums';
+import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
+import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
 import { DocumentsService } from './documents.service';
 
 @Component({
@@ -10,36 +14,48 @@ import { DocumentsService } from './documents.service';
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.scss']
 })
-export class DocumentsComponent implements OnInit,AfterViewInit{
+export class DocumentsComponent implements OnInit, AfterViewInit {
   totalUserCount: number = 0;
   paginationProps = PaginationProps;
-  attachmentsDetails: any=[];
-  documentsPayload:any={
+  attachmentsDetails: any = [];
+  documentsPayload: any = {
     pageNumber: 0,
-     pageSize: 10,
-     sortField: "",
-     groupBy: 0,
-     fileNameSearchText: ""
+    pageSize: 10,
+    sortField: "",
+    groupBy: 0,
+    fileNameSearchText: "",
+    organizations : []
   }
   displayedColumns = ['Activity', 'FileName', 'Size', 'Organisation']
   dataSource = new MatTableDataSource(this.attachmentsDetails);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   totalDocumentCount: any;
-  
+
 
   constructor(private documentsService: DocumentsService,
-		private activityService: ActivityService,
-    ) { 
+    private activityService: ActivityService,
+    private selectedOrganizationService:SelectedOrganizationService,
+    private userDetailsService: UserDetailsService
+  ) {
 
   }
   ngOnInit(): void {
-    this.postActivityAttachments()
-    
+    this.userDetailsService.getUserDetails().subscribe((res)=>{
+      if(res.roles[0]=== Roles.User){
+        this.documentsPayload.organizations = res.organization;
+      }
+      this.postActivityAttachments();
+    });
+    this.selectedOrganizationService.getSelectedOrganization().subscribe((res:any)=>{
+      this.documentsPayload['organizations'] = res;
+      this.postActivityAttachments();
+    })
+
   }
-  postActivityAttachments(){
-    this.documentsService.postActivityAttachments(this.documentsPayload).subscribe(res=>{
-      this.attachmentsDetails=res?.data[0]?.attachments
-      this.totalDocumentCount=res?.data[0]?.count[0]?.count
+  postActivityAttachments() {
+    this.documentsService.postActivityAttachments(this.documentsPayload).subscribe(res => {
+      this.attachmentsDetails = res?.data[0]?.attachments
+      this.totalDocumentCount = res?.data[0]?.count[0]?.count
       this.dataSource = new MatTableDataSource(this.attachmentsDetails)
     })
   }
@@ -53,24 +69,24 @@ export class DocumentsComponent implements OnInit,AfterViewInit{
     this.dataSource.paginator = this.paginator;
   }
 
-  downloadDocumement(element : any){
-    const payload ={
-			fileName : element.nestedAttchments.name,
-      path : `${element._id}`
-		}
+  downloadDocumement(element: any) {
+    const payload = {
+      fileName: element.nestedAttchments.name,
+      path: `${element._id}`
+    }
 
-    if(element.nestedAttchments.activityLogId){
+    if (element.nestedAttchments.activityLogId) {
       payload.path = `${element._id}/${element.nestedAttchments.activityLogId}`
     }
 
-		this.activityService.dowloadAttachments(payload).subscribe((blob=>{
-			const link = document.createElement('a');
-			link.href = window.URL.createObjectURL(blob);
-			link.download = element.nestedAttchments.name;
-			link.click();
-			window.URL.revokeObjectURL(link.href);
-		}),(error:any)=>{
-		})
+    this.activityService.dowloadAttachments(payload).subscribe((blob => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = element.nestedAttchments.name;
+      link.click();
+      window.URL.revokeObjectURL(link.href);
+    }), (error: any) => {
+    })
 
   }
 }

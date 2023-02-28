@@ -44,7 +44,6 @@ export class BreadcrumbComponent implements OnInit {
     router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(event => {
       this.currentRoute = event.url
     });
-    this.postActivityStatusMetricsCount();
   }
 
   ngOnInit(): void {
