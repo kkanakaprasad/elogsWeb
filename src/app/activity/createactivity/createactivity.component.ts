@@ -146,19 +146,18 @@ export class CreateactivityComponent implements OnInit {
 
 
   onSubmit() {
-
+    this.selectedOrganizationValue = this.activityForm.get('organization')?.value.map((org: any) => org._id)
     if (this.selectedActivityId) {
       const payload = { ...this.activityForm.value, 
         attachments: [...this.filesListArray,...this.selectedActivityData.attachments], 
-        organization: this.selectedOrganizationValue, 
-        priority: Priority[0] , 
-        status: Status[0],  
+        organization: this.selectedOrganizationValue,  
+        description:this.descriptionOfTextEditor
       }
       this.activityService.updateActivity(this.selectedActivityId, payload).subscribe(res => {
-        if(this.fileAttachmments.length !== 0 ){
+        if(this.fileAttachmments?.length !== 0 ){
           let formData = new FormData()
-          for(let fileIndex = 0 ; fileIndex < this.fileAttachmments.length; fileIndex++ ){
-            formData.append(res.data[0]._id, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex].name )
+          for(let fileIndex = 0 ; fileIndex < this.fileAttachmments?.length; fileIndex++ ){
+            formData.append(res?.data[0]?._id, this.fileAttachmments[fileIndex], this.filesListArray[fileIndex]?.name )
           }
           this.uploadAttachments(formData);
         }
@@ -176,7 +175,6 @@ export class CreateactivityComponent implements OnInit {
       })
     } 
       else {
-        this.selectedOrganizationValue = this.activityForm.get('organization')?.value.map((org: any) => org._id)
         const payload = { ...this.activityForm.value, 
           attachments: this.filesListArray, 
           organization: this.selectedOrganizationValue,
@@ -260,7 +258,4 @@ export class CreateactivityComponent implements OnInit {
   gotoDashboard(){
     this.router.navigate([RouteConstants.DASHBOARD])
   }
-
-
-
 }
