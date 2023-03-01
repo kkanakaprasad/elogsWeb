@@ -38,43 +38,25 @@ export class CreateOrganizationComponent implements OnInit {
     this.getOrganizationTypes();
     this.getOrganizationsData();
   }
+
   getOrganizationsData() {
     if (this.dataId) {
       this.organizationService.getorganizationById(this.dataId).subscribe((res) => {
         this.isSelected = true
         this.oraginsationData = res.organization
-        const payload: OrganizationSearchCriteria = {
-          pageNumber: 1000,
-          pageSize: 0,
-          sortField: '',
-          sortOrder: 0,
-          type: '',
-          organization: '',
-          organizationId: this.oraginsationData._id,
-          userId: '',
-          userSearch: ""
-        }
-        this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res: any) => {
-          this.organizationUsersData = res.data.organizations[0].users
-          this.createOrganizationForm.controls['organization'].setValue(this.oraginsationData.organization);
-          this.createOrganizationForm.controls['shortName'].setValue(this.oraginsationData.shortName);
-          this.createOrganizationForm.controls['defaultAssign'].setValue('')
-        }
-        )
-
+        this.createOrganizationForm.controls['type'].setValue(this.oraginsationData?.type);
+        this.createOrganizationForm.controls['organization'].setValue(this.oraginsationData?.organization);
+        this.createOrganizationForm.controls['shortName'].setValue(this.oraginsationData?.shortName);
+        this.createOrganizationForm.controls['defaultAssign'].setValue('');
       })
     }
   }
-
 
   getOrganizationTypes() {
     this.masterDataService.getOrganizationTypes().subscribe((res) => {
       this.organizationTypes = res.data
     })
-
   }
-
-
 
   OrganizationFormValues() {
     this.createOrganizationForm = this.formBuilder.group({
@@ -91,7 +73,7 @@ export class CreateOrganizationComponent implements OnInit {
       "isActive": true
     }
     if (this.dataId) {
-      this.organizationService.updateOrganization(this.dataId, payload).subscribe((res) => {
+      this.organizationService.updateOrganization(this.dataId, {...payload,type : this.oraginsationData.type}).subscribe((res) => {
         this.eventCommunicationsService.broadcast('NEW_ORGANIZATION_CREATED',true);
         this.alertpopupService.open({
           message: res.message? res.message : 'Organization updated successfully',
@@ -99,7 +81,7 @@ export class CreateOrganizationComponent implements OnInit {
         })
       }, (error) => {
         this.alertpopupService.open({
-          message: "Faild to create Organization! Please try again ",
+          message: "Faild to update Organization! Please try again ",
           action: 'ok'
         })
       })
