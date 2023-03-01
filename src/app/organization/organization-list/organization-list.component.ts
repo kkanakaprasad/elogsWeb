@@ -59,6 +59,11 @@ export class OrganizationListComponent implements OnInit {
         this.getAllOrganizationsSearchCriteria();
       }
     })
+    this.eventCommunicationsService.on('NEW_ORGANIZATION_CREATED').subscribe((res)=>{
+      if(res){
+        this.getAllOrganizationsSearchCriteria();
+      }
+    })
     this.getOrganizationTypes();
   }
 

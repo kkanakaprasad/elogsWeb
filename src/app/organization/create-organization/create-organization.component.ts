@@ -3,6 +3,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AlertpopupService } from 'src/app/shared/alertPopup/alertpopup.service';
+import { EventCommunicationsService } from 'src/app/shared/services/event-communications.service';
 import { MasterDataService } from 'src/app/shared/services/master-data/master-data.service';
 import { UserDetailsService } from 'src/app/shared/services/user-details-service/user-details.service';
 import { CreateOrganization, OrganizationSearchCriteria } from '../organization.interface';
@@ -25,6 +26,7 @@ export class CreateOrganizationComponent implements OnInit {
     private masterDataService: MasterDataService,
     private organizationService: OrganizationService,
     private alertpopupService: AlertpopupService,
+    private eventCommunicationsService:EventCommunicationsService,
     public dialogref: MatDialogRef<CreateOrganizationComponent>,
     @Inject(MAT_DIALOG_DATA) public dataId: CreateOrganizationComponent
   ) {
@@ -90,8 +92,9 @@ export class CreateOrganizationComponent implements OnInit {
     }
     if (this.dataId) {
       this.organizationService.updateOrganization(this.dataId, payload).subscribe((res) => {
+        this.eventCommunicationsService.broadcast('NEW_ORGANIZATION_CREATED',true);
         this.alertpopupService.open({
-          message: res.message,
+          message: res.message? res.message : 'Organization updated successfully',
           action: 'ok'
         })
       }, (error) => {
@@ -102,8 +105,9 @@ export class CreateOrganizationComponent implements OnInit {
       })
     } else {
       this.organizationService.createOrganization(payload).subscribe((res) => {
+        this.eventCommunicationsService.broadcast('NEW_ORGANIZATION_CREATED',true);
         this.alertpopupService.open({
-          message: res.message,
+          message: res.message? res.message : 'Organization created successfully',
           action: 'ok'
         })
       }, (error) => {
