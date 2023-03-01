@@ -19,6 +19,7 @@ import { PaginationProps } from '../../../app/shared/constants/pagination';
 import { STORAGE_KEYS } from 'src/app/shared/enums/storage.enum';
 import { Roles } from 'src/app/shared/enums/roles.enums';
 import { SearchTriggerService } from 'src/app/shared/services/search-trigger-service/search-trigger.service';
+import { OrganizationService } from 'src/app/organization/organization.service';
 
 @Component({
   selector: 'app-user-list',
@@ -59,6 +60,9 @@ export class UserListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   selectedTabTextLableNumber: any;
   roles = Roles
+  associationId: any;
+  ministryId: any;
+  superadminId: any;
 
   constructor(private userService: UserService,
     private addNewUserService: AddNewUserService,
@@ -69,11 +73,13 @@ export class UserListComponent implements OnInit, AfterViewInit, OnDestroy {
     private removeOrgPopUpService: RemoveOrgPopUpService,
     private alertpopupService: AlertpopupService,
     private assignOrganizationPopUpService: AssignOrganizationPopUpService,
-    private searchTriggerService : SearchTriggerService
+    private searchTriggerService : SearchTriggerService,
+    private organizationService :OrganizationService
   ) { }
 
   ngOnInit(): void {
     this.userSearchCriteria(this.userPayload);
+    this.getOrganizationType()
     this.userSerachSubscription = this.searchTriggerService.getSearchData().subscribe((res:any)=>{
       if(res){
         this.userPayload = {
@@ -83,6 +89,17 @@ export class UserListComponent implements OnInit, AfterViewInit, OnDestroy {
         this.userSearchCriteria(this.userPayload);
       }
     })
+
+  }
+
+  getOrganizationType(){
+    this.organizationService.getOrganizationType().subscribe((res:any)=>{
+      console.log(res.data)
+      this.associationId=res.data.filter((response:any)=>response.name==="Association")
+      this.ministryId=res.data.filter((response:any)=>response.name==="Ministry/Department")
+      this.superadminId=res.data.filter((response:any)=>response.name==="")
+    })
+   
   }
 
   userSearchCriteria(payload: any) {

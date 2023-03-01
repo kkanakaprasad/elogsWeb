@@ -17,6 +17,9 @@ export class OrganizationService {
     return this.matDialog.open(CreateOrganizationComponent,{disableClose:true,width :'500px'})
   }
 
+  getOrganizationType(): Observable<any>{
+    return this.httpDataService.get(`organization-type`)
+  }
   updateOrganizatioPopup(organizationId:any){
     return this.matDialog.open(CreateOrganizationComponent,{disableClose:true,width :'500px',data : organizationId})
   }
