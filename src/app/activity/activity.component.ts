@@ -153,6 +153,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
       this.activitySearchCriteriaPayload.next(this.appliedFilters);
     }
     this.getAcivityMasterData();
+    this.getTabBasedActivityCount();
 
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
       this.selectedOrganizationIds = res;

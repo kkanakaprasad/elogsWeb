@@ -120,7 +120,7 @@
       </div>
       <div class="text-end">
         <button mat-raised-button color="primary" type="button" (click)="gotoDashboard()">Cancel</button>
-        <button mat-raised-button color="primary" type="submit"  [disabled]="discriptionData ? false : true">Submit</button>
+        <button mat-raised-button color="primary" type="submit"  [disabled]="isActivityFormActive()">Submit</button>
       </div>
     </form>
   </div>

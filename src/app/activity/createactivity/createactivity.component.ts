@@ -107,8 +107,8 @@ export class CreateactivityComponent implements OnInit {
 
   getAllOrganization() {
     this.organizations$.subscribe((res) => {
-      this.organizationsData = res?.organizations;
-      this.organizationList = res?.organizations
+      this.organizationsData = res?.organizations.filter((org:any)=>org.isActive === true);
+      this.organizationList = res?.organizations.filter((org:any)=>org.isActive === true);
     })
   }
 
@@ -267,5 +267,13 @@ export class CreateactivityComponent implements OnInit {
 
   gotoDashboard() {
     this.router.navigate([RouteConstants.DASHBOARD])
+  }
+
+  isActivityFormActive() : boolean{
+    if(this.activityForm.invalid || !this.discriptionData){
+      return true;
+    }else{
+      return false;
+    }
   }
 }

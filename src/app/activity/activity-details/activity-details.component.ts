@@ -106,7 +106,7 @@ export class ActivityDetailsComponent implements OnInit {
 			this.activityLogData = this.activityData?.activityLog
 			this.isArchive = this.activityData?.isArchive
 			this.selectedActivityTypeId = this.activityData?.activityType
-			this.organizationsInvolved = this.activityData?.organizationData
+			this.organizationsInvolved = [...this.activityData?.assignToObj,...this.activityData?.organizationData]
 			this.ministryName = this.activityData?.organizationData.map((res:any)=>res.organization)
 			this.selectedActivityAssignedTo = this.activityData?.organizationData.filter((organization: any) => organization._id == this.activityData?.assignTo).map((item: any) => item.organization)
 			this.getUserById()
@@ -509,7 +509,15 @@ export class ActivityDetailsComponent implements OnInit {
 			link.download = attachmentData.name;
 			link.click();
 			window.URL.revokeObjectURL(link.href);
+			this.alertpopupService.open({
+				message : 'Attachment downloaded successfully',
+				action : 'Ok'
+			});
 		}),(error:any)=>{
+			this.alertpopupService.open({
+				message : 'Attachment Not Found',
+				action : 'Ok'
+			});
 		})
 	}
 

@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivityService } from '../activity/activity.service';
 import { BreadcrumbService } from '../main/breadcrumb/breadcrumb.service';
+import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
 import { PaginationProps } from '../shared/constants/pagination';
 import { Roles } from '../shared/enums/roles.enums';
 import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
@@ -35,7 +36,8 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   constructor(private documentsService: DocumentsService,
     private activityService: ActivityService,
     private selectedOrganizationService:SelectedOrganizationService,
-    private userDetailsService: UserDetailsService
+    private userDetailsService: UserDetailsService,
+    private alertpopupService: AlertpopupService
   ) {
 
   }
@@ -85,7 +87,16 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
       link.download = element.nestedAttchments.name;
       link.click();
       window.URL.revokeObjectURL(link.href);
+      this.alertpopupService.open({
+        message : 'Attachment downloaded successfully',
+        action : 'Ok'
+      })
     }), (error: any) => {
+      this.alertpopupService.open({
+        message : 'Attachment Not Found',
+        action : 'Ok'
+      }
+      )
     })
 
   }

@@ -73,7 +73,7 @@ export class CreateOrganizationComponent implements OnInit {
       "isActive": true
     }
     if (this.dataId) {
-      this.organizationService.updateOrganization(this.dataId, {...payload,type : this.oraginsationData.type}).subscribe((res) => {
+      this.organizationService.updateOrganization(this.dataId, {...payload,type : this.oraginsationData?.type}).subscribe((res) => {
         this.eventCommunicationsService.broadcast('NEW_ORGANIZATION_CREATED',true);
         this.alertpopupService.open({
           message: res.message? res.message : 'Organization updated successfully',
