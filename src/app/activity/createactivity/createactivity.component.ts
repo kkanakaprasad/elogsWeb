@@ -37,7 +37,6 @@ export class CreateactivityComponent implements OnInit {
   filesListArray: any[] = [];
   userOrganizations: any;
   userDetails: any;
-  createdByOrganization: any;
   descriptionOfTextEditor: any;
   priority = Priority;
   status = Status;
@@ -270,6 +269,7 @@ export class CreateactivityComponent implements OnInit {
   }
 
   isActivityFormActive() : boolean{
+    console.log(this.activityForm);
     if(this.activityForm.invalid || !this.discriptionData){
       return true;
     }else{
