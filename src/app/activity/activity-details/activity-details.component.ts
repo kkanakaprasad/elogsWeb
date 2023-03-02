@@ -437,7 +437,26 @@ export class ActivityDetailsComponent implements OnInit {
 				activityDataForDownload.push(data);
 			}
 		});
-		const headersList: { propertyName: string, displayName: string }[] = ActivitiesDownloadHeaders
+		const headersList: { propertyName: string, displayName: string }[] = [
+			...ActivitiesDownloadHeaders,
+			{
+				propertyName : 'attachments',
+				displayName : 'Attachments'
+			},
+			{
+				propertyName : 'priority',
+				displayName : 'priority'
+			},
+			{
+				propertyName : 'sector',
+				displayName : 'Sector'
+			},
+			{
+				propertyName : 'relatedTo',
+				displayName : 'Related'
+			},
+			
+		]
 		this.csvHelperService.downloadFile(activityDataForDownload, "activity details", headersList)
 
 	}
