@@ -236,6 +236,9 @@ export class CreateactivityComponent implements OnInit {
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       this.userDetails = res
+      if(this.userDetails.organizationsdata){
+        this.userDetails.organizationsdata = [...this.userDetails?.organizationsdata?.filter((org:any)=>org.isActive === true)];
+      }
       if (this.userDetails?.organization?.length === 1) {
         setTimeout(() => {
           this.activityForm.patchValue({createdByOrganization: this.userDetails?.organization[0]});
@@ -272,7 +275,6 @@ export class CreateactivityComponent implements OnInit {
   }
 
   isActivityFormActive() : boolean{
-    console.log(this.activityForm);
     if(this.activityForm.invalid || !this.discriptionData){
       return true;
     }else{
