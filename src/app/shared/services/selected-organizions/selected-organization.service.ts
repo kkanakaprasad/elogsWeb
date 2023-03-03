@@ -21,7 +21,7 @@ export class SelectedOrganizationService {
     })
   }
 
-  private selectedOrganization: Subject<any> = new Subject();
+  private selectedOrganization: BehaviorSubject<any> = new BehaviorSubject(null);
 
   public getSelectedOrganization(): Observable<any> {
     return this.selectedOrganization.asObservable();

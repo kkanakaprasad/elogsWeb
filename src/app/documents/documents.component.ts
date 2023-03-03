@@ -48,12 +48,14 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
       }
       this.postActivityAttachments();
     });
+    
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res:any)=>{
       this.documentsPayload['organizations'] = res;
       this.postActivityAttachments();
     })
 
   }
+
   postActivityAttachments() {
     this.documentsService.postActivityAttachments(this.documentsPayload).subscribe(res => {
       this.attachmentsDetails = res?.data[0]?.attachments

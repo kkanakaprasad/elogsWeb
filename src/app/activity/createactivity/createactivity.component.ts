@@ -37,7 +37,6 @@ export class CreateactivityComponent implements OnInit {
   filesListArray: any[] = [];
   userOrganizations: any;
   userDetails: any;
-  createdByOrganization: any;
   descriptionOfTextEditor: any;
   priority = Priority;
   status = Status;
@@ -237,8 +236,14 @@ export class CreateactivityComponent implements OnInit {
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       this.userDetails = res
+      if(this.userDetails.organizationsdata){
+        this.userDetails.organizationsdata = [...this.userDetails?.organizationsdata?.filter((org:any)=>org.isActive === true)];
+      }
       if (this.userDetails?.organization?.length === 1) {
-        this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organization[0]);
+        setTimeout(() => {
+          this.activityForm.patchValue({createdByOrganization: this.userDetails?.organization[0]});
+          this.activityForm.controls['createdByOrganization'].setErrors(null);
+        });
       }
     })
   }
