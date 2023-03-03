@@ -63,6 +63,7 @@ export class ActivityDetailsComponent implements OnInit {
 	isFilesListArray: boolean = true;
 	minDate: any;
 	fileAttachmments :any;
+	peopleInvolved : any = []
 
 
 	constructor(
@@ -106,7 +107,7 @@ export class ActivityDetailsComponent implements OnInit {
 			this.activityLogData = this.activityData?.activityLog
 			this.isArchive = this.activityData?.isArchive
 			this.selectedActivityTypeId = this.activityData?.activityType
-			this.organizationsInvolved = this.activityData?.organizationData
+			this.organizationsInvolved = [...this.activityData?.assignToObj,...this.activityData?.organizationData,...this.activityData?.createdByOrganizationData]
 			this.ministryName = this.activityData?.organizationData.map((res:any)=>res.organization)
 			this.selectedActivityAssignedTo = this.activityData?.organizationData.filter((organization: any) => organization._id == this.activityData?.assignTo).map((item: any) => item.organization)
 			this.getUserById()
@@ -115,8 +116,10 @@ export class ActivityDetailsComponent implements OnInit {
 			this.activityLogForm.controls['priority'].setValue(this.activityData?.priority)
 			this.activityLogForm.controls['status'].setValue(this.activityData?.status)
 			this.activityLogForm.controls['assignTo'].setValue(this.activityData?.assignTo)
-			this.activityLogForm.controls['visibility'].setValue(this.activityData?.visibility)
-			
+			this.activityLogForm.controls['visibility'].setValue(this.activityData?.visibility);
+			this.peopleInvolved = this.organizationsInvolved.filter((obj: any, index: any, self: any) =>
+			index === self.findIndex((o:any) =>
+				o._id === obj._id ));			
 		})
 	}
 
@@ -356,7 +359,7 @@ export class ActivityDetailsComponent implements OnInit {
 						message: res.message,
 						action: 'ok'
 					})
-					this.getActivityDetailsById()
+					this.router.navigate([RouteConstants.ACTIVITY]);
 				}, (error) => {
 					this.alertpopupService.open({
 						message: "Faild to create Organization! Please try again ",
@@ -425,7 +428,7 @@ export class ActivityDetailsComponent implements OnInit {
 		}];
 		activityLogAndDueLog.forEach((element: any, index: number,) => {
 			let data = { ...activityDataForDownload[0]};
-			if (element.dueDate) {
+			if (element.dueDate && !element.isInitialLog) {
 				data.dueDate = element.dueDate,
 				data.createdAt = element.createdAt
 				activityDataForDownload.push(data);
@@ -437,7 +440,26 @@ export class ActivityDetailsComponent implements OnInit {
 				activityDataForDownload.push(data);
 			}
 		});
-		const headersList: { propertyName: string, displayName: string }[] = ActivitiesDownloadHeaders
+		const headersList: { propertyName: string, displayName: string }[] = [
+			...ActivitiesDownloadHeaders,
+			{
+				propertyName : 'attachments',
+				displayName : 'Attachments'
+			},
+			{
+				propertyName : 'priority',
+				displayName : 'priority'
+			},
+			{
+				propertyName : 'sector',
+				displayName : 'Sector'
+			},
+			{
+				propertyName : 'relatedTo',
+				displayName : 'Related'
+			},
+			
+		]
 		this.csvHelperService.downloadFile(activityDataForDownload, "activity details", headersList)
 
 	}
@@ -509,7 +531,15 @@ export class ActivityDetailsComponent implements OnInit {
 			link.download = attachmentData.name;
 			link.click();
 			window.URL.revokeObjectURL(link.href);
+			this.alertpopupService.open({
+				message : 'Attachment downloaded successfully',
+				action : 'Ok'
+			});
 		}),(error:any)=>{
+			this.alertpopupService.open({
+				message : 'Attachment Not Found',
+				action : 'Ok'
+			});
 		})
 	}
 

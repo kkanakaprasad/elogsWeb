@@ -37,7 +37,6 @@ export class CreateactivityComponent implements OnInit {
   filesListArray: any[] = [];
   userOrganizations: any;
   userDetails: any;
-  createdByOrganization: any;
   descriptionOfTextEditor: any;
   priority = Priority;
   status = Status;
@@ -107,8 +106,8 @@ export class CreateactivityComponent implements OnInit {
 
   getAllOrganization() {
     this.organizations$.subscribe((res) => {
-      this.organizationsData = res?.organizations;
-      this.organizationList = res?.organizations
+      this.organizationsData = res?.organizations.filter((org:any)=>org.isActive === true);
+      this.organizationList = res?.organizations.filter((org:any)=>org.isActive === true);
     })
   }
 
@@ -237,8 +236,14 @@ export class CreateactivityComponent implements OnInit {
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       this.userDetails = res
-      if (this.userDetails?.organization?.length === 1) {
-        this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organization[0]);
+      if(this.userDetails.organizationsdata){
+        this.userDetails.organizationsdata = [...this.userDetails?.organizationsdata?.filter((org:any)=>org.isActive === true)];
+      }
+      if (this.userDetails?.organizationsdata?.length === 1) {
+        setTimeout(() => {
+          this.activityForm.patchValue({createdByOrganization: this.userDetails?.organizationsdata[0]._id});
+          this.activityForm.controls['createdByOrganization'].setErrors(null);
+        });
       }
     })
   }
@@ -267,5 +272,13 @@ export class CreateactivityComponent implements OnInit {
 
   gotoDashboard() {
     this.router.navigate([RouteConstants.DASHBOARD])
+  }
+
+  isActivityFormActive() : boolean{
+    if(this.activityForm.invalid || !this.discriptionData){
+      return true;
+    }else{
+      return false;
+    }
   }
 }

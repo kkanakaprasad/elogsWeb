@@ -101,20 +101,20 @@
                   </ng-container>
 
                   <ng-container *ngIf="organization.users?.length  === 0 || organization.activities === 0">
-                    <span class="col-6" (click)="removeOrganization(organization._id,organization.organization)">
+                    <!-- <span class="col-6" (click)="removeOrganization(organization._id,organization.organization)">
                       <div class="d-flex align-items-center">
                         <mat-icon>delete</mat-icon>
                         Delete
                       </div>
-                    </span>
+                    </span> -->
                   </ng-container>
                 </ng-container>
 
-                <ng-container *ngIf="organizationList[0].isActive === false">
-                  <span class="col-6" (click)="removeOrganization(organization._id,organization.organization)">
+                <ng-container *ngIf="organizationList[0].isActive === false" >
+                  <!-- <span class="col-6" (click)="removeOrganization(organization._id,organization.organization)">
                     Delete User
-                  </span>
-                  <span class="col-6" (click)="enableOrganization(this.organization._id,organization.organization)">
+                  </span> -->
+                  <span class="d-flex justify-content-center" (click)="enableOrganization(this.organization._id,organization.organization)">
                     Enable
                   </span>
                 </ng-container>

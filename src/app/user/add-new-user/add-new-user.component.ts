@@ -27,6 +27,7 @@ export class AddNewUserComponent implements OnInit {
   userDetails: any;
   searchedOrganizationList: any = [];
   selectOrganization: any;
+  passwordValidation : any[] = [];
 
   constructor(private formBuilder: FormBuilder,
     private organizationService: OrganizationService,
@@ -85,9 +86,14 @@ export class AddNewUserComponent implements OnInit {
   }
 
   generateAddNewUserForm() {
+    if(this.userId){
+      this.passwordValidation = [Validators.pattern(REG_EXP_PATTERNS.PasswordPattern)];
+    }else{
+      this.passwordValidation = [Validators.required,Validators.pattern(REG_EXP_PATTERNS.PasswordPattern)];
+    }
     this.addNewUserForm = this.formBuilder.group({
       Name: ['', [Validators.required]],
-      password: ['', [Validators.pattern(REG_EXP_PATTERNS.PasswordPattern)]],
+      password: ['', this.passwordValidation],
       email: ['', [Validators.required, Validators.pattern(REG_EXP_PATTERNS.EmailPattern)]],
       organization: ['', [Validators.required,Validators.maxLength(126)]],
       department: ['',],

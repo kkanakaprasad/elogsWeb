@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ export class BreadcrumbService {
 
   constructor() { }
 
-  private selectedActivityStatus : BehaviorSubject<any> = new BehaviorSubject({});
+  private selectedActivityStatus : Subject<any> = new Subject();
 
   public getSelectedActivitiesStatus():Observable<any>{
     return this.selectedActivityStatus.asObservable();

@@ -13,7 +13,7 @@
         <div class="col-6">
           <ng-container *ngIf="userDetails?.organizationsdata?.length > 1">
             <mat-form-field appearance="outline" class="input-field">
-              <mat-label>organizations</mat-label>
+              <mat-label>Organizations</mat-label>
               <mat-select formControlName="createdByOrganization" required>
                 <mat-option *ngFor="let organization of userDetails?.organizationsdata" [value]="organization._id">{{
                   organization.organization }}</mat-option>
@@ -22,7 +22,7 @@
             </mat-form-field>
           </ng-container>
           <ng-container *ngIf="userDetails?.organizationsdata?.length <=1">
-            <h3 class="username">organization : {{ userDetails?.organizationsdata?.length === 1 ? userDetails?.organizationsdata[0]?.organization : 'No Assigned organization'}}</h3>
+            <h3 class="username">Organization : {{ userDetails?.organizationsdata?.length === 1 ? userDetails?.organizationsdata[0]?.organization : 'No Assigned organization'}}</h3>
           </ng-container>
         </div>
         <div class="col-6 mb-4">
@@ -120,7 +120,7 @@
       </div>
       <div class="text-end">
         <button mat-raised-button color="primary" type="button" (click)="gotoDashboard()">Cancel</button>
-        <button mat-raised-button color="primary" type="submit"  [disabled]="discriptionData ? false : true">Submit</button>
+        <button mat-raised-button color="primary" type="submit"  [disabled]="isActivityFormActive()">Submit</button>
       </div>
     </form>
   </div>
