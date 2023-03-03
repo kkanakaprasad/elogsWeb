@@ -19,7 +19,7 @@
 
     <ng-container matColumnDef="Organisation">
         <th mat-header-cell *matHeaderCellDef> Organisation </th>
-        <td mat-cell *matCellDef="let element"> {{element?.nestedAttchments?.organization}} </td>
+        <td mat-cell *matCellDef="let element"> {{element?.docOrg[0]?.organization ? element?.docOrg[0]?.organization : element?.nestedAttchments?.organization}} </td>
     </ng-container>
 
 

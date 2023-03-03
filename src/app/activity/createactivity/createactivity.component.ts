@@ -237,7 +237,10 @@ export class CreateactivityComponent implements OnInit {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       this.userDetails = res
       if (this.userDetails?.organization?.length === 1) {
-        this.activityForm?.controls['createdByOrganization']?.setValue(this.userDetails?.organization[0]);
+        setTimeout(() => {
+          this.activityForm.patchValue({createdByOrganization: this.userDetails?.organization[0]});
+          this.activityForm.controls['createdByOrganization'].setErrors(null);
+        });
       }
     })
   }
