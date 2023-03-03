@@ -13,7 +13,7 @@
         <div class="col-6">
           <ng-container *ngIf="userDetails?.organizationsdata?.length > 1">
             <mat-form-field appearance="outline" class="input-field">
-              <mat-label>organizations</mat-label>
+              <mat-label>Organizations</mat-label>
               <mat-select formControlName="createdByOrganization" required>
                 <mat-option *ngFor="let organization of userDetails?.organizationsdata" [value]="organization._id">{{
                   organization.organization }}</mat-option>

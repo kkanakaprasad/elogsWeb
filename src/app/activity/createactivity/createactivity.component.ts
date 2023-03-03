@@ -239,9 +239,9 @@ export class CreateactivityComponent implements OnInit {
       if(this.userDetails.organizationsdata){
         this.userDetails.organizationsdata = [...this.userDetails?.organizationsdata?.filter((org:any)=>org.isActive === true)];
       }
-      if (this.userDetails?.organization?.length === 1) {
+      if (this.userDetails?.organizationsdata?.length === 1) {
         setTimeout(() => {
-          this.activityForm.patchValue({createdByOrganization: this.userDetails?.organization[0]});
+          this.activityForm.patchValue({createdByOrganization: this.userDetails?.organizationsdata[0]._id});
           this.activityForm.controls['createdByOrganization'].setErrors(null);
         });
       }

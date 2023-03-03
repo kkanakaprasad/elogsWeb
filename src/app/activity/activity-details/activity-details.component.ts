@@ -359,7 +359,7 @@ export class ActivityDetailsComponent implements OnInit {
 						message: res.message,
 						action: 'ok'
 					})
-					this.getActivityDetailsById()
+					this.router.navigate([RouteConstants.ACTIVITY]);
 				}, (error) => {
 					this.alertpopupService.open({
 						message: "Faild to create Organization! Please try again ",
@@ -428,7 +428,7 @@ export class ActivityDetailsComponent implements OnInit {
 		}];
 		activityLogAndDueLog.forEach((element: any, index: number,) => {
 			let data = { ...activityDataForDownload[0]};
-			if (element.dueDate) {
+			if (element.dueDate && !element.isInitialLog) {
 				data.dueDate = element.dueDate,
 				data.createdAt = element.createdAt
 				activityDataForDownload.push(data);
