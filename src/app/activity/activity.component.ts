@@ -103,6 +103,10 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedOrganizationIds: any;
   activitiesTabCount:any;
   appliedFilters :any;
+  activityData: any;
+  minDate: any;
+  toDay = new Date();
+  selectedDate: any;
 
   constructor(
     private activityService: ActivityService,
@@ -121,6 +125,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.minDate = new Date();
     this.appliedFilters = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ACTIVITY_FILTERS) && JSON.parse(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ACTIVITY_FILTERS));
     if(this.appliedFilters){
       if(this.appliedFilters?.createdDate){
@@ -746,6 +751,48 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activitySerachSubscription.unsubscribe();
   }
 
+  // getDuedateLogs(activityId:string){
+  //   this.activityService.getActivityById(activityId).subscribe(res=>{
+  //     console.log(res.data)
+  //     this.activityData = res.data[0]
+  //   })
+  // }
+
+  dueDateSetter(selectedOption: any, selectedActivityId:string, selectedOptionalDate?: any ) {
+
+		if (selectedOption == 'noDueDate') {
+			this.selectedDate = ""
+
+		} else if (selectedOption == 'Today') {
+			this.selectedDate = new Date()
+
+		} else if (selectedOption == 'Tomorrow') {
+			this.selectedDate = new Date(this.toDay.setDate(this.toDay.getDate() + 1))
+
+		} else if (selectedOption == 'Next Monday') {
+			this.selectedDate = new Date(this.toDay.setDate(this.toDay.getDate() + (7 - this.toDay.getDay()) % 7 + 1))
+
+		} else if (selectedOption == 'This Friday') {
+			this.selectedDate = new Date(this.toDay.setDate(this.toDay.getDate() + (12 - this.toDay.getDay()) % 7))
+
+		} else if (selectedOption == 'custom') {
+			this.selectedDate = selectedOptionalDate.value
+
+		}
+
+		this.activityService.updateActivityDueDate(selectedActivityId, { dueDate: this.selectedDate }).subscribe(res => {
+			this.alertpopupService.open({
+				message: res.message,
+				action: 'ok'
+			})
+			this.getActivitiesSearchCriteria()
+		}, (error) => {
+			this.alertpopupService.open({
+				message: "Faild to update due date Please try again ",
+				action: 'ok'
+			})
+		})
+	}
 
 
 }

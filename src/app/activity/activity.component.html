@@ -368,7 +368,30 @@
   <!-- Symbol Column -->
   <ng-container matColumnDef="Duedate">
     <th mat-header-cell *matHeaderCellDef > Due date </th>
-    <td mat-cell *matCellDef="let element"> {{element?.dueDate | date:'MMM d, y'}} </td>
+    <td mat-cell *matCellDef="let element"> {{element?.dueDate | date:'MMM d, y'}}   <span mat-button [matMenuTriggerFor]="dueDateFiltersMatMenu">
+      <mat-icon>edit</mat-icon>
+    </span>
+   <mat-menu #dueDateFiltersMatMenu="matMenu">
+  <button mat-menu-item (click)="dueDateSetter('noDueDate',element._id)">
+    No Due Date
+  </button>
+
+  <button mat-menu-item (click)="dueDateSetter('Today',element._id)">Today</button>
+  <button mat-menu-item (click)="dueDateSetter('Tomorrow',element._id)">
+    Tomorrow
+  </button>
+  <button mat-menu-item (click)="dueDateSetter('Next Monday',element._id)">
+    Next Monday
+  </button>
+  <button mat-menu-item (click)="dueDateSetter('This Friday',element._id)">
+    This Friday
+  </button>
+
+  <mat-label>Choose a date</mat-label>
+  <input matInput [matDatepicker]="picker" [min]="minDate" (dateChange)="dueDateSetter('custom',element._id,$event)" />
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-menu> </td>
   </ng-container>
 
   <ng-container matColumnDef="Assignto">
