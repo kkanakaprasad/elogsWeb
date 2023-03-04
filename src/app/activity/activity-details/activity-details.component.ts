@@ -265,7 +265,7 @@ export class ActivityDetailsComponent implements OnInit {
 
 
 	dueDateSetter(selectedOption: any, selectedOptionalDate?: any) {
-
+		this.toDay = new Date();
 		if (selectedOption == 'noDueDate') {
 			this.selectedDate = ""
 
