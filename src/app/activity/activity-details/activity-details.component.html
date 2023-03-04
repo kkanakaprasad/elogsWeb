@@ -145,7 +145,7 @@
                   <app-rich-text-editor [value]="description" (updatedDescription)="updatedDescription($event)"></app-rich-text-editor>
                 </div>
               </div>
-              <div class="row mb-3">
+              <div class="row mb-3" *ngIf="isSuperAdmin">
                 <label class="col-sm-3 col-form-label"> Status: </label>
                 <div class="col-sm-9">
                   <mat-form-field appearance="outline">
@@ -170,7 +170,7 @@
                 </div>
               </div>
 
-              <div class="row mb-3">
+              <div class="row mb-3" *ngIf="isSuperAdmin">
                 <label class="col-sm-3 col-form-label"> Visibility: </label>
                 <div class="col-sm-9">
                   <mat-radio-group aria-label formControlName="visibility" layout="row">
@@ -180,7 +180,7 @@
                 </div>
               </div>
 
-              <div class="row mb-3">
+              <div class="row mb-3" *ngIf="isSuperAdmin">
                 <label class="col-sm-3 col-form-label"> Assign to </label>
                 <div class="col-sm-9">
                   <mat-form-field appearance="outline">
