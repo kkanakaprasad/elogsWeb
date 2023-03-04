@@ -369,7 +369,7 @@
   <ng-container matColumnDef="Duedate">
     <th mat-header-cell *matHeaderCellDef > Due date </th>
     <td mat-cell *matCellDef="let element"> {{element?.dueDate | date:'MMM d, y'}}   <span mat-button [matMenuTriggerFor]="dueDateFiltersMatMenu">
-      <mat-icon>edit</mat-icon>
+      <mat-icon class="keyDown" inline>edit</mat-icon>
     </span>
    <mat-menu #dueDateFiltersMatMenu="matMenu">
   <button mat-menu-item (click)="dueDateSetter('noDueDate',element._id)">
