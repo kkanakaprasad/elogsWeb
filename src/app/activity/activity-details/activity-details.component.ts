@@ -288,7 +288,7 @@ export class ActivityDetailsComponent implements OnInit {
 
 		this.activityService.updateActivityDueDate(this.selectedActivityId, { dueDate: this.selectedDate }).subscribe(res => {
 			this.alertpopupService.open({
-				message: res.message,
+				message: res.message ? res.message: 'activity due date updated sucessfully',
 				action: 'ok'
 			})
 			this.getActivityDetailsById()

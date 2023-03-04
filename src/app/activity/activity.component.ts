@@ -776,7 +776,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.activityService.updateActivityDueDate(selectedActivityId, { dueDate: this.selectedDate }).subscribe(res => {
       this.alertpopupService.open({
-        message: res.message,
+        message: res.message ? res.message: 'activity due date updated sucessfully' ,
         action: 'ok'
       })
       this.getActivitiesSearchCriteria()
