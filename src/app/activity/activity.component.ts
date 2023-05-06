@@ -32,7 +32,7 @@ import { SearchTriggerService } from '../shared/services/search-trigger-service/
 
 export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Duedate', 'Assignto', 'actions'];
+  displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Assignto', 'Duedate','actions'];
   activityFiltersData: any = ActivityFiltersData;
   currentStatus = Status
   superAdminActivityRowActions: any = SuperAdminActivityRowActions;
