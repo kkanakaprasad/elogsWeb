@@ -12,4 +12,8 @@ export class DocumentsService  {
     return this.httpDataService.post('activity/getAttchements', payload)
   }
 
+  removeDocument(payload:any):Observable<any>{
+    return this.httpDataService.post('activity/document/delete',payload)
+  }
+
 }
