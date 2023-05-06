@@ -49,8 +49,8 @@
 </table>
 
 <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-        <mat-icon>archive</mat-icon>
+    <button mat-menu-item (click)="archiveDocument()">
+        <mat-icon >archive</mat-icon>
         <span>Archive</span>
     </button>
     <button mat-menu-item (click)="removeDocument()">

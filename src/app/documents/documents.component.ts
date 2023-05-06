@@ -28,7 +28,8 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     sortField: '',
     groupBy: 0,
     fileNameSearchText: '',
-    organizations: [],
+    organizations: [],   
+    isArchived : false
   };
   displayedColumns = ['Activity', 'FileName', 'Size', 'Organisation'];
   dataSource = new MatTableDataSource(this.attachmentsDetails);
@@ -134,5 +135,32 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
       }
     })
 
+  }
+
+  archiveDocument(){
+    const payload = {
+      activityId: this.selectedDocument.nestedAttchments.activityId,
+      activityLogId: this.selectedDocument.nestedAttchments.activityLogId ? this.selectedDocument.nestedAttchments.activityLogId : null,
+      attchmentId: this.selectedDocument.nestedAttchments._id,
+    };
+    this.confirmationService.open({
+      message : 'Are you sure to archive'
+    }).afterClosed().subscribe((res : any)=>{
+      if(res){
+        this.documentsService.archiveDocument(payload).subscribe((res:any)=>{
+          this.alertpopupService.open({
+            message : 'Archived successfully',
+            action : 'ok'
+          });
+          this.postActivityAttachments()
+        },(error : any)=>{
+          this.alertpopupService.open({
+            message: error.message ? error.message : "Unable to archive",
+            action: 'ok'
+          });
+        })
+      }
+    })
+    
   }
 }
