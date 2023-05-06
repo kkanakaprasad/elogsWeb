@@ -69,7 +69,7 @@ export class UserListComponent implements OnInit, AfterViewInit, OnDestroy {
     private removeOrgPopUpService: RemoveOrgPopUpService,
     private alertpopupService: AlertpopupService,
     private assignOrganizationPopUpService: AssignOrganizationPopUpService,
-    private searchTriggerService : SearchTriggerService
+    private searchTriggerService : SearchTriggerService,
   ) { }
 
   ngOnInit(): void {
@@ -83,6 +83,7 @@ export class UserListComponent implements OnInit, AfterViewInit, OnDestroy {
         this.userSearchCriteria(this.userPayload);
       }
     })
+
   }
 
   userSearchCriteria(payload: any) {

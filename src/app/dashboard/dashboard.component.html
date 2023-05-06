@@ -256,15 +256,15 @@
               (click)="navigateToActivityDetails(item._id)">
               <div *ngIf="overDueActivities.length>0">
                 <div class="activity-title">
-                  <a routerLink="#" [title]="">ORGM</a> -
-                  <a routerLink="#" [title]="">#17: {{item.title}}</a>
+                  <a routerLink="#" [title]="">{{item.uniqIdentity}}</a> -
+                  <a routerLink="#" [title]=""> {{item.title}}</a>
                 </div>
                 <div class="d-flex justify-content-between">
                   <div class="created">
                     <span>Created on {{item.createdAt | date: 'MMM d, y'}}</span>
                   </div>
                   <div class="date-time">
-                    <span class="over-due"><mat-icon>access_time</mat-icon>{{item.dueDate | date: 'MMM d, y'}}</span>
+                    <span class="over-due"><mat-icon>access_time</mat-icon>{{item.dueDate | date: 'medium'}}</span>
                   </div>
                 </div>
               </div>
