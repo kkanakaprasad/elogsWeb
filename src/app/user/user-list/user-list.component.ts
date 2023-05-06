@@ -54,7 +54,7 @@ export class UserListComponent implements OnInit, AfterViewInit, OnDestroy {
   totalUserCount: number = 0;
   userSerachSubscription : any;
 
-  displayedColumns = ['Name', 'Email', 'lastActivity', 'CreatedAt', 'Organization', 'Actions']
+  displayedColumns = ['Name', 'lastActivity', 'CreatedAt', 'Organization', 'Actions']
   dataSource = new MatTableDataSource(this.usersList);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   selectedTabTextLableNumber: any;

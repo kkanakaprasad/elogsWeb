@@ -1,4 +1,18 @@
-.noData-message{
+.noData-message {
     text-align: center;
     color: rgb(233, 14, 14);
+}
+
+.name_col {
+    display: grid;
+
+    .name {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .e-mail {
+        font-size: 13px;
+        color: #666;
+    }
 }
