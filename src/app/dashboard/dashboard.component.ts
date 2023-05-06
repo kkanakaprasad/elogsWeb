@@ -15,6 +15,7 @@ import { UserService } from '../user/user.service';
 import { DashboardService } from './dashboard.service';
 import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
 import { ProfileService } from '../profile/profile.service';
+import { EventCommunicationsService } from '../shared/services/event-communications.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -54,24 +55,29 @@ export class DashboardComponent implements OnInit {
     private dashboardService: DashboardService,
     private selectedOrganizationService: SelectedOrganizationService,
     private profileService: ProfileService,
+    private eventCommunicationsService : EventCommunicationsService
   ) { }
 
   ngOnInit(): void {
     this.profileService.getUserById(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res: any) => { })
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
     this.selectedOrganizationService.getSelectedOrganization().subscribe((res) => {
-      this.selectedOrganizationIds = res;
-      this.getOverDueTaskForDashBoard();
-      this.getUpComingTaskForDashBoard();
-      this.postDashBoardDueDateMetrics();
-      this.postDashBoardRelatedToMetrics();
-      this.postDashBoardActivityMetrics();
+      if (res) {
+        this.selectedOrganizationIds = res;
+        this.getOverDueTaskForDashBoard();
+        this.getUpComingTaskForDashBoard();
+        this.postDashBoardDueDateMetrics();
+        this.postDashBoardRelatedToMetrics();
+        this.postDashBoardActivityMetrics();
+      }
     })
     this.userRole = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE);
     this.getActivityMasterData();
     if(this.isSuperAdmin){
     this.dashboardService.postDashBoardActivityMetrics({}).subscribe(res => {
-      this.dashboardMetricsCount = res.data[0]
+      this.dashboardMetricsCount = res.data[0];
+      this.eventCommunicationsService.broadcast("ACTIVITY_COUNT",this.dashboardMetricsCount?.total[0]?.total);
+
     })
   }
     this.postDashBoardDueDateMetrics();
@@ -119,8 +125,8 @@ export class DashboardComponent implements OnInit {
       type: this.selectedActivityId
     }
      this.dashboardService.postDashBoardActivityMetrics(payload).subscribe(res => {
-      this.dashboardMetricsCount = res.data[0]
-
+      this.dashboardMetricsCount = res.data[0];
+      this.eventCommunicationsService.broadcast("ACTIVITY_COUNT",this.dashboardMetricsCount?.total[0]?.total);
     })
   }
   startDateSetter(selectedOptionalDate?: any) {
@@ -216,7 +222,7 @@ export class DashboardComponent implements OnInit {
     }
     this.activityService.getActivitiesSearchCriteria(payload).subscribe((res) => {
       this.upComingActivities = res?.data[0].activities;
-      this.todoActivitiesCount = res?.data[0].count[0].count;
+      this.todoActivitiesCount = res?.data[0]?.count[0]?.count;
     })
   }
 

@@ -32,7 +32,8 @@
         <li class="nav-item">
             <a class="nav-link " [class.active]="page === 'Activities' "(click)="navigateToAcitivities();change('Activities')">
                 <i class="material-icons">hourglass_empty</i>
-                <span>Activities</span>
+                <span>Activities </span>
+                <span>{{activityCount ? activityCount : 0}}</span>
             </a>
         </li>
 
@@ -40,6 +41,7 @@
             <a class="nav-link " [class.active]="page === 'Documents'" (click)="naviagteToDocuments();change('Documents')">
                 <i class="material-icons">attach_file</i>
                 <span>Documents</span>
+                <span >{{documentsCount ? documentsCount : 0}}</span>
             </a>
         </li>
 

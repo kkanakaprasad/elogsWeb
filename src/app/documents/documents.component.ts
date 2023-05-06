@@ -9,6 +9,7 @@ import { Roles } from '../shared/enums/roles.enums';
 import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
 import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
 import { DocumentsService } from './documents.service';
+import { EventCommunicationsService } from '../shared/services/event-communications.service';
 
 @Component({
   selector: 'app-documents',
@@ -37,7 +38,8 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     private activityService: ActivityService,
     private selectedOrganizationService:SelectedOrganizationService,
     private userDetailsService: UserDetailsService,
-    private alertpopupService: AlertpopupService
+    private alertpopupService: AlertpopupService,
+    private eventCommunicationsService : EventCommunicationsService
   ) {
 
   }
@@ -61,6 +63,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
       this.attachmentsDetails = res?.data[0]?.attachments
       this.totalDocumentCount = res?.data[0]?.count[0]?.count
       this.dataSource = new MatTableDataSource(this.attachmentsDetails)
+      this.eventCommunicationsService.broadcast('DOC_COUNT',this.totalDocumentCount)
     })
   }
 

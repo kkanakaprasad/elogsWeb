@@ -28,7 +28,7 @@
             </div>
             <div class="card-body">
               <div class="d-flex mb-3 justify-content-between align-items-center">
-                <div class="total">Total <span>{{dashboardMetricsCount?.total[0]?.total}}</span></div>
+                <div class="total">Total <span>{{dashboardMetricsCount?.total[0]?.total ? dashboardMetricsCount?.total[0]?.total : 0}}</span></div>
                 <div class="activity_type">
                   <mat-form-field appearance="outline">
                     <mat-label>Type</mat-label>
@@ -296,7 +296,7 @@
               No tasks assigned to you, Explore cool features!
             </div>
           </div>
-          <div class="text-end"> <a (click)="goToActivityList()">View All({{todoActivitiesCount}}) </a></div>
+          <div class="text-end"> <a (click)="goToActivityList()">View All({{todoActivitiesCount ? todoActivitiesCount : 0}}) </a></div>
         </div>
       </div>
     </div>
