@@ -2,3 +2,23 @@
     color:black
 }
 
+.notify{
+    display: inline-block;
+    min-width: 21.6px;
+    padding: 4px;
+    font-size: 12px;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #fff;
+    color: #999;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 12px;
+    position: absolute;
+    right: 8px;
+    text-shadow: none;
+    font-family: 'HelveticaNeue-Roman';
+    font-weight: 600;
+}
