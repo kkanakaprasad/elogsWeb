@@ -114,11 +114,11 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   }
 
   removeDocument() {
-    const payload = {
+    const payload = [{
       activityId: this.selectedDocument.nestedAttchments.activityId,
       activityLogId: this.selectedDocument.nestedAttchments.activityLogId ? this.selectedDocument.nestedAttchments.activityLogId : null,
       attchmentId: this.selectedDocument.nestedAttchments._id,
-    };
+    }];
     this.confirmationService.open({
       message : 'Are you sure to remove document'
     }).afterClosed().subscribe((res : any)=>{
@@ -141,11 +141,11 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   }
 
   archiveDocument(){
-    const payload = {
+    const payload = [{
       activityId: this.selectedDocument.nestedAttchments.activityId,
       activityLogId: this.selectedDocument.nestedAttchments.activityLogId ? this.selectedDocument.nestedAttchments.activityLogId : null,
       attchmentId: this.selectedDocument.nestedAttchments._id,
-    };
+    }];
     this.confirmationService.open({
       message : 'Are you sure to archive'
     }).afterClosed().subscribe((res : any)=>{

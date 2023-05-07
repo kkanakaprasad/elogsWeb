@@ -22,6 +22,7 @@ import { CsvHelperService } from '../shared/services/csv-helper-service/csv-help
 import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
 import { DashboardService } from '../dashboard/dashboard.service';
 import { SearchTriggerService } from '../shared/services/search-trigger-service/search-trigger.service';
+import { EventCommunicationsService } from '../shared/services/event-communications.service';
 
 @Component({
   selector: 'app-activity',
@@ -119,7 +120,8 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     private csvHelperService: CsvHelperService,
     private selectedOrganizationService: SelectedOrganizationService,
     private dashboardService: DashboardService,
-    private searchTriggerService: SearchTriggerService
+    private searchTriggerService: SearchTriggerService,
+    private eventCommunicationsService : EventCommunicationsService
   ) {
     this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
   }
@@ -732,6 +734,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.activityService.getActivitiesCountForHeaders(payload).subscribe((res) => {
       this.activitiesTabCount = res.data[0];
+      this.eventCommunicationsService.broadcast('ACTIVITY_COUNT',this.activitiesTabCount?.all[0]?.all ? this.activitiesTabCount?.all[0]?.all  : 0 )
     })
   }
 

@@ -86,7 +86,7 @@
                         [indeterminate]="fileSelection.hasValue() && !isAllFileSelection()">
 
                     </mat-checkbox>
-                    <button [disabled]="fileSelection.selected.length === 0" mat-icon-button [matMenuTriggerFor]="menu"
+                    <button [disabled]="fileSelection.selected.length === 0" mat-icon-button [matMenuTriggerFor]="fileMenu"
                         aria-label="Example icon-button with a menu">
                         <mat-icon>arrow_drop_down</mat-icon>
                     </button>
@@ -157,13 +157,13 @@
 </mat-menu>
 
 <mat-menu #fileMenu="matMenu">
-    <button mat-menu-item (click)="archiveActionClick('Restore')">
+    <button mat-menu-item (click)="restoreFile()">
         <mat-icon>refresh</mat-icon>
         <span>Restore</span>
     </button>
 
 
-    <button mat-menu-item (click)="archiveActionClick('Remove')">
+    <button mat-menu-item (click)="removeFile()">
         <mat-icon>delete</mat-icon>
         <span>Remove</span>
     </button>
