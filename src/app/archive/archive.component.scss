@@ -48,3 +48,20 @@ th {
   text-align: center;
     color: rgb(233, 14, 14);
 }
+
+.documentTable {
+  width: 100%;
+}
+
+th.mat-header-cell {
+  text-align: left;
+  font-size: 1rem;
+  background: #f0f0f0;
+}
+
+.attachment-download{
+  cursor: pointer;
+  color : blue;
+  text-decoration: underline;
+
+}

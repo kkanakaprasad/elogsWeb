@@ -1,10 +1,14 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
 import { RouteConstants } from '../shared/constants/routes.constants';
 import { ArchiveService } from './archive.service';
+import { DocumentsService } from '../documents/documents.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { PaginationProps } from '../shared/constants/pagination';
+import { ActivityService } from '../activity/activity.service';
 
 @Component({
   selector: 'app-archive',
@@ -15,18 +19,39 @@ export class ArchiveComponent implements OnInit {
 
   archiveActivitiesList: any = [];
   taskDisplayedColumns = ['checkbox','Activity', 'Title', 'Status', 'Organisation'];
-  fileDisplayedColumns = ['Activity', 'FileName', 'Size', 'Organization'];
+  fileDisplayedColumns = ['checkbox','Activity', 'FileName', 'Size', 'Organization'];
   dataSource = new MatTableDataSource(this.archiveActivitiesList);
   selection = new SelectionModel<any>(true, []);
+  archiveDocuments:any=[];
+  archiveDocumentsTotalCount:any;
+  paginationProps = PaginationProps;
+  fileSelection = new SelectionModel<any>(true,[])
 
+  displayedColumns = ['checkbox','Activity', 'FileName', 'Size', 'Organisation']
+  dataSourceArchiveDocs = new MatTableDataSource(this.archiveDocuments);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+
+   documentsPayload: any = {
+    pageNumber: 0,
+    pageSize: 10,
+    sortField: "",
+    groupBy: 0,
+    fileNameSearchText: "",
+    organizations : [],
+    isArchived:true
+  }
 
   constructor(private archiveService: ArchiveService,
     private router:Router,
-    private alertpopupService:AlertpopupService
+    private alertpopupService:AlertpopupService, 
+    private documentsService:DocumentsService,
+    private activityService:ActivityService
     ) { }
 
   ngOnInit(): void {
     this.getArchiveActivities();
+    this.getAllArchiveDocuments();
     
   }
 
@@ -45,11 +70,21 @@ export class ArchiveComponent implements OnInit {
   
   }
 
+  isAllFileSelection() {
+    const selectedFileLength = this.fileSelection.selected.length;
+    return selectedFileLength === this.archiveDocumentsTotalCount
+  }
+
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    this.isAllSelected() ?this.selection.clear() :
+    this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  masterFilesToggle(){
+    this.isAllFileSelection() ?
+    this.fileSelection.clear() :
+    this.dataSourceArchiveDocs.data.forEach(row => this.fileSelection.select(row));
   }
 
   logSelection() {
@@ -94,5 +129,51 @@ export class ArchiveComponent implements OnInit {
           })
         })
     }
+  }
+
+  getAllArchiveDocuments(){
+    this.documentsService.postActivityAttachments(this.documentsPayload).subscribe(res=>{
+      this.archiveDocuments = res?.data[0]?.attachments
+      this.archiveDocumentsTotalCount = res?.data[0]?.count[0]?.count;
+      this.dataSourceArchiveDocs = new MatTableDataSource(this.archiveDocuments);
+
+    })
+  
+    
+  }
+  onChangedPageSize(event: any) {
+    this.documentsPayload.pageNumber = this.paginator?.pageIndex;
+    this.documentsPayload.pageSize = this.paginator?.pageSize;
+    this.getAllArchiveDocuments();
+  }
+
+  downloadDocumement(element: any) {
+    const payload = {
+      fileName: element.nestedAttchments.name,
+      path: `${element._id}`
+    }
+
+    if (element.nestedAttchments.activityLogId) {
+      payload.path = `${element._id}/${element.nestedAttchments.activityLogId}`
+    }
+
+    this.activityService.dowloadAttachments(payload).subscribe((blob => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = element.nestedAttchments.name;
+      link.click();
+      window.URL.revokeObjectURL(link.href);
+      this.alertpopupService.open({
+        message : 'Attachment downloaded successfully',
+        action : 'Ok'
+      })
+    }), (error: any) => {
+      this.alertpopupService.open({
+        message : 'Attachment Not Found',
+        action : 'Ok'
+      }
+      )
+    })
+
   }
 }
