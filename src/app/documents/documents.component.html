@@ -1,8 +1,4 @@
-<table
-  mat-table
-  [dataSource]="dataSource"
-  class="mat-elevation-z8 documentTable"
->
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 documentTable">
   <ng-container matColumnDef="Activity">
     <th mat-header-cell *matHeaderCellDef>Activity</th>
     <td mat-cell *matCellDef="let element"> <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -11,15 +7,24 @@
   </ng-container>
 
   <ng-container matColumnDef="FileName">
-    <th mat-header-cell *matHeaderCellDef>FileName</th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      (click)="downloadDocumement(element)"
-      class="attachment-download"
-    >
-      <mat-icon>{{getIconName(element?.nestedAttchments?.type)}}</mat-icon>
-      {{ element?.nestedAttchments?.name }}
+    <th class="FileName_header" mat-header-cell *matHeaderCellDef>FileName</th>
+    <td mat-cell *matCellDef="let element" (click)="downloadDocumement(element)" class="attachment-download">
+      
+      <div class="file_type">
+        <!-- <i class="{{getIconName(element?.nestedAttchments?.type)}}"></i> -->
+      
+        <div class="{{getIconClass(element?.nestedAttchments?.type)}}">
+            
+        </div>
+        <div>
+          <a>{{ element?.nestedAttchments?.name }}</a>
+          <div class="uploaded-by">
+            Uploaded by
+            <b>{{element?.nestedAttchments?.createdByUserName}} </b>
+            {{element?.nestedAttchments?.updatedAt | date :" MMMM d,EE"}}
+          </div>
+        </div>
+      </div>
     </td>
   </ng-container>
 
@@ -34,9 +39,9 @@
     <th mat-header-cell *matHeaderCellDef>Organisation</th>
     <td mat-cell *matCellDef="let element">
       {{
-        element?.docOrg[0]?.organization
-          ? element?.docOrg[0]?.organization
-          : element?.nestedAttchments?.organization
+      element?.docOrg[0]?.organization
+      ? element?.docOrg[0]?.organization
+      : element?.nestedAttchments?.organization
       }}
     </td>
   </ng-container>
@@ -50,19 +55,15 @@
 </table>
 
 <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="archiveDocument()">
-        <mat-icon >archive</mat-icon>
-        <span>Archive</span>
-    </button>
-    <button mat-menu-item (click)="removeDocument()">
-        <mat-icon>delete</mat-icon>
-        <span>Remove</span>
-    </button>
+  <button mat-menu-item (click)="archiveDocument()">
+    <mat-icon>archive</mat-icon>
+    <span>Archive</span>
+  </button>
+  <button mat-menu-item (click)="removeDocument()">
+    <mat-icon>delete</mat-icon>
+    <span>Remove</span>
+  </button>
 </mat-menu>
-<mat-paginator
-  [length]="totalDocumentCount"
-  [pageSize]="paginationProps.pageSize"
-  [pageSizeOptions]="paginationProps.pageSizeOptions"
-  (page)="onChangedPageSize($event)"
-  aria-label="Select page of GitHub search results"
-></mat-paginator>
+<mat-paginator [length]="totalDocumentCount" [pageSize]="paginationProps.pageSize"
+  [pageSizeOptions]="paginationProps.pageSizeOptions" (page)="onChangedPageSize($event)"
+  aria-label="Select page of GitHub search results"></mat-paginator>

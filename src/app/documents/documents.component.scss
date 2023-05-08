@@ -8,9 +8,67 @@ th.mat-header-cell {
   background: #f0f0f0;
 }
 
-.attachment-download{
-  cursor: pointer;
-  color : blue;
-  text-decoration: underline;
+.FileName_header{
+  padding-left: 3.5rem;
+}
 
+.attachment-download {
+
+  .icon {
+    margin-right: .5rem;
+    width: 16px;
+    height: 18px;
+    margin-left: 10px;
+    margin-right: 30px;
+    margin-top: 5px;
+  }
+
+  .pdf_icon{
+    @extend .icon;
+    background: url(./../../assets/images/icon-svgs.png) no-repeat -212px -219px;
+  }
+
+  .Excel_icon{
+    @extend .icon;
+    background:url(./../../assets/images/icon-svgs.png)  no-repeat -211px -255px;
+  }
+
+  .img_icon{
+    @extend .icon;
+    background: url(./../../assets/images/icon-svgs.png)  no-repeat -230px -219px;
+  }
+
+  .file_icon{
+    @extend .icon;
+    background:url(./../../assets/images/icon-svgs.png) no-repeat -230px -238px;
+  }
+
+  .zipfile_icon{
+    @extend .icon;
+    background: url(./../../assets/images/icon-svgs.png)  no-repeat -249px -220px;
+  }
+
+  
+
+
+  .file_type {
+    cursor: pointer;
+    display: flex;
+
+    a:hover{
+      color: blue;
+      text-decoration: underline;
+    }
+  }
+
+  .uploaded-by {
+    color: #999;
+    font-size: 12px;
+
+    b {
+      font-weight: 400;
+      color: #000;
+      font-size: 12px;
+    }
+  }
 }
