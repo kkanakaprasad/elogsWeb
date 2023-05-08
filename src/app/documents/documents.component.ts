@@ -166,4 +166,39 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     })
     
   }
+
+
+  getIconName(mimeType: string): string {
+    let iconName: string = '';
+
+    // switch (mimeType) {
+    //   case 'application/pdf':
+    //     iconName = 'fas fa-file-pdf';
+    //     break;
+    //   case 'application/vnd.ms-excel':
+    //   case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+    //   case 'application/xls':
+    //   case 'application/xlsx':
+    //     iconName = 'fas fa-file-excel';
+    //     break;
+    //   case 'image/jpeg':
+    //   case 'image/png':
+    //   case 'image/gif':
+    //     iconName = 'fas fa-image';
+    //     break;
+    //   case 'application/msword':
+    //   case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+    //     iconName = 'fas fa-file-word';
+    //     break;
+    //   case 'application/vnd.ms-powerpoint':
+    //   case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+    //     iconName = 'fas fa-file-powerpoint';
+    //     break;
+    //   default:
+    //     iconName = 'fas fa-file';
+    //     break;
+    // }
+
+    return iconName;
+  }
 }

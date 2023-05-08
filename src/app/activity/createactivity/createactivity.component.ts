@@ -261,6 +261,7 @@ export class CreateactivityComponent implements OnInit {
         name: files[i].name,
         size: files[i].size.toString(),
         path: "string",
+        type: files[i].type
       });
     }
   }

@@ -18,6 +18,7 @@
       (click)="downloadDocumement(element)"
       class="attachment-download"
     >
+      <mat-icon>{{getIconName(element?.nestedAttchments?.type)}}</mat-icon>
       {{ element?.nestedAttchments?.name }}
     </td>
   </ng-container>

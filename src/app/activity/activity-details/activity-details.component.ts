@@ -255,6 +255,7 @@ export class ActivityDetailsComponent implements OnInit {
 			path: "string",
 			organization : organization,
 			organizationId : organizationId,
+			type : files[i].type
 		  });
 		} 
 	}
