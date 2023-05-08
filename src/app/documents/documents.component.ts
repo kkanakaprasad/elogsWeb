@@ -29,8 +29,8 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     sortField: '',
     groupBy: 0,
     fileNameSearchText: '',
-    organizations: [],   
-    isArchived : false
+    organizations: [],
+    isArchived: false,
   };
   displayedColumns = ['Activity', 'FileName', 'Size', 'Organisation'];
   dataSource = new MatTableDataSource(this.attachmentsDetails);
@@ -43,11 +43,9 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     private selectedOrganizationService: SelectedOrganizationService,
     private userDetailsService: UserDetailsService,
     private alertpopupService: AlertpopupService,
-    private eventCommunicationsService : EventCommunicationsService,
+    private eventCommunicationsService: EventCommunicationsService,
     private confirmationService: ConfirmationDialogService
-  ) {
-
-  }
+  ) {}
   ngOnInit(): void {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       if (res.roles[0] === Roles.User) {
@@ -65,12 +63,17 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   }
 
   postActivityAttachments() {
-    this.documentsService.postActivityAttachments(this.documentsPayload).subscribe(res => {
-      this.attachmentsDetails = res?.data[0]?.attachments
-      this.totalDocumentCount = res?.data[0]?.count[0]?.count
-      this.dataSource = new MatTableDataSource(this.attachmentsDetails)
-      this.eventCommunicationsService.broadcast('DOC_COUNT',this.totalDocumentCount)
-    })
+    this.documentsService
+      .postActivityAttachments(this.documentsPayload)
+      .subscribe((res) => {
+        this.attachmentsDetails = res?.data[0]?.attachments;
+        this.totalDocumentCount = res?.data[0]?.count[0]?.count;
+        this.dataSource = new MatTableDataSource(this.attachmentsDetails);
+        this.eventCommunicationsService.broadcast(
+          'DOC_COUNT',
+          this.totalDocumentCount
+        );
+      });
   }
 
   onChangedPageSize(event: any) {
@@ -114,91 +117,111 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   }
 
   removeDocument() {
-    const payload = [{
-      activityId: this.selectedDocument.nestedAttchments.activityId,
-      activityLogId: this.selectedDocument.nestedAttchments.activityLogId ? this.selectedDocument.nestedAttchments.activityLogId : null,
-      attchmentId: this.selectedDocument.nestedAttchments._id,
-    }];
-    this.confirmationService.open({
-      message : 'Are you sure to remove document'
-    }).afterClosed().subscribe((res : any)=>{
-      if(res){
-        this.documentsService.removeDocument(payload).subscribe((res:any)=>{
-          this.alertpopupService.open({
-            message : 'Document deleted successfully',
-            action : 'ok'
-          });
-          this.postActivityAttachments()
-        },(error : any)=>{
-          this.alertpopupService.open({
-            message: error.message ? error.message : "Unable to remove document",
-            action: 'ok'
-          });
-        })
-      }
-    })
-
+    const payload = [
+      {
+        activityId: this.selectedDocument.nestedAttchments.activityId,
+        activityLogId: this.selectedDocument.nestedAttchments.activityLogId
+          ? this.selectedDocument.nestedAttchments.activityLogId
+          : null,
+        attchmentId: this.selectedDocument.nestedAttchments._id,
+      },
+    ];
+    this.confirmationService
+      .open({
+        message: 'Are you sure to remove document',
+      })
+      .afterClosed()
+      .subscribe((res: any) => {
+        if (res) {
+          this.documentsService.removeDocument(payload).subscribe(
+            (res: any) => {
+              this.alertpopupService.open({
+                message: 'Document deleted successfully',
+                action: 'ok',
+              });
+              this.postActivityAttachments();
+            },
+            (error: any) => {
+              this.alertpopupService.open({
+                message: error.message
+                  ? error.message
+                  : 'Unable to remove document',
+                action: 'ok',
+              });
+            }
+          );
+        }
+      });
   }
 
-  archiveDocument(){
-    const payload = [{
-      activityId: this.selectedDocument.nestedAttchments.activityId,
-      activityLogId: this.selectedDocument.nestedAttchments.activityLogId ? this.selectedDocument.nestedAttchments.activityLogId : null,
-      attchmentId: this.selectedDocument.nestedAttchments._id,
-    }];
-    this.confirmationService.open({
-      message : 'Are you sure to archive'
-    }).afterClosed().subscribe((res : any)=>{
-      if(res){
-        this.documentsService.archiveDocument(payload).subscribe((res:any)=>{
-          this.alertpopupService.open({
-            message : 'Archived successfully',
-            action : 'ok'
-          });
-          this.postActivityAttachments()
-        },(error : any)=>{
-          this.alertpopupService.open({
-            message: error.message ? error.message : "Unable to archive",
-            action: 'ok'
-          });
-        })
-      }
-    })
-    
+  archiveDocument() {
+    const payload = [
+      {
+        activityId: this.selectedDocument.nestedAttchments.activityId,
+        activityLogId: this.selectedDocument.nestedAttchments.activityLogId
+          ? this.selectedDocument.nestedAttchments.activityLogId
+          : null,
+        attchmentId: this.selectedDocument.nestedAttchments._id,
+      },
+    ];
+    this.confirmationService
+      .open({
+        message: 'Are you sure to archive',
+      })
+      .afterClosed()
+      .subscribe((res: any) => {
+        if (res) {
+          this.documentsService.archiveDocument(payload).subscribe(
+            (res: any) => {
+              this.alertpopupService.open({
+                message: 'Archived successfully',
+                action: 'ok',
+              });
+              this.postActivityAttachments();
+            },
+            (error: any) => {
+              this.alertpopupService.open({
+                message: error.message ? error.message : 'Unable to archive',
+                action: 'ok',
+              });
+            }
+          );
+        }
+      });
   }
 
+  getIconClass(mimeType: string): string {
+    let IconClass: string = '';
 
-  getIconName(mimeType: string): string {
-    let iconName: string = '';
+    switch (mimeType) {
+      case 'application/pdf':
+        IconClass = 'pdf_icon';
+        break;
+      case 'application/vnd.ms-excel':
+      case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+      case 'application/xls':
+      case 'application/xlsx':
+        IconClass = 'Excel_icon';
+        break;
+      case 'image/jpeg':
+      case 'image/jpg':
+      case 'image/png':
+      case 'image/gif':
+        IconClass = 'img_icon';
+        break;
+      case 'application/msword':
+      case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        IconClass = 'file_icon';
+        break;
+      case 'application/vnd.ms-powerpoint':
+      case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+        IconClass = 'file_icon';
+        break;
+      default:
+        IconClass = 'file_icon';
+        break;
+    }
 
-    // switch (mimeType) {
-    //   case 'application/pdf':
-    //     iconName = 'fas fa-file-pdf';
-    //     break;
-    //   case 'application/vnd.ms-excel':
-    //   case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-    //   case 'application/xls':
-    //   case 'application/xlsx':
-    //     iconName = 'fas fa-file-excel';
-    //     break;
-    //   case 'image/jpeg':
-    //   case 'image/png':
-    //   case 'image/gif':
-    //     iconName = 'fas fa-image';
-    //     break;
-    //   case 'application/msword':
-    //   case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-    //     iconName = 'fas fa-file-word';
-    //     break;
-    //   case 'application/vnd.ms-powerpoint':
-    //   case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-    //     iconName = 'fas fa-file-powerpoint';
-    //     break;
-    //   default:
-    //     iconName = 'fas fa-file';
-    //     break;
-    // }
-
-    return iconName;
+    return IconClass;
   }
 }
