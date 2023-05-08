@@ -12,26 +12,24 @@ import { UserDetailsService } from 'src/app/shared/services/user-details-service
 import { Priority, Status } from '../activity.constant';
 import { ActivityService } from '../activity.service';
 
-
-
 @Component({
   selector: 'app-createactivity',
   templateUrl: './createactivity.component.html',
-  styleUrls: ['./createactivity.component.scss']
+  styleUrls: ['./createactivity.component.scss'],
 })
 export class CreateactivityComponent implements OnInit {
   organizationsData: any;
   allOrganization: any;
   organizationList: any;
   activityForm!: FormGroup;
-  isMultipleOrganization: any
+  isMultipleOrganization: any;
   activityTypesData: any;
   activityRelatedTypesData: any;
   activityEntryTypesData: any;
   activitySectorsData: any;
   activityScopesData: any;
   selectedOrganizationValue: any;
-  removable: boolean = true
+  removable: boolean = true;
   selectedActivityId: any;
   selectedActivityData: any;
   filesListArray: any[] = [];
@@ -43,7 +41,7 @@ export class CreateactivityComponent implements OnInit {
   description: any;
   discriptionData: any;
   fileAttachmments: any;
-
+  relatedTo:boolean = false;
 
   constructor(
     private organizationService: OrganizationService,
@@ -54,7 +52,6 @@ export class CreateactivityComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userDetailsService: UserDetailsService,
     private router: Router
-
   ) {
     this.activatedRoute.queryParams.subscribe((res) => {
       this.selectedActivityId = res['aId'];
@@ -62,13 +59,13 @@ export class CreateactivityComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.generateAddNewUserForm()
-    this.getUserDetails()
+    this.generateAddNewUserForm();
+    this.getUserDetails();
     if (this.selectedActivityId) {
       this.forkJoinResult();
     } else {
       this.getAllOrganization();
-      this.getActivityMasterData()
+      this.getActivityMasterData();
     }
     // this.activatedRoute.queryParams.subscribe((res) => {
     //   this.selectedActivityId = res['eId'];
@@ -76,11 +73,19 @@ export class CreateactivityComponent implements OnInit {
   }
 
   forkJoinResult() {
-    forkJoin([this.organizations$, this.activityMasterData$, this.activity$]).subscribe(result => {
+    forkJoin([
+      this.organizations$,
+      this.activityMasterData$,
+      this.activity$,
+    ]).subscribe((result) => {
       this.organizationsData = result[0]?.organizations;
-      const selectedOrganizations = result[0]?.organizations.filter((org: any) => {
-        return result[2].data[0]?.organizationData.find((o: any) => o._id === org._id)
-      })
+      const selectedOrganizations = result[0]?.organizations.filter(
+        (org: any) => {
+          return result[2].data[0]?.organizationData.find(
+            (o: any) => o._id === org._id
+          );
+        }
+      );
 
       this.activityTypesData = result[1]?.data.activityTypesData;
       this.activityRelatedTypesData = result[1]?.data?.activityRelatedTypesData;
@@ -88,16 +93,32 @@ export class CreateactivityComponent implements OnInit {
       this.activitySectorsData = result[1]?.data?.activitySectorsData;
       this.activityScopesData = result[1]?.data?.activityScopesData;
       this.selectedActivityData = result[2]?.data[0];
-      this.activityForm.controls['activityType'].setValue(this.selectedActivityData?.activityType)
-      this.activityForm.controls['activityRelatedTo'].setValue(this.selectedActivityData?.activityRelatedTo)
-      this.activityForm.controls['organization']?.setValue(selectedOrganizations)
-      this.activityForm.controls['activitEntryType'].setValue(this.selectedActivityData?.activitEntryType)
-      this.activityForm.controls['activitySector'].setValue(this.selectedActivityData?.activitySector)
-      this.activityForm.controls['activityScope'].setValue(this.selectedActivityData?.activityScope)
-      this.activityForm.controls['title'].setValue(this.selectedActivityData?.title)
-      this.activityForm.controls['createdByOrganization'].setValue(this.selectedActivityData?.createdByOrganization)
-      this.description = this.selectedActivityData.description
-    })
+      this.activityForm.controls['activityType'].setValue(
+        this.selectedActivityData?.activityType
+      );
+      this.activityForm.controls['activityRelatedTo'].setValue(
+        this.selectedActivityData?.activityRelatedTo
+      );
+      this.activityForm.controls['organization']?.setValue(
+        selectedOrganizations
+      );
+      this.activityForm.controls['activitEntryType'].setValue(
+        this.selectedActivityData?.activitEntryType
+      );
+      this.activityForm.controls['activitySector'].setValue(
+        this.selectedActivityData?.activitySector
+      );
+      this.activityForm.controls['activityScope'].setValue(
+        this.selectedActivityData?.activityScope
+      );
+      this.activityForm.controls['title'].setValue(
+        this.selectedActivityData?.title
+      );
+      this.activityForm.controls['createdByOrganization'].setValue(
+        this.selectedActivityData?.createdByOrganization
+      );
+      this.description = this.selectedActivityData.description;
+    });
   }
 
   get organizations$() {
@@ -106,43 +127,59 @@ export class CreateactivityComponent implements OnInit {
 
   getAllOrganization() {
     this.organizations$.subscribe((res) => {
-      this.organizationsData = res?.organizations.filter((org:any)=>org.isActive === true);
-      this.organizationList = res?.organizations.filter((org:any)=>org.isActive === true);
-    })
+      this.organizationsData = res?.organizations.filter(
+        (org: any) => org.isActive === true
+      );
+      this.organizationList = res?.organizations.filter(
+        (org: any) => org.isActive === true
+      );
+    });
   }
 
   get activityMasterData$() {
-    return this.activityService.getActivitiesMasterData()
+    return this.activityService.getActivitiesMasterData();
   }
 
   getActivityMasterData() {
-    this.activityService.getActivitiesMasterData().subscribe(res => {
+    this.activityService.getActivitiesMasterData().subscribe((res) => {
       this.activityTypesData = res?.data?.activityTypesData;
       this.activityRelatedTypesData = res?.data?.activityRelatedTypesData;
       this.activityEntryTypesData = res?.data?.activityEntryTypesData;
       this.activitySectorsData = res?.data?.activitySectorsData;
       this.activityScopesData = res?.data?.activityScopesData;
-    })
+    });
   }
 
   generateAddNewUserForm() {
     this.activityForm = this.formBuilder.group({
       activityType: ['', Validators.required],
       activityRelatedTo: ['', Validators.required],
-      organization: ['', Validators.required,],
+      organization: ['',],
       activitEntryType: ['', Validators.required],
       activitySector: ['', Validators.required],
       activityScope: ['', Validators.required],
       title: ['', Validators.required],
-      createdByOrganization: ['', Validators.required]
-    })
-
+      createdByOrganization: ['', Validators.required],
+    });
   }
 
+  onChange(event:any){
+    this.activityForm.controls['organization'].setValue(null)
+  }
   get activity$() {
     return this.activityService.getActivityById(this.selectedActivityId);
   }
 
+  onChangerelatedTo(selectedOption : any) {
+    this.activityForm.controls['organization'].setValue([]);
+   if(selectedOption.isSingleMinistry){
+    console.log(selectedOption)
+    this.relatedTo = false
+   }else{
+    this.relatedTo = true
+    
+   }
+  }
 
   onSubmit() {
     if (this.filesListArray?.length > 0) {
@@ -153,8 +190,10 @@ export class CreateactivityComponent implements OnInit {
 
       });
     }
+    if (this.activityForm.get('organization')?.value!=null){
     this.selectedOrganizationValue = this.activityForm.get('organization')?.value.map((org: any) => org._id)
-    if (this.selectedActivityId) {
+  }
+   if (this.selectedActivityId) {
       const payload = {
         ...this.activityForm.value,
         attachments: [...this.filesListArray, ...this.selectedActivityData.attachments],
@@ -216,41 +255,49 @@ export class CreateactivityComponent implements OnInit {
       })
     }
   }
-
+  
 
   //future use
   relatedValue(event: any) {
-    event.value === "Multiple Ministries/Departments" ? this.isMultipleOrganization = false : true
+    event.value === 'Multiple Ministries/Departments'
+      ? (this.isMultipleOrganization = false)
+      : true;
   }
 
   removeChip(index: number) {
-
     let organizationValues = this.activityForm.controls['organization'];
     organizationValues.value.splice(index, 1);
-    this.activityForm.controls['organization']?.setValue(organizationValues.value);
-
+    this.activityForm.controls['organization']?.setValue(
+      organizationValues.value
+    );
   }
   removeFileChip(index: number) {
-    this.filesListArray.splice(index, 1)
+    this.filesListArray.splice(index, 1);
   }
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe((res) => {
-      this.userDetails = res
-      if(this.userDetails.organizationsdata){
-        this.userDetails.organizationsdata = [...this.userDetails?.organizationsdata?.filter((org:any)=>org.isActive === true)];
+      this.userDetails = res;
+      if (this.userDetails.organizationsdata) {
+        this.userDetails.organizationsdata = [
+          ...this.userDetails?.organizationsdata?.filter(
+            (org: any) => org.isActive === true
+          ),
+        ];
       }
       if (this.userDetails?.organizationsdata?.length === 1) {
         setTimeout(() => {
-          this.activityForm.patchValue({createdByOrganization: this.userDetails?.organizationsdata[0]._id});
+          this.activityForm.patchValue({
+            createdByOrganization: this.userDetails?.organizationsdata[0]._id,
+          });
           this.activityForm.controls['createdByOrganization'].setErrors(null);
         });
       }
-    })
+    });
   }
 
   updatedDescription(event: any) {
-    this.descriptionOfTextEditor = event
-    this.discriptionData = event?.replace(/<[^>]*>/g, "")
+    this.descriptionOfTextEditor = event;
+    this.discriptionData = event?.replace(/<[^>]*>/g, '');
   }
 
   updatedFilesDescription(event: any) {
@@ -260,26 +307,29 @@ export class CreateactivityComponent implements OnInit {
       this.filesListArray.push({
         name: files[i].name,
         size: files[i].size.toString(),
-        path: "string",
-        type: files[i].type
+        path: 'string',
+        type: files[i].type,
       });
     }
   }
 
   uploadAttachments(formData: FormData) {
-    this.activityService.uploadAttachments(formData).subscribe((res: any) => {
-    })
+    this.activityService
+      .uploadAttachments(formData)
+      .subscribe((res: any) => {});
   }
 
   gotoDashboard() {
-    this.router.navigate([RouteConstants.DASHBOARD])
+    this.router.navigate([RouteConstants.DASHBOARD]);
   }
 
-  isActivityFormActive() : boolean{
-    if(this.activityForm.invalid || !this.discriptionData){
+  isActivityFormActive(): boolean {
+    if (this.activityForm.invalid || !this.discriptionData) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
+
 }
+

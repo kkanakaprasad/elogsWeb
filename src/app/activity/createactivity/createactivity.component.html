@@ -26,7 +26,7 @@
           </ng-container>
         </div>
         <div class="col-6 mb-4">
-          <mat-chip-list><mat-chip *ngFor="
+          <mat-chip-list *ngIf="relatedTo === true" ><mat-chip *ngFor="
           let item of activityForm.get('organization')?.value;
           let i = index
         " [removable]="removable" (removed)="removeChip(i)">
@@ -48,25 +48,40 @@
         </div>
         <div class="col-6">
           <mat-form-field appearance="outline" class="input-field">
-            <mat-label>Ministry/Department</mat-label>
-            <mat-select multiple="multiple" formControlName="organization" required>
-              <mat-option *ngFor="let organization of organizationsData" [value]="organization">{{
-                organization.organization }}</mat-option>
+            <mat-label>Related To</mat-label>
+            <mat-select  formControlName="activityRelatedTo" required>
+              <mat-option *ngFor="let activityRelatedTypesData of activityRelatedTypesData"
+                [value]="activityRelatedTypesData._id" (click)="onChangerelatedTo(activityRelatedTypesData)">{{ activityRelatedTypesData.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
       </div>
   
       <div class="row">
-        <div class="col-6">
+        <div class="col-6" *ngIf="relatedTo">
+
           <mat-form-field appearance="outline" class="input-field">
-            <mat-label>Related To</mat-label>
-            <mat-select formControlName="activityRelatedTo" required>
-              <mat-option *ngFor="let activityRelatedTypesData of activityRelatedTypesData"
-                [value]="activityRelatedTypesData._id">{{ activityRelatedTypesData.name }}</mat-option>
+            <mat-label>Ministry/Department</mat-label>
+            <mat-select [multiple]='true' formControlName="organization" required>
+              <mat-option *ngFor="let organization of organizationsData" [value]="organization">{{
+                organization.organization }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
+
+        <div class="col-6" *ngIf="!relatedTo">
+       
+          <mat-form-field appearance="outline" class="input-field">
+            <mat-label>Ministry/Department</mat-label>
+            <mat-select (selectionChange)="onChange($event)" required>
+              <mat-option *ngFor="let organization of organizationsData" 
+              [value]="organization">{{
+                organization.organization }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div> 
+       
         <div class="col-6">
           <mat-form-field appearance="outline" class="col-12">
             <mat-label>Entry Type</mat-label>
@@ -120,7 +135,7 @@
       </div>
       <div class="text-end">
         <button mat-raised-button color="primary" type="button" (click)="gotoDashboard()">Cancel</button>
-        <button mat-raised-button color="primary" type="submit"  [disabled]="isActivityFormActive()">Submit</button>
+        <button mat-raised-button color="primary" type="submit"  [disabled]="isActivityFormActive() && activityForm.get('organization')?.value===[]" >Submit</button>
       </div>
     </form>
   </div>
