@@ -369,7 +369,7 @@
         <div *ngFor="let fileData of activityData?.attachments">
           <div class="file-data">
             <div class="d-flex">
-              <mat-icon>insert_drive_file</mat-icon>
+              <mat-icon (click)="downloadActivityAttachment(fileData)">insert_drive_file</mat-icon>
               <span>{{ fileData?.name}} <small>{{fileData?.size /1024 | number:'.2-2'}} Kb</small> </span>
             </div>
             <p>{{ fileData?.updatedAt | date : "medium" }}</p>
