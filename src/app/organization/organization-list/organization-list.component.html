@@ -49,10 +49,12 @@
                   organization.organization | titlecase
                   }}</span>
                 <span> ({{ organization.shortName | uppercase }})</span>
+               
               </h3>
+             
               <small class="org_mob_icon" (click)="openActionBtn()"><mat-icon>more_horiz</mat-icon> </small>
             </div>
-
+           
             <div class="org_box">
               <div class="org_icon">
                 <i class="material-icons">corporate_fare</i>
@@ -66,7 +68,9 @@
                 <p>0 Mb Storage</p>
               </div>
             </div>
-
+            <div class="Last_updated">
+              LastUpdated:{{organization.latestLog | date: 'MMM d,h:mm:a'}}
+            </div>
             <div class="action-buttons" *ngIf="showActionBtn">
               <div class="row justify-content-between" *ngIf="!isUser">
 
