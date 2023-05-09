@@ -164,7 +164,7 @@ export class CreateactivityComponent implements OnInit {
   }
 
   onChange(event:any){
-    this.activityForm.controls['organization'].setValue(null)
+    this.activityForm.controls['organization'].setValue([event.value])
   }
   get activity$() {
     return this.activityService.getActivityById(this.selectedActivityId);
