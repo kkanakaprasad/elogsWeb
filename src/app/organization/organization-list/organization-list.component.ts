@@ -21,6 +21,7 @@ import { EventCommunicationsService } from 'src/app/shared/services/event-commun
 export class OrganizationListComponent implements OnInit {
   organizationList: any;
   filters = FILTER_CONSTANT;
+  isSuperAdmin: boolean = false;
   organizationListPayload: OrganizationSearchCriteria = {
     pageNumber: 0,
     pageSize: 50,
@@ -49,7 +50,9 @@ export class OrganizationListComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
     private storageService: StorageService,
     private eventCommunicationsService: EventCommunicationsService,
-    ) { }
+    ) { 
+      this.isSuperAdmin = this.storageService.getDataFromLocalStorage(STORAGE_KEYS.ROLE) === Roles.SuperAdmin ? true : false;
+    }
 
 
   ngOnInit(): void {
