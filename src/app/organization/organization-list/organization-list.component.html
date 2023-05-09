@@ -6,24 +6,31 @@
         Active ({{activeMetricsCount ? activeMetricsCount : 0}})
       </ng-template>
     </mat-tab>
-    <!-- <mat-tab label={{filters.MINISTRIES}}>
-      <ng-template mat-tab-label>
-        <mat-icon>person_outline</mat-icon>
-        Ministry/Department ({{ministriesMetricsCount ? ministriesMetricsCount : 0}})
-      </ng-template>
-    </mat-tab>
-    <mat-tab label={{filters.ASSOCIATION}}>
-      <ng-template mat-tab-label>
-        <mat-icon>group_add</mat-icon>
-        Association ({{associationsMetricsCount ? associationsMetricsCount : 0}})
-      </ng-template>
-    </mat-tab>
-    <mat-tab label={{filters.INACTIVE}}>
-      <ng-template mat-tab-label>
-        <mat-icon>not_interested</mat-icon>
-        Inactive ({{inActiveMetricsCount ? inActiveMetricsCount : 0}})
-      </ng-template>
-    </mat-tab> -->
+    <ng-container *ngIf="isSuperAdmin">
+      <mat-tab label={{filters.MINISTRIES}}>
+        <ng-template mat-tab-label>
+          <mat-icon>person_outline</mat-icon>
+          Ministry/Department ({{ministriesMetricsCount ? ministriesMetricsCount : 0}})
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+    <ng-container *ngIf="isSuperAdmin">
+      <mat-tab label={{filters.ASSOCIATION}}>
+        <ng-template mat-tab-label>
+          <mat-icon>group_add</mat-icon>
+          Association ({{associationsMetricsCount ? associationsMetricsCount : 0}})
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+    <ng-container *ngIf="isSuperAdmin">
+      <mat-tab label={{filters.INACTIVE}}>
+        <ng-template mat-tab-label>
+          <mat-icon>not_interested</mat-icon>
+          Inactive ({{inActiveMetricsCount ? inActiveMetricsCount : 0}})
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+   
   </mat-tab-group>
   <section class="in-page-wrapper">
     <div class="row">
