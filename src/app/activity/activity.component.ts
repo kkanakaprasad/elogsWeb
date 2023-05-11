@@ -33,7 +33,7 @@ import { EventCommunicationsService } from '../shared/services/event-communicati
 
 export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Assignto', 'Duedate','actions'];
+  displayedColumns = ['select', 'Status', 'Activity', 'Title', 'Priority', 'Assignto', 'Duedate'];
   activityFiltersData: any = ActivityFiltersData;
   currentStatus = Status
   superAdminActivityRowActions: any = SuperAdminActivityRowActions;
