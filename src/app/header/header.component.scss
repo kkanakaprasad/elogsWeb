@@ -28,9 +28,20 @@
         border-radius: 5px;
         margin-top: 10px;
     }
-    .btn-logout:hover{
-       color: #fff;
+
+    .btn-logout:hover {
+        color: #fff;
     }
 
-   
+
+}
+
+.Add_btn {
+    font-size: 1rem;
+
+    span {
+        font-size: 23px;
+        display: inline-block;
+        vertical-align: bottom;
+    }
 }

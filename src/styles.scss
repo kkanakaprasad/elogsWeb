@@ -558,6 +558,8 @@ h6,
   min-width: 360px;
   padding: 0 20px;
   margin-left: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .header .search-form {
@@ -1451,6 +1453,8 @@ h6,
   }
 
   .upcoming {
+    height: 236px;
+    overflow: hidden;
     h2 {
       border-bottom-color: #10c469 !important;
 
