@@ -1,4 +1,4 @@
-<header id="header" class="header fixed-top d-flex align-items-center">
+<header id="header" class="header fixed-top d-flex align-items-center justify-content-between">
 
     <div class="d-flex align-items-center justify-content-between header-left">
         <a class="logo d-flex align-items-center">
@@ -18,57 +18,58 @@
             <button title="Search" (click)="onSerchChange()">
                 <i class="material-icons">search</i></button>
         </div>
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+    
+                <li class="nav-item d-block d-lg-none">
+                    <a class="nav-link nav-icon search-bar-toggle ">
+                        <i class="material-icons">search </i>
+                    </a>
+                </li>
+                <li *ngIf="isSuperAdmin">
+                    <button class="Add_btn" mat-raised-button [matMenuTriggerFor]="profilemenu" color="warn"> <span>+</span> Add</button>
+                    <mat-menu #profilemenu="matMenu">
+                        <button mat-menu-item (click)="openCreateOrganizationPopup()">Organization</button>
+                        <button mat-menu-item (click)="openCreateUserPopup()">User</button>
+                    </mat-menu>
+                </li>
+    
+                <li class="nav-item dropdown pe-3">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown"
+                        [matMenuTriggerFor]="profileMenu">
+                        <mat-icon>account_circle</mat-icon>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">{{logedinUserDetails.Name | titlecase }}</span>
+                    </a>
+    
+                    <mat-menu #profileMenu="matMenu" class="profile_menu">
+                        <div class="profile-dropdown">
+                            <div class="account-info">
+                                <h2>This Account is managed by {{companyName}}</h2>
+                                {{logedinUserDetails.email}}
+                            </div>
+                            <div class="menu">
+                                <div class="settings-menu">
+                                    <h4>Personal Settings</h4>
+                                    <button mat-menu-item (click)="navigateToProfile('0')">Profile</button>
+                                    <button mat-menu-item (click)="navigateToProfile('2')">Notifications</button>
+                                    <button mat-menu-item (click)="navigateToProfile('3')">Email Reports</button>
+                                    <button class="btn-logout" mat-menu-item (click)="logout()">Logout</button>
+                                </div>
+    
+                                <div *ngIf="isSuperAdmin" class="settings-menu">
+                                    <h4>Company Settings</h4>
+                                    <button mat-menu-item (click)="navigateTomyCompany()">My Company</button>
+                                    <!-- for futere use -->
+                                    <!-- <button mat-menu-item (click)="navigateToimportandexport()">Import & Export</button>
+                                    <button mat-menu-item (click)="navigateTocatageory()">Catageory</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </mat-menu>
+                </li>
+            </ul>
+        </nav>
     </div>
 
-    <nav class="header-nav ms-auto">
-        <ul class="d-flex align-items-center">
-
-            <li class="nav-item d-block d-lg-none">
-                <a class="nav-link nav-icon search-bar-toggle ">
-                    <i class="material-icons">search </i>
-                </a>
-            </li>
-            <li *ngIf="isSuperAdmin">
-                <button mat-raised-button [matMenuTriggerFor]="profilemenu" color="warn">Add</button>
-                <mat-menu #profilemenu="matMenu">
-                    <button mat-menu-item (click)="openCreateOrganizationPopup()">Organization</button>
-                    <button mat-menu-item (click)="openCreateUserPopup()">User</button>
-                </mat-menu>
-            </li>
-
-            <li class="nav-item dropdown pe-3">
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown"
-                    [matMenuTriggerFor]="profileMenu">
-                    <mat-icon>account_circle</mat-icon>
-                    <span class="d-none d-md-block dropdown-toggle ps-2">{{logedinUserDetails.Name | titlecase }}</span>
-                </a>
-
-                <mat-menu #profileMenu="matMenu" class="profile_menu">
-                    <div class="profile-dropdown">
-                        <div class="account-info">
-                            <h2>This Account is managed by {{companyName}}</h2>
-                            {{logedinUserDetails.email}}
-                        </div>
-                        <div class="menu">
-                            <div class="settings-menu">
-                                <h4>Personal Settings</h4>
-                                <button mat-menu-item (click)="navigateToProfile('0')">Profile</button>
-                                <button mat-menu-item (click)="navigateToProfile('2')">Notifications</button>
-                                <button mat-menu-item (click)="navigateToProfile('3')">Email Reports</button>
-                                <button class="btn-logout" mat-menu-item (click)="logout()">Logout</button>
-                            </div>
-
-                            <div *ngIf="isSuperAdmin" class="settings-menu">
-                                <h4>Company Settings</h4>
-                                <button mat-menu-item (click)="navigateTomyCompany()">My Company</button>
-                                <!-- for futere use -->
-                                <!-- <button mat-menu-item (click)="navigateToimportandexport()">Import & Export</button>
-                                <button mat-menu-item (click)="navigateTocatageory()">Catageory</button> -->
-                            </div>
-                        </div>
-                    </div>
-                </mat-menu>
-            </li>
-        </ul>
-    </nav>
+    
 </header>
