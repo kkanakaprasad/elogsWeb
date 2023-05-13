@@ -135,10 +135,15 @@
             aria-label="Select page of GitHub search results"></mat-paginator>
         
         
-        <div *ngIf="archiveDocuments.length === 0">
-            <mat-card class="noTask-message">
+        <div  class="noTask-message" *ngIf="archiveDocuments.length === 0">
+            <!-- <mat-card >
                 No Files found
-            </mat-card>
+            </mat-card> -->
+               <mat-icon>archive</mat-icon>
+     
+            <div class="text">
+               No Tasks have been archieved yet/ All archieved tasks of all projects will appear here
+            </div>
           </div>
     </mat-tab>
     
