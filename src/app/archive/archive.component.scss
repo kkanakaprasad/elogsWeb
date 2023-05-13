@@ -44,10 +44,7 @@ th {
   cursor: pointer;
 }
 
-.noTask-message{
-  text-align: center;
-    color: rgb(233, 14, 14);
-}
+
 
 .documentTable {
   width: 100%;
@@ -64,4 +61,22 @@ th.mat-header-cell {
   color : blue;
   text-decoration: underline;
 
+}
+
+.noTask-message{
+   text-align: center;
+   margin-block: 1rem;
+   mat-icon{
+    width: 100px;
+    height: 100px;
+    font-size: 100px;
+    color: #f0f0f0;
+   }
+
+   .text{
+    color: #626060;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    margin-top: 1rem;
+   }
 }
