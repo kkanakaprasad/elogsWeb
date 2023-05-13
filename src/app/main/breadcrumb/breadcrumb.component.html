@@ -21,7 +21,7 @@
 							{{selectOrganization ? 'All' : 'Select Organization'}}
 						</mat-option>
 						<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
-							{{Organization.organization}}</mat-option>
+							{{Organization.organization}}  <span class="notify">{{Organization.activities}}</span></mat-option>
 					</mat-select>
 				</mat-form-field>
 			</div>
@@ -51,7 +51,7 @@
 								{{selectOrganization ? 'All' : 'Select Organization'}}
 							</mat-option>
 							<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
-								{{Organization.organization}}</mat-option>
+								{{Organization.organization}} <span class="notify">{{Organization.activities}}</span></mat-option>
 						</mat-select>
 					</mat-form-field>
 				</div>
@@ -80,7 +80,7 @@
        <mat-icon>keyboard_arrow_right</mat-icon>
 		</div>
 		<ng-container *ngIf="organizationsList.length===1">
-			<div>{{organizationsList[0].organization}}</div>
+			<div>{{organizationsList[0].organization}} <span class="notify">{{organizationsList[0].activities}}</span></div>
 		</ng-container>
 		<ng-container *ngIf="organizationsList.length>1">
 			<div class="breadcrumb-find">
@@ -92,7 +92,7 @@
 							{{selectOrganization ? 'All' : 'Select Organization'}}
 						</mat-option>
 						<mat-option *ngFor="let Organization of searchedOrganizationList" [value]="Organization.organization">
-							{{Organization.organization}}</mat-option>
+							{{Organization.organization}} <span class="notify">{{Organization.activities}}</span></mat-option>
 					</mat-select>
 				</mat-form-field>
 			</div>
