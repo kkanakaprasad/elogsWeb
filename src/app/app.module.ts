@@ -13,7 +13,6 @@ import { SideNavComponent } from './side-nav/side-nav.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpInterceptorInterceptor } from './shared/Interceptors/http-interceptor.interceptor';
 import { BreadcrumbComponent } from './main/breadcrumb/breadcrumb.component';
-import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -29,7 +28,7 @@ import { FooterComponent } from './footer/footer.component';
     HeaderComponent,
     SideNavComponent,
     BreadcrumbComponent,
-    FooterComponent],
+ ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
