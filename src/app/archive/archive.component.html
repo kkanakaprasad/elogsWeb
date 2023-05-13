@@ -18,7 +18,7 @@
                         [indeterminate]="selection.hasValue() && !isAllSelected()">
 
                     </mat-checkbox>
-                    <button [disabled]="selection.selected.length === 0" mat-icon-button [matMenuTriggerFor]="fileMenu"
+                    <button [disabled]="selection.selected.length === 0" mat-icon-button [matMenuTriggerFor]="menu"
                         aria-label="Example icon-button with a menu">
                         <mat-icon>arrow_drop_down</mat-icon>
                     </button>
@@ -68,6 +68,8 @@
             </mat-card>
         </div>
     </mat-tab>
+
+
     <mat-tab>
         <ng-template mat-tab-label>
             <div class="d-flex align-items-center gap-1" (click)="logSelection()">
