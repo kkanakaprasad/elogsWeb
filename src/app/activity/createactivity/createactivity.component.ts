@@ -172,7 +172,7 @@ export class CreateactivityComponent implements OnInit {
 
   onChangerelatedTo(selectedOption : any) {
     this.activityForm.controls['organization'].setValue([]);
-   if(selectedOption.isSingleMinistry){
+   if(selectedOption.name === 'Single Ministry/Department'){
     console.log(selectedOption)
     this.relatedTo = false
    }else{

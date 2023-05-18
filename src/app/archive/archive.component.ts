@@ -23,15 +23,9 @@ export class ArchiveComponent implements OnInit {
     'Activity',
     'Title',
     'Status',
-    'Organisation',
-  ];
-  fileDisplayedColumns = [
-    'checkbox',
-    'Activity',
-    'FileName',
-    'Size',
     'Organization',
   ];
+ 
   dataSource = new MatTableDataSource(this.archiveActivitiesList);
   selection = new SelectionModel<any>(true, []);
   archiveDocuments: any = [];
@@ -44,7 +38,7 @@ export class ArchiveComponent implements OnInit {
     'Activity',
     'FileName',
     'Size',
-    'Organisation',
+    'Organization',
   ];
   dataSourceArchiveDocs = new MatTableDataSource(this.archiveDocuments);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -76,6 +70,7 @@ export class ArchiveComponent implements OnInit {
   getArchiveActivities() {
     this.archiveService.getArchiveActivities().subscribe((res) => {
       this.archiveActivitiesList = res.data;
+      console.log(this.archiveActivitiesList);
       this.dataSource = new MatTableDataSource(this.archiveActivitiesList);
     });
   }
