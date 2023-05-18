@@ -19,6 +19,18 @@ import { UserService } from '../user/user.service';
 export class MainComponent implements OnInit {
 
   userDetails: any = {};
+  lastLoginTime:any;
+  userPayload: UserSearchCriteria = {
+    pageNumber: 0,
+    pageSize: 10,
+    sortField: "",
+    sortOrder: 1,
+    type: "",
+    isActive: true,
+    role: "",
+    userId: "",
+    user: ""
+  }
 
   constructor(private userDetailsService: UserDetailsService,
     private storageService: StorageService,
@@ -26,6 +38,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserDetails();
+    this.userSearchCriteria(this.userPayload);
   }
 
   removeOverlay(){
@@ -47,6 +60,13 @@ export class MainComponent implements OnInit {
     this.userService.userSearchCriteria(payload).subscribe((res: any) => {
       this.userDetails = res.data.users[0];
       this.userDetailsService.setUserDetails(this.userDetails);
+    })
+  }
+
+  userSearchCriteria(payload: any) {
+    this.userService.userSearchCriteria(payload).subscribe((res)=>{
+      this.lastLoginTime=res.data.users[0].lastLogin
+      console.log(this.lastLoginTime);
     })
   }
 

@@ -3,9 +3,11 @@
     <th mat-header-cell *matHeaderCellDef>Activity</th>
     <td mat-cell *matCellDef="let element"> <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon (click)="selectedDocument = element">arrow_drop_down</mat-icon>
-      </button>{{ element?.uniqIdentity }}</td>
+      </button>{{ element?.uniqIdentity }},
+      {{element?.nestedAttchments?.createdAt |  date :" MMM d" }}
+    </td>
   </ng-container>
-
+ 
   <ng-container matColumnDef="FileName">
     <th class="FileName_header" mat-header-cell *matHeaderCellDef>FileName</th>
     <td mat-cell *matCellDef="let element" (click)="downloadDocumement(element)" class="attachment-download">
@@ -35,8 +37,8 @@
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="Organisation">
-    <th mat-header-cell *matHeaderCellDef>Organisation</th>
+  <ng-container matColumnDef="Organization">
+    <th mat-header-cell *matHeaderCellDef>Organization</th>
     <td mat-cell *matCellDef="let element">
       {{
       element?.docOrg[0]?.organization
@@ -45,6 +47,7 @@
       }}
     </td>
   </ng-container>
+ 
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>

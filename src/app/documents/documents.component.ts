@@ -32,7 +32,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     organizations: [],
     isArchived: false,
   };
-  displayedColumns = ['Activity', 'FileName', 'Size', 'Organisation'];
+  displayedColumns = ['Activity', 'FileName', 'Size', 'Organization'];
   dataSource = new MatTableDataSource(this.attachmentsDetails);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   totalDocumentCount: any;
@@ -66,6 +66,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     this.documentsService
       .postActivityAttachments(this.documentsPayload)
       .subscribe((res) => {
+        console.log(res?.data[0]?.attachments);
         this.attachmentsDetails = res?.data[0]?.attachments;
         this.totalDocumentCount = res?.data[0]?.count[0]?.count;
         this.dataSource = new MatTableDataSource(this.attachmentsDetails);
@@ -155,6 +156,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   }
 
   archiveDocument() {
+    console.log('this.selectedDocument', this.selectedDocument);
     const payload = [
       {
         activityId: this.selectedDocument.nestedAttchments.activityId,
@@ -164,6 +166,8 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
         attchmentId: this.selectedDocument.nestedAttchments._id,
       },
     ];
+
+    console.log('payload', payload);
     this.confirmationService
       .open({
         message: 'Are you sure to archive',
