@@ -42,6 +42,7 @@ export class CreateactivityComponent implements OnInit {
   discriptionData: any;
   fileAttachmments: any;
   relatedTo:boolean = false;
+  MinistryData:any
 
   constructor(
     private organizationService: OrganizationService,
@@ -276,6 +277,10 @@ export class CreateactivityComponent implements OnInit {
   getUserDetails() {
     this.userDetailsService.getUserDetails().subscribe((res) => {
       this.userDetails = res;
+      let organizationsData  = res.organizationsdata ? res.organizationsdata : [];
+      if(organizationsData && organizationsData?.length === 1){
+        this.getAllOrganizationsBySearchCriteria(organizationsData[0]?.type);
+      }
       if (this.userDetails.organizationsdata) {
         this.userDetails.organizationsdata = [
           ...this.userDetails?.organizationsdata?.filter(
@@ -328,6 +333,28 @@ export class CreateactivityComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  getAllOrganizationsBySearchCriteria(type:string ='') {
+		const payload = {
+			pageNumber: 0,
+			pageSize: 50,
+			sortField: "",
+			sortOrder: 0,
+			type:type,
+			organization: "",
+			organizationId: "",
+			isActive: true,
+			userId: "",
+			userSearch: ""
+		}
+		this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
+			this.MinistryData=res.data.organizations
+		})
+	}
+
+  organizationType(selectedOrg:any){
+    this.getAllOrganizationsBySearchCriteria(selectedOrg.type);
   }
 
 }
