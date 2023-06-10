@@ -66,7 +66,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     this.documentsService
       .postActivityAttachments(this.documentsPayload)
       .subscribe((res) => {
-        console.log(res?.data[0]?.attachments);
         this.attachmentsDetails = res?.data[0]?.attachments;
         this.totalDocumentCount = res?.data[0]?.count[0]?.count;
         this.dataSource = new MatTableDataSource(this.attachmentsDetails);
@@ -165,7 +164,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
         attchmentId: this.selectedDocument.nestedAttchments._id,
       },
     ];
-
     this.confirmationService
       .open({
         message: 'Are you sure to archive',
@@ -213,7 +211,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
         break;
       case 'application/msword':
       case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        IconClass = 'file_icon';
+        IconClass = 'Word_icon';
         break;
       case 'application/vnd.ms-powerpoint':
       case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':

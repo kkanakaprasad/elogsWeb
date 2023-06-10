@@ -116,7 +116,7 @@ export class ActivityDetailsComponent implements OnInit {
 			this.activityLogForm.controls['priority'].setValue(this.activityData?.priority)
 			this.activityLogForm.controls['status'].setValue(this.activityData?.status)
 			this.activityLogForm.controls['assignTo'].setValue(this.activityData?.assignTo)
-			this.activityLogForm.controls['visibility'].setValue(this.activityData?.visibility);
+			this.activityLogForm.controls['visibility'].setValue(this.activityData?.visibility ? this.activityData?.visibility :this.visibility[1]);
 			this.peopleInvolved = this.organizationsInvolved.filter((obj: any, index: any, self: any) =>
 			index === self.findIndex((o:any) =>
 				o._id === obj._id ));			
@@ -221,7 +221,6 @@ export class ActivityDetailsComponent implements OnInit {
 		}
 		this.organizationService.getOrganizationsSearchCriteria(payload).subscribe((res) => {
 			this.organizationList = res.data.organizations
-
 		})
 	}
 

@@ -66,7 +66,6 @@ export class MainComponent implements OnInit {
   userSearchCriteria(payload: any) {
     this.userService.userSearchCriteria(payload).subscribe((res)=>{
       this.lastLoginTime=res.data.users[0].lastLogin
-      console.log(this.lastLoginTime);
     })
   }
 
