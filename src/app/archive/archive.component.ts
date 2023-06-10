@@ -70,7 +70,6 @@ export class ArchiveComponent implements OnInit {
   getArchiveActivities() {
     this.archiveService.getArchiveActivities().subscribe((res) => {
       this.archiveActivitiesList = res.data;
-      console.log(this.archiveActivitiesList);
       this.dataSource = new MatTableDataSource(this.archiveActivitiesList);
     });
   }
