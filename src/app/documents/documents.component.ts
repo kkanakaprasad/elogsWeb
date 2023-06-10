@@ -211,7 +211,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
         break;
       case 'application/msword':
       case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        IconClass = 'file_icon';
+        IconClass = 'Word_icon';
         break;
       case 'application/vnd.ms-powerpoint':
       case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
