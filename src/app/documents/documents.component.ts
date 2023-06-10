@@ -156,7 +156,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   }
 
   archiveDocument() {
-    console.log('this.selectedDocument', this.selectedDocument);
     const payload = [
       {
         activityId: this.selectedDocument.nestedAttchments.activityId,
@@ -167,7 +166,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
       },
     ];
 
-    console.log('payload', payload);
     this.confirmationService
       .open({
         message: 'Are you sure to archive',
