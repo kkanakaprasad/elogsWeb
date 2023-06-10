@@ -14,8 +14,8 @@
           <ng-container *ngIf="userDetails?.organizationsdata?.length > 1">
             <mat-form-field appearance="outline" class="input-field">
               <mat-label>Organizations</mat-label>
-              <mat-select formControlName="createdByOrganization" required>
-                <mat-option *ngFor="let organization of userDetails?.organizationsdata" [value]="organization._id">{{
+              <mat-select formControlName="createdByOrganization" required #device >
+                <mat-option *ngFor="let organization of userDetails?.organizationsdata" [value]="organization._id" (click)="organizationType(organization)">{{
                   organization.organization }}</mat-option>
               </mat-select>
               
@@ -62,7 +62,7 @@
           <mat-form-field appearance="outline" class="input-field">
             <mat-label>Ministry/Department</mat-label>
             <mat-select [multiple]='true' formControlName="organization" required>
-              <mat-option *ngFor="let organization of organizationsData" [value]="organization">{{
+              <mat-option *ngFor="let organization of MinistryData" [value]="organization">{{
                 organization.organization }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -72,7 +72,7 @@
           <mat-form-field appearance="outline" class="input-field">
             <mat-label>Ministry/Department</mat-label>
             <mat-select (selectionChange)="onChange($event)" required>
-              <mat-option *ngFor="let organization of organizationsData" 
+              <mat-option *ngFor="let organization of MinistryData" 
               [value]="organization">{{
                 organization.organization }}</mat-option>
             </mat-select>
