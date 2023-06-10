@@ -50,4 +50,8 @@ export class UserService {
   addUsersToOrganizationsfromUser(payload: any): Observable<any> {
     return this.httpdataService.put('user/add/UsersToOrganization', payload);
   }
+
+  getUserActivity(userId : string): Observable<any>{
+    return this.httpdataService.get(`user/activity/getuserActivity/${userId}`)
+  }
 }

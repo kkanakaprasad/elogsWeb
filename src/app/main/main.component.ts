@@ -1,10 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import jwtDecode from 'jwt-decode';
-import { CompanySettingsService } from '../company-settings/company-settings.service';
+import { Component, OnInit } from '@angular/core';
 import { STORAGE_KEYS } from '../shared/enums/storage.enum';
-import { SearchPipe } from '../shared/pipes/search.pipe';
-import { SelectedOrganizationService } from '../shared/services/selected-organizions/selected-organization.service';
 import { StorageService } from '../shared/services/storage-service/storage.service';
 import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
 import { UserSearchCriteria } from '../user/user-list/user-Interface';
@@ -38,7 +33,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserDetails();
-    this.userSearchCriteria(this.userPayload);
+    this.getUserActivity();
   }
 
   removeOverlay(){
@@ -63,12 +58,14 @@ export class MainComponent implements OnInit {
     })
   }
 
-  userSearchCriteria(payload: any) {
-    this.userService.userSearchCriteria(payload).subscribe((res)=>{
-      this.lastLoginTime=res.data.users[0].lastLogin
-    })
+  getUserActivity(){
+    if(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)){
+      this.userService.getUserActivity(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res : any)=>{
+        console.log(res);
+        this.lastLoginTime=res?.updatedAt
+      })
+    }
   }
-
 
 
 

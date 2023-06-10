@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivityService } from '../activity/activity.service';
-import { BreadcrumbService } from '../main/breadcrumb/breadcrumb.service';
 import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
 import { PaginationProps } from '../shared/constants/pagination';
 import { Roles } from '../shared/enums/roles.enums';
@@ -10,7 +9,6 @@ import { SelectedOrganizationService } from '../shared/services/selected-organiz
 import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
 import { DocumentsService } from './documents.service';
 import { EventCommunicationsService } from '../shared/services/event-communications.service';
-import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
