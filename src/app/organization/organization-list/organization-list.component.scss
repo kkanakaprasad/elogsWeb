@@ -45,3 +45,11 @@ font {
     text-align: center;
     color: rgb(233, 14, 14);
 }
+
+.text_wrap{
+    width: 365px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    white-space: pre;
+}

@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivityService } from '../activity/activity.service';
-import { BreadcrumbService } from '../main/breadcrumb/breadcrumb.service';
 import { AlertpopupService } from '../shared/alertPopup/alertpopup.service';
 import { PaginationProps } from '../shared/constants/pagination';
 import { Roles } from '../shared/enums/roles.enums';
@@ -10,7 +9,6 @@ import { SelectedOrganizationService } from '../shared/services/selected-organiz
 import { UserDetailsService } from '../shared/services/user-details-service/user-details.service';
 import { DocumentsService } from './documents.service';
 import { EventCommunicationsService } from '../shared/services/event-communications.service';
-import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
@@ -66,7 +64,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     this.documentsService
       .postActivityAttachments(this.documentsPayload)
       .subscribe((res) => {
-        console.log(res?.data[0]?.attachments);
         this.attachmentsDetails = res?.data[0]?.attachments;
         this.totalDocumentCount = res?.data[0]?.count[0]?.count;
         this.dataSource = new MatTableDataSource(this.attachmentsDetails);
@@ -156,7 +153,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   }
 
   archiveDocument() {
-    console.log('this.selectedDocument', this.selectedDocument);
     const payload = [
       {
         activityId: this.selectedDocument.nestedAttchments.activityId,
@@ -166,8 +162,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
         attchmentId: this.selectedDocument.nestedAttchments._id,
       },
     ];
-
-    console.log('payload', payload);
     this.confirmationService
       .open({
         message: 'Are you sure to archive',
@@ -215,7 +209,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
         break;
       case 'application/msword':
       case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        IconClass = 'file_icon';
+        IconClass = 'Word_icon';
         break;
       case 'application/vnd.ms-powerpoint':
       case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
