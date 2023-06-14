@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationService } from 'src/app/organization/organization.service';
@@ -13,6 +13,7 @@ import { UserDetailsService } from 'src/app/shared/services/user-details-service
 import { UserService } from 'src/app/user/user.service';
 import { ActivitiesDownloadHeaders, Priority, Status, Visibility } from '../activity.constant';
 import { ActivityService } from '../activity.service';
+import { FileuploaderComponent } from 'src/app/shared/fileuploader/fileuploader.component';
 
 @Component({
 	selector: 'app-activity-details',
@@ -20,6 +21,10 @@ import { ActivityService } from '../activity.service';
 	styleUrls: ['./activity-details.component.scss']
 })
 export class ActivityDetailsComponent implements OnInit {
+
+  @ViewChild('uploader')
+  uploader!: FileuploaderComponent;
+
 	selectedActivityId: any;
 	activityDetails: any;
 	activityLogForm!: FormGroup;
@@ -119,7 +124,7 @@ export class ActivityDetailsComponent implements OnInit {
 			this.activityLogForm.controls['visibility'].setValue(this.activityData?.visibility ? this.activityData?.visibility :this.visibility[1]);
 			this.peopleInvolved = this.organizationsInvolved.filter((obj: any, index: any, self: any) =>
 			index === self.findIndex((o:any) =>
-				o._id === obj._id ));			
+				o._id === obj._id ));
 		})
 	}
 
@@ -256,7 +261,7 @@ export class ActivityDetailsComponent implements OnInit {
 			organizationId : organizationId,
 			type : files[i].type
 		  });
-		} 
+		}
 	}
 
 	updateActivityDetails() {
@@ -458,7 +463,7 @@ export class ActivityDetailsComponent implements OnInit {
 				propertyName : 'relatedTo',
 				displayName : 'Related'
 			},
-			
+
 		]
 		this.csvHelperService.downloadFile(activityDataForDownload, "activity details", headersList)
 
@@ -500,6 +505,8 @@ export class ActivityDetailsComponent implements OnInit {
 
 	uploadAttachments(formData : FormData){
 		this.activityService.uploadAttachments(formData).subscribe((res:any)=>{
+      this.filesListArray =[];
+      this.uploader.clearFiles();
 		})
 	  }
 

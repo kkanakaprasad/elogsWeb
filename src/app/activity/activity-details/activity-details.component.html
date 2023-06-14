@@ -48,11 +48,11 @@
               <tr>
                 <td>Ministry/Department:</td>
                 <td [matTooltip]="ministryName">
-                  
+
                   {{ organizationsInvolved?.length > 0 && organizationsInvolved[0]?.organization}}<span *ngIf="organizationsInvolved?.length > 1">... + {{organizationsInvolved?.length-1}} more</span>
-                 
+
                 </td>
-            
+
               </tr>
               <tr>
                 <td>Organization:</td>
@@ -195,7 +195,7 @@
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label"> Attachments</label>
               <div class="col-sm-9">
-                <app-fileuploader [value]="isFilesListArray"  (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
+                <app-fileuploader #uploader [value]="isFilesListArray"  (updatedFilesDescription)="updatedFilesDescription($event)"></app-fileuploader>
               </div>
               </div>
 

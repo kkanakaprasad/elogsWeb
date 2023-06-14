@@ -38,6 +38,10 @@ export class FileuploaderComponent implements OnChanges {
     }
   }
 
+  clearFiles() {
+    this.files =[];
+  }
+
   /**
    * handle file from browsing
    */
