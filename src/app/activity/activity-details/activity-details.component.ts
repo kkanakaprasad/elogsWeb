@@ -60,6 +60,7 @@ export class ActivityDetailsComponent implements OnInit {
 	activityReportedBy: any;
 	selectedActivityAssignedTo: any;
 	ActivityTimeLogs: any;
+	activityFiles: any = [];
 	isSuperAdmin!: boolean;
 	logedInUserId: any;
 	logedInUserDetails: any;
@@ -117,6 +118,15 @@ export class ActivityDetailsComponent implements OnInit {
 			this.selectedActivityAssignedTo = this.activityData?.organizationData.filter((organization: any) => organization._id == this.activityData?.assignTo).map((item: any) => item.organization)
 			this.getUserById()
 			this.getLogedInUserDetails()
+			this.activityFiles = this.activityData.attachments;
+			for(const activityLog of this.activityData.activityLog) {
+				if(activityLog.attachments.length > 0) {
+					this.activityFiles = this.activityFiles.concat(activityLog.attachments)
+				}
+			}
+			this.activityFiles = this.activityFiles.sort((a: any, b: any) => {
+				return new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf()
+			});
 			this.ActivityTimeLogs = this.activityData?.statusLog
 			this.activityLogForm.controls['priority'].setValue(this.activityData?.priority)
 			this.activityLogForm.controls['status'].setValue(this.activityData?.status)
