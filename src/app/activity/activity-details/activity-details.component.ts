@@ -443,6 +443,15 @@ export class ActivityDetailsComponent implements OnInit {
 		}];
 		activityLogAndDueLog.forEach((element: any, index: number,) => {
 			let data = { ...activityDataForDownload[0]};
+			data.attachments = '';
+			if(element?.attachments && element?.attachments.length !== 0){
+				element.attachments.forEach((file : any)=>{
+					if(data.attachments){
+						data.attachments = `${data.attachments} ;`
+					}
+					data.attachments = `${data.attachments} ${file.name}`
+				})
+			}
 			if (element.dueDate && !element.isInitialLog) {
 				data.dueDate = element.dueDate,
 				data.createdAt = element.createdAt
