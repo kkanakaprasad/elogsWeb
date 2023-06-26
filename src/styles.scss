@@ -9,7 +9,8 @@ body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   background: #f3f4f9;
-  &::before{
+
+  &::before {
     color: '';
   }
 }
@@ -1212,9 +1213,11 @@ h6,
       position: relative;
       top: 8px;
     }
-    &:hover{
+
+    &:hover {
       background: #d8d8d8;
-      &::after{
+
+      &::after {
         content: url(../src/assets/images/arw_after.png);
         right: 1px;
         position: relative;
@@ -1419,9 +1422,10 @@ h6,
         color: #777;
       }
     }
+
     .upcoming_over-due {
       @extend .over-due;
-      color:#0CAA00;
+      color: #0CAA00;
     }
   }
 
@@ -1455,6 +1459,7 @@ h6,
   .upcoming {
     height: 236px;
     overflow: hidden;
+
     h2 {
       border-bottom-color: #10c469 !important;
 
@@ -1627,6 +1632,7 @@ h6,
     .org_box {
       padding: 15px;
       display: flex;
+      background: rgba(81, 145, 189, 0.1098039216);
 
       .org_icon {
         margin-right: 20px;
@@ -1634,10 +1640,25 @@ h6,
         i {
           font-size: 90px;
           /* opacity: 0.5; */
-          color: rgb(11 11 11 / 39%);
-          background: #5191bd1c;
+          color: rgb(20 21 22 / 45%);
+          background: #fff;
           padding: 5px;
+          border: 1px solid #ddd;
         }
+
+        .short_name {
+          background: #ffff;
+          text-align: center;
+          padding-block: 0.1rem;
+          margin-top: 0.2rem;
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          border: 1px solid #ddd;
+        }
+      }
+
+      .details {
+        align-self: center;
       }
     }
 
