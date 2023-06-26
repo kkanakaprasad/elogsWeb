@@ -60,11 +60,34 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
       });
   }
 
+  groupedAttachemtns(docs: any) {
+    const groupedResponse = docs.reduce(function (r: any, a: any) {
+      const date = a.nestedAttchments.createdAt.split('T')[0];
+      r[date] = r[date] || [];
+      r[date].push(a);
+      return r;
+    }, Object.create(null));
+
+    let resp: any = [];
+    Object.keys(groupedResponse).forEach((k) => {
+      resp.push({ initial: k, isGroupBy: true });
+      resp = resp.concat(groupedResponse[k]);
+      
+    });
+    return resp;
+  }
+
+  isGroup(index: any, item: any): boolean {
+    return item.isGroupBy;
+  }
+
   postActivityAttachments() {
     this.documentsService
       .postActivityAttachments(this.documentsPayload)
       .subscribe((res) => {
-        this.attachmentsDetails = res?.data[0]?.attachments;
+        this.attachmentsDetails = this.groupedAttachemtns(
+          res?.data[0]?.attachments
+        );
         this.totalDocumentCount = res?.data[0]?.count[0]?.count;
         this.dataSource = new MatTableDataSource(this.attachmentsDetails);
         this.eventCommunicationsService.broadcast(

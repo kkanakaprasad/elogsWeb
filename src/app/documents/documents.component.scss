@@ -71,3 +71,15 @@ th.mat-header-cell {
     }
   }
 }
+
+.table_header{
+  padding-left: 5px;
+    color: rgb(30 132 202);
+    position: relative;
+
+    strong{
+      position: absolute;
+      font-size: 1rem;
+      left: 10px;
+    }
+}
