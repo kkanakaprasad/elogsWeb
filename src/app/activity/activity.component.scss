@@ -102,3 +102,7 @@ td {
     padding-top: 3rem;
     height: 150px;
 }
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell{
+  padding-left: 1rem;
+}
