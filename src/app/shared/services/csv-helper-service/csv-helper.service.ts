@@ -38,7 +38,7 @@ export class CsvHelperService {
       let line = (i + 1) + '';
       for (let index in headerList) {
         let head : string = headerList[index].propertyName;
-        line += ',' + array[i][head].replace(/,|\n/g, '');
+        line += ',' + array[i][head]?.replace(/,|\n/g, '');
       }
       str += line + '\r\n';
     }
