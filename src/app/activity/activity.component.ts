@@ -312,19 +312,19 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
         entry._id === activityData[i].activityType
       );
       const activityDataForDownload = {
-        title: activityData[i].title,
+        title: activityData[i]?.title,
         description: activityData[i].description.replace(/<[^>]*>/g, ""),
-        status: activityData[i].status,
-        priority: activityData[i].priority,
-        assignedTo: activityData[i].assignTo[0].organization,
-        dueDate: activityData[i].dueDate,
+        status: activityData[i]?.status,
+        priority: activityData[i]?.priority,
+        assignedTo: activityData[i].assignTo[0]?.organization,
+        dueDate: activityData[i]?.dueDate,
         propertyName: 'createdAt',
-        reportedBy: activityData[i].createdByOrganization[0].organization,
-        activityId: activityData[i].uniqIdentity,
-        createdAt: activityData[i].createdAt,
-        entryType: entryTypeData[0].name,
-        type: activityTypeData[0].name,
-        ministry: activityData[i].assignToObj[0].organization
+        reportedBy: activityData[i].createdByOrganization[0]?.organization,
+        activityId: activityData[i]?.uniqIdentity,
+        createdAt: activityData[i]?.createdAt,
+        entryType: entryTypeData[0]?.name,
+        type: activityTypeData[0]?.name,
+        ministry: activityData[i].assignToObj[0]?.organization
       };
       activityDownloadData.push(activityDataForDownload)
     }
