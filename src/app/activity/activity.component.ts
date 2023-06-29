@@ -302,8 +302,19 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   downloadFile() {
-    let activityData = this.selection.selected.length === 0 ? this.dataSource.filteredData : this.selection.selected
-    let activityDownloadData: any[] = []
+    if(this.selection && this.selection.selected && this.selection.selected.length !== 0){
+      this.handleDownloadActivity(this.selection.selected);
+    }
+    else {
+      this.activityService.getActivitiesSearchCriteria({}).subscribe((res : any)=>{
+        this.handleDownloadActivity(res.data[0]?.activities);
+      })
+    }
+  }
+
+  handleDownloadActivity(activityData : any[]){
+    if(activityData){
+      let activityDownloadData: any[] = []
     for (let i = 0; i < activityData.length; i++) {
       const entryTypeData = this.masterData.activityEntryTypesData.filter((entry: any) =>
         entry._id === activityData[i].activitEntryType
@@ -331,6 +342,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     const headersList: { propertyName: string, displayName: string }[] = ActivitiesDownloadHeaders
     this.csvHelperService.downloadFile(activityDownloadData, "List of Activities", headersList)
 
+    }
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

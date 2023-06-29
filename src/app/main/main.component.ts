@@ -61,7 +61,6 @@ export class MainComponent implements OnInit {
   getUserActivity(){
     if(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)){
       this.userService.getUserActivity(this.storageService.getDataFromLocalStorage(STORAGE_KEYS.USER_ID)).subscribe((res : any)=>{
-        console.log(res);
         this.lastLoginTime=res?.updatedAt
       })
     }
